@@ -1,0 +1,113 @@
+{
+    "name": "Request",
+    "fields": [
+        {
+            "fieldName": "requestFirstName",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "requestLastName",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "requestEmail",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "requestPhone",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "requestGetAnalysis",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "requestGetPrice",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "requestPageUrl",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "requestPageName",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "requestPropertyId",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "requestPropertyType",
+            "fieldType": "PropertyType",
+            "fieldValues": "PROJECT,PROPERTY,LAND"
+        },
+        {
+            "fieldName": "requestType",
+            "fieldType": "RequestType",
+            "fieldValues": "MEETING,PRICE,QUESTION"
+        },
+        {
+            "fieldName": "requestMeetingDate",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "requestQuestion",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "requestPrice",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "requestCreatedDate",
+            "fieldType": "ZonedDateTime"
+        },
+        {
+            "fieldName": "requestConsultantId",
+            "fieldType": "Integer"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "user",
+            "otherEntityName": "user",
+            "otherEntityField": "login"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "property",
+            "otherEntityName": "property",
+            "otherEntityField": "propertyName"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "project",
+            "otherEntityName": "project",
+            "otherEntityField": "projectName"
+        }
+    ],
+    "changelogDate": "20180720045240",
+    "javadoc": "Request entity",
+    "entityTableName": "request",
+    "dto": "mapstruct",
+    "pagination": "infinite-scroll",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

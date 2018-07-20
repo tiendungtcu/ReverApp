@@ -1,0 +1,30 @@
+
+{
+    "riverApp": {
+        "projectBuilder" : {
+            "home": {
+                "title": "Project Builders",
+                "createLabel": "Thêm mới một Project Builder",
+                "createOrEditLabel": "Thêm mới hoặc cập nhật Project Builder"
+            },
+            "created": "Một Project Builder mới được tạo với định danh {{ param }}",
+            "updated": "Một Project Builder cập nhật với định danh {{ param }}",
+            "deleted": "Một Project Builder đã xóa với định danh {{ param }}",
+            "delete": {
+                "question": "Bạn có chắc là muốn xóa Project Builder {{ id }}?"
+            },
+            "detail": {
+                "title": "Project Builder"
+            },
+            "builderName": "Builder Name",
+            "builderTitle": "Builder Title",
+            "builderDate": "Builder Date",
+            "builderDescription": "Builder Description",
+            "builderAddress": "Builder Address",
+            "builderWebsite": "Builder Website",
+            "builderPhone": "Builder Phone",
+            "builderPhoto": "Builder Photo",
+            "project": "Project"
+        }
+    }
+}

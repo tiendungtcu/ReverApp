@@ -1,0 +1,28 @@
+
+{
+    "riverApp": {
+        "photo" : {
+            "home": {
+                "title": "Photos",
+                "createLabel": "Thêm mới một Photo",
+                "createOrEditLabel": "Thêm mới hoặc cập nhật Photo"
+            },
+            "created": "Một Photo mới được tạo với định danh {{ param }}",
+            "updated": "Một Photo cập nhật với định danh {{ param }}",
+            "deleted": "Một Photo đã xóa với định danh {{ param }}",
+            "delete": {
+                "question": "Bạn có chắc là muốn xóa Photo {{ id }}?"
+            },
+            "detail": {
+                "title": "Photo"
+            },
+            "photoName": "Photo Name",
+            "photoImage": "Photo Image",
+            "photoExtension": "Photo Extension",
+            "photoUrl": "Photo Url",
+            "photoThumbnailUrl": "Photo Thumbnail Url",
+            "property": "Property",
+            "project": "Project"
+        }
+    }
+}

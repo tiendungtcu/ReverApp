@@ -1,0 +1,30 @@
+
+{
+    "riverApp": {
+        "projectBuilder" : {
+            "home": {
+                "title": "Project Builders",
+                "createLabel": "Create a new Project Builder",
+                "createOrEditLabel": "Create or edit a Project Builder"
+            },
+            "created": "A new Project Builder is created with identifier {{ param }}",
+            "updated": "A Project Builder is updated with identifier {{ param }}",
+            "deleted": "A Project Builder is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Project Builder {{ id }}?"
+            },
+            "detail": {
+                "title": "Project Builder"
+            },
+            "builderName": "Builder Name",
+            "builderTitle": "Builder Title",
+            "builderDate": "Builder Date",
+            "builderDescription": "Builder Description",
+            "builderAddress": "Builder Address",
+            "builderWebsite": "Builder Website",
+            "builderPhone": "Builder Phone",
+            "builderPhoto": "Builder Photo",
+            "project": "Project"
+        }
+    }
+}

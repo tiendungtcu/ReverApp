@@ -1,0 +1,10 @@
+{
+    "riverApp": {
+        "DocumentType" : {
+            "null": "",
+            "PROJECT": "PROJECT",
+            "PROPERTY": "PROPERTY",
+            "EMPLOYEE": "EMPLOYEE"
+        }
+    }
+}

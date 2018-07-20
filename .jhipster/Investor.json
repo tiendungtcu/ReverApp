@@ -1,0 +1,60 @@
+{
+    "name": "Investor",
+    "fields": [
+        {
+            "fieldName": "investorName",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "investorTitle",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "investorDate",
+            "fieldType": "ZonedDateTime"
+        },
+        {
+            "fieldName": "investorDescription",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "investorAddress",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "investorWebsite",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "investorPhone",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "investorPhoto",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "image"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-many",
+            "relationshipName": "project",
+            "otherEntityName": "project",
+            "ownerSide": false,
+            "otherEntityRelationshipName": "investor"
+        }
+    ],
+    "changelogDate": "20180720045223",
+    "javadoc": "Investor - chu dau tu entity",
+    "entityTableName": "investor",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

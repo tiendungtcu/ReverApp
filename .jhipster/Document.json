@@ -1,0 +1,62 @@
+{
+    "name": "Document",
+    "fields": [
+        {
+            "fieldName": "documentName",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "documentUrl",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "documentDate",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "documentContent",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text"
+        },
+        {
+            "fieldName": "documentPhoto",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "image"
+        },
+        {
+            "fieldName": "documentType",
+            "fieldType": "DocumentType",
+            "fieldValues": "PROJECT,PROPERTY,EMPLOYEE"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "relationshipName": "photo",
+            "otherEntityName": "photo",
+            "otherEntityField": "id",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "document"
+        },
+        {
+            "relationshipType": "one-to-one",
+            "relationshipName": "project",
+            "otherEntityName": "project",
+            "ownerSide": false,
+            "otherEntityRelationshipName": "document"
+        }
+    ],
+    "changelogDate": "20180720045225",
+    "javadoc": "Document - Tai lieu du an entity",
+    "entityTableName": "document",
+    "dto": "mapstruct",
+    "pagination": "infinite-scroll",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

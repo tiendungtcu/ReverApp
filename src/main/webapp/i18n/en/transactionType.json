@@ -1,0 +1,11 @@
+{
+    "riverApp": {
+        "TransactionType" : {
+            "null": "",
+            "SELL": "SELL",
+            "BUY": "BUY",
+            "RENT": "RENT",
+            "SELL_RENT": "SELL_RENT"
+        }
+    }
+}

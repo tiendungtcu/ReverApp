@@ -1,0 +1,10 @@
+{
+    "riverApp": {
+        "PriceUnit" : {
+            "null": "",
+            "THOUSAND": "THOUSAND",
+            "MILLION": "MILLION",
+            "BILLION": "BILLION"
+        }
+    }
+}

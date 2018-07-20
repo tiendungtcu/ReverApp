@@ -1,0 +1,10 @@
+{
+    "riverApp": {
+        "RequestType" : {
+            "null": "",
+            "MEETING": "MEETING",
+            "PRICE": "PRICE",
+            "QUESTION": "QUESTION"
+        }
+    }
+}

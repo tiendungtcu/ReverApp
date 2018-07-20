@@ -1,0 +1,44 @@
+{
+    "name": "ProjectUser",
+    "fields": [
+        {
+            "fieldName": "liked",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "shared",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "likedDate",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "sharedDate",
+            "fieldType": "Instant"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "user",
+            "otherEntityName": "user",
+            "otherEntityField": "login"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "project",
+            "otherEntityName": "project",
+            "otherEntityField": "projectName"
+        }
+    ],
+    "changelogDate": "20180720045242",
+    "entityTableName": "project_user",
+    "dto": "mapstruct",
+    "pagination": "no",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

@@ -1,0 +1,49 @@
+{
+    "name": "Comment",
+    "fields": [
+        {
+            "fieldName": "commentTitle",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "commentContent",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text"
+        },
+        {
+            "fieldName": "commentCreatedDate",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "commentUpdateDate",
+            "fieldType": "Instant"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "user",
+            "otherEntityName": "user",
+            "otherEntityField": "login"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "post",
+            "otherEntityName": "blogPost",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20180720045241",
+    "javadoc": "Comment entity",
+    "entityTableName": "comment",
+    "dto": "mapstruct",
+    "pagination": "no",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

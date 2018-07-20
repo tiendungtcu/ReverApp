@@ -1,0 +1,31 @@
+
+{
+    "riverApp": {
+        "residentialArea" : {
+            "home": {
+                "title": "Residential Areas",
+                "createLabel": "Create a new Residential Area",
+                "createOrEditLabel": "Create or edit a Residential Area"
+            },
+            "created": "A new Residential Area is created with identifier {{ param }}",
+            "updated": "A Residential Area is updated with identifier {{ param }}",
+            "deleted": "A Residential Area is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Residential Area {{ id }}?"
+            },
+            "detail": {
+                "title": "Residential Area"
+            },
+            "residentialName": "Residential Name",
+            "residentialAlias": "Residential Alias",
+            "residentialDescription": "Residential Description",
+            "residentialDetail": "Residential Detail",
+            "residentialProvince": "Residential Province",
+            "residentialDistrict": "Residential District",
+            "residentialBoundary": "Residential Boundary",
+            "residentialImage": "Residential Image",
+            "photo": "Photo",
+            "tag": "Tag"
+        }
+    }
+}

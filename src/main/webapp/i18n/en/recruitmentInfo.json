@@ -1,0 +1,30 @@
+
+{
+    "riverApp": {
+        "recruitmentInfo" : {
+            "home": {
+                "title": "Recruitment Infos",
+                "createLabel": "Create a new Recruitment Info",
+                "createOrEditLabel": "Create or edit a Recruitment Info"
+            },
+            "created": "A new Recruitment Info is created with identifier {{ param }}",
+            "updated": "A Recruitment Info is updated with identifier {{ param }}",
+            "deleted": "A Recruitment Info is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Recruitment Info {{ id }}?"
+            },
+            "detail": {
+                "title": "Recruitment Info"
+            },
+            "recruitmentTitle": "Recruitment Title",
+            "recruitmentImage": "Recruitment Image",
+            "recruitmentContent": "Recruitment Content",
+            "recruitmentNotes": "Recruitment Notes",
+            "recruitmentDate": "Recruitment Date",
+            "recruitmentSeenCount": "Recruitment Seen Count",
+            "recruitmentStatus": "Recruitment Status",
+            "photo": "Photo",
+            "jobtitle": "Jobtitle"
+        }
+    }
+}

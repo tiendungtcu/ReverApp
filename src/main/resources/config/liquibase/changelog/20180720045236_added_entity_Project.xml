@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <property name="now" value="now()" dbms="h2"/>
+
+    <property name="now" value="now()" dbms="mysql"/>
+    <property name="autoIncrement" value="true"/>
+
+    <property name="floatType" value="float4" dbms="postgresql, h2"/>
+    <property name="floatType" value="float" dbms="mysql, oracle, mssql"/>
+
+    <!--
+        Added the entity Project.
+    -->
+    <changeSet id="20180720045236-1" author="jhipster">
+        <createTable tableName="project" remarks="Project entity">
+            <column name="id" type="bigint" autoIncrement="${autoIncrement}">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="project_name" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+
+            <column name="project_alias" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+
+            <column name="project_avatar" type="longblob">
+                <constraints nullable="true" />
+            </column>
+            <column name="project_avatar_content_type" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="project_avatar_id" type="integer">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="project_avatar_url" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="project_district" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="project_province" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="project_residential_area" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="project_road" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="project_ward" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="project_status" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="project_type" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="project_no_blocks" type="integer">
+                <constraints nullable="false" />
+            </column>
+
+            <column name="project_no_floors" type="integer">
+                <constraints nullable="false" />
+            </column>
+
+            <column name="project_no_apartments" type="integer">
+                <constraints nullable="false" />
+            </column>
+
+            <column name="project_no_shophouse" type="integer">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="project_description" type="clob">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="project_min_sell_price" type="double">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="project_max_sell_price" type="double">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="project_sell_area_unit" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="project_sell_price_unit" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="project_min_rent_price" type="double">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="project_max_rent_price" type="double">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="project_rent_area_unit" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="project_rent_price_unit" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="project_started_date" type="datetime">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="project_finishing_date" type="datetime">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="project_min_apartment_square" type="integer">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="project_max_apartment_square" type="integer">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="project_green_space" type="integer">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="project_building_density" type="integer">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="project_design_company" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="project_car_park" type="bit">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="project_bbq_court" type="bit">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="project_elevator" type="bit">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="project_shopping_center" type="bit">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="project_swimming_pool" type="bit">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="project_community_room" type="bit">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="project_gym" type="bit">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="project_city_park" type="bit">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="project_guard" type="bit">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="project_play_ground" type="bit">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="longitude" type="double">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="latitude" type="double">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="project_seen_count" type="bigint">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="project_available" type="bit">
+                <constraints nullable="true" />
+            </column>
+            <column name="document_id" type="bigint">
+                <constraints unique="true" nullable="true" />
+            </column>            <column name="location_id" type="bigint">
+                <constraints unique="true" nullable="true" />
+            </column>
+            <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
+        </createTable>
+        <dropDefaultValue tableName="project" columnName="project_started_date" columnDataType="datetime"/>
+        <dropDefaultValue tableName="project" columnName="project_finishing_date" columnDataType="datetime"/>
+        
+        <createTable tableName="project_tag">
+            <column name="tags_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="projects_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="projects_id, tags_id" tableName="project_tag"/>
+        
+        <createTable tableName="project_buildingtype">
+            <column name="buildingtypes_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="projects_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="projects_id, buildingtypes_id" tableName="project_buildingtype"/>
+        
+        <createTable tableName="project_investor">
+            <column name="investors_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="projects_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="projects_id, investors_id" tableName="project_investor"/>
+        
+        <createTable tableName="project_projectbuilder">
+            <column name="projectbuilders_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="projects_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="projects_id, projectbuilders_id" tableName="project_projectbuilder"/>
+        
+        <createTable tableName="project_photo">
+            <column name="photos_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="projects_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="projects_id, photos_id" tableName="project_photo"/>
+        
+    </changeSet>
+    <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
+</databaseChangeLog>

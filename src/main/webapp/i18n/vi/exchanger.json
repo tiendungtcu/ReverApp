@@ -1,0 +1,25 @@
+
+{
+    "riverApp": {
+        "exchanger" : {
+            "home": {
+                "title": "Exchangers",
+                "createLabel": "Thêm mới một Exchanger",
+                "createOrEditLabel": "Thêm mới hoặc cập nhật Exchanger"
+            },
+            "created": "Một Exchanger mới được tạo với định danh {{ param }}",
+            "updated": "Một Exchanger cập nhật với định danh {{ param }}",
+            "deleted": "Một Exchanger đã xóa với định danh {{ param }}",
+            "delete": {
+                "question": "Bạn có chắc là muốn xóa Exchanger {{ id }}?"
+            },
+            "detail": {
+                "title": "Exchanger"
+            },
+            "exchangerName": "Exchanger Name",
+            "exchangerAddress": "Exchanger Address",
+            "exchangerPhone": "Exchanger Phone",
+            "exchangerPhoto": "Exchanger Photo"
+        }
+    }
+}

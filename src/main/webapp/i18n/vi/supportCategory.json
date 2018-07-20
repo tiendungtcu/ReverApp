@@ -1,0 +1,23 @@
+
+{
+    "riverApp": {
+        "supportCategory" : {
+            "home": {
+                "title": "Support Categories",
+                "createLabel": "Thêm mới một Support Category",
+                "createOrEditLabel": "Thêm mới hoặc cập nhật Support Category"
+            },
+            "created": "Một Support Category mới được tạo với định danh {{ param }}",
+            "updated": "Một Support Category cập nhật với định danh {{ param }}",
+            "deleted": "Một Support Category đã xóa với định danh {{ param }}",
+            "delete": {
+                "question": "Bạn có chắc là muốn xóa Support Category {{ id }}?"
+            },
+            "detail": {
+                "title": "Support Category"
+            },
+            "categoryName": "Category Name",
+            "categoryDescription": "Category Description"
+        }
+    }
+}

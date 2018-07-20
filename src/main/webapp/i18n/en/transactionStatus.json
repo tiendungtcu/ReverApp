@@ -1,0 +1,10 @@
+{
+    "riverApp": {
+        "TransactionStatus" : {
+            "null": "",
+            "SELLING": "SELLING",
+            "PRESELL": "PRESELL",
+            "CLOSED": "CLOSED"
+        }
+    }
+}

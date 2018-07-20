@@ -1,0 +1,25 @@
+
+{
+    "riverApp": {
+        "exchanger" : {
+            "home": {
+                "title": "Exchangers",
+                "createLabel": "Create a new Exchanger",
+                "createOrEditLabel": "Create or edit a Exchanger"
+            },
+            "created": "A new Exchanger is created with identifier {{ param }}",
+            "updated": "A Exchanger is updated with identifier {{ param }}",
+            "deleted": "A Exchanger is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Exchanger {{ id }}?"
+            },
+            "detail": {
+                "title": "Exchanger"
+            },
+            "exchangerName": "Exchanger Name",
+            "exchangerAddress": "Exchanger Address",
+            "exchangerPhone": "Exchanger Phone",
+            "exchangerPhoto": "Exchanger Photo"
+        }
+    }
+}

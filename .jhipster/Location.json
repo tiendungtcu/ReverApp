@@ -1,0 +1,70 @@
+{
+    "name": "Location",
+    "fields": [
+        {
+            "fieldName": "locationName",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "locationFullAddress",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "locationNumber",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "locationRoad",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "locationWard",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "locationDistrict",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "locationProvince",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "locationCountry",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "locationGmapUrl",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "longitude",
+            "fieldType": "Double",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "latitude",
+            "fieldType": "Double",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "locationHide",
+            "fieldType": "Boolean"
+        }
+    ],
+    "relationships": [],
+    "changelogDate": "20180720045227",
+    "javadoc": "Location - vi tri entity",
+    "entityTableName": "location",
+    "dto": "mapstruct",
+    "pagination": "infinite-scroll",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": true,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

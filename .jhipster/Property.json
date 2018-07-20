@@ -1,0 +1,331 @@
+{
+    "name": "Property",
+    "fields": [
+        {
+            "fieldName": "propertyCode",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "propertyName",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "propertyAlias",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "propertyTransaction",
+            "fieldType": "TransactionType",
+            "fieldValues": "SELL,BUY,RENT,SELL_RENT"
+        },
+        {
+            "fieldName": "propertyNumber",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "propertyRoad",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "propertyWard",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "propertyDistrict",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "propertyProvince",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "propertyDescription",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text"
+        },
+        {
+            "fieldName": "propertyBedRooms",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "propertyBathRooms",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "propertySquare",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "propertyUsePurpose",
+            "fieldType": "UseEstablishment",
+            "fieldValues": "LODGE,PUB,SHOP,RESTAURANT,HOTEL,LEASE"
+        },
+        {
+            "fieldName": "propertyOwnerType",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "propertyTower",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "propertyRentPrice",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "propertyRentUnit",
+            "fieldType": "PriceUnit",
+            "fieldValues": "THOUSAND,MILLION,BILLION"
+        },
+        {
+            "fieldName": "propertyRentStartedDate",
+            "fieldType": "ZonedDateTime"
+        },
+        {
+            "fieldName": "propertySellPrice",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "propertySellUnit",
+            "fieldType": "PriceUnit",
+            "fieldValues": "THOUSAND,MILLION,BILLION"
+        },
+        {
+            "fieldName": "propertySellStartedDate",
+            "fieldType": "ZonedDateTime"
+        },
+        {
+            "fieldName": "propertySofa",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "propertyDiningTable",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "propertyKitchen",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "propertyCabinetKitchen",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "propertyKitchenEquipment",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "propertyWardrobe",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "propertyMakeupTable",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "propertyDesk",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "propertyTivi",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "propertyWashingMachine",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "propertyRefrigerator",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "propertyAircondition",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "propertyMicrowave",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "propertyWaterHeater",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "propertyBed",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "propertyHeater",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "propertyAudioEquipment",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "propertyInternet",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "propertyCableTivi",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "propertyPetPermission",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "propertyElevator",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "propertySwimmingPool",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "propertyGym",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "propertyFunctionalArea",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "propertyOpen24h",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "propertyCarPark",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "propertyBalcony",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "propertySauna",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "propertySteamSauna",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "propertyAttraction",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "propertySpecialFeature",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "propertyFurnitureOverview",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "propertyLocationOverview",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "propertyResidentialCommunity",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "propertyEducationalAspect",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "propertyExtraInfo",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "propertyDraft",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "image"
+        },
+        {
+            "fieldName": "longitude",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "latitude",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "propertyGoodPrice",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "propertySeenCount",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "propertyIsSold",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "propertyIsRent",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "propertyAvailable",
+            "fieldType": "Boolean"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "relationshipName": "location",
+            "otherEntityName": "location",
+            "otherEntityField": "id",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "property"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "residentialArea",
+            "otherEntityName": "residentialArea",
+            "otherEntityField": "residentialName"
+        },
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityRelationshipName": "property",
+            "relationshipName": "tag",
+            "otherEntityName": "tag",
+            "otherEntityField": "tagName",
+            "ownerSide": true
+        },
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityRelationshipName": "property",
+            "relationshipName": "buildingtype",
+            "otherEntityName": "buildingType",
+            "otherEntityField": "typeName",
+            "ownerSide": true
+        },
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityRelationshipName": "property",
+            "relationshipName": "photo",
+            "otherEntityName": "photo",
+            "otherEntityField": "id",
+            "ownerSide": true
+        }
+    ],
+    "changelogDate": "20180720045237",
+    "javadoc": "Property entity",
+    "entityTableName": "property",
+    "dto": "mapstruct",
+    "pagination": "infinite-scroll",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": true,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

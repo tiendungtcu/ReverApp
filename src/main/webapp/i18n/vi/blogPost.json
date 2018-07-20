@@ -1,0 +1,32 @@
+
+{
+    "riverApp": {
+        "blogPost" : {
+            "home": {
+                "title": "Blog Posts",
+                "createLabel": "Thêm mới một Blog Post",
+                "createOrEditLabel": "Thêm mới hoặc cập nhật Blog Post"
+            },
+            "created": "Một Blog Post mới được tạo với định danh {{ param }}",
+            "updated": "Một Blog Post cập nhật với định danh {{ param }}",
+            "deleted": "Một Blog Post đã xóa với định danh {{ param }}",
+            "delete": {
+                "question": "Bạn có chắc là muốn xóa Blog Post {{ id }}?"
+            },
+            "detail": {
+                "title": "Blog Post"
+            },
+            "postTitle": "Post Title",
+            "postStatus": "Post Status",
+            "postCreatedDate": "Post Created Date",
+            "postPublishDate": "Post Publish Date",
+            "postUpdateDate": "Post Update Date",
+            "postSeenCount": "Post Seen Count",
+            "postContent": "Post Content",
+            "comment": "Comment",
+            "category": "Category",
+            "user": "User",
+            "project": "Project"
+        }
+    }
+}

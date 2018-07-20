@@ -1,0 +1,31 @@
+
+{
+    "riverApp": {
+        "residentialArea" : {
+            "home": {
+                "title": "Residential Areas",
+                "createLabel": "Thêm mới một Residential Area",
+                "createOrEditLabel": "Thêm mới hoặc cập nhật Residential Area"
+            },
+            "created": "Một Residential Area mới được tạo với định danh {{ param }}",
+            "updated": "Một Residential Area cập nhật với định danh {{ param }}",
+            "deleted": "Một Residential Area đã xóa với định danh {{ param }}",
+            "delete": {
+                "question": "Bạn có chắc là muốn xóa Residential Area {{ id }}?"
+            },
+            "detail": {
+                "title": "Residential Area"
+            },
+            "residentialName": "Residential Name",
+            "residentialAlias": "Residential Alias",
+            "residentialDescription": "Residential Description",
+            "residentialDetail": "Residential Detail",
+            "residentialProvince": "Residential Province",
+            "residentialDistrict": "Residential District",
+            "residentialBoundary": "Residential Boundary",
+            "residentialImage": "Residential Image",
+            "photo": "Photo",
+            "tag": "Tag"
+        }
+    }
+}

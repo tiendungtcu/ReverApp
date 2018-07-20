@@ -1,0 +1,126 @@
+{
+    "name": "Employee",
+    "fields": [
+        {
+            "fieldName": "employeeName",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "employeeFirstName",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "employeeLastName",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "employeeDob",
+            "fieldType": "ZonedDateTime"
+        },
+        {
+            "fieldName": "employeeSex",
+            "fieldType": "Gender",
+            "fieldValues": "MALE,FEMALE,OTHER"
+        },
+        {
+            "fieldName": "employeeIdentityCard",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "employeePhone",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "employeeEmail",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "employeeAvatar",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "image"
+        },
+        {
+            "fieldName": "employeeFacebook",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "employeeLinkedin",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "employeeInstagram",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "employeeGooglePlus",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "employeeZalo",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "employeeTwitter",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "employeeYoutube",
+            "fieldType": "String"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "relationshipName": "contact",
+            "otherEntityName": "contact",
+            "otherEntityField": "id",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "employee"
+        },
+        {
+            "relationshipType": "one-to-one",
+            "relationshipName": "photo",
+            "otherEntityName": "photo",
+            "otherEntityField": "id",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "employee"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "jobtitle",
+            "otherEntityName": "jobTitle",
+            "otherEntityField": "titleName"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "department",
+            "otherEntityName": "department",
+            "otherEntityField": "departmentName"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "manager",
+            "otherEntityName": "employee",
+            "otherEntityField": "employeeName"
+        }
+    ],
+    "changelogDate": "20180720045234",
+    "javadoc": "Employee - entity",
+    "entityTableName": "employee",
+    "dto": "mapstruct",
+    "pagination": "infinite-scroll",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": true,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

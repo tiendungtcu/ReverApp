@@ -1,0 +1,39 @@
+{
+    "name": "Exchanger",
+    "fields": [
+        {
+            "fieldName": "exchangerName",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "exchangerAddress",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "exchangerPhone",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "exchangerPhoto",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "image"
+        }
+    ],
+    "relationships": [],
+    "changelogDate": "20180720045221",
+    "javadoc": "Exchanger - san giao dich entity",
+    "entityTableName": "exchanger",
+    "dto": "mapstruct",
+    "pagination": "no",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

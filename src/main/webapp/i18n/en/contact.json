@@ -1,0 +1,34 @@
+
+{
+    "riverApp": {
+        "contact" : {
+            "home": {
+                "title": "Contacts",
+                "createLabel": "Create a new Contact",
+                "createOrEditLabel": "Create or edit a Contact"
+            },
+            "created": "A new Contact is created with identifier {{ param }}",
+            "updated": "A Contact is updated with identifier {{ param }}",
+            "deleted": "A Contact is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Contact {{ id }}?"
+            },
+            "detail": {
+                "title": "Contact"
+            },
+            "contactName": "Contact Name",
+            "contactPhone": "Contact Phone",
+            "contactAddress": "Contact Address",
+            "contactEmail": "Contact Email",
+            "contactWebsite": "Contact Website",
+            "contactPhoto": "Contact Photo",
+            "contactFacebook": "Contact Facebook",
+            "contactTwitter": "Contact Twitter",
+            "contactInstagram": "Contact Instagram",
+            "contactLinkedin": "Contact Linkedin",
+            "contactGooglePlus": "Contact Google Plus",
+            "contactYoutube": "Contact Youtube",
+            "contactStatus": "Contact Status"
+        }
+    }
+}

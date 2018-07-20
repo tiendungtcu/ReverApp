@@ -1,0 +1,690 @@
+
+////////////////////////////
+//-------ENTITY-------------//
+///////////////////////////
+/*
+* Company-thong tin cong ty entity
+*/
+entity Company{
+    companyName String required,
+    companyPhone String,
+    companyAddress String,
+    companyLogo ImageBlob,
+    companyWebsite String,
+    companyFacebook String,
+    companyTwitter String,
+    companyInstagram String,
+    companyLinkedin String,
+    companyGooglePlus String,
+    companyYoutube String,
+    companySlogan String,
+    companyDescription TextBlob
+}
+
+/*
+* Contact - chi tiet lien he entity
+*/
+entity Contact{
+    contactName String required,
+    contactPhone String required,
+    contactAddress String,
+    contactEmail String required,
+    contactWebsite String,
+    contactPhoto ImageBlob,
+    contactFacebook String,
+    contactTwitter String,
+    contactInstagram String,
+    contactLinkedin String,
+    contactGooglePlus String,
+    contactYoutube String,
+    contactStatus Boolean
+}
+
+/*
+* JobTitle - chuc vu entity
+*/
+entity JobTitle{
+    titleName String required,
+    salaryFactor Double
+}
+
+/*
+* Exchanger - san giao dich entity
+*/
+entity Exchanger{
+    exchangerName String required,
+    exchangerAddress String,
+    exchangerPhone String required,
+    exchangerPhoto ImageBlob
+}
+
+/*
+* Department - Phong ban entity
+*/
+entity Department{
+    departmentName String required,
+    departmentPhoto ImageBlob,
+    departmentPhone String
+}
+
+/*
+* Investor - chu dau tu entity
+*/
+entity Investor {
+    investorName String required,
+    investorTitle String,
+    investorDate ZonedDateTime,
+    investorDescription String,
+    investorAddress String,
+    investorWebsite String,
+    investorPhone String,
+    investorPhoto ImageBlob
+}
+
+/*
+* ProjectBuilder - nha thau entity
+*/
+entity ProjectBuilder{
+    builderName String required,
+    builderTitle String,
+    builderDate ZonedDateTime,
+    builderDescription String,
+    builderAddress String,
+    builderWebsite String,
+    builderPhone String,
+    builderPhoto ImageBlob
+}
+
+/*
+* Document - Tai lieu du an entity
+*/
+entity Document {
+    documentName String required,
+    documentUrl String,
+    documentDate Instant,
+    documentContent TextBlob,
+    documentPhoto ImageBlob,
+    documentType DocumentType
+}
+
+/*
+* Photo - Hinh anh entity
+*/
+entity Photo{
+    photoName String required,
+    photoImage ImageBlob,
+    photoExtension String,
+    photoUrl String,
+    photoThumbnailUrl String
+}
+
+/*
+* Location - vi tri entity
+*/
+entity Location{
+    locationName String,
+    locationFullAddress String,
+    locationNumber String,
+    locationRoad String,
+    locationWard String,
+    locationDistrict String,
+    locationProvince String,
+    locationCountry String,
+    locationGmapUrl String,
+    longitude Double required,
+    latitude Double required,
+    locationHide Boolean
+}
+
+/*
+* BuildingType - Loai hinh du an entity
+*/
+entity BuildingType{
+    typeName String required,
+    typeSelect PropertyType
+}
+
+/*
+* Category - danh muc bai viet entity
+*/
+entity Category{
+    categoryName String required,
+    categoryAlias String,
+    categoryDescription String
+}
+
+/*
+* Tag - the entity
+*/
+entity Tag{
+    tagName String required
+}
+
+/*
+* Notification - entity
+*/
+entity Notification{
+    notificationTitle String required,
+    notificationContent TextBlob ,
+    notificationSeen Boolean,
+    notificationDate ZonedDateTime,
+    notificationType NotificationType,
+    notificationReference String // property code
+}
+
+/*
+* SupportCategory entity
+*/
+entity SupportCategory{
+    categoryName String required,
+    categoryDescription	String
+}
+
+/*
+*
+*/
+entity Article{
+    articleTitle String required,
+    articleStatus BlogStatus,
+    articleDate	Instant,
+    articleSeenCount Long,
+    articleContent TextBlob
+}
+/*
+* Employee - entity
+*/
+entity Employee{
+    employeeName String required,
+    employeeFirstName String,
+    employeeLastName String,
+    employeeDob ZonedDateTime,
+    employeeSex Gender,
+    employeeIdentityCard String,
+    employeePhone String required,
+    employeeEmail String required,
+    employeeAvatar ImageBlob,
+    employeeFacebook String,
+    employeeLinkedin String,
+    employeeInstagram String,
+    employeeGooglePlus String,
+    employeeZalo String,
+    employeeTwitter String,
+    employeeYoutube String
+}
+
+/*
+* ResidentialArea entity
+*/
+entity ResidentialArea{
+    residentialName String required,
+    residentialAlias String required,
+    residentialDescription TextBlob,
+    residentialDetail TextBlob,
+    residentialProvince String,
+    residentialDistrict String,
+    residentialBoundary TextBlob,
+    residentialImage ImageBlob
+}
+
+/*
+* Project entity
+*/
+entity Project{
+    projectName String required,
+    projectAlias String required,
+    projectAvatar ImageBlob,
+    projectAvatarId Integer,
+    projectAvatarUrl String,
+    projectDistrict String,
+    projectProvince String,
+    projectResidentialArea String,
+    projectRoad String,
+    projectWard String,
+    projectStatus TransactionStatus,
+    projectType String,
+    projectNoBlocks Integer required,
+    projectNoFloors Integer required,
+    projectNoApartments Integer required,
+    projectNoShophouse Integer,
+    projectDescription TextBlob,
+    projectMinSellPrice Double,
+    projectMaxSellPrice Double,
+    projectSellAreaUnit AreaUnit,
+    projectSellPriceUnit PriceUnit,
+    projectMinRentPrice Double,
+    projectMaxRentPrice Double,
+    projectRentAreaUnit AreaUnit,
+    projectRentPriceUnit PriceUnit,
+    projectStartedDate Instant,
+    projectFinishingDate Instant,
+    projectMinApartmentSquare Integer,
+    projectMaxApartmentSquare Integer,
+    projectGreenSpace Integer,
+    projectBuildingDensity Integer,
+    projectDesignCompany String,
+    projectCarPark Boolean,
+    projectBbqCourt Boolean,
+    projectElevator Boolean,
+    projectShoppingCenter Boolean,
+    projectSwimmingPool Boolean,
+    projectCommunityRoom Boolean,
+    projectGym Boolean,
+    projectCityPark Boolean,
+    projectGuard Boolean,
+    projectPlayGround Boolean,
+    longitude Double,
+    latitude Double,
+    projectSeenCount Long,
+    projectAvailable Boolean
+}
+
+/*
+* Property entity
+*/
+entity Property{
+    propertyCode  String required,
+    propertyName String required,
+    propertyAlias String,
+    propertyTransaction TransactionType,
+    propertyNumber String,
+    propertyRoad String,
+    propertyWard String,
+    propertyDistrict String,
+    propertyProvince String,
+    propertyDescription TextBlob,
+    propertyBedRooms Integer,
+    propertyBathRooms Integer,
+    propertySquare Double,
+    propertyUsePurpose UseEstablishment,
+    propertyOwnerType String,
+    propertyTower String,
+    propertyRentPrice Double,
+    propertyRentUnit PriceUnit,
+    propertyRentStartedDate ZonedDateTime,
+    propertySellPrice Double,
+    propertySellUnit PriceUnit,
+    propertySellStartedDate ZonedDateTime,
+    propertySofa Boolean,
+    propertyDiningTable Boolean,
+    propertyKitchen Boolean,
+    propertyCabinetKitchen Boolean,
+    propertyKitchenEquipment Boolean,
+    propertyWardrobe Boolean,
+    propertyMakeupTable Boolean,
+    propertyDesk Boolean,
+    propertyTivi Boolean,
+    propertyWashingMachine Boolean,
+    propertyRefrigerator Boolean,
+    propertyAircondition Boolean,
+    propertyMicrowave Boolean,
+    propertyWaterHeater Boolean,
+    propertyBed Boolean,
+    propertyHeater Boolean,
+    propertyAudioEquipment Boolean,
+    propertyInternet Boolean,
+    propertyCableTivi Boolean,
+    propertyPetPermission Boolean,
+    propertyElevator Boolean,
+    propertySwimmingPool Boolean,
+    propertyGym Boolean,
+    propertyFunctionalArea Boolean,
+    propertyOpen24h Boolean,
+    propertyCarPark Boolean,
+    propertyBalcony Boolean,
+    propertySauna Boolean,
+    propertySteamSauna Boolean,
+    propertyAttraction Boolean,
+    propertySpecialFeature String,
+    propertyFurnitureOverview String,
+    propertyLocationOverview String,
+    propertyResidentialCommunity String,
+    propertyEducationalAspect String,
+    propertyExtraInfo String,
+    propertyDraft ImageBlob,
+    longitude Double,
+    latitude Double,
+    propertyGoodPrice Boolean,
+    propertySeenCount Long,
+    propertyIsSold Boolean,
+    propertyIsRent Boolean,
+    propertyAvailable Boolean
+}
+
+/*
+* FavouriteItem entity
+
+entity FavouriteItem{
+    favourited Boolean
+    propertyType PropertyType
+}
+*/
+/*
+* BlogPost entity
+*/
+entity BlogPost{
+    postTitle String required,
+    postStatus BlogStatus,
+    postCreatedDate Instant,
+    postPublishDate Instant,
+    postUpdateDate Instant,
+    postSeenCount Long,
+    postContent TextBlob
+
+}
+
+/*
+* RecruitmentInfo entity
+*/
+entity RecruitmentInfo{
+    recruitmentTitle String required,
+    recruitmentImage ImageBlob,
+    recruitmentContent TextBlob,
+    recruitmentNotes String,
+    recruitmentDate ZonedDateTime,
+    recruitmentSeenCount Long,
+    recruitmentStatus Boolean
+
+}
+
+/*
+* Request entity
+*/
+entity Request{
+    requestFirstName String required,
+    requestLastName String required,
+    requestEmail String required,
+    requestPhone String required,
+    requestGetAnalysis Boolean,
+    requestGetPrice Boolean,
+    requestPageUrl String,
+    requestPageName String,
+    requestPropertyId Long,
+    requestPropertyType PropertyType,
+    requestType RequestType,
+    requestMeetingDate Instant,
+    requestQuestion String,
+    requestPrice Double,
+    requestCreatedDate ZonedDateTime,
+    requestConsultantId Integer
+}
+
+/*
+* Comment entity
+*/
+entity Comment{
+    commentTitle String required,
+    commentContent TextBlob,
+    commentCreatedDate Instant,
+    commentUpdateDate Instant
+}
+
+/*
+*
+*/
+entity ProjectUser{
+    liked Boolean,
+    shared Boolean,
+    likedDate Instant,
+    sharedDate Instant
+}
+
+/*
+*
+*/
+entity PropertyUser{
+    liked Boolean,
+    shared Boolean,
+    likedDate Instant,
+    sharedDate Instant
+}
+////////////////////////////
+//-------ENUM-------------//
+///////////////////////////
+/*
+* Direction enum
+*/
+enum Direction{
+    EAST,
+    WEST,
+    NORTH,
+    SOUTH,
+    NORTHEAST,
+    NORTHWEST,
+    SOUTHEAST,
+    SOUTHWEST
+}
+
+/*
+* TransactionType enum
+*/
+enum TransactionType{
+    SELL, BUY, RENT, SELL_RENT
+}
+
+/*
+* RequestOrigin enum
+*/
+enum RequestOrigin{
+    ANDROID, IOS, WINDOWS, OTHER
+}
+
+/*
+* NotificationType enum
+*/
+enum NotificationType{
+    NOTIFICATION, REQUEST, ALERT
+}
+
+/*
+* RequestStatus enum
+*/
+enum RequestStatus{
+    OPEN, CLOSED, PENDING
+}
+
+/*
+* TerrainType enum
+*/
+enum TerrainType{
+ RESIDENTIAL, URBAN, RUSTIC, INDUSTRIAL
+}
+
+/*
+* ApartmentType enum
+*/
+enum ApartmentType{
+ HOUSES, RURALS, FLATS, APARTMENTS, TOWERS, LOFTS
+}
+
+/*
+* BusinessType enum
+*/
+enum BusinessType{
+ PUB, HOTEL, OTHERS
+}
+
+/*
+* UseEstablishment enum
+*/
+enum UseEstablishment{
+ LODGE, PUB, SHOP, RESTAURANT, HOTEL, LEASE
+}
+
+/*
+* TransactionStatus enum
+*/
+enum TransactionStatus{
+ SELLING, PRESELL, CLOSED
+}
+
+/*
+* Gender enum
+*/
+enum Gender{
+ MALE, FEMALE, OTHER
+}
+
+/*
+* PriceUnit enum
+*/
+enum PriceUnit{
+ THOUSAND, MILLION, BILLION
+}
+
+/*
+* AreaUnit enum
+*/
+enum AreaUnit{
+ M2, CAN, MONTH, YEAR
+}
+
+/*
+* DocumentType enum
+*/
+enum DocumentType{
+ PROJECT, PROPERTY, EMPLOYEE
+}
+
+/*
+* PropertyType enum
+*/
+enum PropertyType{
+ PROJECT, PROPERTY, LAND
+}
+
+/*
+* BlogStatus enum
+*/
+enum BlogStatus{
+ PUBLISHED, DRAFT, DELETED
+}
+
+/*
+* RequestType enum
+*/
+enum RequestType{
+ MEETING, PRICE, QUESTION
+}
+
+
+////////////////////////////
+//-------RELATIONSHIP------------//
+///////////////////////////
+// One to Many
+relationship OneToMany{
+    BlogPost{comment} to Comment{post},
+
+    Project{post} to BlogPost{project(projectName)}
+
+    //SupportCategory{article} to Article{supportcategory}
+
+    //Project{photo} to Photo{project(projectName)},
+
+    //Property{photo} to Photo
+
+
+}
+
+//One to One
+relationship OneToOne{
+    Employee{contact} to Contact, //each employee has one contact
+
+    RecruitmentInfo{photo} to Photo, // each recruitment info has one avatar photo
+
+    Document{photo} to Photo, // each document has one avatar photo
+
+    Project{document} to Document{project}, // each project has one Document
+
+    Project{location} to Location, // stay at
+
+    Property{location} to Location, // stay at
+
+    ResidentialArea{photo} to Photo, // has
+
+    Employee{photo} to Photo // has avatar
+
+
+}
+//Many to One
+relationship ManyToOne{
+    Article{category} to SupportCategory, // belong to
+
+    Article{user(login)} to User, // created by
+
+    BlogPost{category} to Category, // belong to
+
+    BlogPost{user(login)} to User, // created by
+
+    Comment{user(login)} to User, // created by
+
+    Notification{user(login)} to User, // send to
+
+    //FavouriteItem{user(login)} to User, //
+
+    Request{user(login)} to User, // send by
+
+    RecruitmentInfo{jobtitle(titleName)} to JobTitle, // for
+
+    Employee{jobtitle(titleName)} to JobTitle, // belong to
+
+    Employee{department(departmentName)} to Department, // belong to
+
+    Request{property(propertyName)} to Property, // ask for
+
+    Request{project(projectName)} to Project, // ask for
+
+    //FavouriteItem{project(projectName)} to Project,
+
+    //FavouriteItem{property(propertyName)} to Property, //
+
+    Property{residentialArea(residentialName)} to ResidentialArea, // belong to
+
+    Employee{manager(employeeName)} to Employee,// manage
+
+    ProjectUser{user(login)} to User, // liked
+
+    ProjectUser{project(projectName)} to Project, // has
+
+    PropertyUser{user(login)} to User, // liked
+
+    PropertyUser{property(propertyName)} to Property // has
+
+}
+
+// Many to many
+relationship ManyToMany{
+
+    Property{tag(tagName)} to Tag{property}, // has
+
+    Project{tag(tagName)} to Tag{project}, // has
+
+    ResidentialArea{tag(tagName)} to Tag{residentialArea}, //has
+
+    Project{buildingtype(typeName)} to BuildingType{project},// belong to
+
+    Project{investor(investorName)} to Investor{project}, // belong to
+
+    Project{projectbuilder(builderName)} to ProjectBuilder{project}, // belong to
+
+    Property{buildingtype(typeName)} to BuildingType{property}, // belong to
+
+    Property{photo} to Photo{property}, // has
+
+    Project{photo} to Photo{project}  // has
+
+}
+
+//Pagination options
+paginate Employee, Photo, Location, Notification, Project, Property, BlogPost, Request, Document with infinite-scroll
+
+paginate Company, Contact, JobTitle, Department, Investor, ProjectBuilder, Category, Tag, ResidentialArea,  RecruitmentInfo with pagination
+
+// Using mapper
+dto * with mapstruct
+
+// service
+service all with serviceImpl except BuildingType, Company, Contact
+
+// Filtering
+filter Property, Location, Project, ResidentialArea, BlogPost, Employee, Notification, Article
+

@@ -1,0 +1,25 @@
+
+{
+    "riverApp": {
+        "buildingType" : {
+            "home": {
+                "title": "Building Types",
+                "createLabel": "Thêm mới một Building Type",
+                "createOrEditLabel": "Thêm mới hoặc cập nhật Building Type"
+            },
+            "created": "Một Building Type mới được tạo với định danh {{ param }}",
+            "updated": "Một Building Type cập nhật với định danh {{ param }}",
+            "deleted": "Một Building Type đã xóa với định danh {{ param }}",
+            "delete": {
+                "question": "Bạn có chắc là muốn xóa Building Type {{ id }}?"
+            },
+            "detail": {
+                "title": "Building Type"
+            },
+            "typeName": "Type Name",
+            "typeSelect": "Type Select",
+            "project": "Project",
+            "property": "Property"
+        }
+    }
+}

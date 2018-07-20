@@ -1,0 +1,27 @@
+
+{
+    "riverApp": {
+        "comment" : {
+            "home": {
+                "title": "Comments",
+                "createLabel": "Thêm mới một Comment",
+                "createOrEditLabel": "Thêm mới hoặc cập nhật Comment"
+            },
+            "created": "Một Comment mới được tạo với định danh {{ param }}",
+            "updated": "Một Comment cập nhật với định danh {{ param }}",
+            "deleted": "Một Comment đã xóa với định danh {{ param }}",
+            "delete": {
+                "question": "Bạn có chắc là muốn xóa Comment {{ id }}?"
+            },
+            "detail": {
+                "title": "Comment"
+            },
+            "commentTitle": "Comment Title",
+            "commentContent": "Comment Content",
+            "commentCreatedDate": "Comment Created Date",
+            "commentUpdateDate": "Comment Update Date",
+            "user": "User",
+            "post": "Post"
+        }
+    }
+}

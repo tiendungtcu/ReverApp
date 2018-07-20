@@ -1,0 +1,13 @@
+{
+    "riverApp": {
+        "UseEstablishment" : {
+            "null": "",
+            "LODGE": "LODGE",
+            "PUB": "PUB",
+            "SHOP": "SHOP",
+            "RESTAURANT": "RESTAURANT",
+            "HOTEL": "HOTEL",
+            "LEASE": "LEASE"
+        }
+    }
+}

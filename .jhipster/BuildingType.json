@@ -1,0 +1,43 @@
+{
+    "name": "BuildingType",
+    "fields": [
+        {
+            "fieldName": "typeName",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "typeSelect",
+            "fieldType": "PropertyType",
+            "fieldValues": "PROJECT,PROPERTY,LAND"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-many",
+            "relationshipName": "project",
+            "otherEntityName": "project",
+            "ownerSide": false,
+            "otherEntityRelationshipName": "buildingtype"
+        },
+        {
+            "relationshipType": "many-to-many",
+            "relationshipName": "property",
+            "otherEntityName": "property",
+            "ownerSide": false,
+            "otherEntityRelationshipName": "buildingtype"
+        }
+    ],
+    "changelogDate": "20180720045228",
+    "javadoc": "BuildingType - Loai hinh du an entity",
+    "entityTableName": "building_type",
+    "dto": "mapstruct",
+    "pagination": "no",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

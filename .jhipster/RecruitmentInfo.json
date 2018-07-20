@@ -1,0 +1,64 @@
+{
+    "name": "RecruitmentInfo",
+    "fields": [
+        {
+            "fieldName": "recruitmentTitle",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "recruitmentImage",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "image"
+        },
+        {
+            "fieldName": "recruitmentContent",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text"
+        },
+        {
+            "fieldName": "recruitmentNotes",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "recruitmentDate",
+            "fieldType": "ZonedDateTime"
+        },
+        {
+            "fieldName": "recruitmentSeenCount",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "recruitmentStatus",
+            "fieldType": "Boolean"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "relationshipName": "photo",
+            "otherEntityName": "photo",
+            "otherEntityField": "id",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "recruitmentInfo"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "jobtitle",
+            "otherEntityName": "jobTitle",
+            "otherEntityField": "titleName"
+        }
+    ],
+    "changelogDate": "20180720045239",
+    "javadoc": "RecruitmentInfo entity",
+    "entityTableName": "recruitment_info",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

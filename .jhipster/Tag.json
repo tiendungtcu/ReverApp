@@ -1,0 +1,45 @@
+{
+    "name": "Tag",
+    "fields": [
+        {
+            "fieldName": "tagName",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-many",
+            "relationshipName": "property",
+            "otherEntityName": "property",
+            "ownerSide": false,
+            "otherEntityRelationshipName": "tag"
+        },
+        {
+            "relationshipType": "many-to-many",
+            "relationshipName": "project",
+            "otherEntityName": "project",
+            "ownerSide": false,
+            "otherEntityRelationshipName": "tag"
+        },
+        {
+            "relationshipType": "many-to-many",
+            "relationshipName": "residentialArea",
+            "otherEntityName": "residentialArea",
+            "ownerSide": false,
+            "otherEntityRelationshipName": "tag"
+        }
+    ],
+    "changelogDate": "20180720045230",
+    "javadoc": "Tag - the entity",
+    "entityTableName": "tag",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

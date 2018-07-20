@@ -1,0 +1,69 @@
+{
+    "name": "Company",
+    "fields": [
+        {
+            "fieldName": "companyName",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "companyPhone",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "companyAddress",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "companyLogo",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "image"
+        },
+        {
+            "fieldName": "companyWebsite",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "companyFacebook",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "companyTwitter",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "companyInstagram",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "companyLinkedin",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "companyGooglePlus",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "companyYoutube",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "companyDescription",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text"
+        }
+    ],
+    "relationships": [],
+    "changelogDate": "20180720045218",
+    "javadoc": "Company-thong tin cong ty entity",
+    "entityTableName": "company",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

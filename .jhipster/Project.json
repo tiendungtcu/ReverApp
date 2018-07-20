@@ -1,0 +1,285 @@
+{
+    "name": "Project",
+    "fields": [
+        {
+            "fieldName": "projectName",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "projectAlias",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "projectAvatar",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "image"
+        },
+        {
+            "fieldName": "projectAvatarId",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "projectAvatarUrl",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "projectDistrict",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "projectProvince",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "projectResidentialArea",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "projectRoad",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "projectWard",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "projectStatus",
+            "fieldType": "TransactionStatus",
+            "fieldValues": "SELLING,PRESELL,CLOSED"
+        },
+        {
+            "fieldName": "projectType",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "projectNoBlocks",
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "projectNoFloors",
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "projectNoApartments",
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "projectNoShophouse",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "projectDescription",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text"
+        },
+        {
+            "fieldName": "projectMinSellPrice",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "projectMaxSellPrice",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "projectSellAreaUnit",
+            "fieldType": "AreaUnit",
+            "fieldValues": "M2,CAN,MONTH,YEAR"
+        },
+        {
+            "fieldName": "projectSellPriceUnit",
+            "fieldType": "PriceUnit",
+            "fieldValues": "THOUSAND,MILLION,BILLION"
+        },
+        {
+            "fieldName": "projectMinRentPrice",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "projectMaxRentPrice",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "projectRentAreaUnit",
+            "fieldType": "AreaUnit",
+            "fieldValues": "M2,CAN,MONTH,YEAR"
+        },
+        {
+            "fieldName": "projectRentPriceUnit",
+            "fieldType": "PriceUnit",
+            "fieldValues": "THOUSAND,MILLION,BILLION"
+        },
+        {
+            "fieldName": "projectStartedDate",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "projectFinishingDate",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "projectMinApartmentSquare",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "projectMaxApartmentSquare",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "projectGreenSpace",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "projectBuildingDensity",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "projectDesignCompany",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "projectCarPark",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "projectBbqCourt",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "projectElevator",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "projectShoppingCenter",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "projectSwimmingPool",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "projectCommunityRoom",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "projectGym",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "projectCityPark",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "projectGuard",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "projectPlayGround",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "longitude",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "latitude",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "projectSeenCount",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "projectAvailable",
+            "fieldType": "Boolean"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "relationshipName": "document",
+            "otherEntityName": "document",
+            "otherEntityField": "id",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "project"
+        },
+        {
+            "relationshipType": "one-to-one",
+            "relationshipName": "location",
+            "otherEntityName": "location",
+            "otherEntityField": "id",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "project"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "post",
+            "otherEntityName": "blogPost",
+            "otherEntityRelationshipName": "project"
+        },
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityRelationshipName": "project",
+            "relationshipName": "tag",
+            "otherEntityName": "tag",
+            "otherEntityField": "tagName",
+            "ownerSide": true
+        },
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityRelationshipName": "project",
+            "relationshipName": "buildingtype",
+            "otherEntityName": "buildingType",
+            "otherEntityField": "typeName",
+            "ownerSide": true
+        },
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityRelationshipName": "project",
+            "relationshipName": "investor",
+            "otherEntityName": "investor",
+            "otherEntityField": "investorName",
+            "ownerSide": true
+        },
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityRelationshipName": "project",
+            "relationshipName": "projectbuilder",
+            "otherEntityName": "projectBuilder",
+            "otherEntityField": "builderName",
+            "ownerSide": true
+        },
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityRelationshipName": "project",
+            "relationshipName": "photo",
+            "otherEntityName": "photo",
+            "otherEntityField": "id",
+            "ownerSide": true
+        }
+    ],
+    "changelogDate": "20180720045236",
+    "javadoc": "Project entity",
+    "entityTableName": "project",
+    "dto": "mapstruct",
+    "pagination": "infinite-scroll",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": true,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

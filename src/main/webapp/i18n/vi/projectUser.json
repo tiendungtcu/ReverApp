@@ -1,0 +1,27 @@
+
+{
+    "riverApp": {
+        "projectUser" : {
+            "home": {
+                "title": "Project Users",
+                "createLabel": "Thêm mới một Project User",
+                "createOrEditLabel": "Thêm mới hoặc cập nhật Project User"
+            },
+            "created": "Một Project User mới được tạo với định danh {{ param }}",
+            "updated": "Một Project User cập nhật với định danh {{ param }}",
+            "deleted": "Một Project User đã xóa với định danh {{ param }}",
+            "delete": {
+                "question": "Bạn có chắc là muốn xóa Project User {{ id }}?"
+            },
+            "detail": {
+                "title": "Project User"
+            },
+            "liked": "Liked",
+            "shared": "Shared",
+            "likedDate": "Liked Date",
+            "sharedDate": "Shared Date",
+            "user": "User",
+            "project": "Project"
+        }
+    }
+}

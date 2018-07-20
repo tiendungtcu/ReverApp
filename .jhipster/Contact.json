@@ -1,0 +1,78 @@
+{
+    "name": "Contact",
+    "fields": [
+        {
+            "fieldName": "contactName",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "contactPhone",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "contactAddress",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "contactEmail",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "contactWebsite",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "contactPhoto",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "image"
+        },
+        {
+            "fieldName": "contactFacebook",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "contactTwitter",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "contactInstagram",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "contactLinkedin",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "contactGooglePlus",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "contactYoutube",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "contactStatus",
+            "fieldType": "Boolean"
+        }
+    ],
+    "relationships": [],
+    "changelogDate": "20180720045219",
+    "javadoc": "Contact - chi tiet lien he entity",
+    "entityTableName": "contact",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

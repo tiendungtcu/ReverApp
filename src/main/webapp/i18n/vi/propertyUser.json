@@ -1,0 +1,27 @@
+
+{
+    "riverApp": {
+        "propertyUser" : {
+            "home": {
+                "title": "Property Users",
+                "createLabel": "Thêm mới một Property User",
+                "createOrEditLabel": "Thêm mới hoặc cập nhật Property User"
+            },
+            "created": "Một Property User mới được tạo với định danh {{ param }}",
+            "updated": "Một Property User cập nhật với định danh {{ param }}",
+            "deleted": "Một Property User đã xóa với định danh {{ param }}",
+            "delete": {
+                "question": "Bạn có chắc là muốn xóa Property User {{ id }}?"
+            },
+            "detail": {
+                "title": "Property User"
+            },
+            "liked": "Liked",
+            "shared": "Shared",
+            "likedDate": "Liked Date",
+            "sharedDate": "Shared Date",
+            "user": "User",
+            "property": "Property"
+        }
+    }
+}

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <!--
+        Added the constraints for entity Project.
+    -->
+    <changeSet id="20180720045236-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="document_id"
+                                 baseTableName="project"
+                                 constraintName="fk_project_document_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="document"/>
+
+        <addForeignKeyConstraint baseColumnNames="location_id"
+                                 baseTableName="project"
+                                 constraintName="fk_project_location_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="location"/>
+
+        <addForeignKeyConstraint baseColumnNames="projects_id"
+                                 baseTableName="project_tag"
+                                 constraintName="fk_project_tag_projects_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="project"/>
+        <addForeignKeyConstraint baseColumnNames="tags_id"
+                                 baseTableName="project_tag"
+                                 constraintName="fk_project_tag_tags_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="tag"/>
+        
+        <addForeignKeyConstraint baseColumnNames="projects_id"
+                                 baseTableName="project_buildingtype"
+                                 constraintName="fk_project_buildingtype_projects_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="project"/>
+        <addForeignKeyConstraint baseColumnNames="buildingtypes_id"
+                                 baseTableName="project_buildingtype"
+                                 constraintName="fk_project_buildingtype_buildingtypes_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="building_type"/>
+        
+        <addForeignKeyConstraint baseColumnNames="projects_id"
+                                 baseTableName="project_investor"
+                                 constraintName="fk_project_investor_projects_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="project"/>
+        <addForeignKeyConstraint baseColumnNames="investors_id"
+                                 baseTableName="project_investor"
+                                 constraintName="fk_project_investor_investors_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="investor"/>
+        
+        <addForeignKeyConstraint baseColumnNames="projects_id"
+                                 baseTableName="project_projectbuilder"
+                                 constraintName="fk_project_projectbuilder_projects_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="project"/>
+        <addForeignKeyConstraint baseColumnNames="projectbuilders_id"
+                                 baseTableName="project_projectbuilder"
+                                 constraintName="fk_project_projectbuilder_projectbuilders_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="project_builder"/>
+        
+        <addForeignKeyConstraint baseColumnNames="projects_id"
+                                 baseTableName="project_photo"
+                                 constraintName="fk_project_photo_projects_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="project"/>
+        <addForeignKeyConstraint baseColumnNames="photos_id"
+                                 baseTableName="project_photo"
+                                 constraintName="fk_project_photo_photos_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="photo"/>
+        
+    </changeSet>
+</databaseChangeLog>

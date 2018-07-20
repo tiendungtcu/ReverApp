@@ -1,0 +1,27 @@
+
+{
+    "riverApp": {
+        "projectUser" : {
+            "home": {
+                "title": "Project Users",
+                "createLabel": "Create a new Project User",
+                "createOrEditLabel": "Create or edit a Project User"
+            },
+            "created": "A new Project User is created with identifier {{ param }}",
+            "updated": "A Project User is updated with identifier {{ param }}",
+            "deleted": "A Project User is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Project User {{ id }}?"
+            },
+            "detail": {
+                "title": "Project User"
+            },
+            "liked": "Liked",
+            "shared": "Shared",
+            "likedDate": "Liked Date",
+            "sharedDate": "Shared Date",
+            "user": "User",
+            "project": "Project"
+        }
+    }
+}

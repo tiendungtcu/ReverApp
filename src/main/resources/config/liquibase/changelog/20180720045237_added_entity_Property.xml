@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <property name="now" value="now()" dbms="h2"/>
+
+    <property name="now" value="now()" dbms="mysql"/>
+    <property name="autoIncrement" value="true"/>
+
+    <property name="floatType" value="float4" dbms="postgresql, h2"/>
+    <property name="floatType" value="float" dbms="mysql, oracle, mssql"/>
+
+    <!--
+        Added the entity Property.
+    -->
+    <changeSet id="20180720045237-1" author="jhipster">
+        <createTable tableName="property" remarks="Property entity">
+            <column name="id" type="bigint" autoIncrement="${autoIncrement}">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="property_code" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+
+            <column name="property_name" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+
+            <column name="property_alias" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="property_transaction" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="property_number" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="property_road" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="property_ward" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="property_district" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="property_province" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="property_description" type="clob">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="property_bed_rooms" type="integer">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="property_bath_rooms" type="integer">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="property_square" type="double">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="property_use_purpose" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="property_owner_type" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="property_tower" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="property_rent_price" type="double">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="property_rent_unit" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="property_rent_started_date" type="datetime">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="property_sell_price" type="double">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="property_sell_unit" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="property_sell_started_date" type="datetime">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="property_sofa" type="bit">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="property_dining_table" type="bit">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="property_kitchen" type="bit">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="property_cabinet_kitchen" type="bit">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="property_kitchen_equipment" type="bit">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="property_wardrobe" type="bit">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="property_makeup_table" type="bit">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="property_desk" type="bit">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="property_tivi" type="bit">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="property_washing_machine" type="bit">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="property_refrigerator" type="bit">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="property_aircondition" type="bit">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="property_microwave" type="bit">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="property_water_heater" type="bit">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="property_bed" type="bit">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="property_heater" type="bit">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="property_audio_equipment" type="bit">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="property_internet" type="bit">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="property_cable_tivi" type="bit">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="property_pet_permission" type="bit">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="property_elevator" type="bit">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="property_swimming_pool" type="bit">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="property_gym" type="bit">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="property_functional_area" type="bit">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="property_open_24_h" type="bit">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="property_car_park" type="bit">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="property_balcony" type="bit">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="property_sauna" type="bit">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="property_steam_sauna" type="bit">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="property_attraction" type="bit">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="property_special_feature" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="property_furniture_overview" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="property_location_overview" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="property_residential_community" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="property_educational_aspect" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="property_extra_info" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="property_draft" type="longblob">
+                <constraints nullable="true" />
+            </column>
+            <column name="property_draft_content_type" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="longitude" type="double">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="latitude" type="double">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="property_good_price" type="bit">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="property_seen_count" type="bigint">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="property_is_sold" type="bit">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="property_is_rent" type="bit">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="property_available" type="bit">
+                <constraints nullable="true" />
+            </column>
+            <column name="location_id" type="bigint">
+                <constraints unique="true" nullable="true" />
+            </column>
+            <column name="residential_area_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+
+            <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
+        </createTable>
+        <dropDefaultValue tableName="property" columnName="property_rent_started_date" columnDataType="datetime"/>
+        <dropDefaultValue tableName="property" columnName="property_sell_started_date" columnDataType="datetime"/>
+        
+        <createTable tableName="property_tag">
+            <column name="tags_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="properties_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="properties_id, tags_id" tableName="property_tag"/>
+        
+        <createTable tableName="property_buildingtype">
+            <column name="buildingtypes_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="properties_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="properties_id, buildingtypes_id" tableName="property_buildingtype"/>
+        
+        <createTable tableName="property_photo">
+            <column name="photos_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="properties_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="properties_id, photos_id" tableName="property_photo"/>
+        
+    </changeSet>
+    <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
+</databaseChangeLog>

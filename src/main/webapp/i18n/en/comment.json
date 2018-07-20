@@ -1,0 +1,27 @@
+
+{
+    "riverApp": {
+        "comment" : {
+            "home": {
+                "title": "Comments",
+                "createLabel": "Create a new Comment",
+                "createOrEditLabel": "Create or edit a Comment"
+            },
+            "created": "A new Comment is created with identifier {{ param }}",
+            "updated": "A Comment is updated with identifier {{ param }}",
+            "deleted": "A Comment is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Comment {{ id }}?"
+            },
+            "detail": {
+                "title": "Comment"
+            },
+            "commentTitle": "Comment Title",
+            "commentContent": "Comment Content",
+            "commentCreatedDate": "Comment Created Date",
+            "commentUpdateDate": "Comment Update Date",
+            "user": "User",
+            "post": "Post"
+        }
+    }
+}

@@ -1,0 +1,27 @@
+{
+    "name": "JobTitle",
+    "fields": [
+        {
+            "fieldName": "titleName",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "salaryFactor",
+            "fieldType": "Double"
+        }
+    ],
+    "relationships": [],
+    "changelogDate": "20180720045220",
+    "javadoc": "JobTitle - chuc vu entity",
+    "entityTableName": "job_title",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

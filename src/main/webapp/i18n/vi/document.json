@@ -1,0 +1,29 @@
+
+{
+    "riverApp": {
+        "document" : {
+            "home": {
+                "title": "Documents",
+                "createLabel": "Thêm mới một Document",
+                "createOrEditLabel": "Thêm mới hoặc cập nhật Document"
+            },
+            "created": "Một Document mới được tạo với định danh {{ param }}",
+            "updated": "Một Document cập nhật với định danh {{ param }}",
+            "deleted": "Một Document đã xóa với định danh {{ param }}",
+            "delete": {
+                "question": "Bạn có chắc là muốn xóa Document {{ id }}?"
+            },
+            "detail": {
+                "title": "Document"
+            },
+            "documentName": "Document Name",
+            "documentUrl": "Document Url",
+            "documentDate": "Document Date",
+            "documentContent": "Document Content",
+            "documentPhoto": "Document Photo",
+            "documentType": "Document Type",
+            "photo": "Photo",
+            "project": "Project"
+        }
+    }
+}

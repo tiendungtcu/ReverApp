@@ -1,0 +1,11 @@
+{
+    "riverApp": {
+        "AreaUnit" : {
+            "null": "",
+            "M2": "M2",
+            "CAN": "CAN",
+            "MONTH": "MONTH",
+            "YEAR": "YEAR"
+        }
+    }
+}

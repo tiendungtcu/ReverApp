@@ -1,0 +1,10 @@
+{
+    "riverApp": {
+        "BlogStatus" : {
+            "null": "",
+            "PUBLISHED": "PUBLISHED",
+            "DRAFT": "DRAFT",
+            "DELETED": "DELETED"
+        }
+    }
+}

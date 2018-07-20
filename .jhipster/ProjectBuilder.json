@@ -1,0 +1,60 @@
+{
+    "name": "ProjectBuilder",
+    "fields": [
+        {
+            "fieldName": "builderName",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "builderTitle",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "builderDate",
+            "fieldType": "ZonedDateTime"
+        },
+        {
+            "fieldName": "builderDescription",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "builderAddress",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "builderWebsite",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "builderPhone",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "builderPhoto",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "image"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-many",
+            "relationshipName": "project",
+            "otherEntityName": "project",
+            "ownerSide": false,
+            "otherEntityRelationshipName": "projectbuilder"
+        }
+    ],
+    "changelogDate": "20180720045224",
+    "javadoc": "ProjectBuilder - nha thau entity",
+    "entityTableName": "project_builder",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

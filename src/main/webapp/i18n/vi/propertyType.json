@@ -1,0 +1,10 @@
+{
+    "riverApp": {
+        "PropertyType" : {
+            "null": "",
+            "PROJECT": "PROJECT",
+            "PROPERTY": "PROPERTY",
+            "LAND": "LAND"
+        }
+    }
+}

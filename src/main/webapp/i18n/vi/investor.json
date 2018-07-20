@@ -1,0 +1,30 @@
+
+{
+    "riverApp": {
+        "investor" : {
+            "home": {
+                "title": "Investors",
+                "createLabel": "Thêm mới một Investor",
+                "createOrEditLabel": "Thêm mới hoặc cập nhật Investor"
+            },
+            "created": "Một Investor mới được tạo với định danh {{ param }}",
+            "updated": "Một Investor cập nhật với định danh {{ param }}",
+            "deleted": "Một Investor đã xóa với định danh {{ param }}",
+            "delete": {
+                "question": "Bạn có chắc là muốn xóa Investor {{ id }}?"
+            },
+            "detail": {
+                "title": "Investor"
+            },
+            "investorName": "Investor Name",
+            "investorTitle": "Investor Title",
+            "investorDate": "Investor Date",
+            "investorDescription": "Investor Description",
+            "investorAddress": "Investor Address",
+            "investorWebsite": "Investor Website",
+            "investorPhone": "Investor Phone",
+            "investorPhoto": "Investor Photo",
+            "project": "Project"
+        }
+    }
+}

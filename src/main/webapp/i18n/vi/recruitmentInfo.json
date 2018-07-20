@@ -1,0 +1,30 @@
+
+{
+    "riverApp": {
+        "recruitmentInfo" : {
+            "home": {
+                "title": "Recruitment Infos",
+                "createLabel": "Thêm mới một Recruitment Info",
+                "createOrEditLabel": "Thêm mới hoặc cập nhật Recruitment Info"
+            },
+            "created": "Một Recruitment Info mới được tạo với định danh {{ param }}",
+            "updated": "Một Recruitment Info cập nhật với định danh {{ param }}",
+            "deleted": "Một Recruitment Info đã xóa với định danh {{ param }}",
+            "delete": {
+                "question": "Bạn có chắc là muốn xóa Recruitment Info {{ id }}?"
+            },
+            "detail": {
+                "title": "Recruitment Info"
+            },
+            "recruitmentTitle": "Recruitment Title",
+            "recruitmentImage": "Recruitment Image",
+            "recruitmentContent": "Recruitment Content",
+            "recruitmentNotes": "Recruitment Notes",
+            "recruitmentDate": "Recruitment Date",
+            "recruitmentSeenCount": "Recruitment Seen Count",
+            "recruitmentStatus": "Recruitment Status",
+            "photo": "Photo",
+            "jobtitle": "Jobtitle"
+        }
+    }
+}

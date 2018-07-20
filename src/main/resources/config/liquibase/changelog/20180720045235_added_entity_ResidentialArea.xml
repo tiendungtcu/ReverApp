@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <property name="now" value="now()" dbms="h2"/>
+
+    <property name="now" value="now()" dbms="mysql"/>
+    <property name="autoIncrement" value="true"/>
+
+    <property name="floatType" value="float4" dbms="postgresql, h2"/>
+    <property name="floatType" value="float" dbms="mysql, oracle, mssql"/>
+
+    <!--
+        Added the entity ResidentialArea.
+    -->
+    <changeSet id="20180720045235-1" author="jhipster">
+        <createTable tableName="residential_area" remarks="ResidentialArea entity">
+            <column name="id" type="bigint" autoIncrement="${autoIncrement}">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="residential_name" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+
+            <column name="residential_alias" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+
+            <column name="residential_description" type="clob">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="residential_detail" type="clob">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="residential_province" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="residential_district" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="residential_boundary" type="clob">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="residential_image" type="longblob">
+                <constraints nullable="true" />
+            </column>
+            <column name="residential_image_content_type" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="photo_id" type="bigint">
+                <constraints unique="true" nullable="true" />
+            </column>
+            <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
+        </createTable>
+        
+        <createTable tableName="residential_area_tag">
+            <column name="tags_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="residential_areas_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="residential_areas_id, tags_id" tableName="residential_area_tag"/>
+        
+    </changeSet>
+    <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
+</databaseChangeLog>

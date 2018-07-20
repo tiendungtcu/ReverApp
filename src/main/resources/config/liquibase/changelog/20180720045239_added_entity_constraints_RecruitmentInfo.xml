@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <!--
+        Added the constraints for entity RecruitmentInfo.
+    -->
+    <changeSet id="20180720045239-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="photo_id"
+                                 baseTableName="recruitment_info"
+                                 constraintName="fk_recruitment_info_photo_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="photo"/>
+
+        <addForeignKeyConstraint baseColumnNames="jobtitle_id"
+                                 baseTableName="recruitment_info"
+                                 constraintName="fk_recruitment_info_jobtitle_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="job_title"/>
+
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,23 @@
+
+{
+    "riverApp": {
+        "jobTitle" : {
+            "home": {
+                "title": "Job Titles",
+                "createLabel": "Thêm mới một Job Title",
+                "createOrEditLabel": "Thêm mới hoặc cập nhật Job Title"
+            },
+            "created": "Một Job Title mới được tạo với định danh {{ param }}",
+            "updated": "Một Job Title cập nhật với định danh {{ param }}",
+            "deleted": "Một Job Title đã xóa với định danh {{ param }}",
+            "delete": {
+                "question": "Bạn có chắc là muốn xóa Job Title {{ id }}?"
+            },
+            "detail": {
+                "title": "Job Title"
+            },
+            "titleName": "Title Name",
+            "salaryFactor": "Salary Factor"
+        }
+    }
+}
