@@ -1,15 +1,16 @@
 const config = {
-  VERSION: process.env.VERSION,
-  SERVER_API_URL: process.env.SERVER_API_URL
+  VERSION: process.env.VERSION
 };
 
 export default config;
 
-export const SERVER_API_URL = '';
+export const SERVER_API_URL = process.env.SERVER_API_URL;
 
 export const AUTHORITIES = {
   ADMIN: 'ROLE_ADMIN',
-  USER: 'ROLE_USER'
+  USER: 'ROLE_USER',
+  MANAGER: 'ROLE_MANAGER',
+  POSTER: 'ROLE_POSTER'
 };
 
 export const messages = {

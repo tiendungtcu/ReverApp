@@ -5,9 +5,14 @@ import com.tcutma.realstate.service.CommentService;
 import com.tcutma.realstate.web.rest.errors.BadRequestAlertException;
 import com.tcutma.realstate.web.rest.util.HeaderUtil;
 import com.tcutma.realstate.service.dto.CommentDTO;
+import com.tcutma.realstate.web.rest.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -116,4 +121,29 @@ public class CommentResource {
         commentService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
+
+
+    /* This is my custom API for comment
+    * Feel free to use these APIs
+     */
+
+
+
+    /**
+     * GET  /comments : get all the comments.
+     *
+     * @return the ResponseEntity with status 200 (OK) and the list of comments in body
+     */
+    @GetMapping("/v1/posts/{postId}/comments")
+    @Timed
+    public ResponseEntity<List<CommentDTO>> getAllCommentsByPostId(@PathVariable(value = "postId") Long postId,
+                                                                   Pageable pageable) {
+        log.debug("REST request to get all Comments belong to postId: "+postId);
+        Page<CommentDTO> page = commentService.findAllByPostId(postId,pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/v1/posts");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
+
+
 }
