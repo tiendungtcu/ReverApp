@@ -1,22 +1,22 @@
 package com.tcutma.realstate.web.rest;
 
 
+import com.tcutma.realstate.domain.enumeration.UploadType;
 import com.tcutma.realstate.service.FileStorageService;
 import com.tcutma.realstate.web.rest.vm.UploadFileResponse;
 import io.micrometer.core.annotation.Timed;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
-import javax.servlet.http.HttpServletRequest;
-
-import java.io.IOException;
+import java.net.FileNameMap;
+import java.net.URLConnection;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,31 +26,29 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping("/api/v1")
-public class FileUploadResource {
+public class FileStorageResource {
 
-    private final Logger log = LoggerFactory.getLogger(FileUploadResource.class);
+    private final Logger log = LoggerFactory.getLogger(FileStorageResource.class);
 
     //private static final String ENTITY_NAME = "fileupload";
 
+
     private final FileStorageService fileStorageService;
 
-    public FileUploadResource(FileStorageService fileStorageService) {
+    @Autowired
+    public FileStorageResource(FileStorageService fileStorageService) {
         this.fileStorageService = fileStorageService;
     }
-/*
-* Upload one file
- */
 
-    public UploadFileResponse uploadFile(@RequestParam("file")MultipartFile file){
+    /*
+    * Upload one file
+     */
 
-        String fileName = fileStorageService.storeFile(file);
+    public UploadFileResponse uploadFile(MultipartFile file){
 
-        String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-            .path("/download/")
-            .path(fileName)
-            .toUriString();
-        return new UploadFileResponse(fileName, fileDownloadUri,
-            file.getContentType(),file.getSize());
+        UploadFileResponse uploadFileResponse = fileStorageService.storeFile(UploadType.PHOTO, file);
+
+        return uploadFileResponse;
     }
 
     /*
@@ -72,37 +70,48 @@ public class FileUploadResource {
     }
 
     /*
-     * GET /files/{fileName:.+}: Upload multiple files
+     * GET /files/{fileType}/{fileName:.+}: Download file by filename
      *
-     * @param files array of files to upload
+     * @param file array of files to upload
+     * @param fileType type of file: photo,file,document
+     * @return ResponseEntity with status 200 (OK) and the file with fileName
+     */
+
+    @GetMapping("/files/{fileType}/{fileName:.+}")
+    @ResponseBody
+    public ResponseEntity<Resource> downloadFile (@PathVariable(value = "fileType") int fileType,@PathVariable(value = "fileName") String fileName){
+
+        log.info("Go go download {} with name {}",fileType,fileName);
+        UploadType type = fileType==1?UploadType.PHOTO:fileType==2?UploadType.DOCUMENT:UploadType.FILE;
+        FileNameMap fileNameMap = URLConnection.getFileNameMap();
+        String mimeType = fileNameMap.getContentTypeFor(fileName);
+        if (mimeType == null){
+            mimeType = "image/png";
+        }
+        // Load file as Resource
+        Resource resource = fileStorageService.loadFileAsResource(type,fileName);
+        log.info("From photoResource {} with name {}",type,fileName);
+
+        return ResponseEntity.ok()
+            .contentType(MediaType.parseMediaType(mimeType))
+            //.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+            .body(resource);
+    }
+
+    /*
+     * GET /files/: Get all uploaded files
+     *
+     * @param
      * @return ResponseEntity with status 200 (OK) and the list of uploaded files in body
      */
 
-    @GetMapping("/file/{fileName:.+}")
-    public ResponseEntity<Resource> downloadFile (@PathVariable String fileName, HttpServletRequest request){
-
-        // Load file as Resource
-        Resource resource = fileStorageService.loadFileAsResource(fileName);
-
-        // Try to determine file's content type
-        String contentType = null;
-        try{
-            contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
-
-        } catch (IOException ex){
-            log.info("Could not determine file type");
-        }
-
-        // Fallback to default content type if type could not be determined
-        if(contentType == null){
-            contentType = "application/octet-stream";
-        }
-
-        return ResponseEntity.ok()
-            .contentType(MediaType.parseMediaType(contentType))
-            .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
-            .body(resource);
+    @GetMapping("/files")
+    public List<String> listUploadedFiles(){
+        return fileStorageService.loadAllFiles(UploadType.FILE).map(path->MvcUriComponentsBuilder.fromMethodName(FileStorageResource.class,
+            "downloadFile",path.getFileName().toString()).build().toString())
+            .collect(Collectors.toList());
     }
+
 }
 
 

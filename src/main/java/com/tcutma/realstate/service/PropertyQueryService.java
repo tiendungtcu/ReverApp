@@ -169,12 +169,6 @@ public class PropertyQueryService extends QueryService<Property> {
             if (criteria.getPropertyWashingMachine() != null) {
                 specification = specification.and(buildSpecification(criteria.getPropertyWashingMachine(), Property_.propertyWashingMachine));
             }
-            if (criteria.getPropertyRefrigerator() != null) {
-                specification = specification.and(buildSpecification(criteria.getPropertyRefrigerator(), Property_.propertyRefrigerator));
-            }
-            if (criteria.getPropertyAircondition() != null) {
-                specification = specification.and(buildSpecification(criteria.getPropertyAircondition(), Property_.propertyAircondition));
-            }
             if (criteria.getPropertyMicrowave() != null) {
                 specification = specification.and(buildSpecification(criteria.getPropertyMicrowave(), Property_.propertyMicrowave));
             }
@@ -267,6 +261,12 @@ public class PropertyQueryService extends QueryService<Property> {
             }
             if (criteria.getPropertyAvailable() != null) {
                 specification = specification.and(buildSpecification(criteria.getPropertyAvailable(), Property_.propertyAvailable));
+            }
+            if (criteria.getPropertyRefrigerator() != null) {
+                specification = specification.and(buildSpecification(criteria.getPropertyRefrigerator(), Property_.propertyRefrigerator));
+            }
+            if (criteria.getPropertyAirconditioner() != null) {
+                specification = specification.and(buildSpecification(criteria.getPropertyAirconditioner(), Property_.propertyAirconditioner));
             }
             if (criteria.getLocationId() != null) {
                 specification = specification.and(buildReferringEntitySpecification(criteria.getLocationId(), Property_.location, Location_.id));

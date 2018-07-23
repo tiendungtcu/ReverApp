@@ -13,14 +13,14 @@ public class FurnitureVM {
     private Boolean propertyTivi;
     private Boolean propertyWashingMachine;
     private Boolean propertyRefrigerator;
-    private Boolean propertyAircondition;
+    private Boolean propertyAirconditioner;
     private Boolean propertyMicrowave;
     private Boolean propertyWaterHeater;
     private Boolean propertyBed;
     private Boolean propertyHeater;
     private Boolean propertyAudioEquipment;
 
-    public FurnitureVM(Boolean propertySofa, Boolean propertyDiningTable, Boolean propertyKitchen, Boolean propertyCabinetKitchen, Boolean propertyKitchenEquipment, Boolean propertyWardrobe, Boolean propertyMakeupTable, Boolean propertyDesk, Boolean propertyTivi, Boolean propertyWashingMachine, Boolean propertyRefrigerator, Boolean propertyAircondition, Boolean propertyMicrowave, Boolean propertyWaterHeater, Boolean propertyBed, Boolean propertyHeater, Boolean propertyAudioEquipment) {
+    public FurnitureVM(Boolean propertySofa, Boolean propertyDiningTable, Boolean propertyKitchen, Boolean propertyCabinetKitchen, Boolean propertyKitchenEquipment, Boolean propertyWardrobe, Boolean propertyMakeupTable, Boolean propertyDesk, Boolean propertyTivi, Boolean propertyWashingMachine, Boolean propertyRefrigerator, Boolean propertyAirconditioner, Boolean propertyMicrowave, Boolean propertyWaterHeater, Boolean propertyBed, Boolean propertyHeater, Boolean propertyAudioEquipment) {
         this.propertySofa = propertySofa;
         this.propertyDiningTable = propertyDiningTable;
         this.propertyKitchen = propertyKitchen;
@@ -32,7 +32,7 @@ public class FurnitureVM {
         this.propertyTivi = propertyTivi;
         this.propertyWashingMachine = propertyWashingMachine;
         this.propertyRefrigerator = propertyRefrigerator;
-        this.propertyAircondition = propertyAircondition;
+        this.propertyAirconditioner = propertyAirconditioner;
         this.propertyMicrowave = propertyMicrowave;
         this.propertyWaterHeater = propertyWaterHeater;
         this.propertyBed = propertyBed;
@@ -131,12 +131,12 @@ public class FurnitureVM {
         this.propertyRefrigerator = propertyRefrigerator;
     }
 
-    public Boolean getPropertyAircondition() {
-        return propertyAircondition;
+    public Boolean getPropertyAirconditioner() {
+        return propertyAirconditioner;
     }
 
-    public void setPropertyAircondition(Boolean propertyAircondition) {
-        this.propertyAircondition = propertyAircondition;
+    public void setPropertyAirconditioner(Boolean propertyAirconditioner) {
+        this.propertyAirconditioner = propertyAirconditioner;
     }
 
     public Boolean getPropertyMicrowave() {

@@ -36,8 +36,6 @@ export default class PropertyUpdatePage {
   propertyDeskInput: ElementFinder = element(by.css('input#property-propertyDesk'));
   propertyTiviInput: ElementFinder = element(by.css('input#property-propertyTivi'));
   propertyWashingMachineInput: ElementFinder = element(by.css('input#property-propertyWashingMachine'));
-  propertyRefrigeratorInput: ElementFinder = element(by.css('input#property-propertyRefrigerator'));
-  propertyAirconditionInput: ElementFinder = element(by.css('input#property-propertyAircondition'));
   propertyMicrowaveInput: ElementFinder = element(by.css('input#property-propertyMicrowave'));
   propertyWaterHeaterInput: ElementFinder = element(by.css('input#property-propertyWaterHeater'));
   propertyBedInput: ElementFinder = element(by.css('input#property-propertyBed'));
@@ -70,6 +68,8 @@ export default class PropertyUpdatePage {
   propertyIsSoldInput: ElementFinder = element(by.css('input#property-propertyIsSold'));
   propertyIsRentInput: ElementFinder = element(by.css('input#property-propertyIsRent'));
   propertyAvailableInput: ElementFinder = element(by.css('input#property-propertyAvailable'));
+  propertyRefrigeratorInput: ElementFinder = element(by.css('input#property-propertyRefrigerator'));
+  propertyAirconditionerInput: ElementFinder = element(by.css('input#property-propertyAirconditioner'));
   locationSelect: ElementFinder = element(by.css('select#property-location'));
   residentialAreaSelect: ElementFinder = element(by.css('select#property-residentialArea'));
   tagSelect: ElementFinder = element(by.css('select#property-tag'));
@@ -310,12 +310,6 @@ export default class PropertyUpdatePage {
   getPropertyWashingMachineInput() {
     return this.propertyWashingMachineInput;
   }
-  getPropertyRefrigeratorInput() {
-    return this.propertyRefrigeratorInput;
-  }
-  getPropertyAirconditionInput() {
-    return this.propertyAirconditionInput;
-  }
   getPropertyMicrowaveInput() {
     return this.propertyMicrowaveInput;
   }
@@ -461,6 +455,12 @@ export default class PropertyUpdatePage {
   }
   getPropertyAvailableInput() {
     return this.propertyAvailableInput;
+  }
+  getPropertyRefrigeratorInput() {
+    return this.propertyRefrigeratorInput;
+  }
+  getPropertyAirconditionerInput() {
+    return this.propertyAirconditionerInput;
   }
   locationSelectLastOption() {
     this.locationSelect

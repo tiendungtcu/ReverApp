@@ -17,7 +17,6 @@ entity Company{
     companyLinkedin String,
     companyGooglePlus String,
     companyYoutube String,
-    companySlogan String,
     companyDescription TextBlob
 }
 
@@ -173,7 +172,7 @@ entity Notification{
 }
 
 /*
-* SupportCategory entity
+* SupportCategory entity 
 */
 entity SupportCategory{
     categoryName String required,
@@ -223,7 +222,8 @@ entity ResidentialArea{
     residentialProvince String,
     residentialDistrict String,
     residentialBoundary TextBlob,
-    residentialImage ImageBlob
+    //residentialImage ImageBlob,
+    residentialAvatar String
 }
 
 /*
@@ -314,8 +314,6 @@ entity Property{
     propertyDesk Boolean,
     propertyTivi Boolean,
     propertyWashingMachine Boolean,
-    propertyRefrigerator Boolean,
-    propertyAircondition Boolean,
     propertyMicrowave Boolean,
     propertyWaterHeater Boolean,
     propertyBed Boolean,
@@ -347,7 +345,10 @@ entity Property{
     propertySeenCount Long,
     propertyIsSold Boolean,
     propertyIsRent Boolean,
-    propertyAvailable Boolean
+    propertyAvailable Boolean,
+    propertyRefrigerator Boolean,
+    propertyAirconditioner Boolean
+
 }
 
 /*
@@ -575,7 +576,7 @@ relationship OneToMany{
     BlogPost{comment} to Comment{post},
 
     Project{post} to BlogPost{project(projectName)}
-
+    
     //SupportCategory{article} to Article{supportcategory}
 
     //Project{photo} to Photo{project(projectName)},
@@ -629,13 +630,13 @@ relationship ManyToOne{
 
     Employee{department(departmentName)} to Department, // belong to
 
-    Request{property(propertyName)} to Property, // ask for
+    Request{property(propertyName)} to Property, // ask for 
 
     Request{project(projectName)} to Project, // ask for
 
     //FavouriteItem{project(projectName)} to Project,
 
-    //FavouriteItem{property(propertyName)} to Property, //
+    //FavouriteItem{property(propertyName)} to Property, // 
 
     Property{residentialArea(residentialName)} to ResidentialArea, // belong to
 

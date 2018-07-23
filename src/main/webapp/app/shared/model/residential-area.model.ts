@@ -9,8 +9,7 @@ export interface IResidentialArea {
   residentialProvince?: string;
   residentialDistrict?: string;
   residentialBoundary?: any;
-  residentialImageContentType?: string;
-  residentialImage?: any;
+  residentialAvatar?: string;
   photoId?: number;
   tags?: ITag[];
 }

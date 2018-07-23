@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Row, Col } from 'reactstrap';
 // tslint:disable-next-line:no-unused-variable
-import { Translate, ICrudGetAction, openFile, byteSize } from 'react-jhipster';
+import { Translate, ICrudGetAction, byteSize } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IRootState } from 'app/shared/reducers';
@@ -71,25 +71,11 @@ export class ResidentialAreaDetail extends React.Component<IResidentialAreaDetai
             </dt>
             <dd>{residentialAreaEntity.residentialBoundary}</dd>
             <dt>
-              <span id="residentialImage">
-                <Translate contentKey="riverApp.residentialArea.residentialImage">Residential Image</Translate>
+              <span id="residentialAvatar">
+                <Translate contentKey="riverApp.residentialArea.residentialAvatar">Residential Avatar</Translate>
               </span>
             </dt>
-            <dd>
-              {residentialAreaEntity.residentialImage ? (
-                <div>
-                  <a onClick={openFile(residentialAreaEntity.residentialImageContentType, residentialAreaEntity.residentialImage)}>
-                    <img
-                      src={`data:${residentialAreaEntity.residentialImageContentType};base64,${residentialAreaEntity.residentialImage}`}
-                      style={{ maxHeight: '30px' }}
-                    />
-                  </a>
-                  <span>
-                    {residentialAreaEntity.residentialImageContentType}, {byteSize(residentialAreaEntity.residentialImage)}
-                  </span>
-                </div>
-              ) : null}
-            </dd>
+            <dd>{residentialAreaEntity.residentialAvatar}</dd>
             <dt>
               <Translate contentKey="riverApp.residentialArea.photo">Photo</Translate>
             </dt>

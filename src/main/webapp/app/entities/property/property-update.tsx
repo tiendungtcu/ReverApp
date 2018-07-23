@@ -522,18 +522,6 @@ export class PropertyUpdate extends React.Component<IPropertyUpdateProps, IPrope
                   </Label>
                 </AvGroup>
                 <AvGroup>
-                  <Label id="propertyRefrigeratorLabel" check>
-                    <AvInput id="property-propertyRefrigerator" type="checkbox" className="form-control" name="propertyRefrigerator" />
-                    <Translate contentKey="riverApp.property.propertyRefrigerator">Property Refrigerator</Translate>
-                  </Label>
-                </AvGroup>
-                <AvGroup>
-                  <Label id="propertyAirconditionLabel" check>
-                    <AvInput id="property-propertyAircondition" type="checkbox" className="form-control" name="propertyAircondition" />
-                    <Translate contentKey="riverApp.property.propertyAircondition">Property Aircondition</Translate>
-                  </Label>
-                </AvGroup>
-                <AvGroup>
                   <Label id="propertyMicrowaveLabel" check>
                     <AvInput id="property-propertyMicrowave" type="checkbox" className="form-control" name="propertyMicrowave" />
                     <Translate contentKey="riverApp.property.propertyMicrowave">Property Microwave</Translate>
@@ -746,6 +734,18 @@ export class PropertyUpdate extends React.Component<IPropertyUpdateProps, IPrope
                   <Label id="propertyAvailableLabel" check>
                     <AvInput id="property-propertyAvailable" type="checkbox" className="form-control" name="propertyAvailable" />
                     <Translate contentKey="riverApp.property.propertyAvailable">Property Available</Translate>
+                  </Label>
+                </AvGroup>
+                <AvGroup>
+                  <Label id="propertyRefrigeratorLabel" check>
+                    <AvInput id="property-propertyRefrigerator" type="checkbox" className="form-control" name="propertyRefrigerator" />
+                    <Translate contentKey="riverApp.property.propertyRefrigerator">Property Refrigerator</Translate>
+                  </Label>
+                </AvGroup>
+                <AvGroup>
+                  <Label id="propertyAirconditionerLabel" check>
+                    <AvInput id="property-propertyAirconditioner" type="checkbox" className="form-control" name="propertyAirconditioner" />
+                    <Translate contentKey="riverApp.property.propertyAirconditioner">Property Airconditioner</Translate>
                   </Label>
                 </AvGroup>
                 <AvGroup>

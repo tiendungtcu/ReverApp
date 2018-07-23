@@ -59,8 +59,6 @@ export interface IProperty {
   propertyDesk?: boolean;
   propertyTivi?: boolean;
   propertyWashingMachine?: boolean;
-  propertyRefrigerator?: boolean;
-  propertyAircondition?: boolean;
   propertyMicrowave?: boolean;
   propertyWaterHeater?: boolean;
   propertyBed?: boolean;
@@ -94,6 +92,8 @@ export interface IProperty {
   propertyIsSold?: boolean;
   propertyIsRent?: boolean;
   propertyAvailable?: boolean;
+  propertyRefrigerator?: boolean;
+  propertyAirconditioner?: boolean;
   locationId?: number;
   residentialAreaResidentialName?: string;
   residentialAreaId?: number;
@@ -113,8 +113,6 @@ export const defaultValue: Readonly<IProperty> = {
   propertyDesk: false,
   propertyTivi: false,
   propertyWashingMachine: false,
-  propertyRefrigerator: false,
-  propertyAircondition: false,
   propertyMicrowave: false,
   propertyWaterHeater: false,
   propertyBed: false,
@@ -136,5 +134,7 @@ export const defaultValue: Readonly<IProperty> = {
   propertyGoodPrice: false,
   propertyIsSold: false,
   propertyIsRent: false,
-  propertyAvailable: false
+  propertyAvailable: false,
+  propertyRefrigerator: false,
+  propertyAirconditioner: false
 };

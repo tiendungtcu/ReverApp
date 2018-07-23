@@ -51,7 +51,7 @@ public class TagResourceIntTest {
 
     @Autowired
     private TagMapper tagMapper;
-    
+
 
     @Autowired
     private TagService tagService;
@@ -171,7 +171,7 @@ public class TagResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(tag.getId().intValue())))
             .andExpect(jsonPath("$.[*].tagName").value(hasItem(DEFAULT_TAG_NAME.toString())));
     }
-    
+
 
     @Test
     @Transactional

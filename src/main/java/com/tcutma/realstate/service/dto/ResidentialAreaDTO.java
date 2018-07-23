@@ -33,9 +33,7 @@ public class ResidentialAreaDTO implements Serializable {
     @Lob
     private String residentialBoundary;
 
-    @Lob
-    private byte[] residentialImage;
-    private String residentialImageContentType;
+    private String residentialAvatar;
 
     private Long photoId;
 
@@ -105,20 +103,12 @@ public class ResidentialAreaDTO implements Serializable {
         this.residentialBoundary = residentialBoundary;
     }
 
-    public byte[] getResidentialImage() {
-        return residentialImage;
+    public String getResidentialAvatar() {
+        return residentialAvatar;
     }
 
-    public void setResidentialImage(byte[] residentialImage) {
-        this.residentialImage = residentialImage;
-    }
-
-    public String getResidentialImageContentType() {
-        return residentialImageContentType;
-    }
-
-    public void setResidentialImageContentType(String residentialImageContentType) {
-        this.residentialImageContentType = residentialImageContentType;
+    public void setResidentialAvatar(String residentialAvatar) {
+        this.residentialAvatar = residentialAvatar;
     }
 
     public Long getPhotoId() {
@@ -169,7 +159,7 @@ public class ResidentialAreaDTO implements Serializable {
             ", residentialProvince='" + getResidentialProvince() + "'" +
             ", residentialDistrict='" + getResidentialDistrict() + "'" +
             ", residentialBoundary='" + getResidentialBoundary() + "'" +
-            ", residentialImage='" + getResidentialImage() + "'" +
+            ", residentialAvatar='" + getResidentialAvatar() + "'" +
             ", photo=" + getPhotoId() +
             "}";
     }

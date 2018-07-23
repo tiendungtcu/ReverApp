@@ -11,4 +11,40 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "application", ignoreUnknownFields = false)
 public class ApplicationProperties {
 
+    private  String uploadDir;
+
+    private String photoDir;
+
+    private String documentDir;
+
+    public String getUploadDir() {
+        return uploadDir;
+    }
+
+    public void setUploadDir(String uploadDir) {
+        this.uploadDir = uploadDir;
+    }
+
+    public String getPhotoDir() {
+        return photoDir;
+    }
+
+    public void setPhotoDir(String photoDir) {
+        this.photoDir = photoDir;
+    }
+
+    public String getDocumentDir() {
+        return documentDir;
+    }
+
+    public void setDocumentDir(String documentDir) {
+        this.documentDir = documentDir;
+    }
+
+    public ApplicationProperties() {
+    }
+
+    public ApplicationProperties(String uploadDir) {
+        this.uploadDir = uploadDir;
+    }
 }

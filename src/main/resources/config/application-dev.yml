@@ -74,6 +74,16 @@ spring:
         locator:
             discovery:
                 enabled: true
+# This is my part to upload file
+#  If this succeed, move this code block to application.yml
+    servlet:
+        multipart:
+          enabled: true
+          file-size-threshold: 2KB
+          max-file-size: 20MB
+          max-request-size: 215MB
+
+# End of my part
 
 # ===================================================================
 # To enable SSL, generate a certificate using:
@@ -149,3 +159,11 @@ jhipster:
 # ===================================================================
 
 # application:
+
+# This is my codes
+application:
+   upload-dir: ./uploads/files
+   photo-dir: ./uploads/photos
+   document-dir: ./uploads/documents
+
+# End of my codes

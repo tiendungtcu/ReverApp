@@ -10,7 +10,6 @@ import com.tcutma.realstate.service.ResidentialAreaService;
 import com.tcutma.realstate.service.dto.ResidentialAreaDTO;
 import com.tcutma.realstate.service.mapper.ResidentialAreaMapper;
 import com.tcutma.realstate.web.rest.errors.ExceptionTranslator;
-import com.tcutma.realstate.service.dto.ResidentialAreaCriteria;
 import com.tcutma.realstate.service.ResidentialAreaQueryService;
 
 import org.junit.Before;
@@ -21,7 +20,6 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -29,7 +27,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Base64Utils;
 
 import javax.persistence.EntityManager;
 import java.util.ArrayList;
@@ -73,10 +70,8 @@ public class ResidentialAreaResourceIntTest {
     private static final String DEFAULT_RESIDENTIAL_BOUNDARY = "AAAAAAAAAA";
     private static final String UPDATED_RESIDENTIAL_BOUNDARY = "BBBBBBBBBB";
 
-    private static final byte[] DEFAULT_RESIDENTIAL_IMAGE = TestUtil.createByteArray(1, "0");
-    private static final byte[] UPDATED_RESIDENTIAL_IMAGE = TestUtil.createByteArray(2, "1");
-    private static final String DEFAULT_RESIDENTIAL_IMAGE_CONTENT_TYPE = "image/jpg";
-    private static final String UPDATED_RESIDENTIAL_IMAGE_CONTENT_TYPE = "image/png";
+    private static final String DEFAULT_RESIDENTIAL_AVATAR = "AAAAAAAAAA";
+    private static final String UPDATED_RESIDENTIAL_AVATAR = "BBBBBBBBBB";
 
     @Autowired
     private ResidentialAreaRepository residentialAreaRepository;
@@ -85,7 +80,7 @@ public class ResidentialAreaResourceIntTest {
 
     @Autowired
     private ResidentialAreaMapper residentialAreaMapper;
-    
+
     @Mock
     private ResidentialAreaService residentialAreaServiceMock;
 
@@ -114,7 +109,7 @@ public class ResidentialAreaResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final ResidentialAreaResource residentialAreaResource = new ResidentialAreaResource(residentialAreaService, residentialAreaQueryService);
+        final ResidentialAreaResource residentialAreaResource = new ResidentialAreaResource(residentialAreaService, residentialAreaQueryService, fileStorageService);
         this.restResidentialAreaMockMvc = MockMvcBuilders.standaloneSetup(residentialAreaResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -137,8 +132,7 @@ public class ResidentialAreaResourceIntTest {
             .residentialProvince(DEFAULT_RESIDENTIAL_PROVINCE)
             .residentialDistrict(DEFAULT_RESIDENTIAL_DISTRICT)
             .residentialBoundary(DEFAULT_RESIDENTIAL_BOUNDARY)
-            .residentialImage(DEFAULT_RESIDENTIAL_IMAGE)
-            .residentialImageContentType(DEFAULT_RESIDENTIAL_IMAGE_CONTENT_TYPE);
+            .residentialAvatar(DEFAULT_RESIDENTIAL_AVATAR);
         return residentialArea;
     }
 
@@ -170,8 +164,7 @@ public class ResidentialAreaResourceIntTest {
         assertThat(testResidentialArea.getResidentialProvince()).isEqualTo(DEFAULT_RESIDENTIAL_PROVINCE);
         assertThat(testResidentialArea.getResidentialDistrict()).isEqualTo(DEFAULT_RESIDENTIAL_DISTRICT);
         assertThat(testResidentialArea.getResidentialBoundary()).isEqualTo(DEFAULT_RESIDENTIAL_BOUNDARY);
-        assertThat(testResidentialArea.getResidentialImage()).isEqualTo(DEFAULT_RESIDENTIAL_IMAGE);
-        assertThat(testResidentialArea.getResidentialImageContentType()).isEqualTo(DEFAULT_RESIDENTIAL_IMAGE_CONTENT_TYPE);
+        assertThat(testResidentialArea.getResidentialAvatar()).isEqualTo(DEFAULT_RESIDENTIAL_AVATAR);
     }
 
     @Test
@@ -250,12 +243,11 @@ public class ResidentialAreaResourceIntTest {
             .andExpect(jsonPath("$.[*].residentialProvince").value(hasItem(DEFAULT_RESIDENTIAL_PROVINCE.toString())))
             .andExpect(jsonPath("$.[*].residentialDistrict").value(hasItem(DEFAULT_RESIDENTIAL_DISTRICT.toString())))
             .andExpect(jsonPath("$.[*].residentialBoundary").value(hasItem(DEFAULT_RESIDENTIAL_BOUNDARY.toString())))
-            .andExpect(jsonPath("$.[*].residentialImageContentType").value(hasItem(DEFAULT_RESIDENTIAL_IMAGE_CONTENT_TYPE)))
-            .andExpect(jsonPath("$.[*].residentialImage").value(hasItem(Base64Utils.encodeToString(DEFAULT_RESIDENTIAL_IMAGE))));
+            .andExpect(jsonPath("$.[*].residentialAvatar").value(hasItem(DEFAULT_RESIDENTIAL_AVATAR.toString())));
     }
-    
+
     public void getAllResidentialAreasWithEagerRelationshipsIsEnabled() throws Exception {
-        ResidentialAreaResource residentialAreaResource = new ResidentialAreaResource(residentialAreaServiceMock, residentialAreaQueryService);
+        ResidentialAreaResource residentialAreaResource = new ResidentialAreaResource(residentialAreaServiceMock, residentialAreaQueryService, fileStorageService);
         when(residentialAreaServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
 
         MockMvc restResidentialAreaMockMvc = MockMvcBuilders.standaloneSetup(residentialAreaResource)
@@ -271,7 +263,7 @@ public class ResidentialAreaResourceIntTest {
     }
 
     public void getAllResidentialAreasWithEagerRelationshipsIsNotEnabled() throws Exception {
-        ResidentialAreaResource residentialAreaResource = new ResidentialAreaResource(residentialAreaServiceMock, residentialAreaQueryService);
+        ResidentialAreaResource residentialAreaResource = new ResidentialAreaResource(residentialAreaServiceMock, residentialAreaQueryService, fileStorageService);
             when(residentialAreaServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
             MockMvc restResidentialAreaMockMvc = MockMvcBuilders.standaloneSetup(residentialAreaResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
@@ -303,8 +295,7 @@ public class ResidentialAreaResourceIntTest {
             .andExpect(jsonPath("$.residentialProvince").value(DEFAULT_RESIDENTIAL_PROVINCE.toString()))
             .andExpect(jsonPath("$.residentialDistrict").value(DEFAULT_RESIDENTIAL_DISTRICT.toString()))
             .andExpect(jsonPath("$.residentialBoundary").value(DEFAULT_RESIDENTIAL_BOUNDARY.toString()))
-            .andExpect(jsonPath("$.residentialImageContentType").value(DEFAULT_RESIDENTIAL_IMAGE_CONTENT_TYPE))
-            .andExpect(jsonPath("$.residentialImage").value(Base64Utils.encodeToString(DEFAULT_RESIDENTIAL_IMAGE)));
+            .andExpect(jsonPath("$.residentialAvatar").value(DEFAULT_RESIDENTIAL_AVATAR.toString()));
     }
 
     @Test
@@ -465,6 +456,45 @@ public class ResidentialAreaResourceIntTest {
 
     @Test
     @Transactional
+    public void getAllResidentialAreasByResidentialAvatarIsEqualToSomething() throws Exception {
+        // Initialize the database
+        residentialAreaRepository.saveAndFlush(residentialArea);
+
+        // Get all the residentialAreaList where residentialAvatar equals to DEFAULT_RESIDENTIAL_AVATAR
+        defaultResidentialAreaShouldBeFound("residentialAvatar.equals=" + DEFAULT_RESIDENTIAL_AVATAR);
+
+        // Get all the residentialAreaList where residentialAvatar equals to UPDATED_RESIDENTIAL_AVATAR
+        defaultResidentialAreaShouldNotBeFound("residentialAvatar.equals=" + UPDATED_RESIDENTIAL_AVATAR);
+    }
+
+    @Test
+    @Transactional
+    public void getAllResidentialAreasByResidentialAvatarIsInShouldWork() throws Exception {
+        // Initialize the database
+        residentialAreaRepository.saveAndFlush(residentialArea);
+
+        // Get all the residentialAreaList where residentialAvatar in DEFAULT_RESIDENTIAL_AVATAR or UPDATED_RESIDENTIAL_AVATAR
+        defaultResidentialAreaShouldBeFound("residentialAvatar.in=" + DEFAULT_RESIDENTIAL_AVATAR + "," + UPDATED_RESIDENTIAL_AVATAR);
+
+        // Get all the residentialAreaList where residentialAvatar equals to UPDATED_RESIDENTIAL_AVATAR
+        defaultResidentialAreaShouldNotBeFound("residentialAvatar.in=" + UPDATED_RESIDENTIAL_AVATAR);
+    }
+
+    @Test
+    @Transactional
+    public void getAllResidentialAreasByResidentialAvatarIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        residentialAreaRepository.saveAndFlush(residentialArea);
+
+        // Get all the residentialAreaList where residentialAvatar is not null
+        defaultResidentialAreaShouldBeFound("residentialAvatar.specified=true");
+
+        // Get all the residentialAreaList where residentialAvatar is null
+        defaultResidentialAreaShouldNotBeFound("residentialAvatar.specified=false");
+    }
+
+    @Test
+    @Transactional
     public void getAllResidentialAreasByPhotoIsEqualToSomething() throws Exception {
         // Initialize the database
         Photo photo = PhotoResourceIntTest.createEntity(em);
@@ -515,8 +545,7 @@ public class ResidentialAreaResourceIntTest {
             .andExpect(jsonPath("$.[*].residentialProvince").value(hasItem(DEFAULT_RESIDENTIAL_PROVINCE.toString())))
             .andExpect(jsonPath("$.[*].residentialDistrict").value(hasItem(DEFAULT_RESIDENTIAL_DISTRICT.toString())))
             .andExpect(jsonPath("$.[*].residentialBoundary").value(hasItem(DEFAULT_RESIDENTIAL_BOUNDARY.toString())))
-            .andExpect(jsonPath("$.[*].residentialImageContentType").value(hasItem(DEFAULT_RESIDENTIAL_IMAGE_CONTENT_TYPE)))
-            .andExpect(jsonPath("$.[*].residentialImage").value(hasItem(Base64Utils.encodeToString(DEFAULT_RESIDENTIAL_IMAGE))));
+            .andExpect(jsonPath("$.[*].residentialAvatar").value(hasItem(DEFAULT_RESIDENTIAL_AVATAR.toString())));
     }
 
     /**
@@ -558,8 +587,7 @@ public class ResidentialAreaResourceIntTest {
             .residentialProvince(UPDATED_RESIDENTIAL_PROVINCE)
             .residentialDistrict(UPDATED_RESIDENTIAL_DISTRICT)
             .residentialBoundary(UPDATED_RESIDENTIAL_BOUNDARY)
-            .residentialImage(UPDATED_RESIDENTIAL_IMAGE)
-            .residentialImageContentType(UPDATED_RESIDENTIAL_IMAGE_CONTENT_TYPE);
+            .residentialAvatar(UPDATED_RESIDENTIAL_AVATAR);
         ResidentialAreaDTO residentialAreaDTO = residentialAreaMapper.toDto(updatedResidentialArea);
 
         restResidentialAreaMockMvc.perform(put("/api/residential-areas")
@@ -578,8 +606,7 @@ public class ResidentialAreaResourceIntTest {
         assertThat(testResidentialArea.getResidentialProvince()).isEqualTo(UPDATED_RESIDENTIAL_PROVINCE);
         assertThat(testResidentialArea.getResidentialDistrict()).isEqualTo(UPDATED_RESIDENTIAL_DISTRICT);
         assertThat(testResidentialArea.getResidentialBoundary()).isEqualTo(UPDATED_RESIDENTIAL_BOUNDARY);
-        assertThat(testResidentialArea.getResidentialImage()).isEqualTo(UPDATED_RESIDENTIAL_IMAGE);
-        assertThat(testResidentialArea.getResidentialImageContentType()).isEqualTo(UPDATED_RESIDENTIAL_IMAGE_CONTENT_TYPE);
+        assertThat(testResidentialArea.getResidentialAvatar()).isEqualTo(UPDATED_RESIDENTIAL_AVATAR);
     }
 
     @Test

@@ -160,12 +160,6 @@ public class PropertyResourceIntTest {
     private static final Boolean DEFAULT_PROPERTY_WASHING_MACHINE = false;
     private static final Boolean UPDATED_PROPERTY_WASHING_MACHINE = true;
 
-    private static final Boolean DEFAULT_PROPERTY_REFRIGERATOR = false;
-    private static final Boolean UPDATED_PROPERTY_REFRIGERATOR = true;
-
-    private static final Boolean DEFAULT_PROPERTY_AIRCONDITION = false;
-    private static final Boolean UPDATED_PROPERTY_AIRCONDITION = true;
-
     private static final Boolean DEFAULT_PROPERTY_MICROWAVE = false;
     private static final Boolean UPDATED_PROPERTY_MICROWAVE = true;
 
@@ -264,6 +258,12 @@ public class PropertyResourceIntTest {
     private static final Boolean DEFAULT_PROPERTY_AVAILABLE = false;
     private static final Boolean UPDATED_PROPERTY_AVAILABLE = true;
 
+    private static final Boolean DEFAULT_PROPERTY_REFRIGERATOR = false;
+    private static final Boolean UPDATED_PROPERTY_REFRIGERATOR = true;
+
+    private static final Boolean DEFAULT_PROPERTY_AIRCONDITIONER = false;
+    private static final Boolean UPDATED_PROPERTY_AIRCONDITIONER = true;
+
     @Autowired
     private PropertyRepository propertyRepository;
     @Mock
@@ -348,8 +348,6 @@ public class PropertyResourceIntTest {
             .propertyDesk(DEFAULT_PROPERTY_DESK)
             .propertyTivi(DEFAULT_PROPERTY_TIVI)
             .propertyWashingMachine(DEFAULT_PROPERTY_WASHING_MACHINE)
-            .propertyRefrigerator(DEFAULT_PROPERTY_REFRIGERATOR)
-            .propertyAircondition(DEFAULT_PROPERTY_AIRCONDITION)
             .propertyMicrowave(DEFAULT_PROPERTY_MICROWAVE)
             .propertyWaterHeater(DEFAULT_PROPERTY_WATER_HEATER)
             .propertyBed(DEFAULT_PROPERTY_BED)
@@ -382,7 +380,9 @@ public class PropertyResourceIntTest {
             .propertySeenCount(DEFAULT_PROPERTY_SEEN_COUNT)
             .propertyIsSold(DEFAULT_PROPERTY_IS_SOLD)
             .propertyIsRent(DEFAULT_PROPERTY_IS_RENT)
-            .propertyAvailable(DEFAULT_PROPERTY_AVAILABLE);
+            .propertyAvailable(DEFAULT_PROPERTY_AVAILABLE)
+            .propertyRefrigerator(DEFAULT_PROPERTY_REFRIGERATOR)
+            .propertyAirconditioner(DEFAULT_PROPERTY_AIRCONDITIONER);
         return property;
     }
 
@@ -439,8 +439,6 @@ public class PropertyResourceIntTest {
         assertThat(testProperty.isPropertyDesk()).isEqualTo(DEFAULT_PROPERTY_DESK);
         assertThat(testProperty.isPropertyTivi()).isEqualTo(DEFAULT_PROPERTY_TIVI);
         assertThat(testProperty.isPropertyWashingMachine()).isEqualTo(DEFAULT_PROPERTY_WASHING_MACHINE);
-        assertThat(testProperty.isPropertyRefrigerator()).isEqualTo(DEFAULT_PROPERTY_REFRIGERATOR);
-        assertThat(testProperty.isPropertyAircondition()).isEqualTo(DEFAULT_PROPERTY_AIRCONDITION);
         assertThat(testProperty.isPropertyMicrowave()).isEqualTo(DEFAULT_PROPERTY_MICROWAVE);
         assertThat(testProperty.isPropertyWaterHeater()).isEqualTo(DEFAULT_PROPERTY_WATER_HEATER);
         assertThat(testProperty.isPropertyBed()).isEqualTo(DEFAULT_PROPERTY_BED);
@@ -474,6 +472,8 @@ public class PropertyResourceIntTest {
         assertThat(testProperty.isPropertyIsSold()).isEqualTo(DEFAULT_PROPERTY_IS_SOLD);
         assertThat(testProperty.isPropertyIsRent()).isEqualTo(DEFAULT_PROPERTY_IS_RENT);
         assertThat(testProperty.isPropertyAvailable()).isEqualTo(DEFAULT_PROPERTY_AVAILABLE);
+        assertThat(testProperty.isPropertyRefrigerator()).isEqualTo(DEFAULT_PROPERTY_REFRIGERATOR);
+        assertThat(testProperty.isPropertyAirconditioner()).isEqualTo(DEFAULT_PROPERTY_AIRCONDITIONER);
     }
 
     @Test
@@ -577,8 +577,6 @@ public class PropertyResourceIntTest {
             .andExpect(jsonPath("$.[*].propertyDesk").value(hasItem(DEFAULT_PROPERTY_DESK.booleanValue())))
             .andExpect(jsonPath("$.[*].propertyTivi").value(hasItem(DEFAULT_PROPERTY_TIVI.booleanValue())))
             .andExpect(jsonPath("$.[*].propertyWashingMachine").value(hasItem(DEFAULT_PROPERTY_WASHING_MACHINE.booleanValue())))
-            .andExpect(jsonPath("$.[*].propertyRefrigerator").value(hasItem(DEFAULT_PROPERTY_REFRIGERATOR.booleanValue())))
-            .andExpect(jsonPath("$.[*].propertyAircondition").value(hasItem(DEFAULT_PROPERTY_AIRCONDITION.booleanValue())))
             .andExpect(jsonPath("$.[*].propertyMicrowave").value(hasItem(DEFAULT_PROPERTY_MICROWAVE.booleanValue())))
             .andExpect(jsonPath("$.[*].propertyWaterHeater").value(hasItem(DEFAULT_PROPERTY_WATER_HEATER.booleanValue())))
             .andExpect(jsonPath("$.[*].propertyBed").value(hasItem(DEFAULT_PROPERTY_BED.booleanValue())))
@@ -611,7 +609,9 @@ public class PropertyResourceIntTest {
             .andExpect(jsonPath("$.[*].propertySeenCount").value(hasItem(DEFAULT_PROPERTY_SEEN_COUNT.intValue())))
             .andExpect(jsonPath("$.[*].propertyIsSold").value(hasItem(DEFAULT_PROPERTY_IS_SOLD.booleanValue())))
             .andExpect(jsonPath("$.[*].propertyIsRent").value(hasItem(DEFAULT_PROPERTY_IS_RENT.booleanValue())))
-            .andExpect(jsonPath("$.[*].propertyAvailable").value(hasItem(DEFAULT_PROPERTY_AVAILABLE.booleanValue())));
+            .andExpect(jsonPath("$.[*].propertyAvailable").value(hasItem(DEFAULT_PROPERTY_AVAILABLE.booleanValue())))
+            .andExpect(jsonPath("$.[*].propertyRefrigerator").value(hasItem(DEFAULT_PROPERTY_REFRIGERATOR.booleanValue())))
+            .andExpect(jsonPath("$.[*].propertyAirconditioner").value(hasItem(DEFAULT_PROPERTY_AIRCONDITIONER.booleanValue())));
     }
     
     public void getAllPropertiesWithEagerRelationshipsIsEnabled() throws Exception {
@@ -688,8 +688,6 @@ public class PropertyResourceIntTest {
             .andExpect(jsonPath("$.propertyDesk").value(DEFAULT_PROPERTY_DESK.booleanValue()))
             .andExpect(jsonPath("$.propertyTivi").value(DEFAULT_PROPERTY_TIVI.booleanValue()))
             .andExpect(jsonPath("$.propertyWashingMachine").value(DEFAULT_PROPERTY_WASHING_MACHINE.booleanValue()))
-            .andExpect(jsonPath("$.propertyRefrigerator").value(DEFAULT_PROPERTY_REFRIGERATOR.booleanValue()))
-            .andExpect(jsonPath("$.propertyAircondition").value(DEFAULT_PROPERTY_AIRCONDITION.booleanValue()))
             .andExpect(jsonPath("$.propertyMicrowave").value(DEFAULT_PROPERTY_MICROWAVE.booleanValue()))
             .andExpect(jsonPath("$.propertyWaterHeater").value(DEFAULT_PROPERTY_WATER_HEATER.booleanValue()))
             .andExpect(jsonPath("$.propertyBed").value(DEFAULT_PROPERTY_BED.booleanValue()))
@@ -722,7 +720,9 @@ public class PropertyResourceIntTest {
             .andExpect(jsonPath("$.propertySeenCount").value(DEFAULT_PROPERTY_SEEN_COUNT.intValue()))
             .andExpect(jsonPath("$.propertyIsSold").value(DEFAULT_PROPERTY_IS_SOLD.booleanValue()))
             .andExpect(jsonPath("$.propertyIsRent").value(DEFAULT_PROPERTY_IS_RENT.booleanValue()))
-            .andExpect(jsonPath("$.propertyAvailable").value(DEFAULT_PROPERTY_AVAILABLE.booleanValue()));
+            .andExpect(jsonPath("$.propertyAvailable").value(DEFAULT_PROPERTY_AVAILABLE.booleanValue()))
+            .andExpect(jsonPath("$.propertyRefrigerator").value(DEFAULT_PROPERTY_REFRIGERATOR.booleanValue()))
+            .andExpect(jsonPath("$.propertyAirconditioner").value(DEFAULT_PROPERTY_AIRCONDITIONER.booleanValue()));
     }
 
     @Test
@@ -2044,84 +2044,6 @@ public class PropertyResourceIntTest {
 
     @Test
     @Transactional
-    public void getAllPropertiesByPropertyRefrigeratorIsEqualToSomething() throws Exception {
-        // Initialize the database
-        propertyRepository.saveAndFlush(property);
-
-        // Get all the propertyList where propertyRefrigerator equals to DEFAULT_PROPERTY_REFRIGERATOR
-        defaultPropertyShouldBeFound("propertyRefrigerator.equals=" + DEFAULT_PROPERTY_REFRIGERATOR);
-
-        // Get all the propertyList where propertyRefrigerator equals to UPDATED_PROPERTY_REFRIGERATOR
-        defaultPropertyShouldNotBeFound("propertyRefrigerator.equals=" + UPDATED_PROPERTY_REFRIGERATOR);
-    }
-
-    @Test
-    @Transactional
-    public void getAllPropertiesByPropertyRefrigeratorIsInShouldWork() throws Exception {
-        // Initialize the database
-        propertyRepository.saveAndFlush(property);
-
-        // Get all the propertyList where propertyRefrigerator in DEFAULT_PROPERTY_REFRIGERATOR or UPDATED_PROPERTY_REFRIGERATOR
-        defaultPropertyShouldBeFound("propertyRefrigerator.in=" + DEFAULT_PROPERTY_REFRIGERATOR + "," + UPDATED_PROPERTY_REFRIGERATOR);
-
-        // Get all the propertyList where propertyRefrigerator equals to UPDATED_PROPERTY_REFRIGERATOR
-        defaultPropertyShouldNotBeFound("propertyRefrigerator.in=" + UPDATED_PROPERTY_REFRIGERATOR);
-    }
-
-    @Test
-    @Transactional
-    public void getAllPropertiesByPropertyRefrigeratorIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        propertyRepository.saveAndFlush(property);
-
-        // Get all the propertyList where propertyRefrigerator is not null
-        defaultPropertyShouldBeFound("propertyRefrigerator.specified=true");
-
-        // Get all the propertyList where propertyRefrigerator is null
-        defaultPropertyShouldNotBeFound("propertyRefrigerator.specified=false");
-    }
-
-    @Test
-    @Transactional
-    public void getAllPropertiesByPropertyAirconditionIsEqualToSomething() throws Exception {
-        // Initialize the database
-        propertyRepository.saveAndFlush(property);
-
-        // Get all the propertyList where propertyAircondition equals to DEFAULT_PROPERTY_AIRCONDITION
-        defaultPropertyShouldBeFound("propertyAircondition.equals=" + DEFAULT_PROPERTY_AIRCONDITION);
-
-        // Get all the propertyList where propertyAircondition equals to UPDATED_PROPERTY_AIRCONDITION
-        defaultPropertyShouldNotBeFound("propertyAircondition.equals=" + UPDATED_PROPERTY_AIRCONDITION);
-    }
-
-    @Test
-    @Transactional
-    public void getAllPropertiesByPropertyAirconditionIsInShouldWork() throws Exception {
-        // Initialize the database
-        propertyRepository.saveAndFlush(property);
-
-        // Get all the propertyList where propertyAircondition in DEFAULT_PROPERTY_AIRCONDITION or UPDATED_PROPERTY_AIRCONDITION
-        defaultPropertyShouldBeFound("propertyAircondition.in=" + DEFAULT_PROPERTY_AIRCONDITION + "," + UPDATED_PROPERTY_AIRCONDITION);
-
-        // Get all the propertyList where propertyAircondition equals to UPDATED_PROPERTY_AIRCONDITION
-        defaultPropertyShouldNotBeFound("propertyAircondition.in=" + UPDATED_PROPERTY_AIRCONDITION);
-    }
-
-    @Test
-    @Transactional
-    public void getAllPropertiesByPropertyAirconditionIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        propertyRepository.saveAndFlush(property);
-
-        // Get all the propertyList where propertyAircondition is not null
-        defaultPropertyShouldBeFound("propertyAircondition.specified=true");
-
-        // Get all the propertyList where propertyAircondition is null
-        defaultPropertyShouldNotBeFound("propertyAircondition.specified=false");
-    }
-
-    @Test
-    @Transactional
     public void getAllPropertiesByPropertyMicrowaveIsEqualToSomething() throws Exception {
         // Initialize the database
         propertyRepository.saveAndFlush(property);
@@ -3358,6 +3280,84 @@ public class PropertyResourceIntTest {
 
     @Test
     @Transactional
+    public void getAllPropertiesByPropertyRefrigeratorIsEqualToSomething() throws Exception {
+        // Initialize the database
+        propertyRepository.saveAndFlush(property);
+
+        // Get all the propertyList where propertyRefrigerator equals to DEFAULT_PROPERTY_REFRIGERATOR
+        defaultPropertyShouldBeFound("propertyRefrigerator.equals=" + DEFAULT_PROPERTY_REFRIGERATOR);
+
+        // Get all the propertyList where propertyRefrigerator equals to UPDATED_PROPERTY_REFRIGERATOR
+        defaultPropertyShouldNotBeFound("propertyRefrigerator.equals=" + UPDATED_PROPERTY_REFRIGERATOR);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPropertiesByPropertyRefrigeratorIsInShouldWork() throws Exception {
+        // Initialize the database
+        propertyRepository.saveAndFlush(property);
+
+        // Get all the propertyList where propertyRefrigerator in DEFAULT_PROPERTY_REFRIGERATOR or UPDATED_PROPERTY_REFRIGERATOR
+        defaultPropertyShouldBeFound("propertyRefrigerator.in=" + DEFAULT_PROPERTY_REFRIGERATOR + "," + UPDATED_PROPERTY_REFRIGERATOR);
+
+        // Get all the propertyList where propertyRefrigerator equals to UPDATED_PROPERTY_REFRIGERATOR
+        defaultPropertyShouldNotBeFound("propertyRefrigerator.in=" + UPDATED_PROPERTY_REFRIGERATOR);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPropertiesByPropertyRefrigeratorIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        propertyRepository.saveAndFlush(property);
+
+        // Get all the propertyList where propertyRefrigerator is not null
+        defaultPropertyShouldBeFound("propertyRefrigerator.specified=true");
+
+        // Get all the propertyList where propertyRefrigerator is null
+        defaultPropertyShouldNotBeFound("propertyRefrigerator.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllPropertiesByPropertyAirconditionerIsEqualToSomething() throws Exception {
+        // Initialize the database
+        propertyRepository.saveAndFlush(property);
+
+        // Get all the propertyList where propertyAirconditioner equals to DEFAULT_PROPERTY_AIRCONDITIONER
+        defaultPropertyShouldBeFound("propertyAirconditioner.equals=" + DEFAULT_PROPERTY_AIRCONDITIONER);
+
+        // Get all the propertyList where propertyAirconditioner equals to UPDATED_PROPERTY_AIRCONDITIONER
+        defaultPropertyShouldNotBeFound("propertyAirconditioner.equals=" + UPDATED_PROPERTY_AIRCONDITIONER);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPropertiesByPropertyAirconditionerIsInShouldWork() throws Exception {
+        // Initialize the database
+        propertyRepository.saveAndFlush(property);
+
+        // Get all the propertyList where propertyAirconditioner in DEFAULT_PROPERTY_AIRCONDITIONER or UPDATED_PROPERTY_AIRCONDITIONER
+        defaultPropertyShouldBeFound("propertyAirconditioner.in=" + DEFAULT_PROPERTY_AIRCONDITIONER + "," + UPDATED_PROPERTY_AIRCONDITIONER);
+
+        // Get all the propertyList where propertyAirconditioner equals to UPDATED_PROPERTY_AIRCONDITIONER
+        defaultPropertyShouldNotBeFound("propertyAirconditioner.in=" + UPDATED_PROPERTY_AIRCONDITIONER);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPropertiesByPropertyAirconditionerIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        propertyRepository.saveAndFlush(property);
+
+        // Get all the propertyList where propertyAirconditioner is not null
+        defaultPropertyShouldBeFound("propertyAirconditioner.specified=true");
+
+        // Get all the propertyList where propertyAirconditioner is null
+        defaultPropertyShouldNotBeFound("propertyAirconditioner.specified=false");
+    }
+
+    @Test
+    @Transactional
     public void getAllPropertiesByLocationIsEqualToSomething() throws Exception {
         // Initialize the database
         Location location = LocationResourceIntTest.createEntity(em);
@@ -3490,8 +3490,6 @@ public class PropertyResourceIntTest {
             .andExpect(jsonPath("$.[*].propertyDesk").value(hasItem(DEFAULT_PROPERTY_DESK.booleanValue())))
             .andExpect(jsonPath("$.[*].propertyTivi").value(hasItem(DEFAULT_PROPERTY_TIVI.booleanValue())))
             .andExpect(jsonPath("$.[*].propertyWashingMachine").value(hasItem(DEFAULT_PROPERTY_WASHING_MACHINE.booleanValue())))
-            .andExpect(jsonPath("$.[*].propertyRefrigerator").value(hasItem(DEFAULT_PROPERTY_REFRIGERATOR.booleanValue())))
-            .andExpect(jsonPath("$.[*].propertyAircondition").value(hasItem(DEFAULT_PROPERTY_AIRCONDITION.booleanValue())))
             .andExpect(jsonPath("$.[*].propertyMicrowave").value(hasItem(DEFAULT_PROPERTY_MICROWAVE.booleanValue())))
             .andExpect(jsonPath("$.[*].propertyWaterHeater").value(hasItem(DEFAULT_PROPERTY_WATER_HEATER.booleanValue())))
             .andExpect(jsonPath("$.[*].propertyBed").value(hasItem(DEFAULT_PROPERTY_BED.booleanValue())))
@@ -3524,7 +3522,9 @@ public class PropertyResourceIntTest {
             .andExpect(jsonPath("$.[*].propertySeenCount").value(hasItem(DEFAULT_PROPERTY_SEEN_COUNT.intValue())))
             .andExpect(jsonPath("$.[*].propertyIsSold").value(hasItem(DEFAULT_PROPERTY_IS_SOLD.booleanValue())))
             .andExpect(jsonPath("$.[*].propertyIsRent").value(hasItem(DEFAULT_PROPERTY_IS_RENT.booleanValue())))
-            .andExpect(jsonPath("$.[*].propertyAvailable").value(hasItem(DEFAULT_PROPERTY_AVAILABLE.booleanValue())));
+            .andExpect(jsonPath("$.[*].propertyAvailable").value(hasItem(DEFAULT_PROPERTY_AVAILABLE.booleanValue())))
+            .andExpect(jsonPath("$.[*].propertyRefrigerator").value(hasItem(DEFAULT_PROPERTY_REFRIGERATOR.booleanValue())))
+            .andExpect(jsonPath("$.[*].propertyAirconditioner").value(hasItem(DEFAULT_PROPERTY_AIRCONDITIONER.booleanValue())));
     }
 
     /**
@@ -3591,8 +3591,6 @@ public class PropertyResourceIntTest {
             .propertyDesk(UPDATED_PROPERTY_DESK)
             .propertyTivi(UPDATED_PROPERTY_TIVI)
             .propertyWashingMachine(UPDATED_PROPERTY_WASHING_MACHINE)
-            .propertyRefrigerator(UPDATED_PROPERTY_REFRIGERATOR)
-            .propertyAircondition(UPDATED_PROPERTY_AIRCONDITION)
             .propertyMicrowave(UPDATED_PROPERTY_MICROWAVE)
             .propertyWaterHeater(UPDATED_PROPERTY_WATER_HEATER)
             .propertyBed(UPDATED_PROPERTY_BED)
@@ -3625,7 +3623,9 @@ public class PropertyResourceIntTest {
             .propertySeenCount(UPDATED_PROPERTY_SEEN_COUNT)
             .propertyIsSold(UPDATED_PROPERTY_IS_SOLD)
             .propertyIsRent(UPDATED_PROPERTY_IS_RENT)
-            .propertyAvailable(UPDATED_PROPERTY_AVAILABLE);
+            .propertyAvailable(UPDATED_PROPERTY_AVAILABLE)
+            .propertyRefrigerator(UPDATED_PROPERTY_REFRIGERATOR)
+            .propertyAirconditioner(UPDATED_PROPERTY_AIRCONDITIONER);
         PropertyDTO propertyDTO = propertyMapper.toDto(updatedProperty);
 
         restPropertyMockMvc.perform(put("/api/properties")
@@ -3669,8 +3669,6 @@ public class PropertyResourceIntTest {
         assertThat(testProperty.isPropertyDesk()).isEqualTo(UPDATED_PROPERTY_DESK);
         assertThat(testProperty.isPropertyTivi()).isEqualTo(UPDATED_PROPERTY_TIVI);
         assertThat(testProperty.isPropertyWashingMachine()).isEqualTo(UPDATED_PROPERTY_WASHING_MACHINE);
-        assertThat(testProperty.isPropertyRefrigerator()).isEqualTo(UPDATED_PROPERTY_REFRIGERATOR);
-        assertThat(testProperty.isPropertyAircondition()).isEqualTo(UPDATED_PROPERTY_AIRCONDITION);
         assertThat(testProperty.isPropertyMicrowave()).isEqualTo(UPDATED_PROPERTY_MICROWAVE);
         assertThat(testProperty.isPropertyWaterHeater()).isEqualTo(UPDATED_PROPERTY_WATER_HEATER);
         assertThat(testProperty.isPropertyBed()).isEqualTo(UPDATED_PROPERTY_BED);
@@ -3704,6 +3702,8 @@ public class PropertyResourceIntTest {
         assertThat(testProperty.isPropertyIsSold()).isEqualTo(UPDATED_PROPERTY_IS_SOLD);
         assertThat(testProperty.isPropertyIsRent()).isEqualTo(UPDATED_PROPERTY_IS_RENT);
         assertThat(testProperty.isPropertyAvailable()).isEqualTo(UPDATED_PROPERTY_AVAILABLE);
+        assertThat(testProperty.isPropertyRefrigerator()).isEqualTo(UPDATED_PROPERTY_REFRIGERATOR);
+        assertThat(testProperty.isPropertyAirconditioner()).isEqualTo(UPDATED_PROPERTY_AIRCONDITIONER);
     }
 
     @Test

@@ -225,18 +225,6 @@ export class PropertyDetail extends React.Component<IPropertyDetailProps> {
             </dt>
             <dd>{propertyEntity.propertyWashingMachine ? 'true' : 'false'}</dd>
             <dt>
-              <span id="propertyRefrigerator">
-                <Translate contentKey="riverApp.property.propertyRefrigerator">Property Refrigerator</Translate>
-              </span>
-            </dt>
-            <dd>{propertyEntity.propertyRefrigerator ? 'true' : 'false'}</dd>
-            <dt>
-              <span id="propertyAircondition">
-                <Translate contentKey="riverApp.property.propertyAircondition">Property Aircondition</Translate>
-              </span>
-            </dt>
-            <dd>{propertyEntity.propertyAircondition ? 'true' : 'false'}</dd>
-            <dt>
               <span id="propertyMicrowave">
                 <Translate contentKey="riverApp.property.propertyMicrowave">Property Microwave</Translate>
               </span>
@@ -442,6 +430,18 @@ export class PropertyDetail extends React.Component<IPropertyDetailProps> {
               </span>
             </dt>
             <dd>{propertyEntity.propertyAvailable ? 'true' : 'false'}</dd>
+            <dt>
+              <span id="propertyRefrigerator">
+                <Translate contentKey="riverApp.property.propertyRefrigerator">Property Refrigerator</Translate>
+              </span>
+            </dt>
+            <dd>{propertyEntity.propertyRefrigerator ? 'true' : 'false'}</dd>
+            <dt>
+              <span id="propertyAirconditioner">
+                <Translate contentKey="riverApp.property.propertyAirconditioner">Property Airconditioner</Translate>
+              </span>
+            </dt>
+            <dd>{propertyEntity.propertyAirconditioner ? 'true' : 'false'}</dd>
             <dt>
               <Translate contentKey="riverApp.property.location">Location</Translate>
             </dt>

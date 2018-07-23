@@ -1,13 +1,17 @@
 package com.tcutma.realstate.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import com.tcutma.realstate.domain.enumeration.UploadType;
+import com.tcutma.realstate.service.FileStorageService;
 import com.tcutma.realstate.service.ResidentialAreaService;
+import com.tcutma.realstate.service.dto.TagDTO;
 import com.tcutma.realstate.web.rest.errors.BadRequestAlertException;
 import com.tcutma.realstate.web.rest.util.HeaderUtil;
 import com.tcutma.realstate.web.rest.util.PaginationUtil;
 import com.tcutma.realstate.service.dto.ResidentialAreaDTO;
 import com.tcutma.realstate.service.dto.ResidentialAreaCriteria;
 import com.tcutma.realstate.service.ResidentialAreaQueryService;
+import com.tcutma.realstate.web.rest.vm.UploadFileResponse;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +21,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -29,7 +34,7 @@ import java.util.Optional;
  * REST controller for managing ResidentialArea.
  */
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/v1")
 public class ResidentialAreaResource {
 
     private final Logger log = LoggerFactory.getLogger(ResidentialAreaResource.class);
@@ -40,9 +45,12 @@ public class ResidentialAreaResource {
 
     private final ResidentialAreaQueryService residentialAreaQueryService;
 
-    public ResidentialAreaResource(ResidentialAreaService residentialAreaService, ResidentialAreaQueryService residentialAreaQueryService) {
+    private final FileStorageService fileStorageService;
+
+    public ResidentialAreaResource(ResidentialAreaService residentialAreaService, ResidentialAreaQueryService residentialAreaQueryService, FileStorageService fileStorageService) {
         this.residentialAreaService = residentialAreaService;
         this.residentialAreaQueryService = residentialAreaQueryService;
+        this.fileStorageService = fileStorageService;
     }
 
     /**
@@ -129,5 +137,70 @@ public class ResidentialAreaResource {
         log.debug("REST request to delete ResidentialArea : {}", id);
         residentialAreaService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+    }
+
+    /**
+     * POST  /residential-areas/:raIdd/tags : Add a tag to residential area .
+     *
+     * @param raId the id of the residentialAreaDTO to add tag to
+     * @return  the ResponseEntity with status 201 (Created) and with body the new TagDTO, or with status 400 (Bad Request) if the Tag has already an ID
+     */
+    @PostMapping("/residential-areas/{raId}/tags")
+    @Timed
+    public ResponseEntity<TagDTO> addNewTag(@PathVariable(value = "raId") Long raId, @Valid @RequestBody TagDTO tagDTO) throws URISyntaxException {
+        log.debug("REST request to Add Tag : {}", tagDTO);
+        TagDTO result = residentialAreaService.addTag(raId,tagDTO).get();
+        return ResponseEntity.created(new URI("/api/residential-areas/" + result.getId() + "/tags"))
+            .headers(HeaderUtil.createEntityCreationAlert("tag" +
+                "", result.getId().toString()))
+            .body(result);
+    }
+
+    /**
+     * DELETE  /residential-areas/:raId/tags/:id : remove "id" tag from the "raId" residentialArea.
+     *
+     * @param raId the id of the residentialAreaDTO to remove the tag
+     * @param  id the id of Tag to remove
+     * @return the ResponseEntity with status 200 (OK)
+     */
+    @DeleteMapping("/residential-areas/{raId}/tags/{id}")
+    @Timed
+    public ResponseEntity<Void> removeOneTag(@PathVariable (value = "raId") Long raId, @PathVariable(value="id") Long id) {
+        log.debug("REST request to remove tag {id} from ResidentialArea : {}", id, raId);
+        residentialAreaService.removeTag(raId,id);
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("tag", id.toString())).build();
+    }
+
+    /**
+     * GET  /residential-areas/{raId}/tags : get all the tags.
+     *
+     *
+     * @param  raId the Id of residential area
+     * @return the ResponseEntity with status 200 (OK) and the list of tags in body
+     */
+    @GetMapping("/residential-areas/{raId}/tags")
+    @Timed
+    public List<TagDTO> getAllRaTags(@PathVariable(value = "raId") Long raId) {
+        log.debug("REST request to get a page of Tags belong to residential area {}",raId);
+        return residentialAreaService.findAllTags(raId);
+        //HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/v1/residential-areas/"+raId +"/tags");
+        //return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
+    /**
+     * POST  /residential-areas/{raId}/avatar: Upload avatar for residential area.
+     *
+     * @param raId the residential area id to add avatar
+     * @param  file Image file to upload
+     * @return the ResponseEntity with status 201 (Created) and with body the new residentialAreaDTO, or with status 400 (Bad Request) if the residentialArea has already an ID
+     * @throws URISyntaxException if the Location URI syntax is incorrect
+     */
+    @PostMapping("/residential-areas/{raId}/avatar")
+    @Timed
+    public UploadFileResponse AddResidentialAvatar(@PathVariable(value = "raId") Long raId, MultipartFile file) throws URISyntaxException {
+        log.debug("REST request to save avatar : {}", file);
+        UploadFileResponse avatar = residentialAreaService.addAvatar(raId,file);
+        //UploadFileResponse uploadFileResponse = fileStorageService.storeFile(UploadType.PHOTO,multipartFile);
+        return avatar;
     }
 }

@@ -88,6 +88,9 @@ public class ResidentialAreaQueryService extends QueryService<ResidentialArea> {
             if (criteria.getResidentialDistrict() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getResidentialDistrict(), ResidentialArea_.residentialDistrict));
             }
+            if (criteria.getResidentialAvatar() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getResidentialAvatar(), ResidentialArea_.residentialAvatar));
+            }
             if (criteria.getPhotoId() != null) {
                 specification = specification.and(buildReferringEntitySpecification(criteria.getPhotoId(), ResidentialArea_.photo, Photo_.id));
             }

@@ -138,12 +138,6 @@ public class Property implements Serializable {
     @Column(name = "property_washing_machine")
     private Boolean propertyWashingMachine;
 
-    @Column(name = "property_refrigerator")
-    private Boolean propertyRefrigerator;
-
-    @Column(name = "property_aircondition")
-    private Boolean propertyAircondition;
-
     @Column(name = "property_microwave")
     private Boolean propertyMicrowave;
 
@@ -243,6 +237,12 @@ public class Property implements Serializable {
 
     @Column(name = "property_available")
     private Boolean propertyAvailable;
+
+    @Column(name = "property_refrigerator")
+    private Boolean propertyRefrigerator;
+
+    @Column(name = "property_airconditioner")
+    private Boolean propertyAirconditioner;
 
     @OneToOne
     @JoinColumn(unique = true)
@@ -698,32 +698,6 @@ public class Property implements Serializable {
         this.propertyWashingMachine = propertyWashingMachine;
     }
 
-    public Boolean isPropertyRefrigerator() {
-        return propertyRefrigerator;
-    }
-
-    public Property propertyRefrigerator(Boolean propertyRefrigerator) {
-        this.propertyRefrigerator = propertyRefrigerator;
-        return this;
-    }
-
-    public void setPropertyRefrigerator(Boolean propertyRefrigerator) {
-        this.propertyRefrigerator = propertyRefrigerator;
-    }
-
-    public Boolean isPropertyAircondition() {
-        return propertyAircondition;
-    }
-
-    public Property propertyAircondition(Boolean propertyAircondition) {
-        this.propertyAircondition = propertyAircondition;
-        return this;
-    }
-
-    public void setPropertyAircondition(Boolean propertyAircondition) {
-        this.propertyAircondition = propertyAircondition;
-    }
-
     public Boolean isPropertyMicrowave() {
         return propertyMicrowave;
     }
@@ -1153,6 +1127,32 @@ public class Property implements Serializable {
         this.propertyAvailable = propertyAvailable;
     }
 
+    public Boolean isPropertyRefrigerator() {
+        return propertyRefrigerator;
+    }
+
+    public Property propertyRefrigerator(Boolean propertyRefrigerator) {
+        this.propertyRefrigerator = propertyRefrigerator;
+        return this;
+    }
+
+    public void setPropertyRefrigerator(Boolean propertyRefrigerator) {
+        this.propertyRefrigerator = propertyRefrigerator;
+    }
+
+    public Boolean isPropertyAirconditioner() {
+        return propertyAirconditioner;
+    }
+
+    public Property propertyAirconditioner(Boolean propertyAirconditioner) {
+        this.propertyAirconditioner = propertyAirconditioner;
+        return this;
+    }
+
+    public void setPropertyAirconditioner(Boolean propertyAirconditioner) {
+        this.propertyAirconditioner = propertyAirconditioner;
+    }
+
     public Location getLocation() {
         return location;
     }
@@ -1311,8 +1311,6 @@ public class Property implements Serializable {
             ", propertyDesk='" + isPropertyDesk() + "'" +
             ", propertyTivi='" + isPropertyTivi() + "'" +
             ", propertyWashingMachine='" + isPropertyWashingMachine() + "'" +
-            ", propertyRefrigerator='" + isPropertyRefrigerator() + "'" +
-            ", propertyAircondition='" + isPropertyAircondition() + "'" +
             ", propertyMicrowave='" + isPropertyMicrowave() + "'" +
             ", propertyWaterHeater='" + isPropertyWaterHeater() + "'" +
             ", propertyBed='" + isPropertyBed() + "'" +
@@ -1346,6 +1344,8 @@ public class Property implements Serializable {
             ", propertyIsSold='" + isPropertyIsSold() + "'" +
             ", propertyIsRent='" + isPropertyIsRent() + "'" +
             ", propertyAvailable='" + isPropertyAvailable() + "'" +
+            ", propertyRefrigerator='" + isPropertyRefrigerator() + "'" +
+            ", propertyAirconditioner='" + isPropertyAirconditioner() + "'" +
             "}";
     }
 }

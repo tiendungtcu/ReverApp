@@ -86,10 +86,6 @@ public class PropertyDTO implements Serializable {
 
     private Boolean propertyWashingMachine;
 
-    private Boolean propertyRefrigerator;
-
-    private Boolean propertyAircondition;
-
     private Boolean propertyMicrowave;
 
     private Boolean propertyWaterHeater;
@@ -155,6 +151,10 @@ public class PropertyDTO implements Serializable {
     private Boolean propertyIsRent;
 
     private Boolean propertyAvailable;
+
+    private Boolean propertyRefrigerator;
+
+    private Boolean propertyAirconditioner;
 
     private Long locationId;
 
@@ -432,22 +432,6 @@ public class PropertyDTO implements Serializable {
         this.propertyWashingMachine = propertyWashingMachine;
     }
 
-    public Boolean isPropertyRefrigerator() {
-        return propertyRefrigerator;
-    }
-
-    public void setPropertyRefrigerator(Boolean propertyRefrigerator) {
-        this.propertyRefrigerator = propertyRefrigerator;
-    }
-
-    public Boolean isPropertyAircondition() {
-        return propertyAircondition;
-    }
-
-    public void setPropertyAircondition(Boolean propertyAircondition) {
-        this.propertyAircondition = propertyAircondition;
-    }
-
     public Boolean isPropertyMicrowave() {
         return propertyMicrowave;
     }
@@ -712,6 +696,22 @@ public class PropertyDTO implements Serializable {
         this.propertyAvailable = propertyAvailable;
     }
 
+    public Boolean isPropertyRefrigerator() {
+        return propertyRefrigerator;
+    }
+
+    public void setPropertyRefrigerator(Boolean propertyRefrigerator) {
+        this.propertyRefrigerator = propertyRefrigerator;
+    }
+
+    public Boolean isPropertyAirconditioner() {
+        return propertyAirconditioner;
+    }
+
+    public void setPropertyAirconditioner(Boolean propertyAirconditioner) {
+        this.propertyAirconditioner = propertyAirconditioner;
+    }
+
     public Long getLocationId() {
         return locationId;
     }
@@ -817,8 +817,6 @@ public class PropertyDTO implements Serializable {
             ", propertyDesk='" + isPropertyDesk() + "'" +
             ", propertyTivi='" + isPropertyTivi() + "'" +
             ", propertyWashingMachine='" + isPropertyWashingMachine() + "'" +
-            ", propertyRefrigerator='" + isPropertyRefrigerator() + "'" +
-            ", propertyAircondition='" + isPropertyAircondition() + "'" +
             ", propertyMicrowave='" + isPropertyMicrowave() + "'" +
             ", propertyWaterHeater='" + isPropertyWaterHeater() + "'" +
             ", propertyBed='" + isPropertyBed() + "'" +
@@ -851,6 +849,8 @@ public class PropertyDTO implements Serializable {
             ", propertyIsSold='" + isPropertyIsSold() + "'" +
             ", propertyIsRent='" + isPropertyIsRent() + "'" +
             ", propertyAvailable='" + isPropertyAvailable() + "'" +
+            ", propertyRefrigerator='" + isPropertyRefrigerator() + "'" +
+            ", propertyAirconditioner='" + isPropertyAirconditioner() + "'" +
             ", location=" + getLocationId() +
             ", residentialArea=" + getResidentialAreaId() +
             ", residentialArea='" + getResidentialAreaResidentialName() + "'" +

@@ -5,7 +5,6 @@ import com.tcutma.realstate.domain.enumeration.TransactionType;
 import com.tcutma.realstate.domain.enumeration.UseEstablishment;
 import com.tcutma.realstate.service.dto.BuildingTypeDTO;
 import com.tcutma.realstate.service.dto.PhotoDTO;
-import com.tcutma.realstate.service.dto.PropertyDTO;
 import com.tcutma.realstate.service.dto.TagDTO;
 
 import javax.persistence.Lob;
@@ -103,7 +102,7 @@ public class PropertyVM implements Serializable {
 
     private Long residentialAreaId;
 
-    private String residentialAreaResidentialName;
+    private String residentialName;
 
     private Set<TagDTO> tags = new HashSet<>();
 
@@ -435,12 +434,12 @@ public class PropertyVM implements Serializable {
         this.residentialAreaId = residentialAreaId;
     }
 
-    public String getResidentialAreaResidentialName() {
-        return residentialAreaResidentialName;
+    public String getResidentialName() {
+        return residentialName;
     }
 
-    public void setResidentialAreaResidentialName(String residentialAreaResidentialName) {
-        this.residentialAreaResidentialName = residentialAreaResidentialName;
+    public void setResidentialName(String residentialName) {
+        this.residentialName = residentialName;
     }
 
     public Set<TagDTO> getTags() {

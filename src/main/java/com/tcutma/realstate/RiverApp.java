@@ -3,6 +3,7 @@ package com.tcutma.realstate;
 import com.tcutma.realstate.config.ApplicationProperties;
 import com.tcutma.realstate.config.DefaultProfileUtil;
 
+import com.tcutma.realstate.service.FileStorageService;
 import io.github.jhipster.config.JHipsterConstants;
 
 import org.slf4j.Logger;
@@ -28,8 +29,11 @@ public class RiverApp {
 
     private final Environment env;
 
-    public RiverApp(Environment env) {
+    private final FileStorageService storageService;  // my code
+
+    public RiverApp(Environment env, FileStorageService storageService) {  // my code
         this.env = env;
+        this.storageService = storageService;  // my code
     }
 
     /**
@@ -50,6 +54,8 @@ public class RiverApp {
             log.error("You have misconfigured your application! It should not " +
                 "run with both the 'dev' and 'cloud' profiles at the same time.");
         }
+        // my code
+        storageService.init();
     }
 
     /**

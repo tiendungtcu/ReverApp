@@ -4,7 +4,7 @@ import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Row, Col, Label } from 'reactstrap';
 import { AvForm, AvGroup, AvInput, AvField } from 'availity-reactstrap-validation';
 // tslint:disable-next-line:no-unused-variable
-import { Translate, translate, ICrudGetAction, ICrudGetAllAction, setFileData, openFile, byteSize, ICrudPutAction } from 'react-jhipster';
+import { Translate, translate, ICrudGetAction, ICrudGetAllAction, setFileData, byteSize, ICrudPutAction } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IRootState } from 'app/shared/reducers';
 
@@ -130,13 +130,7 @@ export class ResidentialAreaUpdate extends React.Component<IResidentialAreaUpdat
     const { residentialAreaEntity, photos, tags, loading, updating } = this.props;
     const { isNew } = this.state;
 
-    const {
-      residentialDescription,
-      residentialDetail,
-      residentialBoundary,
-      residentialImage,
-      residentialImageContentType
-    } = residentialAreaEntity;
+    const { residentialDescription, residentialDetail, residentialBoundary } = residentialAreaEntity;
 
     return (
       <div>
@@ -218,33 +212,10 @@ export class ResidentialAreaUpdate extends React.Component<IResidentialAreaUpdat
                   <AvField id="residential-area-residentialBoundary" type="text" name="residentialBoundary" />
                 </AvGroup>
                 <AvGroup>
-                  <AvGroup>
-                    <Label id="residentialImageLabel" for="residentialImage">
-                      <Translate contentKey="riverApp.residentialArea.residentialImage">Residential Image</Translate>
-                    </Label>
-                    <br />
-                    {residentialImage ? (
-                      <div>
-                        <a onClick={openFile(residentialImageContentType, residentialImage)}>
-                          <img src={`data:${residentialImageContentType};base64,${residentialImage}`} style={{ maxHeight: '100px' }} />
-                        </a>
-                        <br />
-                        <Row>
-                          <Col md="11">
-                            <span>
-                              {residentialImageContentType}, {byteSize(residentialImage)}
-                            </span>
-                          </Col>
-                          <Col md="1">
-                            <Button color="danger" onClick={this.clearBlob('residentialImage')}>
-                              <FontAwesomeIcon icon="times-circle" />
-                            </Button>
-                          </Col>
-                        </Row>
-                      </div>
-                    ) : null}
-                    <input id="file_residentialImage" type="file" onChange={this.onBlobChange(true, 'residentialImage')} accept="image/*" />
-                  </AvGroup>
+                  <Label id="residentialAvatarLabel" for="residentialAvatar">
+                    <Translate contentKey="riverApp.residentialArea.residentialAvatar">Residential Avatar</Translate>
+                  </Label>
+                  <AvField id="residential-area-residentialAvatar" type="text" name="residentialAvatar" />
                 </AvGroup>
                 <AvGroup>
                   <Label for="photo.id">

@@ -36,6 +36,8 @@ public class ResidentialAreaCriteria implements Serializable {
 
     private StringFilter residentialDistrict;
 
+    private StringFilter residentialAvatar;
+
     private LongFilter photoId;
 
     private LongFilter tagId;
@@ -83,6 +85,14 @@ public class ResidentialAreaCriteria implements Serializable {
         this.residentialDistrict = residentialDistrict;
     }
 
+    public StringFilter getResidentialAvatar() {
+        return residentialAvatar;
+    }
+
+    public void setResidentialAvatar(StringFilter residentialAvatar) {
+        this.residentialAvatar = residentialAvatar;
+    }
+
     public LongFilter getPhotoId() {
         return photoId;
     }
@@ -107,6 +117,7 @@ public class ResidentialAreaCriteria implements Serializable {
                 (residentialAlias != null ? "residentialAlias=" + residentialAlias + ", " : "") +
                 (residentialProvince != null ? "residentialProvince=" + residentialProvince + ", " : "") +
                 (residentialDistrict != null ? "residentialDistrict=" + residentialDistrict + ", " : "") +
+                (residentialAvatar != null ? "residentialAvatar=" + residentialAvatar + ", " : "") +
                 (photoId != null ? "photoId=" + photoId + ", " : "") +
                 (tagId != null ? "tagId=" + tagId + ", " : "") +
             "}";

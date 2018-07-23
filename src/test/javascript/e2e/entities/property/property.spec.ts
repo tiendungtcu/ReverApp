@@ -154,22 +154,6 @@ describe('Property e2e test', () => {
       propertyUpdatePage.getPropertyWashingMachineInput().click();
       expect(await propertyUpdatePage.getPropertyWashingMachineInput().isSelected()).to.be.true;
     }
-    const selectedPropertyRefrigerator = await propertyUpdatePage.getPropertyRefrigeratorInput().isSelected();
-    if (selectedPropertyRefrigerator) {
-      propertyUpdatePage.getPropertyRefrigeratorInput().click();
-      expect(await propertyUpdatePage.getPropertyRefrigeratorInput().isSelected()).to.be.false;
-    } else {
-      propertyUpdatePage.getPropertyRefrigeratorInput().click();
-      expect(await propertyUpdatePage.getPropertyRefrigeratorInput().isSelected()).to.be.true;
-    }
-    const selectedPropertyAircondition = await propertyUpdatePage.getPropertyAirconditionInput().isSelected();
-    if (selectedPropertyAircondition) {
-      propertyUpdatePage.getPropertyAirconditionInput().click();
-      expect(await propertyUpdatePage.getPropertyAirconditionInput().isSelected()).to.be.false;
-    } else {
-      propertyUpdatePage.getPropertyAirconditionInput().click();
-      expect(await propertyUpdatePage.getPropertyAirconditionInput().isSelected()).to.be.true;
-    }
     const selectedPropertyMicrowave = await propertyUpdatePage.getPropertyMicrowaveInput().isSelected();
     if (selectedPropertyMicrowave) {
       propertyUpdatePage.getPropertyMicrowaveInput().click();
@@ -364,6 +348,22 @@ describe('Property e2e test', () => {
     } else {
       propertyUpdatePage.getPropertyAvailableInput().click();
       expect(await propertyUpdatePage.getPropertyAvailableInput().isSelected()).to.be.true;
+    }
+    const selectedPropertyRefrigerator = await propertyUpdatePage.getPropertyRefrigeratorInput().isSelected();
+    if (selectedPropertyRefrigerator) {
+      propertyUpdatePage.getPropertyRefrigeratorInput().click();
+      expect(await propertyUpdatePage.getPropertyRefrigeratorInput().isSelected()).to.be.false;
+    } else {
+      propertyUpdatePage.getPropertyRefrigeratorInput().click();
+      expect(await propertyUpdatePage.getPropertyRefrigeratorInput().isSelected()).to.be.true;
+    }
+    const selectedPropertyAirconditioner = await propertyUpdatePage.getPropertyAirconditionerInput().isSelected();
+    if (selectedPropertyAirconditioner) {
+      propertyUpdatePage.getPropertyAirconditionerInput().click();
+      expect(await propertyUpdatePage.getPropertyAirconditionerInput().isSelected()).to.be.false;
+    } else {
+      propertyUpdatePage.getPropertyAirconditionerInput().click();
+      expect(await propertyUpdatePage.getPropertyAirconditionerInput().isSelected()).to.be.true;
     }
     propertyUpdatePage.locationSelectLastOption();
     propertyUpdatePage.residentialAreaSelectLastOption();

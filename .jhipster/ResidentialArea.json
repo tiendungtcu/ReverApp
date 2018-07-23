@@ -39,9 +39,8 @@
             "fieldTypeBlobContent": "text"
         },
         {
-            "fieldName": "residentialImage",
-            "fieldType": "byte[]",
-            "fieldTypeBlobContent": "image"
+            "fieldName": "residentialAvatar",
+            "fieldType": "String"
         }
     ],
     "relationships": [

@@ -41,7 +41,7 @@ public interface PropertyMapper extends EntityMapper<PropertyDTO, Property> {
     @Mapping(source = "propertyTivi", target = "furniture.propertyTivi")
     @Mapping(source = "propertyWashingMachine", target = "furniture.propertyWashingMachine")
     @Mapping(source = "propertyRefrigerator", target = "furniture.propertyRefrigerator")
-    @Mapping(source = "propertyAircondition", target = "furniture.propertyAircondition")
+    @Mapping(source = "propertyAirconditioner", target = "furniture.propertyAirconditioner")
     @Mapping(source = "propertyMicrowave", target = "furniture.propertyMicrowave")
     @Mapping(source = "propertyWaterHeater", target = "furniture.propertyWaterHeater")
     @Mapping(source = "propertyBed", target = "furniture.propertyBed")
@@ -61,5 +61,9 @@ public interface PropertyMapper extends EntityMapper<PropertyDTO, Property> {
     @Mapping(source = "propertySauna", target = "facility.propertySauna")
     @Mapping(source = "propertySteamSauna", target = "facility.propertySteamSauna")
     @Mapping(source = "propertyAttraction", target = "facility.propertyAttraction")
+
+    @Mapping(source = "location.id", target = "locationId")
+    @Mapping(source = "residentialArea.id", target = "residentialAreaId")
+    @Mapping(source = "residentialArea.residentialName", target = "residentialName")
     PropertyVM toVM(Property property);
 }

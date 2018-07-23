@@ -141,14 +141,6 @@
             "fieldType": "Boolean"
         },
         {
-            "fieldName": "propertyRefrigerator",
-            "fieldType": "Boolean"
-        },
-        {
-            "fieldName": "propertyAircondition",
-            "fieldType": "Boolean"
-        },
-        {
             "fieldName": "propertyMicrowave",
             "fieldType": "Boolean"
         },
@@ -275,6 +267,14 @@
         },
         {
             "fieldName": "propertyAvailable",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "propertyRefrigerator",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "propertyAirconditioner",
             "fieldType": "Boolean"
         }
     ],

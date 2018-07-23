@@ -1,6 +1,7 @@
 package com.tcutma.realstate.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import com.tcutma.realstate.service.ResidentialAreaService;
 import com.tcutma.realstate.service.TagService;
 import com.tcutma.realstate.web.rest.errors.BadRequestAlertException;
 import com.tcutma.realstate.web.rest.util.HeaderUtil;
@@ -36,8 +37,12 @@ public class TagResource {
 
     private final TagService tagService;
 
+    //private final ResidentialAreaService residentialAreaService;
+
+
     public TagResource(TagService tagService) {
         this.tagService = tagService;
+        //this.residentialAreaService = residentialAreaService;
     }
 
     /**
@@ -124,4 +129,5 @@ public class TagResource {
         tagService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
+
 }

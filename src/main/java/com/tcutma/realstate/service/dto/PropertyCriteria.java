@@ -112,10 +112,6 @@ public class PropertyCriteria implements Serializable {
 
     private BooleanFilter propertyWashingMachine;
 
-    private BooleanFilter propertyRefrigerator;
-
-    private BooleanFilter propertyAircondition;
-
     private BooleanFilter propertyMicrowave;
 
     private BooleanFilter propertyWaterHeater;
@@ -177,6 +173,10 @@ public class PropertyCriteria implements Serializable {
     private BooleanFilter propertyIsRent;
 
     private BooleanFilter propertyAvailable;
+
+    private BooleanFilter propertyRefrigerator;
+
+    private BooleanFilter propertyAirconditioner;
 
     private LongFilter locationId;
 
@@ -447,22 +447,6 @@ public class PropertyCriteria implements Serializable {
         this.propertyWashingMachine = propertyWashingMachine;
     }
 
-    public BooleanFilter getPropertyRefrigerator() {
-        return propertyRefrigerator;
-    }
-
-    public void setPropertyRefrigerator(BooleanFilter propertyRefrigerator) {
-        this.propertyRefrigerator = propertyRefrigerator;
-    }
-
-    public BooleanFilter getPropertyAircondition() {
-        return propertyAircondition;
-    }
-
-    public void setPropertyAircondition(BooleanFilter propertyAircondition) {
-        this.propertyAircondition = propertyAircondition;
-    }
-
     public BooleanFilter getPropertyMicrowave() {
         return propertyMicrowave;
     }
@@ -711,6 +695,22 @@ public class PropertyCriteria implements Serializable {
         this.propertyAvailable = propertyAvailable;
     }
 
+    public BooleanFilter getPropertyRefrigerator() {
+        return propertyRefrigerator;
+    }
+
+    public void setPropertyRefrigerator(BooleanFilter propertyRefrigerator) {
+        this.propertyRefrigerator = propertyRefrigerator;
+    }
+
+    public BooleanFilter getPropertyAirconditioner() {
+        return propertyAirconditioner;
+    }
+
+    public void setPropertyAirconditioner(BooleanFilter propertyAirconditioner) {
+        this.propertyAirconditioner = propertyAirconditioner;
+    }
+
     public LongFilter getLocationId() {
         return locationId;
     }
@@ -786,8 +786,6 @@ public class PropertyCriteria implements Serializable {
                 (propertyDesk != null ? "propertyDesk=" + propertyDesk + ", " : "") +
                 (propertyTivi != null ? "propertyTivi=" + propertyTivi + ", " : "") +
                 (propertyWashingMachine != null ? "propertyWashingMachine=" + propertyWashingMachine + ", " : "") +
-                (propertyRefrigerator != null ? "propertyRefrigerator=" + propertyRefrigerator + ", " : "") +
-                (propertyAircondition != null ? "propertyAircondition=" + propertyAircondition + ", " : "") +
                 (propertyMicrowave != null ? "propertyMicrowave=" + propertyMicrowave + ", " : "") +
                 (propertyWaterHeater != null ? "propertyWaterHeater=" + propertyWaterHeater + ", " : "") +
                 (propertyBed != null ? "propertyBed=" + propertyBed + ", " : "") +
@@ -819,6 +817,8 @@ public class PropertyCriteria implements Serializable {
                 (propertyIsSold != null ? "propertyIsSold=" + propertyIsSold + ", " : "") +
                 (propertyIsRent != null ? "propertyIsRent=" + propertyIsRent + ", " : "") +
                 (propertyAvailable != null ? "propertyAvailable=" + propertyAvailable + ", " : "") +
+                (propertyRefrigerator != null ? "propertyRefrigerator=" + propertyRefrigerator + ", " : "") +
+                (propertyAirconditioner != null ? "propertyAirconditioner=" + propertyAirconditioner + ", " : "") +
                 (locationId != null ? "locationId=" + locationId + ", " : "") +
                 (residentialAreaId != null ? "residentialAreaId=" + residentialAreaId + ", " : "") +
                 (tagId != null ? "tagId=" + tagId + ", " : "") +

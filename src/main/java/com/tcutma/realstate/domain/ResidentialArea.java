@@ -53,12 +53,8 @@ public class ResidentialArea implements Serializable {
     @Column(name = "residential_boundary")
     private String residentialBoundary;
 
-    @Lob
-    @Column(name = "residential_image")
-    private byte[] residentialImage;
-
-    @Column(name = "residential_image_content_type")
-    private String residentialImageContentType;
+    @Column(name = "residential_avatar")
+    private String residentialAvatar;
 
     @OneToOne
     @JoinColumn(unique = true)
@@ -171,30 +167,17 @@ public class ResidentialArea implements Serializable {
         this.residentialBoundary = residentialBoundary;
     }
 
-    public byte[] getResidentialImage() {
-        return residentialImage;
+    public String getResidentialAvatar() {
+        return residentialAvatar;
     }
 
-    public ResidentialArea residentialImage(byte[] residentialImage) {
-        this.residentialImage = residentialImage;
+    public ResidentialArea residentialAvatar(String residentialAvatar) {
+        this.residentialAvatar = residentialAvatar;
         return this;
     }
 
-    public void setResidentialImage(byte[] residentialImage) {
-        this.residentialImage = residentialImage;
-    }
-
-    public String getResidentialImageContentType() {
-        return residentialImageContentType;
-    }
-
-    public ResidentialArea residentialImageContentType(String residentialImageContentType) {
-        this.residentialImageContentType = residentialImageContentType;
-        return this;
-    }
-
-    public void setResidentialImageContentType(String residentialImageContentType) {
-        this.residentialImageContentType = residentialImageContentType;
+    public void setResidentialAvatar(String residentialAvatar) {
+        this.residentialAvatar = residentialAvatar;
     }
 
     public Photo getPhoto() {
@@ -267,8 +250,7 @@ public class ResidentialArea implements Serializable {
             ", residentialProvince='" + getResidentialProvince() + "'" +
             ", residentialDistrict='" + getResidentialDistrict() + "'" +
             ", residentialBoundary='" + getResidentialBoundary() + "'" +
-            ", residentialImage='" + getResidentialImage() + "'" +
-            ", residentialImageContentType='" + getResidentialImageContentType() + "'" +
+            ", residentialAvatar='" + getResidentialAvatar() + "'" +
             "}";
     }
 }

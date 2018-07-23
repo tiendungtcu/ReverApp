@@ -190,14 +190,6 @@ export class Property extends React.Component<IPropertyProps, IPropertyState> {
                     <Translate contentKey="riverApp.property.propertyWashingMachine">Property Washing Machine</Translate>{' '}
                     <FontAwesomeIcon icon="sort" />
                   </th>
-                  <th className="hand" onClick={this.sort('propertyRefrigerator')}>
-                    <Translate contentKey="riverApp.property.propertyRefrigerator">Property Refrigerator</Translate>{' '}
-                    <FontAwesomeIcon icon="sort" />
-                  </th>
-                  <th className="hand" onClick={this.sort('propertyAircondition')}>
-                    <Translate contentKey="riverApp.property.propertyAircondition">Property Aircondition</Translate>{' '}
-                    <FontAwesomeIcon icon="sort" />
-                  </th>
                   <th className="hand" onClick={this.sort('propertyMicrowave')}>
                     <Translate contentKey="riverApp.property.propertyMicrowave">Property Microwave</Translate>{' '}
                     <FontAwesomeIcon icon="sort" />
@@ -312,6 +304,14 @@ export class Property extends React.Component<IPropertyProps, IPropertyState> {
                     <Translate contentKey="riverApp.property.propertyAvailable">Property Available</Translate>{' '}
                     <FontAwesomeIcon icon="sort" />
                   </th>
+                  <th className="hand" onClick={this.sort('propertyRefrigerator')}>
+                    <Translate contentKey="riverApp.property.propertyRefrigerator">Property Refrigerator</Translate>{' '}
+                    <FontAwesomeIcon icon="sort" />
+                  </th>
+                  <th className="hand" onClick={this.sort('propertyAirconditioner')}>
+                    <Translate contentKey="riverApp.property.propertyAirconditioner">Property Airconditioner</Translate>{' '}
+                    <FontAwesomeIcon icon="sort" />
+                  </th>
                   <th>
                     <Translate contentKey="riverApp.property.location">Location</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
@@ -365,8 +365,6 @@ export class Property extends React.Component<IPropertyProps, IPropertyState> {
                     <td>{property.propertyDesk ? 'true' : 'false'}</td>
                     <td>{property.propertyTivi ? 'true' : 'false'}</td>
                     <td>{property.propertyWashingMachine ? 'true' : 'false'}</td>
-                    <td>{property.propertyRefrigerator ? 'true' : 'false'}</td>
-                    <td>{property.propertyAircondition ? 'true' : 'false'}</td>
                     <td>{property.propertyMicrowave ? 'true' : 'false'}</td>
                     <td>{property.propertyWaterHeater ? 'true' : 'false'}</td>
                     <td>{property.propertyBed ? 'true' : 'false'}</td>
@@ -414,6 +412,8 @@ export class Property extends React.Component<IPropertyProps, IPropertyState> {
                     <td>{property.propertyIsSold ? 'true' : 'false'}</td>
                     <td>{property.propertyIsRent ? 'true' : 'false'}</td>
                     <td>{property.propertyAvailable ? 'true' : 'false'}</td>
+                    <td>{property.propertyRefrigerator ? 'true' : 'false'}</td>
+                    <td>{property.propertyAirconditioner ? 'true' : 'false'}</td>
                     <td>{property.locationId ? <Link to={`location/${property.locationId}`}>{property.locationId}</Link> : ''}</td>
                     <td>
                       {property.residentialAreaResidentialName ? (

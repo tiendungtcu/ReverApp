@@ -4,7 +4,6 @@ import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Col, Row, Table } from 'reactstrap';
 // tslint:disable-next-line:no-unused-variable
 import {
-  openFile,
   byteSize,
   Translate,
   ICrudGetAllAction,
@@ -103,8 +102,8 @@ export class ResidentialArea extends React.Component<IResidentialAreaProps, IRes
                   <Translate contentKey="riverApp.residentialArea.residentialBoundary">Residential Boundary</Translate>{' '}
                   <FontAwesomeIcon icon="sort" />
                 </th>
-                <th className="hand" onClick={this.sort('residentialImage')}>
-                  <Translate contentKey="riverApp.residentialArea.residentialImage">Residential Image</Translate>{' '}
+                <th className="hand" onClick={this.sort('residentialAvatar')}>
+                  <Translate contentKey="riverApp.residentialArea.residentialAvatar">Residential Avatar</Translate>{' '}
                   <FontAwesomeIcon icon="sort" />
                 </th>
                 <th>
@@ -128,22 +127,7 @@ export class ResidentialArea extends React.Component<IResidentialAreaProps, IRes
                   <td>{residentialArea.residentialProvince}</td>
                   <td>{residentialArea.residentialDistrict}</td>
                   <td>{residentialArea.residentialBoundary}</td>
-                  <td>
-                    {residentialArea.residentialImage ? (
-                      <div>
-                        <a onClick={openFile(residentialArea.residentialImageContentType, residentialArea.residentialImage)}>
-                          <img
-                            src={`data:${residentialArea.residentialImageContentType};base64,${residentialArea.residentialImage}`}
-                            style={{ maxHeight: '30px' }}
-                          />
-                          &nbsp;
-                        </a>
-                        <span>
-                          {residentialArea.residentialImageContentType}, {byteSize(residentialArea.residentialImage)}
-                        </span>
-                      </div>
-                    ) : null}
-                  </td>
+                  <td>{residentialArea.residentialAvatar}</td>
                   <td>{residentialArea.photoId ? <Link to={`photo/${residentialArea.photoId}`}>{residentialArea.photoId}</Link> : ''}</td>
                   <td className="text-right">
                     <div className="btn-group flex-btn-group-container">

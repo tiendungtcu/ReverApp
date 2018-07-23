@@ -150,14 +150,6 @@
                 <constraints nullable="true" />
             </column>
 
-            <column name="property_refrigerator" type="bit">
-                <constraints nullable="true" />
-            </column>
-
-            <column name="property_aircondition" type="bit">
-                <constraints nullable="true" />
-            </column>
-
             <column name="property_microwave" type="bit">
                 <constraints nullable="true" />
             </column>
@@ -286,6 +278,14 @@
             </column>
 
             <column name="property_available" type="bit">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="property_refrigerator" type="bit">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="property_airconditioner" type="bit">
                 <constraints nullable="true" />
             </column>
             <column name="location_id" type="bigint">
