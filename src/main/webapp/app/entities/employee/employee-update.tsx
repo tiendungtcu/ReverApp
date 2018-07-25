@@ -4,20 +4,17 @@ import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Row, Col, Label } from 'reactstrap';
 import { AvForm, AvGroup, AvInput, AvField } from 'availity-reactstrap-validation';
 // tslint:disable-next-line:no-unused-variable
-import { Translate, translate, ICrudGetAction, ICrudGetAllAction, setFileData, openFile, byteSize, ICrudPutAction } from 'react-jhipster';
+import { Translate, translate, ICrudGetAction, ICrudGetAllAction, ICrudPutAction } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IRootState } from 'app/shared/reducers';
 
-import { IContact } from 'app/shared/model/contact.model';
-import { getEntities as getContacts } from 'app/entities/contact/contact.reducer';
-import { IPhoto } from 'app/shared/model/photo.model';
-import { getEntities as getPhotos } from 'app/entities/photo/photo.reducer';
-import { IJobTitle } from 'app/shared/model/job-title.model';
-import { getEntities as getJobTitles } from 'app/entities/job-title/job-title.reducer';
+import { IUser } from 'app/shared/model/user.model';
+import { getUsers } from 'app/modules/administration/user-management/user-management.reducer';
 import { IDepartment } from 'app/shared/model/department.model';
 import { getEntities as getDepartments } from 'app/entities/department/department.reducer';
-import { getEntities as getEmployees } from 'app/entities/employee/employee.reducer';
-import { getEntity, updateEntity, createEntity, setBlob, reset } from './employee.reducer';
+import { IJobTitle } from 'app/shared/model/job-title.model';
+import { getEntities as getJobTitles } from 'app/entities/job-title/job-title.reducer';
+import { getEntity, updateEntity, createEntity, reset } from './employee.reducer';
 import { IEmployee } from 'app/shared/model/employee.model';
 // tslint:disable-next-line:no-unused-variable
 import { convertDateTimeFromServer } from 'app/shared/util/date-utils';
@@ -27,22 +24,18 @@ export interface IEmployeeUpdateProps extends StateProps, DispatchProps, RouteCo
 
 export interface IEmployeeUpdateState {
   isNew: boolean;
-  contactId: number;
-  photoId: number;
-  jobtitleId: number;
+  accountId: number;
   departmentId: number;
-  managerId: number;
+  jobtitleId: number;
 }
 
 export class EmployeeUpdate extends React.Component<IEmployeeUpdateProps, IEmployeeUpdateState> {
   constructor(props) {
     super(props);
     this.state = {
-      contactId: 0,
-      photoId: 0,
-      jobtitleId: 0,
+      accountId: 0,
       departmentId: 0,
-      managerId: 0,
+      jobtitleId: 0,
       isNew: !this.props.match.params || !this.props.match.params.id
     };
   }
@@ -54,24 +47,12 @@ export class EmployeeUpdate extends React.Component<IEmployeeUpdateProps, IEmplo
       this.props.getEntity(this.props.match.params.id);
     }
 
-    this.props.getContacts();
-    this.props.getPhotos();
-    this.props.getJobTitles();
+    this.props.getUsers();
     this.props.getDepartments();
-    this.props.getEmployees();
+    this.props.getJobTitles();
   }
 
-  onBlobChange = (isAnImage, name) => event => {
-    setFileData(event, (contentType, data) => this.props.setBlob(name, data, contentType), isAnImage);
-  };
-
-  clearBlob = name => () => {
-    this.props.setBlob(name, undefined, undefined);
-  };
-
   saveEntity = (event, errors, values) => {
-    values.employeeDob = new Date(values.employeeDob);
-
     if (errors.length === 0) {
       const { employeeEntity } = this.props;
       const entity = {
@@ -92,51 +73,17 @@ export class EmployeeUpdate extends React.Component<IEmployeeUpdateProps, IEmplo
     this.props.history.push('/entity/employee');
   };
 
-  contactUpdate = element => {
-    const id = element.target.value.toString();
-    if (id === '') {
+  accountUpdate = element => {
+    const login = element.target.value.toString();
+    if (login === '') {
       this.setState({
-        contactId: -1
+        accountId: -1
       });
     } else {
-      for (const i in this.props.contacts) {
-        if (id === this.props.contacts[i].id.toString()) {
+      for (const i in this.props.users) {
+        if (login === this.props.users[i].login.toString()) {
           this.setState({
-            contactId: this.props.contacts[i].id
-          });
-        }
-      }
-    }
-  };
-
-  photoUpdate = element => {
-    const id = element.target.value.toString();
-    if (id === '') {
-      this.setState({
-        photoId: -1
-      });
-    } else {
-      for (const i in this.props.photos) {
-        if (id === this.props.photos[i].id.toString()) {
-          this.setState({
-            photoId: this.props.photos[i].id
-          });
-        }
-      }
-    }
-  };
-
-  jobtitleUpdate = element => {
-    const titleName = element.target.value.toString();
-    if (titleName === '') {
-      this.setState({
-        jobtitleId: -1
-      });
-    } else {
-      for (const i in this.props.jobTitles) {
-        if (titleName === this.props.jobTitles[i].titleName.toString()) {
-          this.setState({
-            jobtitleId: this.props.jobTitles[i].id
+            accountId: this.props.users[i].id
           });
         }
       }
@@ -160,17 +107,17 @@ export class EmployeeUpdate extends React.Component<IEmployeeUpdateProps, IEmplo
     }
   };
 
-  managerUpdate = element => {
-    const employeeName = element.target.value.toString();
-    if (employeeName === '') {
+  jobtitleUpdate = element => {
+    const titleName = element.target.value.toString();
+    if (titleName === '') {
       this.setState({
-        managerId: -1
+        jobtitleId: -1
       });
     } else {
-      for (const i in this.props.employees) {
-        if (employeeName === this.props.employees[i].employeeName.toString()) {
+      for (const i in this.props.jobTitles) {
+        if (titleName === this.props.jobTitles[i].titleName.toString()) {
           this.setState({
-            managerId: this.props.employees[i].id
+            jobtitleId: this.props.jobTitles[i].id
           });
         }
       }
@@ -179,10 +126,8 @@ export class EmployeeUpdate extends React.Component<IEmployeeUpdateProps, IEmplo
 
   render() {
     const isInvalid = false;
-    const { employeeEntity, contacts, photos, jobTitles, departments, employees, loading, updating } = this.props;
+    const { employeeEntity, users, departments, jobTitles, loading, updating } = this.props;
     const { isNew } = this.state;
-
-    const { employeeAvatar, employeeAvatarContentType } = employeeEntity;
 
     return (
       <div>
@@ -208,41 +153,38 @@ export class EmployeeUpdate extends React.Component<IEmployeeUpdateProps, IEmplo
                   </AvGroup>
                 ) : null}
                 <AvGroup>
-                  <Label id="employeeNameLabel" for="employeeName">
-                    <Translate contentKey="riverApp.employee.employeeName">Employee Name</Translate>
-                  </Label>
-                  <AvField
-                    id="employee-employeeName"
-                    type="text"
-                    name="employeeName"
-                    validate={{
-                      required: { value: true, errorMessage: translate('entity.validation.required') }
-                    }}
-                  />
-                </AvGroup>
-                <AvGroup>
                   <Label id="employeeFirstNameLabel" for="employeeFirstName">
                     <Translate contentKey="riverApp.employee.employeeFirstName">Employee First Name</Translate>
                   </Label>
-                  <AvField id="employee-employeeFirstName" type="text" name="employeeFirstName" />
+                  <AvField
+                    id="employee-employeeFirstName"
+                    type="text"
+                    name="employeeFirstName"
+                    validate={{
+                      required: { value: true, errorMessage: translate('entity.validation.required') },
+                      maxLength: { value: 128, errorMessage: translate('entity.validation.maxlength', { max: 128 }) }
+                    }}
+                  />
                 </AvGroup>
                 <AvGroup>
                   <Label id="employeeLastNameLabel" for="employeeLastName">
                     <Translate contentKey="riverApp.employee.employeeLastName">Employee Last Name</Translate>
                   </Label>
-                  <AvField id="employee-employeeLastName" type="text" name="employeeLastName" />
+                  <AvField
+                    id="employee-employeeLastName"
+                    type="text"
+                    name="employeeLastName"
+                    validate={{
+                      required: { value: true, errorMessage: translate('entity.validation.required') },
+                      maxLength: { value: 128, errorMessage: translate('entity.validation.maxlength', { max: 128 }) }
+                    }}
+                  />
                 </AvGroup>
                 <AvGroup>
                   <Label id="employeeDobLabel" for="employeeDob">
                     <Translate contentKey="riverApp.employee.employeeDob">Employee Dob</Translate>
                   </Label>
-                  <AvInput
-                    id="employee-employeeDob"
-                    type="datetime-local"
-                    className="form-control"
-                    name="employeeDob"
-                    value={isNew ? null : convertDateTimeFromServer(this.props.employeeEntity.employeeDob)}
-                  />
+                  <AvField id="employee-employeeDob" type="date" className="form-control" name="employeeDob" />
                 </AvGroup>
                 <AvGroup>
                   <Label id="employeeSexLabel">
@@ -264,7 +206,14 @@ export class EmployeeUpdate extends React.Component<IEmployeeUpdateProps, IEmplo
                   <Label id="employeeIdentityCardLabel" for="employeeIdentityCard">
                     <Translate contentKey="riverApp.employee.employeeIdentityCard">Employee Identity Card</Translate>
                   </Label>
-                  <AvField id="employee-employeeIdentityCard" type="text" name="employeeIdentityCard" />
+                  <AvField
+                    id="employee-employeeIdentityCard"
+                    type="text"
+                    name="employeeIdentityCard"
+                    validate={{
+                      maxLength: { value: 16, errorMessage: translate('entity.validation.maxlength', { max: 16 }) }
+                    }}
+                  />
                 </AvGroup>
                 <AvGroup>
                   <Label id="employeePhoneLabel" for="employeePhone">
@@ -275,7 +224,8 @@ export class EmployeeUpdate extends React.Component<IEmployeeUpdateProps, IEmplo
                     type="text"
                     name="employeePhone"
                     validate={{
-                      required: { value: true, errorMessage: translate('entity.validation.required') }
+                      required: { value: true, errorMessage: translate('entity.validation.required') },
+                      maxLength: { value: 16, errorMessage: translate('entity.validation.maxlength', { max: 16 }) }
                     }}
                   />
                 </AvGroup>
@@ -293,116 +243,15 @@ export class EmployeeUpdate extends React.Component<IEmployeeUpdateProps, IEmplo
                   />
                 </AvGroup>
                 <AvGroup>
-                  <AvGroup>
-                    <Label id="employeeAvatarLabel" for="employeeAvatar">
-                      <Translate contentKey="riverApp.employee.employeeAvatar">Employee Avatar</Translate>
-                    </Label>
-                    <br />
-                    {employeeAvatar ? (
-                      <div>
-                        <a onClick={openFile(employeeAvatarContentType, employeeAvatar)}>
-                          <img src={`data:${employeeAvatarContentType};base64,${employeeAvatar}`} style={{ maxHeight: '100px' }} />
-                        </a>
-                        <br />
-                        <Row>
-                          <Col md="11">
-                            <span>
-                              {employeeAvatarContentType}, {byteSize(employeeAvatar)}
-                            </span>
-                          </Col>
-                          <Col md="1">
-                            <Button color="danger" onClick={this.clearBlob('employeeAvatar')}>
-                              <FontAwesomeIcon icon="times-circle" />
-                            </Button>
-                          </Col>
-                        </Row>
-                      </div>
-                    ) : null}
-                    <input id="file_employeeAvatar" type="file" onChange={this.onBlobChange(true, 'employeeAvatar')} accept="image/*" />
-                  </AvGroup>
-                </AvGroup>
-                <AvGroup>
-                  <Label id="employeeFacebookLabel" for="employeeFacebook">
-                    <Translate contentKey="riverApp.employee.employeeFacebook">Employee Facebook</Translate>
+                  <Label for="account.login">
+                    <Translate contentKey="riverApp.employee.account">Account</Translate>
                   </Label>
-                  <AvField id="employee-employeeFacebook" type="text" name="employeeFacebook" />
-                </AvGroup>
-                <AvGroup>
-                  <Label id="employeeLinkedinLabel" for="employeeLinkedin">
-                    <Translate contentKey="riverApp.employee.employeeLinkedin">Employee Linkedin</Translate>
-                  </Label>
-                  <AvField id="employee-employeeLinkedin" type="text" name="employeeLinkedin" />
-                </AvGroup>
-                <AvGroup>
-                  <Label id="employeeInstagramLabel" for="employeeInstagram">
-                    <Translate contentKey="riverApp.employee.employeeInstagram">Employee Instagram</Translate>
-                  </Label>
-                  <AvField id="employee-employeeInstagram" type="text" name="employeeInstagram" />
-                </AvGroup>
-                <AvGroup>
-                  <Label id="employeeGooglePlusLabel" for="employeeGooglePlus">
-                    <Translate contentKey="riverApp.employee.employeeGooglePlus">Employee Google Plus</Translate>
-                  </Label>
-                  <AvField id="employee-employeeGooglePlus" type="text" name="employeeGooglePlus" />
-                </AvGroup>
-                <AvGroup>
-                  <Label id="employeeZaloLabel" for="employeeZalo">
-                    <Translate contentKey="riverApp.employee.employeeZalo">Employee Zalo</Translate>
-                  </Label>
-                  <AvField id="employee-employeeZalo" type="text" name="employeeZalo" />
-                </AvGroup>
-                <AvGroup>
-                  <Label id="employeeTwitterLabel" for="employeeTwitter">
-                    <Translate contentKey="riverApp.employee.employeeTwitter">Employee Twitter</Translate>
-                  </Label>
-                  <AvField id="employee-employeeTwitter" type="text" name="employeeTwitter" />
-                </AvGroup>
-                <AvGroup>
-                  <Label id="employeeYoutubeLabel" for="employeeYoutube">
-                    <Translate contentKey="riverApp.employee.employeeYoutube">Employee Youtube</Translate>
-                  </Label>
-                  <AvField id="employee-employeeYoutube" type="text" name="employeeYoutube" />
-                </AvGroup>
-                <AvGroup>
-                  <Label for="contact.id">
-                    <Translate contentKey="riverApp.employee.contact">Contact</Translate>
-                  </Label>
-                  <AvInput id="employee-contact" type="select" className="form-control" name="contactId" onChange={this.contactUpdate}>
+                  <AvInput id="employee-account" type="select" className="form-control" name="accountId" onChange={this.accountUpdate}>
                     <option value="" key="0" />
-                    {contacts
-                      ? contacts.map(otherEntity => (
+                    {users
+                      ? users.map(otherEntity => (
                           <option value={otherEntity.id} key={otherEntity.id}>
-                            {otherEntity.id}
-                          </option>
-                        ))
-                      : null}
-                  </AvInput>
-                </AvGroup>
-                <AvGroup>
-                  <Label for="photo.id">
-                    <Translate contentKey="riverApp.employee.photo">Photo</Translate>
-                  </Label>
-                  <AvInput id="employee-photo" type="select" className="form-control" name="photoId" onChange={this.photoUpdate}>
-                    <option value="" key="0" />
-                    {photos
-                      ? photos.map(otherEntity => (
-                          <option value={otherEntity.id} key={otherEntity.id}>
-                            {otherEntity.id}
-                          </option>
-                        ))
-                      : null}
-                  </AvInput>
-                </AvGroup>
-                <AvGroup>
-                  <Label for="jobtitle.titleName">
-                    <Translate contentKey="riverApp.employee.jobtitle">Jobtitle</Translate>
-                  </Label>
-                  <AvInput id="employee-jobtitle" type="select" className="form-control" name="jobtitleId" onChange={this.jobtitleUpdate}>
-                    <option value="" key="0" />
-                    {jobTitles
-                      ? jobTitles.map(otherEntity => (
-                          <option value={otherEntity.id} key={otherEntity.id}>
-                            {otherEntity.titleName}
+                            {otherEntity.login}
                           </option>
                         ))
                       : null}
@@ -430,15 +279,15 @@ export class EmployeeUpdate extends React.Component<IEmployeeUpdateProps, IEmplo
                   </AvInput>
                 </AvGroup>
                 <AvGroup>
-                  <Label for="manager.employeeName">
-                    <Translate contentKey="riverApp.employee.manager">Manager</Translate>
+                  <Label for="jobtitle.titleName">
+                    <Translate contentKey="riverApp.employee.jobtitle">Jobtitle</Translate>
                   </Label>
-                  <AvInput id="employee-manager" type="select" className="form-control" name="managerId" onChange={this.managerUpdate}>
+                  <AvInput id="employee-jobtitle" type="select" className="form-control" name="jobtitleId" onChange={this.jobtitleUpdate}>
                     <option value="" key="0" />
-                    {employees
-                      ? employees.map(otherEntity => (
+                    {jobTitles
+                      ? jobTitles.map(otherEntity => (
                           <option value={otherEntity.id} key={otherEntity.id}>
-                            {otherEntity.employeeName}
+                            {otherEntity.titleName}
                           </option>
                         ))
                       : null}
@@ -465,25 +314,20 @@ export class EmployeeUpdate extends React.Component<IEmployeeUpdateProps, IEmplo
 }
 
 const mapStateToProps = (storeState: IRootState) => ({
-  contacts: storeState.contact.entities,
-  photos: storeState.photo.entities,
-  jobTitles: storeState.jobTitle.entities,
+  users: storeState.userManagement.users,
   departments: storeState.department.entities,
-  employees: storeState.employee.entities,
+  jobTitles: storeState.jobTitle.entities,
   employeeEntity: storeState.employee.entity,
   loading: storeState.employee.loading,
   updating: storeState.employee.updating
 });
 
 const mapDispatchToProps = {
-  getContacts,
-  getPhotos,
-  getJobTitles,
+  getUsers,
   getDepartments,
-  getEmployees,
+  getJobTitles,
   getEntity,
   updateEntity,
-  setBlob,
   createEntity,
   reset
 };

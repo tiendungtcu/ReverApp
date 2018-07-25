@@ -3,7 +3,6 @@ package com.tcutma.realstate.service.dto;
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
-import javax.persistence.Lob;
 
 /**
  * A DTO for the Contact entity.
@@ -13,21 +12,18 @@ public class ContactDTO implements Serializable {
     private Long id;
 
     @NotNull
+    @Size(max = 128)
     private String contactName;
 
     @NotNull
+    @Size(max = 16)
     private String contactPhone;
 
     private String contactAddress;
 
-    @NotNull
-    private String contactEmail;
-
     private String contactWebsite;
 
-    @Lob
-    private byte[] contactPhoto;
-    private String contactPhotoContentType;
+    private String contactAvatarUrl;
 
     private String contactFacebook;
 
@@ -42,6 +38,8 @@ public class ContactDTO implements Serializable {
     private String contactYoutube;
 
     private Boolean contactStatus;
+
+    private Long userId;
 
     public Long getId() {
         return id;
@@ -75,14 +73,6 @@ public class ContactDTO implements Serializable {
         this.contactAddress = contactAddress;
     }
 
-    public String getContactEmail() {
-        return contactEmail;
-    }
-
-    public void setContactEmail(String contactEmail) {
-        this.contactEmail = contactEmail;
-    }
-
     public String getContactWebsite() {
         return contactWebsite;
     }
@@ -91,20 +81,12 @@ public class ContactDTO implements Serializable {
         this.contactWebsite = contactWebsite;
     }
 
-    public byte[] getContactPhoto() {
-        return contactPhoto;
+    public String getContactAvatarUrl() {
+        return contactAvatarUrl;
     }
 
-    public void setContactPhoto(byte[] contactPhoto) {
-        this.contactPhoto = contactPhoto;
-    }
-
-    public String getContactPhotoContentType() {
-        return contactPhotoContentType;
-    }
-
-    public void setContactPhotoContentType(String contactPhotoContentType) {
-        this.contactPhotoContentType = contactPhotoContentType;
+    public void setContactAvatarUrl(String contactAvatarUrl) {
+        this.contactAvatarUrl = contactAvatarUrl;
     }
 
     public String getContactFacebook() {
@@ -163,6 +145,14 @@ public class ContactDTO implements Serializable {
         this.contactStatus = contactStatus;
     }
 
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -191,9 +181,8 @@ public class ContactDTO implements Serializable {
             ", contactName='" + getContactName() + "'" +
             ", contactPhone='" + getContactPhone() + "'" +
             ", contactAddress='" + getContactAddress() + "'" +
-            ", contactEmail='" + getContactEmail() + "'" +
             ", contactWebsite='" + getContactWebsite() + "'" +
-            ", contactPhoto='" + getContactPhoto() + "'" +
+            ", contactAvatarUrl='" + getContactAvatarUrl() + "'" +
             ", contactFacebook='" + getContactFacebook() + "'" +
             ", contactTwitter='" + getContactTwitter() + "'" +
             ", contactInstagram='" + getContactInstagram() + "'" +
@@ -201,6 +190,7 @@ public class ContactDTO implements Serializable {
             ", contactGooglePlus='" + getContactGooglePlus() + "'" +
             ", contactYoutube='" + getContactYoutube() + "'" +
             ", contactStatus='" + isContactStatus() + "'" +
+            ", user=" + getUserId() +
             "}";
     }
 }

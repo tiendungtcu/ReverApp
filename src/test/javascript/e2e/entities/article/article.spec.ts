@@ -40,8 +40,8 @@ describe('Article e2e test', () => {
     expect(await articleUpdatePage.getArticleSeenCountInput()).to.eq('5');
     articleUpdatePage.setArticleContentInput('articleContent');
     expect(await articleUpdatePage.getArticleContentInput()).to.match(/articleContent/);
+    articleUpdatePage.authorSelectLastOption();
     articleUpdatePage.categorySelectLastOption();
-    articleUpdatePage.userSelectLastOption();
     await articleUpdatePage.save();
     expect(await articleUpdatePage.getSaveButton().isPresent()).to.be.false;
   });

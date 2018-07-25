@@ -19,14 +19,10 @@
             "postTitle": "Post Title",
             "postStatus": "Post Status",
             "postCreatedDate": "Post Created Date",
-            "postPublishDate": "Post Publish Date",
-            "postUpdateDate": "Post Update Date",
             "postSeenCount": "Post Seen Count",
             "postContent": "Post Content",
-            "comment": "Comment",
             "category": "Category",
-            "user": "User",
-            "project": "Project"
+            "user": "User"
         }
     }
 }

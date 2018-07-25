@@ -1,7 +1,6 @@
 package com.tcutma.realstate.repository;
 
 import com.tcutma.realstate.domain.ResidentialArea;
-import com.tcutma.realstate.service.dto.TagDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.*;
@@ -28,9 +27,4 @@ public interface ResidentialAreaRepository extends JpaRepository<ResidentialArea
     @Query("select residential_area from ResidentialArea residential_area left join fetch residential_area.tags where residential_area.id =:id")
     Optional<ResidentialArea> findOneWithEagerRelationships(@Param("id") Long id);
 
-/*
-    @Query(value = "select distinct tag from Tag tag left join tag.residential_areas",
-    countQuery = "select count(distinct tag) from Tag tag")
-    Page<TagDTO> findAllTags(Long raId, Pageable pageable);
-*/
 }

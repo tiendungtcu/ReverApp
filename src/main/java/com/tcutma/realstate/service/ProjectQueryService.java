@@ -82,9 +82,6 @@ public class ProjectQueryService extends QueryService<Project> {
             if (criteria.getProjectAlias() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getProjectAlias(), Project_.projectAlias));
             }
-            if (criteria.getProjectAvatarId() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getProjectAvatarId(), Project_.projectAvatarId));
-            }
             if (criteria.getProjectAvatarUrl() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getProjectAvatarUrl(), Project_.projectAvatarUrl));
             }
@@ -94,8 +91,8 @@ public class ProjectQueryService extends QueryService<Project> {
             if (criteria.getProjectProvince() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getProjectProvince(), Project_.projectProvince));
             }
-            if (criteria.getProjectResidentialArea() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getProjectResidentialArea(), Project_.projectResidentialArea));
+            if (criteria.getResidentialAreaId() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getResidentialAreaId(), Project_.residentialAreaId));
             }
             if (criteria.getProjectRoad() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getProjectRoad(), Project_.projectRoad));
@@ -105,9 +102,6 @@ public class ProjectQueryService extends QueryService<Project> {
             }
             if (criteria.getProjectStatus() != null) {
                 specification = specification.and(buildSpecification(criteria.getProjectStatus(), Project_.projectStatus));
-            }
-            if (criteria.getProjectType() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getProjectType(), Project_.projectType));
             }
             if (criteria.getProjectNoBlocks() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getProjectNoBlocks(), Project_.projectNoBlocks));
@@ -127,9 +121,6 @@ public class ProjectQueryService extends QueryService<Project> {
             if (criteria.getProjectMaxSellPrice() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getProjectMaxSellPrice(), Project_.projectMaxSellPrice));
             }
-            if (criteria.getProjectSellAreaUnit() != null) {
-                specification = specification.and(buildSpecification(criteria.getProjectSellAreaUnit(), Project_.projectSellAreaUnit));
-            }
             if (criteria.getProjectSellPriceUnit() != null) {
                 specification = specification.and(buildSpecification(criteria.getProjectSellPriceUnit(), Project_.projectSellPriceUnit));
             }
@@ -138,9 +129,6 @@ public class ProjectQueryService extends QueryService<Project> {
             }
             if (criteria.getProjectMaxRentPrice() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getProjectMaxRentPrice(), Project_.projectMaxRentPrice));
-            }
-            if (criteria.getProjectRentAreaUnit() != null) {
-                specification = specification.and(buildSpecification(criteria.getProjectRentAreaUnit(), Project_.projectRentAreaUnit));
             }
             if (criteria.getProjectRentPriceUnit() != null) {
                 specification = specification.and(buildSpecification(criteria.getProjectRentPriceUnit(), Project_.projectRentPriceUnit));
@@ -208,14 +196,11 @@ public class ProjectQueryService extends QueryService<Project> {
             if (criteria.getProjectAvailable() != null) {
                 specification = specification.and(buildSpecification(criteria.getProjectAvailable(), Project_.projectAvailable));
             }
-            if (criteria.getDocumentId() != null) {
-                specification = specification.and(buildReferringEntitySpecification(criteria.getDocumentId(), Project_.document, Document_.id));
-            }
             if (criteria.getLocationId() != null) {
                 specification = specification.and(buildReferringEntitySpecification(criteria.getLocationId(), Project_.location, Location_.id));
             }
-            if (criteria.getPostId() != null) {
-                specification = specification.and(buildReferringEntitySpecification(criteria.getPostId(), Project_.posts, BlogPost_.id));
+            if (criteria.getConsultantId() != null) {
+                specification = specification.and(buildReferringEntitySpecification(criteria.getConsultantId(), Project_.consultant, User_.id));
             }
             if (criteria.getTagId() != null) {
                 specification = specification.and(buildReferringEntitySpecification(criteria.getTagId(), Project_.tags, Tag_.id));
@@ -223,14 +208,11 @@ public class ProjectQueryService extends QueryService<Project> {
             if (criteria.getBuildingtypeId() != null) {
                 specification = specification.and(buildReferringEntitySpecification(criteria.getBuildingtypeId(), Project_.buildingtypes, BuildingType_.id));
             }
-            if (criteria.getInvestorId() != null) {
-                specification = specification.and(buildReferringEntitySpecification(criteria.getInvestorId(), Project_.investors, Investor_.id));
+            if (criteria.getInverstorId() != null) {
+                specification = specification.and(buildReferringEntitySpecification(criteria.getInverstorId(), Project_.inverstors, Investor_.id));
             }
-            if (criteria.getProjectbuilderId() != null) {
-                specification = specification.and(buildReferringEntitySpecification(criteria.getProjectbuilderId(), Project_.projectbuilders, ProjectBuilder_.id));
-            }
-            if (criteria.getPhotoId() != null) {
-                specification = specification.and(buildReferringEntitySpecification(criteria.getPhotoId(), Project_.photos, Photo_.id));
+            if (criteria.getContractorId() != null) {
+                specification = specification.and(buildReferringEntitySpecification(criteria.getContractorId(), Project_.contractors, Contractor_.id));
             }
         }
         return specification;

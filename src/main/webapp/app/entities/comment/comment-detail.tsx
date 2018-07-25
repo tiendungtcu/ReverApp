@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Row, Col } from 'reactstrap';
 // tslint:disable-next-line:no-unused-variable
-import { Translate, ICrudGetAction, byteSize, TextFormat } from 'react-jhipster';
+import { Translate, ICrudGetAction, TextFormat } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IRootState } from 'app/shared/reducers';
@@ -29,32 +29,18 @@ export class CommentDetail extends React.Component<ICommentDetailProps> {
           </h2>
           <dl className="jh-entity-details">
             <dt>
-              <span id="commentTitle">
-                <Translate contentKey="riverApp.comment.commentTitle">Comment Title</Translate>
-              </span>
-            </dt>
-            <dd>{commentEntity.commentTitle}</dd>
-            <dt>
               <span id="commentContent">
                 <Translate contentKey="riverApp.comment.commentContent">Comment Content</Translate>
               </span>
             </dt>
             <dd>{commentEntity.commentContent}</dd>
             <dt>
-              <span id="commentCreatedDate">
-                <Translate contentKey="riverApp.comment.commentCreatedDate">Comment Created Date</Translate>
+              <span id="commentTimeStamp">
+                <Translate contentKey="riverApp.comment.commentTimeStamp">Comment Time Stamp</Translate>
               </span>
             </dt>
             <dd>
-              <TextFormat value={commentEntity.commentCreatedDate} type="date" format={APP_DATE_FORMAT} />
-            </dd>
-            <dt>
-              <span id="commentUpdateDate">
-                <Translate contentKey="riverApp.comment.commentUpdateDate">Comment Update Date</Translate>
-              </span>
-            </dt>
-            <dd>
-              <TextFormat value={commentEntity.commentUpdateDate} type="date" format={APP_DATE_FORMAT} />
+              <TextFormat value={commentEntity.commentTimeStamp} type="date" format={APP_DATE_FORMAT} />
             </dd>
             <dt>
               <Translate contentKey="riverApp.comment.user">User</Translate>
@@ -63,7 +49,7 @@ export class CommentDetail extends React.Component<ICommentDetailProps> {
             <dt>
               <Translate contentKey="riverApp.comment.post">Post</Translate>
             </dt>
-            <dd>{commentEntity.postId ? commentEntity.postId : ''}</dd>
+            <dd>{commentEntity.postPostTitle ? commentEntity.postPostTitle : ''}</dd>
           </dl>
           <Button tag={Link} to="/entity/comment" replace color="info">
             <FontAwesomeIcon icon="arrow-left" />{' '}

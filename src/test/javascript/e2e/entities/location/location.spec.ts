@@ -45,22 +45,14 @@ describe('Location e2e test', () => {
     expect(await locationUpdatePage.getLocationDistrictInput()).to.match(/locationDistrict/);
     locationUpdatePage.setLocationProvinceInput('locationProvince');
     expect(await locationUpdatePage.getLocationProvinceInput()).to.match(/locationProvince/);
-    locationUpdatePage.setLocationCountryInput('locationCountry');
-    expect(await locationUpdatePage.getLocationCountryInput()).to.match(/locationCountry/);
     locationUpdatePage.setLocationGmapUrlInput('locationGmapUrl');
     expect(await locationUpdatePage.getLocationGmapUrlInput()).to.match(/locationGmapUrl/);
     locationUpdatePage.setLongitudeInput('5');
     expect(await locationUpdatePage.getLongitudeInput()).to.eq('5');
     locationUpdatePage.setLatitudeInput('5');
     expect(await locationUpdatePage.getLatitudeInput()).to.eq('5');
-    const selectedLocationHide = await locationUpdatePage.getLocationHideInput().isSelected();
-    if (selectedLocationHide) {
-      locationUpdatePage.getLocationHideInput().click();
-      expect(await locationUpdatePage.getLocationHideInput().isSelected()).to.be.false;
-    } else {
-      locationUpdatePage.getLocationHideInput().click();
-      expect(await locationUpdatePage.getLocationHideInput().isSelected()).to.be.true;
-    }
+    locationUpdatePage.setLocationZipCodeInput('locationZipCode');
+    expect(await locationUpdatePage.getLocationZipCodeInput()).to.match(/locationZipCode/);
     await locationUpdatePage.save();
     expect(await locationUpdatePage.getSaveButton().isPresent()).to.be.false;
   });

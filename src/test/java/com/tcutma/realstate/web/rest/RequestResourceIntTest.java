@@ -24,22 +24,18 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import java.time.Instant;
-import java.time.ZonedDateTime;
-import java.time.ZoneOffset;
+import java.time.LocalDate;
 import java.time.ZoneId;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 
-import static com.tcutma.realstate.web.rest.TestUtil.sameInstant;
 import static com.tcutma.realstate.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import com.tcutma.realstate.domain.enumeration.PropertyType;
+import com.tcutma.realstate.domain.enumeration.ResourceType;
 import com.tcutma.realstate.domain.enumeration.RequestType;
 /**
  * Test class for the RequestResource REST controller.
@@ -71,32 +67,23 @@ public class RequestResourceIntTest {
     private static final String DEFAULT_REQUEST_PAGE_URL = "AAAAAAAAAA";
     private static final String UPDATED_REQUEST_PAGE_URL = "BBBBBBBBBB";
 
-    private static final String DEFAULT_REQUEST_PAGE_NAME = "AAAAAAAAAA";
-    private static final String UPDATED_REQUEST_PAGE_NAME = "BBBBBBBBBB";
+    private static final Long DEFAULT_RESOURCE_ID = 1L;
+    private static final Long UPDATED_RESOURCE_ID = 2L;
 
-    private static final Long DEFAULT_REQUEST_PROPERTY_ID = 1L;
-    private static final Long UPDATED_REQUEST_PROPERTY_ID = 2L;
-
-    private static final PropertyType DEFAULT_REQUEST_PROPERTY_TYPE = PropertyType.PROJECT;
-    private static final PropertyType UPDATED_REQUEST_PROPERTY_TYPE = PropertyType.PROPERTY;
+    private static final ResourceType DEFAULT_RESOURCE_TYPE = ResourceType.PROJECT;
+    private static final ResourceType UPDATED_RESOURCE_TYPE = ResourceType.PROPERTY;
 
     private static final RequestType DEFAULT_REQUEST_TYPE = RequestType.MEETING;
     private static final RequestType UPDATED_REQUEST_TYPE = RequestType.PRICE;
 
-    private static final Instant DEFAULT_REQUEST_MEETING_DATE = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_REQUEST_MEETING_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    private static final LocalDate DEFAULT_REQUEST_MEETING_DATE = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_REQUEST_MEETING_DATE = LocalDate.now(ZoneId.systemDefault());
 
     private static final String DEFAULT_REQUEST_QUESTION = "AAAAAAAAAA";
     private static final String UPDATED_REQUEST_QUESTION = "BBBBBBBBBB";
 
-    private static final Double DEFAULT_REQUEST_PRICE = 1D;
-    private static final Double UPDATED_REQUEST_PRICE = 2D;
-
-    private static final ZonedDateTime DEFAULT_REQUEST_CREATED_DATE = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
-    private static final ZonedDateTime UPDATED_REQUEST_CREATED_DATE = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
-
-    private static final Integer DEFAULT_REQUEST_CONSULTANT_ID = 1;
-    private static final Integer UPDATED_REQUEST_CONSULTANT_ID = 2;
+    private static final Double DEFAULT_REQUEST_PRICE = 0D;
+    private static final Double UPDATED_REQUEST_PRICE = 1D;
 
     @Autowired
     private RequestRepository requestRepository;
@@ -151,15 +138,12 @@ public class RequestResourceIntTest {
             .requestGetAnalysis(DEFAULT_REQUEST_GET_ANALYSIS)
             .requestGetPrice(DEFAULT_REQUEST_GET_PRICE)
             .requestPageUrl(DEFAULT_REQUEST_PAGE_URL)
-            .requestPageName(DEFAULT_REQUEST_PAGE_NAME)
-            .requestPropertyId(DEFAULT_REQUEST_PROPERTY_ID)
-            .requestPropertyType(DEFAULT_REQUEST_PROPERTY_TYPE)
+            .resourceId(DEFAULT_RESOURCE_ID)
+            .resourceType(DEFAULT_RESOURCE_TYPE)
             .requestType(DEFAULT_REQUEST_TYPE)
             .requestMeetingDate(DEFAULT_REQUEST_MEETING_DATE)
             .requestQuestion(DEFAULT_REQUEST_QUESTION)
-            .requestPrice(DEFAULT_REQUEST_PRICE)
-            .requestCreatedDate(DEFAULT_REQUEST_CREATED_DATE)
-            .requestConsultantId(DEFAULT_REQUEST_CONSULTANT_ID);
+            .requestPrice(DEFAULT_REQUEST_PRICE);
         return request;
     }
 
@@ -191,15 +175,12 @@ public class RequestResourceIntTest {
         assertThat(testRequest.isRequestGetAnalysis()).isEqualTo(DEFAULT_REQUEST_GET_ANALYSIS);
         assertThat(testRequest.isRequestGetPrice()).isEqualTo(DEFAULT_REQUEST_GET_PRICE);
         assertThat(testRequest.getRequestPageUrl()).isEqualTo(DEFAULT_REQUEST_PAGE_URL);
-        assertThat(testRequest.getRequestPageName()).isEqualTo(DEFAULT_REQUEST_PAGE_NAME);
-        assertThat(testRequest.getRequestPropertyId()).isEqualTo(DEFAULT_REQUEST_PROPERTY_ID);
-        assertThat(testRequest.getRequestPropertyType()).isEqualTo(DEFAULT_REQUEST_PROPERTY_TYPE);
+        assertThat(testRequest.getResourceId()).isEqualTo(DEFAULT_RESOURCE_ID);
+        assertThat(testRequest.getResourceType()).isEqualTo(DEFAULT_RESOURCE_TYPE);
         assertThat(testRequest.getRequestType()).isEqualTo(DEFAULT_REQUEST_TYPE);
         assertThat(testRequest.getRequestMeetingDate()).isEqualTo(DEFAULT_REQUEST_MEETING_DATE);
         assertThat(testRequest.getRequestQuestion()).isEqualTo(DEFAULT_REQUEST_QUESTION);
         assertThat(testRequest.getRequestPrice()).isEqualTo(DEFAULT_REQUEST_PRICE);
-        assertThat(testRequest.getRequestCreatedDate()).isEqualTo(DEFAULT_REQUEST_CREATED_DATE);
-        assertThat(testRequest.getRequestConsultantId()).isEqualTo(DEFAULT_REQUEST_CONSULTANT_ID);
     }
 
     @Test
@@ -316,15 +297,12 @@ public class RequestResourceIntTest {
             .andExpect(jsonPath("$.[*].requestGetAnalysis").value(hasItem(DEFAULT_REQUEST_GET_ANALYSIS.booleanValue())))
             .andExpect(jsonPath("$.[*].requestGetPrice").value(hasItem(DEFAULT_REQUEST_GET_PRICE.booleanValue())))
             .andExpect(jsonPath("$.[*].requestPageUrl").value(hasItem(DEFAULT_REQUEST_PAGE_URL.toString())))
-            .andExpect(jsonPath("$.[*].requestPageName").value(hasItem(DEFAULT_REQUEST_PAGE_NAME.toString())))
-            .andExpect(jsonPath("$.[*].requestPropertyId").value(hasItem(DEFAULT_REQUEST_PROPERTY_ID.intValue())))
-            .andExpect(jsonPath("$.[*].requestPropertyType").value(hasItem(DEFAULT_REQUEST_PROPERTY_TYPE.toString())))
+            .andExpect(jsonPath("$.[*].resourceId").value(hasItem(DEFAULT_RESOURCE_ID.intValue())))
+            .andExpect(jsonPath("$.[*].resourceType").value(hasItem(DEFAULT_RESOURCE_TYPE.toString())))
             .andExpect(jsonPath("$.[*].requestType").value(hasItem(DEFAULT_REQUEST_TYPE.toString())))
             .andExpect(jsonPath("$.[*].requestMeetingDate").value(hasItem(DEFAULT_REQUEST_MEETING_DATE.toString())))
             .andExpect(jsonPath("$.[*].requestQuestion").value(hasItem(DEFAULT_REQUEST_QUESTION.toString())))
-            .andExpect(jsonPath("$.[*].requestPrice").value(hasItem(DEFAULT_REQUEST_PRICE.doubleValue())))
-            .andExpect(jsonPath("$.[*].requestCreatedDate").value(hasItem(sameInstant(DEFAULT_REQUEST_CREATED_DATE))))
-            .andExpect(jsonPath("$.[*].requestConsultantId").value(hasItem(DEFAULT_REQUEST_CONSULTANT_ID)));
+            .andExpect(jsonPath("$.[*].requestPrice").value(hasItem(DEFAULT_REQUEST_PRICE.doubleValue())));
     }
     
 
@@ -346,15 +324,12 @@ public class RequestResourceIntTest {
             .andExpect(jsonPath("$.requestGetAnalysis").value(DEFAULT_REQUEST_GET_ANALYSIS.booleanValue()))
             .andExpect(jsonPath("$.requestGetPrice").value(DEFAULT_REQUEST_GET_PRICE.booleanValue()))
             .andExpect(jsonPath("$.requestPageUrl").value(DEFAULT_REQUEST_PAGE_URL.toString()))
-            .andExpect(jsonPath("$.requestPageName").value(DEFAULT_REQUEST_PAGE_NAME.toString()))
-            .andExpect(jsonPath("$.requestPropertyId").value(DEFAULT_REQUEST_PROPERTY_ID.intValue()))
-            .andExpect(jsonPath("$.requestPropertyType").value(DEFAULT_REQUEST_PROPERTY_TYPE.toString()))
+            .andExpect(jsonPath("$.resourceId").value(DEFAULT_RESOURCE_ID.intValue()))
+            .andExpect(jsonPath("$.resourceType").value(DEFAULT_RESOURCE_TYPE.toString()))
             .andExpect(jsonPath("$.requestType").value(DEFAULT_REQUEST_TYPE.toString()))
             .andExpect(jsonPath("$.requestMeetingDate").value(DEFAULT_REQUEST_MEETING_DATE.toString()))
             .andExpect(jsonPath("$.requestQuestion").value(DEFAULT_REQUEST_QUESTION.toString()))
-            .andExpect(jsonPath("$.requestPrice").value(DEFAULT_REQUEST_PRICE.doubleValue()))
-            .andExpect(jsonPath("$.requestCreatedDate").value(sameInstant(DEFAULT_REQUEST_CREATED_DATE)))
-            .andExpect(jsonPath("$.requestConsultantId").value(DEFAULT_REQUEST_CONSULTANT_ID));
+            .andExpect(jsonPath("$.requestPrice").value(DEFAULT_REQUEST_PRICE.doubleValue()));
     }
     @Test
     @Transactional
@@ -384,15 +359,12 @@ public class RequestResourceIntTest {
             .requestGetAnalysis(UPDATED_REQUEST_GET_ANALYSIS)
             .requestGetPrice(UPDATED_REQUEST_GET_PRICE)
             .requestPageUrl(UPDATED_REQUEST_PAGE_URL)
-            .requestPageName(UPDATED_REQUEST_PAGE_NAME)
-            .requestPropertyId(UPDATED_REQUEST_PROPERTY_ID)
-            .requestPropertyType(UPDATED_REQUEST_PROPERTY_TYPE)
+            .resourceId(UPDATED_RESOURCE_ID)
+            .resourceType(UPDATED_RESOURCE_TYPE)
             .requestType(UPDATED_REQUEST_TYPE)
             .requestMeetingDate(UPDATED_REQUEST_MEETING_DATE)
             .requestQuestion(UPDATED_REQUEST_QUESTION)
-            .requestPrice(UPDATED_REQUEST_PRICE)
-            .requestCreatedDate(UPDATED_REQUEST_CREATED_DATE)
-            .requestConsultantId(UPDATED_REQUEST_CONSULTANT_ID);
+            .requestPrice(UPDATED_REQUEST_PRICE);
         RequestDTO requestDTO = requestMapper.toDto(updatedRequest);
 
         restRequestMockMvc.perform(put("/api/requests")
@@ -411,15 +383,12 @@ public class RequestResourceIntTest {
         assertThat(testRequest.isRequestGetAnalysis()).isEqualTo(UPDATED_REQUEST_GET_ANALYSIS);
         assertThat(testRequest.isRequestGetPrice()).isEqualTo(UPDATED_REQUEST_GET_PRICE);
         assertThat(testRequest.getRequestPageUrl()).isEqualTo(UPDATED_REQUEST_PAGE_URL);
-        assertThat(testRequest.getRequestPageName()).isEqualTo(UPDATED_REQUEST_PAGE_NAME);
-        assertThat(testRequest.getRequestPropertyId()).isEqualTo(UPDATED_REQUEST_PROPERTY_ID);
-        assertThat(testRequest.getRequestPropertyType()).isEqualTo(UPDATED_REQUEST_PROPERTY_TYPE);
+        assertThat(testRequest.getResourceId()).isEqualTo(UPDATED_RESOURCE_ID);
+        assertThat(testRequest.getResourceType()).isEqualTo(UPDATED_RESOURCE_TYPE);
         assertThat(testRequest.getRequestType()).isEqualTo(UPDATED_REQUEST_TYPE);
         assertThat(testRequest.getRequestMeetingDate()).isEqualTo(UPDATED_REQUEST_MEETING_DATE);
         assertThat(testRequest.getRequestQuestion()).isEqualTo(UPDATED_REQUEST_QUESTION);
         assertThat(testRequest.getRequestPrice()).isEqualTo(UPDATED_REQUEST_PRICE);
-        assertThat(testRequest.getRequestCreatedDate()).isEqualTo(UPDATED_REQUEST_CREATED_DATE);
-        assertThat(testRequest.getRequestConsultantId()).isEqualTo(UPDATED_REQUEST_CONSULTANT_ID);
     }
 
     @Test

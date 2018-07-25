@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Row, Col } from 'reactstrap';
 // tslint:disable-next-line:no-unused-variable
-import { Translate, ICrudGetAction, openFile, byteSize } from 'react-jhipster';
+import { Translate, ICrudGetAction } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IRootState } from 'app/shared/reducers';
@@ -35,25 +35,11 @@ export class DepartmentDetail extends React.Component<IDepartmentDetailProps> {
             </dt>
             <dd>{departmentEntity.departmentName}</dd>
             <dt>
-              <span id="departmentPhoto">
-                <Translate contentKey="riverApp.department.departmentPhoto">Department Photo</Translate>
+              <span id="departmentAvatarUrl">
+                <Translate contentKey="riverApp.department.departmentAvatarUrl">Department Avatar Url</Translate>
               </span>
             </dt>
-            <dd>
-              {departmentEntity.departmentPhoto ? (
-                <div>
-                  <a onClick={openFile(departmentEntity.departmentPhotoContentType, departmentEntity.departmentPhoto)}>
-                    <img
-                      src={`data:${departmentEntity.departmentPhotoContentType};base64,${departmentEntity.departmentPhoto}`}
-                      style={{ maxHeight: '30px' }}
-                    />
-                  </a>
-                  <span>
-                    {departmentEntity.departmentPhotoContentType}, {byteSize(departmentEntity.departmentPhoto)}
-                  </span>
-                </div>
-              ) : null}
-            </dd>
+            <dd>{departmentEntity.departmentAvatarUrl}</dd>
             <dt>
               <span id="departmentPhone">
                 <Translate contentKey="riverApp.department.departmentPhone">Department Phone</Translate>

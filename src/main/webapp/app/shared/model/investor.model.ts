@@ -1,5 +1,4 @@
 import { Moment } from 'moment';
-import { IProject } from './project.model';
 
 export interface IInvestor {
   id?: number;
@@ -10,9 +9,7 @@ export interface IInvestor {
   investorAddress?: string;
   investorWebsite?: string;
   investorPhone?: string;
-  investorPhotoContentType?: string;
-  investorPhoto?: any;
-  projects?: IProject[];
+  investorAvatarUrl?: string;
 }
 
 export const defaultValue: Readonly<IInvestor> = {};

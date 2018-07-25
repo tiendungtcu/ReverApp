@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Row, Col } from 'reactstrap';
 // tslint:disable-next-line:no-unused-variable
-import { Translate, ICrudGetAction, openFile, byteSize } from 'react-jhipster';
+import { Translate, ICrudGetAction } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IRootState } from 'app/shared/reducers';
@@ -47,37 +47,17 @@ export class ContactDetail extends React.Component<IContactDetailProps> {
             </dt>
             <dd>{contactEntity.contactAddress}</dd>
             <dt>
-              <span id="contactEmail">
-                <Translate contentKey="riverApp.contact.contactEmail">Contact Email</Translate>
-              </span>
-            </dt>
-            <dd>{contactEntity.contactEmail}</dd>
-            <dt>
               <span id="contactWebsite">
                 <Translate contentKey="riverApp.contact.contactWebsite">Contact Website</Translate>
               </span>
             </dt>
             <dd>{contactEntity.contactWebsite}</dd>
             <dt>
-              <span id="contactPhoto">
-                <Translate contentKey="riverApp.contact.contactPhoto">Contact Photo</Translate>
+              <span id="contactAvatarUrl">
+                <Translate contentKey="riverApp.contact.contactAvatarUrl">Contact Avatar Url</Translate>
               </span>
             </dt>
-            <dd>
-              {contactEntity.contactPhoto ? (
-                <div>
-                  <a onClick={openFile(contactEntity.contactPhotoContentType, contactEntity.contactPhoto)}>
-                    <img
-                      src={`data:${contactEntity.contactPhotoContentType};base64,${contactEntity.contactPhoto}`}
-                      style={{ maxHeight: '30px' }}
-                    />
-                  </a>
-                  <span>
-                    {contactEntity.contactPhotoContentType}, {byteSize(contactEntity.contactPhoto)}
-                  </span>
-                </div>
-              ) : null}
-            </dd>
+            <dd>{contactEntity.contactAvatarUrl}</dd>
             <dt>
               <span id="contactFacebook">
                 <Translate contentKey="riverApp.contact.contactFacebook">Contact Facebook</Translate>
@@ -120,6 +100,10 @@ export class ContactDetail extends React.Component<IContactDetailProps> {
               </span>
             </dt>
             <dd>{contactEntity.contactStatus ? 'true' : 'false'}</dd>
+            <dt>
+              <Translate contentKey="riverApp.contact.user">User</Translate>
+            </dt>
+            <dd>{contactEntity.userId ? contactEntity.userId : ''}</dd>
           </dl>
           <Button tag={Link} to="/entity/contact" replace color="info">
             <FontAwesomeIcon icon="arrow-left" />{' '}

@@ -77,10 +77,6 @@ export class ResidentialAreaDetail extends React.Component<IResidentialAreaDetai
             </dt>
             <dd>{residentialAreaEntity.residentialAvatar}</dd>
             <dt>
-              <Translate contentKey="riverApp.residentialArea.photo">Photo</Translate>
-            </dt>
-            <dd>{residentialAreaEntity.photoId ? residentialAreaEntity.photoId : ''}</dd>
-            <dt>
               <Translate contentKey="riverApp.residentialArea.tag">Tag</Translate>
             </dt>
             <dd>

@@ -35,6 +35,7 @@ describe('SupportCategory e2e test', () => {
     expect(await supportCategoryUpdatePage.getCategoryNameInput()).to.match(/categoryName/);
     supportCategoryUpdatePage.setCategoryDescriptionInput('categoryDescription');
     expect(await supportCategoryUpdatePage.getCategoryDescriptionInput()).to.match(/categoryDescription/);
+    supportCategoryUpdatePage.categorySupportTypeSelectLastOption();
     await supportCategoryUpdatePage.save();
     expect(await supportCategoryUpdatePage.getSaveButton().isPresent()).to.be.false;
   });

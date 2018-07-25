@@ -5,8 +5,10 @@
             "fieldName": "residentialName",
             "fieldType": "String",
             "fieldValidateRules": [
-                "required"
-            ]
+                "required",
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 128
         },
         {
             "fieldName": "residentialAlias",
@@ -45,23 +47,15 @@
     ],
     "relationships": [
         {
-            "relationshipType": "one-to-one",
-            "relationshipName": "photo",
-            "otherEntityName": "photo",
-            "otherEntityField": "id",
-            "ownerSide": true,
-            "otherEntityRelationshipName": "residentialArea"
-        },
-        {
             "relationshipType": "many-to-many",
-            "otherEntityRelationshipName": "residentialArea",
+            "otherEntityRelationshipName": "",
             "relationshipName": "tag",
             "otherEntityName": "tag",
             "otherEntityField": "tagName",
             "ownerSide": true
         }
     ],
-    "changelogDate": "20180720045235",
+    "changelogDate": "20180724181711",
     "javadoc": "ResidentialArea entity",
     "entityTableName": "residential_area",
     "dto": "mapstruct",

@@ -4,8 +4,6 @@ import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Col, Row, Table } from 'reactstrap';
 // tslint:disable-next-line:no-unused-variable
 import {
-  openFile,
-  byteSize,
   Translate,
   ICrudGetAllAction,
   TextFormat,
@@ -98,8 +96,9 @@ export class Investor extends React.Component<IInvestorProps, IInvestorState> {
                 <th className="hand" onClick={this.sort('investorPhone')}>
                   <Translate contentKey="riverApp.investor.investorPhone">Investor Phone</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
-                <th className="hand" onClick={this.sort('investorPhoto')}>
-                  <Translate contentKey="riverApp.investor.investorPhoto">Investor Photo</Translate> <FontAwesomeIcon icon="sort" />
+                <th className="hand" onClick={this.sort('investorAvatarUrl')}>
+                  <Translate contentKey="riverApp.investor.investorAvatarUrl">Investor Avatar Url</Translate>{' '}
+                  <FontAwesomeIcon icon="sort" />
                 </th>
                 <th />
               </tr>
@@ -115,28 +114,13 @@ export class Investor extends React.Component<IInvestorProps, IInvestorState> {
                   <td>{investor.investorName}</td>
                   <td>{investor.investorTitle}</td>
                   <td>
-                    <TextFormat type="date" value={investor.investorDate} format={APP_DATE_FORMAT} />
+                    <TextFormat type="date" value={investor.investorDate} format={APP_LOCAL_DATE_FORMAT} />
                   </td>
                   <td>{investor.investorDescription}</td>
                   <td>{investor.investorAddress}</td>
                   <td>{investor.investorWebsite}</td>
                   <td>{investor.investorPhone}</td>
-                  <td>
-                    {investor.investorPhoto ? (
-                      <div>
-                        <a onClick={openFile(investor.investorPhotoContentType, investor.investorPhoto)}>
-                          <img
-                            src={`data:${investor.investorPhotoContentType};base64,${investor.investorPhoto}`}
-                            style={{ maxHeight: '30px' }}
-                          />
-                          &nbsp;
-                        </a>
-                        <span>
-                          {investor.investorPhotoContentType}, {byteSize(investor.investorPhoto)}
-                        </span>
-                      </div>
-                    ) : null}
-                  </td>
+                  <td>{investor.investorAvatarUrl}</td>
                   <td className="text-right">
                     <div className="btn-group flex-btn-group-container">
                       <Button tag={Link} to={`${match.url}/${investor.id}`} color="info" size="sm">

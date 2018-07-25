@@ -12,9 +12,6 @@ import org.mapstruct.*;
 public interface BuildingTypeMapper extends EntityMapper<BuildingTypeDTO, BuildingType> {
 
 
-    @Mapping(target = "projects", ignore = true)
-    @Mapping(target = "properties", ignore = true)
-    BuildingType toEntity(BuildingTypeDTO buildingTypeDTO);
 
     default BuildingType fromId(Long id) {
         if (id == null) {

@@ -22,7 +22,6 @@ const initialState = {
   entities: [] as ReadonlyArray<ITag>,
   entity: defaultValue,
   updating: false,
-  totalItems: 0,
   updateSuccess: false
 };
 
@@ -65,7 +64,6 @@ export default (state: TagState = initialState, action): TagState => {
       return {
         ...state,
         loading: false,
-        totalItems: action.payload.headers['x-total-count'],
         entities: action.payload.data
       };
     case SUCCESS(ACTION_TYPES.FETCH_TAG):
@@ -102,13 +100,10 @@ const apiUrl = SERVER_API_URL + '/api/tags';
 
 // Actions
 
-export const getEntities: ICrudGetAllAction<ITag> = (page, size, sort) => {
-  const requestUrl = `${apiUrl}${sort ? `?page=${page}&size=${size}&sort=${sort}` : ''}`;
-  return {
-    type: ACTION_TYPES.FETCH_TAG_LIST,
-    payload: axios.get<ITag>(`${requestUrl}${sort ? '&' : '?'}cacheBuster=${new Date().getTime()}`)
-  };
-};
+export const getEntities: ICrudGetAllAction<ITag> = (page, size, sort) => ({
+  type: ACTION_TYPES.FETCH_TAG_LIST,
+  payload: axios.get<ITag>(`${apiUrl}?cacheBuster=${new Date().getTime()}`)
+});
 
 export const getEntity: ICrudGetAction<ITag> = id => {
   const requestUrl = `${apiUrl}/${id}`;

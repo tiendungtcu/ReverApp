@@ -5,16 +5,23 @@
             "fieldName": "categoryName",
             "fieldType": "String",
             "fieldValidateRules": [
-                "required"
-            ]
+                "required",
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 128
         },
         {
             "fieldName": "categoryDescription",
             "fieldType": "String"
+        },
+        {
+            "fieldName": "categorySupportType",
+            "fieldType": "SupportType",
+            "fieldValues": "ACCOUNT,SELL,RENT,BUY,HOUSE,PROJECT"
         }
     ],
     "relationships": [],
-    "changelogDate": "20180720045232",
+    "changelogDate": "20180724181706",
     "javadoc": "SupportCategory entity",
     "entityTableName": "support_category",
     "dto": "mapstruct",

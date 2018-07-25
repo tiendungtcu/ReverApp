@@ -1,13 +1,11 @@
 package com.tcutma.realstate.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
-import com.tcutma.realstate.domain.Contact;
-import com.tcutma.realstate.repository.ContactRepository;
+import com.tcutma.realstate.service.ContactService;
 import com.tcutma.realstate.web.rest.errors.BadRequestAlertException;
 import com.tcutma.realstate.web.rest.util.HeaderUtil;
 import com.tcutma.realstate.web.rest.util.PaginationUtil;
 import com.tcutma.realstate.service.dto.ContactDTO;
-import com.tcutma.realstate.service.mapper.ContactMapper;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,13 +34,10 @@ public class ContactResource {
 
     private static final String ENTITY_NAME = "contact";
 
-    private final ContactRepository contactRepository;
+    private final ContactService contactService;
 
-    private final ContactMapper contactMapper;
-
-    public ContactResource(ContactRepository contactRepository, ContactMapper contactMapper) {
-        this.contactRepository = contactRepository;
-        this.contactMapper = contactMapper;
+    public ContactResource(ContactService contactService) {
+        this.contactService = contactService;
     }
 
     /**
@@ -59,10 +54,7 @@ public class ContactResource {
         if (contactDTO.getId() != null) {
             throw new BadRequestAlertException("A new contact cannot already have an ID", ENTITY_NAME, "idexists");
         }
-
-        Contact contact = contactMapper.toEntity(contactDTO);
-        contact = contactRepository.save(contact);
-        ContactDTO result = contactMapper.toDto(contact);
+        ContactDTO result = contactService.save(contactDTO);
         return ResponseEntity.created(new URI("/api/contacts/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -84,10 +76,7 @@ public class ContactResource {
         if (contactDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-
-        Contact contact = contactMapper.toEntity(contactDTO);
-        contact = contactRepository.save(contact);
-        ContactDTO result = contactMapper.toDto(contact);
+        ContactDTO result = contactService.save(contactDTO);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, contactDTO.getId().toString()))
             .body(result);
@@ -103,7 +92,7 @@ public class ContactResource {
     @Timed
     public ResponseEntity<List<ContactDTO>> getAllContacts(Pageable pageable) {
         log.debug("REST request to get a page of Contacts");
-        Page<ContactDTO> page = contactRepository.findAll(pageable).map(contactMapper::toDto);
+        Page<ContactDTO> page = contactService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/contacts");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
@@ -118,8 +107,7 @@ public class ContactResource {
     @Timed
     public ResponseEntity<ContactDTO> getContact(@PathVariable Long id) {
         log.debug("REST request to get Contact : {}", id);
-        Optional<ContactDTO> contactDTO = contactRepository.findById(id)
-            .map(contactMapper::toDto);
+        Optional<ContactDTO> contactDTO = contactService.findOne(id);
         return ResponseUtil.wrapOrNotFound(contactDTO);
     }
 
@@ -133,8 +121,7 @@ public class ContactResource {
     @Timed
     public ResponseEntity<Void> deleteContact(@PathVariable Long id) {
         log.debug("REST request to delete Contact : {}", id);
-
-        contactRepository.deleteById(id);
+        contactService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 }

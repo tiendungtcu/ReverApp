@@ -1,3 +1,15 @@
+MIN_LENGTH = 1
+MAX_LENGTH = 256
+DEPART_LENGTH = 64
+NAME_LENGTH = 128
+PHONE_LENGTH = 16
+
+DEFAULT_MIN_BYTES = 20
+DEFAULT_MAX_BYTES = 40
+DEFAULT_MIN = 0
+DEFAULT_MAX = 41
+
+
 
 ////////////////////////////
 //-------ENTITY-------------//
@@ -6,8 +18,8 @@
 * Company-thong tin cong ty entity
 */
 entity Company{
-    companyName String required,
-    companyPhone String,
+    companyName String required maxlength(NAME_LENGTH),
+    companyPhone String maxlength(PHONE_LENGTH),
     companyAddress String,
     companyLogo ImageBlob,
     companyWebsite String,
@@ -21,99 +33,86 @@ entity Company{
 }
 
 /*
-* Contact - chi tiet lien he entity
-*/
-entity Contact{
-    contactName String required,
-    contactPhone String required,
-    contactAddress String,
-    contactEmail String required,
-    contactWebsite String,
-    contactPhoto ImageBlob,
-    contactFacebook String,
-    contactTwitter String,
-    contactInstagram String,
-    contactLinkedin String,
-    contactGooglePlus String,
-    contactYoutube String,
-    contactStatus Boolean
-}
-
-/*
 * JobTitle - chuc vu entity
 */
 entity JobTitle{
-    titleName String required,
-    salaryFactor Double
+    titleName String required maxlength(NAME_LENGTH),
+    salaryFactor Double min(1)
 }
 
 /*
 * Exchanger - san giao dich entity
 */
 entity Exchanger{
-    exchangerName String required,
-    exchangerAddress String,
-    exchangerPhone String required,
-    exchangerPhoto ImageBlob
+    exchangerName String required maxlength(NAME_LENGTH),
+    exchangerAddress String maxlength(MAX_LENGTH),
+    exchangerPhone String required maxlength(PHONE_LENGTH),
+    exchangerAvatarUrl String
 }
 
 /*
 * Department - Phong ban entity
 */
 entity Department{
-    departmentName String required,
-    departmentPhoto ImageBlob,
-    departmentPhone String
+    departmentName String required maxlength(NAME_LENGTH),
+    departmentAvatarUrl String,
+    departmentPhone String maxlength(PHONE_LENGTH)
 }
 
 /*
 * Investor - chu dau tu entity
 */
 entity Investor {
-    investorName String required,
-    investorTitle String,
-    investorDate ZonedDateTime,
-    investorDescription String,
-    investorAddress String,
+    investorName String required maxlength(NAME_LENGTH),
+    investorTitle String maxlength(MAX_LENGTH),
+    investorDate LocalDate,
+    investorDescription String maxlength(MAX_LENGTH),
+    investorAddress String maxlength(MAX_LENGTH),
     investorWebsite String,
-    investorPhone String,
-    investorPhoto ImageBlob
+    investorPhone String maxlength(PHONE_LENGTH),
+    investorAvatarUrl String
 }
 
 /*
-* ProjectBuilder - nha thau entity
+* Contractor - nha thau entity
 */
-entity ProjectBuilder{
-    builderName String required,
-    builderTitle String,
-    builderDate ZonedDateTime,
-    builderDescription String,
-    builderAddress String,
-    builderWebsite String,
-    builderPhone String,
-    builderPhoto ImageBlob
+entity Contractor{
+    contractorName String required maxlength(NAME_LENGTH),
+    contractorTitle String maxlength(MAX_LENGTH),
+    contractorDate LocalDate,
+    contractorDescription String,
+    contractorAddress String,
+    contractorWebsite String,
+    contractorPhone String maxlength(PHONE_LENGTH),
+    contractorAvatarUrl String
 }
 
 /*
 * Document - Tai lieu du an entity
 */
 entity Document {
-    documentName String required,
-    documentUrl String,
+    documentName String required maxlength(MAX_LENGTH),
+    documentUrl String required,
     documentDate Instant,
-    documentContent TextBlob,
-    documentPhoto ImageBlob,
-    documentType DocumentType
+    documentMimeType String,
+    documentSize String,
+    resourceType ResourceType,
+    resourceId Long
+
 }
 
 /*
 * Photo - Hinh anh entity
 */
 entity Photo{
-    photoName String required,
-    photoImage ImageBlob,
-    photoExtension String,
+    photoName String required maxlength(MAX_LENGTH),
+    photoDate Instant,
     photoUrl String,
+    photoMimeType String,
+    resourceId Long,
+    resourceType ResourceType,
+    photoSize Integer,
+    photoAltText String,
     photoThumbnailUrl String
 }
 
@@ -122,100 +121,148 @@ entity Photo{
 */
 entity Location{
     locationName String,
-    locationFullAddress String,
+    locationFullAddress String maxlength(MAX_LENGTH),
     locationNumber String,
     locationRoad String,
     locationWard String,
     locationDistrict String,
     locationProvince String,
-    locationCountry String,
     locationGmapUrl String,
     longitude Double required,
     latitude Double required,
-    locationHide Boolean
+    locationZipCode String maxlength(PHONE_LENGTH)
+    //locationHide Boolean
 }
 
 /*
 * BuildingType - Loai hinh du an entity
 */
 entity BuildingType{
-    typeName String required,
-    typeSelect PropertyType
+    typeName String required maxlength(NAME_LENGTH)
 }
 
 /*
 * Category - danh muc bai viet entity
 */
 entity Category{
-    categoryName String required,
+    categoryName String required maxlength(NAME_LENGTH),
     categoryAlias String,
-    categoryDescription String
+    categoryDate Instant
 }
 
 /*
 * Tag - the entity
 */
 entity Tag{
-    tagName String required
+    tagName String required maxlength(NAME_LENGTH)
 }
 
 /*
 * Notification - entity
 */
-entity Notification{
-    notificationTitle String required,
-    notificationContent TextBlob ,
+entity Notification {
+    notificationTitle String required maxlength(NAME_LENGTH),
+    notificationContent TextBlob,
     notificationSeen Boolean,
-    notificationDate ZonedDateTime,
+    notificationDate Instant,
     notificationType NotificationType,
-    notificationReference String // property code
+    //notificationReference String // property code
+    notificationSender Long 
 }
 
 /*
 * SupportCategory entity 
 */
 entity SupportCategory{
-    categoryName String required,
-    categoryDescription	String
+    categoryName String required maxlength(NAME_LENGTH),
+    categoryDescription	String,
+    categorySupportType SupportType
 }
 
 /*
-*
+* Contact - chi tiet lien he entity
+*/
+entity Contact{
+    contactName String required maxlength(NAME_LENGTH),
+    contactPhone String required maxlength(PHONE_LENGTH),
+    contactAddress String,
+    contactWebsite String,
+    contactAvatarUrl String,
+    contactFacebook String,
+    contactTwitter String,
+    contactInstagram String,
+    contactLinkedin String,
+    contactGooglePlus String,
+    contactYoutube String,
+    contactStatus Boolean 
+}
+relationship ManyToOne{
+    Contact{user} to User
+}
+
+/*
+* UserNotification entity
+*/
+
+entity UserNotification{
+    isSeen Boolean,
+    seenDate Instant
+}
+relationship ManyToOne{
+    UserNotification{notification(notificationTitle)} to Notification,
+    UserNotification{receiver(login)} to User
+}
+
+/*
+* Article entity
 */
 entity Article{
-    articleTitle String required,
+    articleTitle String required maxlength(NAME_LENGTH),
     articleStatus BlogStatus,
     articleDate	Instant,
     articleSeenCount Long,
     articleContent TextBlob
 }
+
+relationship ManyToOne{
+    Article{author(login)} to User,
+    Article{category(categoryName)} to SupportCategory
+}
+
 /*
 * Employee - entity
 */
 entity Employee{
-    employeeName String required,
-    employeeFirstName String,
-    employeeLastName String,
-    employeeDob ZonedDateTime,
+    //employeeName String required,
+    employeeFirstName String required maxlength(NAME_LENGTH),
+    employeeLastName String required maxlength(NAME_LENGTH),
+    employeeDob LocalDate,
     employeeSex Gender,
-    employeeIdentityCard String,
-    employeePhone String required,
-    employeeEmail String required,
-    employeeAvatar ImageBlob,
-    employeeFacebook String,
-    employeeLinkedin String,
-    employeeInstagram String,
-    employeeGooglePlus String,
-    employeeZalo String,
-    employeeTwitter String,
-    employeeYoutube String
+    employeeIdentityCard String maxlength(PHONE_LENGTH),
+    employeePhone String required maxlength(PHONE_LENGTH),
+    employeeEmail String required
+    //employeeAvatar ImageBlob,
+    //employeeFacebook String,
+    //employeeLinkedin String,
+    //employeeInstagram String,
+    //employeeGooglePlus String,
+    //employeeZalo String,
+    //employeeTwitter String,
+    //employeeYoutube String
+}
+relationship ManyToOne{
+    Employee{department(departmentName)} to Department,
+    Employee{jobtitle(titleName)} to JobTitle
+}
+relationship OneToOne{
+    Employee{account(login)} to User
 }
 
 /*
 * ResidentialArea entity
 */
 entity ResidentialArea{
-    residentialName String required,
+    residentialName String required maxlength(NAME_LENGTH),
     residentialAlias String required,
     residentialDescription TextBlob,
     residentialDetail TextBlob,
@@ -225,42 +272,43 @@ entity ResidentialArea{
     //residentialImage ImageBlob,
     residentialAvatar String
 }
+relationship ManyToMany{
+    ResidentialArea{tag(tagName)} to Tag
+}
 
 /*
 * Project entity
 */
 entity Project{
-    projectName String required,
-    projectAlias String required,
-    projectAvatar ImageBlob,
-    projectAvatarId Integer,
+    projectName String required maxlength(NAME_LENGTH),
+    projectAlias String maxlength(NAME_LENGTH),
     projectAvatarUrl String,
-    projectDistrict String,
-    projectProvince String,
-    projectResidentialArea String,
-    projectRoad String,
-    projectWard String,
+    projectDistrict String maxlength(DEPART_LENGTH),
+    projectProvince String maxlength(DEPART_LENGTH),
+    residentialAreaId Long,
+    projectRoad String maxlength(NAME_LENGTH),
+    projectWard String maxlength(DEPART_LENGTH),
     projectStatus TransactionStatus,
-    projectType String,
+    //projectType String,
     projectNoBlocks Integer required,
     projectNoFloors Integer required,
     projectNoApartments Integer required,
     projectNoShophouse Integer,
     projectDescription TextBlob,
-    projectMinSellPrice Double,
+    projectMinSellPrice Double min(0),
     projectMaxSellPrice Double,
-    projectSellAreaUnit AreaUnit,
+    //projectSellAreaUnit AreaUnit,
     projectSellPriceUnit PriceUnit,
-    projectMinRentPrice Double,
+    projectMinRentPrice Double min(0),
     projectMaxRentPrice Double,
-    projectRentAreaUnit AreaUnit,
+    //projectRentAreaUnit AreaUnit,
     projectRentPriceUnit PriceUnit,
-    projectStartedDate Instant,
-    projectFinishingDate Instant,
-    projectMinApartmentSquare Integer,
+    projectStartedDate LocalDate,
+    projectFinishingDate LocalDate,
+    projectMinApartmentSquare Integer min(1),
     projectMaxApartmentSquare Integer,
-    projectGreenSpace Integer,
-    projectBuildingDensity Integer,
+    projectGreenSpace Integer min(0) max(100),
+    projectBuildingDensity Integer min(0) max(100),
     projectDesignCompany String,
     projectCarPark Boolean,
     projectBbqCourt Boolean,
@@ -277,33 +325,43 @@ entity Project{
     projectSeenCount Long,
     projectAvailable Boolean
 }
+relationship ManyToMany{
+    Project{tag(tagName)} to Tag,
+    Project{buildingtype(typeName)} to BuildingType,
+    Project{inverstor(investorName)} to Investor,
+    Project{contractor(contractorName)} to Contractor
+}
+relationship OneToOne{
+    Project{location} to Location,
+    Project{consultant(login)} to User
+}
 
 /*
 * Property entity
 */
 entity Property{
-    propertyCode  String required,
-    propertyName String required,
-    propertyAlias String,
+    propertyCode  String required maxlength(PHONE_LENGTH),
+    propertyName String required maxlength(NAME_LENGTH),
+    propertyAlias String maxlength(NAME_LENGTH),
     propertyTransaction TransactionType,
-    propertyNumber String,
-    propertyRoad String,
-    propertyWard String,
-    propertyDistrict String,
-    propertyProvince String,
+    propertyNumber String maxlength(DEPART_LENGTH),
+    propertyRoad String maxlength(DEPART_LENGTH),
+    propertyWard String maxlength(DEPART_LENGTH),
+    propertyDistrict String maxlength(DEPART_LENGTH),
+    propertyProvince String maxlength(DEPART_LENGTH),
     propertyDescription TextBlob,
-    propertyBedRooms Integer,
-    propertyBathRooms Integer,
-    propertySquare Double,
+    propertyBedRooms Integer min(0),
+    propertyBathRooms Integer min(0),
+    propertySquare Double min(0),
     propertyUsePurpose UseEstablishment,
     propertyOwnerType String,
     propertyTower String,
     propertyRentPrice Double,
     propertyRentUnit PriceUnit,
-    propertyRentStartedDate ZonedDateTime,
+    propertyRentStartedDate LocalDate,
     propertySellPrice Double,
     propertySellUnit PriceUnit,
-    propertySellStartedDate ZonedDateTime,
+    propertySellStartedDate LocalDate,
     propertySofa Boolean,
     propertyDiningTable Boolean,
     propertyKitchen Boolean,
@@ -338,9 +396,9 @@ entity Property{
     propertyResidentialCommunity String,
     propertyEducationalAspect String,
     propertyExtraInfo String,
-    propertyDraft ImageBlob,
-    longitude Double,
-    latitude Double,
+    propertyDraftUrl String,
+    longitude Double min(0),
+    latitude Double min(0),
     propertyGoodPrice Boolean,
     propertySeenCount Long,
     propertyIsSold Boolean,
@@ -350,78 +408,99 @@ entity Property{
     propertyAirconditioner Boolean
 
 }
-
+relationship OneToOne{
+    Property{location} to Location,
+    Property{consultant(login)} to User
+}
+relationship ManyToMany{
+    Property{tag(tagName)} to Tag
+}
 /*
 * FavouriteItem entity
-
-entity FavouriteItem{
-    favourited Boolean
-    propertyType PropertyType
-}
 */
+entity FavouriteItem{
+    favourited Boolean,
+    resourceId Long,
+    resourceType ResourceType
+}
+relationship ManyToOne{
+    FavouriteItem{user(login)} to User
+}
 /*
 * BlogPost entity
 */
 entity BlogPost{
-    postTitle String required,
+    postTitle String required maxlength(MAX_LENGTH),
     postStatus BlogStatus,
     postCreatedDate Instant,
-    postPublishDate Instant,
-    postUpdateDate Instant,
+    //postPublishDate Instant,
+    //postUpdateDate Instant,
     postSeenCount Long,
     postContent TextBlob
-
+}
+relationship ManyToOne{
+    BlogPost{category(categoryName)} to Category,
+    BlogPost{user(login)} to User
 }
 
 /*
 * RecruitmentInfo entity
 */
 entity RecruitmentInfo{
-    recruitmentTitle String required,
-    recruitmentImage ImageBlob,
+    recruitmentTitle String required maxlength(NAME_LENGTH),
+    recruitmentAvatarUrl String,
     recruitmentContent TextBlob,
     recruitmentNotes String,
-    recruitmentDate ZonedDateTime,
+    recruitmentDate LocalDate,
     recruitmentSeenCount Long,
     recruitmentStatus Boolean
-
 }
-
+relationship ManyToOne{
+    RecruitmentInfo{user(login)} to User,
+    RecruitmentInfo{jobtitle(titleName)} to JobTitle
+}
 /*
 * Request entity
 */
 entity Request{
-    requestFirstName String required,
-    requestLastName String required,
+    requestFirstName String required maxlength(NAME_LENGTH),
+    requestLastName String required maxlength(NAME_LENGTH),
     requestEmail String required,
-    requestPhone String required,
+    requestPhone String required maxlength(PHONE_LENGTH),
     requestGetAnalysis Boolean,
     requestGetPrice Boolean,
     requestPageUrl String,
-    requestPageName String,
-    requestPropertyId Long,
-    requestPropertyType PropertyType,
+    //requestPageName String,
+    resourceId Long,
+    resourceType ResourceType,
     requestType RequestType,
-    requestMeetingDate Instant,
+    requestMeetingDate LocalDate,
     requestQuestion String,
-    requestPrice Double,
-    requestCreatedDate ZonedDateTime,
-    requestConsultantId Integer
+    requestPrice Double min(0)
+    //requestCreatedDate ZonedDateTime,
+    //requestConsultantId Integer
+}
+relationship ManyToOne{
+    Request{sender(login)} to User,
+    Request{receiver(login)} to User
 }
 
 /*
 * Comment entity
 */
 entity Comment{
-    commentTitle String required,
-    commentContent TextBlob,
-    commentCreatedDate Instant,
-    commentUpdateDate Instant
+   // commentTitle String required,
+    commentContent String,
+    commentTimeStamp Instant
+    //commentUpdateDate Instant
 }
-
+relationship ManyToOne{
+    Comment {user(login)} to User,
+    Comment {post(postTitle)} to BlogPost
+}
 /*
 *
-*/
+
 entity ProjectUser{
     liked Boolean,
     shared Boolean,
@@ -429,15 +508,16 @@ entity ProjectUser{
     sharedDate Instant
 }
 
-/*
+
 *
-*/
+
 entity PropertyUser{
     liked Boolean,
     shared Boolean,
     likedDate Instant,
     sharedDate Instant
 }
+*/
 ////////////////////////////
 //-------ENUM-------------//
 ///////////////////////////
@@ -455,6 +535,12 @@ enum Direction{
     SOUTHWEST
 }
 
+/**
+* SupportType enum
+*/
+enum SupportType{
+    ACCOUNT, SELL, RENT, BUY, HOUSE, PROJECT 
+}
 /*
 * TransactionType enum
 */
@@ -464,51 +550,51 @@ enum TransactionType{
 
 /*
 * RequestOrigin enum
-*/
+
 enum RequestOrigin{
     ANDROID, IOS, WINDOWS, OTHER
 }
-
+*/
 /*
 * NotificationType enum
 */
 enum NotificationType{
-    NOTIFICATION, REQUEST, ALERT
+    SYSTEM, REQUEST, ALERT
 }
 
 /*
 * RequestStatus enum
-*/
+
 enum RequestStatus{
     OPEN, CLOSED, PENDING
 }
-
+*/
 /*
 * TerrainType enum
-*/
+
 enum TerrainType{
  RESIDENTIAL, URBAN, RUSTIC, INDUSTRIAL
 }
-
+*/
 /*
 * ApartmentType enum
-*/
+
 enum ApartmentType{
  HOUSES, RURALS, FLATS, APARTMENTS, TOWERS, LOFTS
 }
-
+*/
 /*
 * BusinessType enum
-*/
+
 enum BusinessType{
  PUB, HOTEL, OTHERS
 }
-
+*/
 /*
 * UseEstablishment enum
 */
 enum UseEstablishment{
- LODGE, PUB, SHOP, RESTAURANT, HOTEL, LEASE
+ LODGE, PUB, SHOP, RESTAURANT, HOTEL, LEASE, SHOPHOUSE, CITIHOUSE, OFFICE, LAND, OFFICETEL, OTHER
 }
 
 /*
@@ -534,25 +620,25 @@ enum PriceUnit{
 
 /*
 * AreaUnit enum
-*/
+
 enum AreaUnit{
  M2, CAN, MONTH, YEAR
 }
-
-/*
-* DocumentType enum
 */
-enum DocumentType{
- PROJECT, PROPERTY, EMPLOYEE
+/*
+* ResourceType enum
+*/
+enum ResourceType{
+ PROJECT, PROPERTY, EMPLOYEE, RESIDENTIAL_AREA
 }
 
 /*
 * PropertyType enum
-*/
+
 enum PropertyType{
  PROJECT, PROPERTY, LAND
 }
-
+*/
 /*
 * BlogStatus enum
 */
@@ -564,128 +650,21 @@ enum BlogStatus{
 * RequestType enum
 */
 enum RequestType{
- MEETING, PRICE, QUESTION
+ MEETING, PRICE, QUESTION,OTHER
 }
 
-
-////////////////////////////
-//-------RELATIONSHIP------------//
-///////////////////////////
-// One to Many
-relationship OneToMany{
-    BlogPost{comment} to Comment{post},
-
-    Project{post} to BlogPost{project(projectName)}
-    
-    //SupportCategory{article} to Article{supportcategory}
-
-    //Project{photo} to Photo{project(projectName)},
-
-    //Property{photo} to Photo
-
-
-}
-
-//One to One
-relationship OneToOne{
-    Employee{contact} to Contact, //each employee has one contact
-
-    RecruitmentInfo{photo} to Photo, // each recruitment info has one avatar photo
-
-    Document{photo} to Photo, // each document has one avatar photo
-
-    Project{document} to Document{project}, // each project has one Document
-
-    Project{location} to Location, // stay at
-
-    Property{location} to Location, // stay at
-
-    ResidentialArea{photo} to Photo, // has
-
-    Employee{photo} to Photo // has avatar
-
-
-}
-//Many to One
-relationship ManyToOne{
-    Article{category} to SupportCategory, // belong to
-
-    Article{user(login)} to User, // created by
-
-    BlogPost{category} to Category, // belong to
-
-    BlogPost{user(login)} to User, // created by
-
-    Comment{user(login)} to User, // created by
-
-    Notification{user(login)} to User, // send to
-
-    //FavouriteItem{user(login)} to User, //
-
-    Request{user(login)} to User, // send by
-
-    RecruitmentInfo{jobtitle(titleName)} to JobTitle, // for
-
-    Employee{jobtitle(titleName)} to JobTitle, // belong to
-
-    Employee{department(departmentName)} to Department, // belong to
-
-    Request{property(propertyName)} to Property, // ask for 
-
-    Request{project(projectName)} to Project, // ask for
-
-    //FavouriteItem{project(projectName)} to Project,
-
-    //FavouriteItem{property(propertyName)} to Property, // 
-
-    Property{residentialArea(residentialName)} to ResidentialArea, // belong to
-
-    Employee{manager(employeeName)} to Employee,// manage
-
-    ProjectUser{user(login)} to User, // liked
-
-    ProjectUser{project(projectName)} to Project, // has
-
-    PropertyUser{user(login)} to User, // liked
-
-    PropertyUser{property(propertyName)} to Property // has
-
-}
-
-// Many to many
-relationship ManyToMany{
-
-    Property{tag(tagName)} to Tag{property}, // has
-
-    Project{tag(tagName)} to Tag{project}, // has
-
-    ResidentialArea{tag(tagName)} to Tag{residentialArea}, //has
-
-    Project{buildingtype(typeName)} to BuildingType{project},// belong to
-
-    Project{investor(investorName)} to Investor{project}, // belong to
-
-    Project{projectbuilder(builderName)} to ProjectBuilder{project}, // belong to
-
-    Property{buildingtype(typeName)} to BuildingType{property}, // belong to
-
-    Property{photo} to Photo{property}, // has
-
-    Project{photo} to Photo{project}  // has
-
-}
 
 //Pagination options
-paginate Employee, Photo, Location, Notification, Project, Property, BlogPost, Request, Document with infinite-scroll
+paginate Employee, Location, Notification, Project, Property, BlogPost, Request, Article with infinite-scroll
 
-paginate Company, Contact, JobTitle, Department, Investor, ProjectBuilder, Category, Tag, ResidentialArea,  RecruitmentInfo with pagination
+paginate Company, Contact, JobTitle, Department, Investor, Contractor, Category, ResidentialArea,  RecruitmentInfo with pagination
 
 // Using mapper
 dto * with mapstruct
 
 // service
-service all with serviceImpl except BuildingType, Company, Contact
+service all with serviceImpl except BuildingType, Company
 
 // Filtering
-filter Property, Location, Project, ResidentialArea, BlogPost, Employee, Notification, Article
+filter Property, Location, Project, ResidentialArea, BlogPost, Employee,  Article
 

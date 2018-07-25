@@ -8,8 +8,6 @@ import com.tcutma.realstate.service.mapper.CommentMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -88,18 +86,4 @@ public class CommentServiceImpl implements CommentService {
         log.debug("Request to delete Comment : {}", id);
         commentRepository.deleteById(id);
     }
-
-    /*
-    * Added by me
-     */
-
-    @Override
-    public Page<CommentDTO> findAllByPostId(Long postId, Pageable pageable) {
-
-        log.debug("Request to get all Comments belng to post Id");
-        return commentRepository.findAllByPostId(postId,pageable)
-            .map(commentMapper::toDto);
-
-    }
-
 }

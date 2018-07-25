@@ -16,10 +16,7 @@
             "detail": {
                 "title": "Building Type"
             },
-            "typeName": "Type Name",
-            "typeSelect": "Type Select",
-            "project": "Project",
-            "property": "Property"
+            "typeName": "Type Name"
         }
     }
 }

@@ -99,9 +99,6 @@ export class Location extends React.Component<ILocationProps, ILocationState> {
                   <th className="hand" onClick={this.sort('locationProvince')}>
                     <Translate contentKey="riverApp.location.locationProvince">Location Province</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
-                  <th className="hand" onClick={this.sort('locationCountry')}>
-                    <Translate contentKey="riverApp.location.locationCountry">Location Country</Translate> <FontAwesomeIcon icon="sort" />
-                  </th>
                   <th className="hand" onClick={this.sort('locationGmapUrl')}>
                     <Translate contentKey="riverApp.location.locationGmapUrl">Location Gmap Url</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
@@ -111,8 +108,8 @@ export class Location extends React.Component<ILocationProps, ILocationState> {
                   <th className="hand" onClick={this.sort('latitude')}>
                     <Translate contentKey="riverApp.location.latitude">Latitude</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
-                  <th className="hand" onClick={this.sort('locationHide')}>
-                    <Translate contentKey="riverApp.location.locationHide">Location Hide</Translate> <FontAwesomeIcon icon="sort" />
+                  <th className="hand" onClick={this.sort('locationZipCode')}>
+                    <Translate contentKey="riverApp.location.locationZipCode">Location Zip Code</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th />
                 </tr>
@@ -132,11 +129,10 @@ export class Location extends React.Component<ILocationProps, ILocationState> {
                     <td>{location.locationWard}</td>
                     <td>{location.locationDistrict}</td>
                     <td>{location.locationProvince}</td>
-                    <td>{location.locationCountry}</td>
                     <td>{location.locationGmapUrl}</td>
                     <td>{location.longitude}</td>
                     <td>{location.latitude}</td>
-                    <td>{location.locationHide ? 'true' : 'false'}</td>
+                    <td>{location.locationZipCode}</td>
                     <td className="text-right">
                       <div className="btn-group flex-btn-group-container">
                         <Button tag={Link} to={`${match.url}/${location.id}`} color="info" size="sm">

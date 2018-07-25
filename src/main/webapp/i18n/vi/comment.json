@@ -16,10 +16,8 @@
             "detail": {
                 "title": "Comment"
             },
-            "commentTitle": "Comment Title",
             "commentContent": "Comment Content",
-            "commentCreatedDate": "Comment Created Date",
-            "commentUpdateDate": "Comment Update Date",
+            "commentTimeStamp": "Comment Time Stamp",
             "user": "User",
             "post": "Post"
         }

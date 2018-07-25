@@ -71,23 +71,17 @@ export class RequestDetail extends React.Component<IRequestDetailProps> {
             </dt>
             <dd>{requestEntity.requestPageUrl}</dd>
             <dt>
-              <span id="requestPageName">
-                <Translate contentKey="riverApp.request.requestPageName">Request Page Name</Translate>
+              <span id="resourceId">
+                <Translate contentKey="riverApp.request.resourceId">Resource Id</Translate>
               </span>
             </dt>
-            <dd>{requestEntity.requestPageName}</dd>
+            <dd>{requestEntity.resourceId}</dd>
             <dt>
-              <span id="requestPropertyId">
-                <Translate contentKey="riverApp.request.requestPropertyId">Request Property Id</Translate>
+              <span id="resourceType">
+                <Translate contentKey="riverApp.request.resourceType">Resource Type</Translate>
               </span>
             </dt>
-            <dd>{requestEntity.requestPropertyId}</dd>
-            <dt>
-              <span id="requestPropertyType">
-                <Translate contentKey="riverApp.request.requestPropertyType">Request Property Type</Translate>
-              </span>
-            </dt>
-            <dd>{requestEntity.requestPropertyType}</dd>
+            <dd>{requestEntity.resourceType}</dd>
             <dt>
               <span id="requestType">
                 <Translate contentKey="riverApp.request.requestType">Request Type</Translate>
@@ -100,7 +94,7 @@ export class RequestDetail extends React.Component<IRequestDetailProps> {
               </span>
             </dt>
             <dd>
-              <TextFormat value={requestEntity.requestMeetingDate} type="date" format={APP_DATE_FORMAT} />
+              <TextFormat value={requestEntity.requestMeetingDate} type="date" format={APP_LOCAL_DATE_FORMAT} />
             </dd>
             <dt>
               <span id="requestQuestion">
@@ -115,31 +109,13 @@ export class RequestDetail extends React.Component<IRequestDetailProps> {
             </dt>
             <dd>{requestEntity.requestPrice}</dd>
             <dt>
-              <span id="requestCreatedDate">
-                <Translate contentKey="riverApp.request.requestCreatedDate">Request Created Date</Translate>
-              </span>
+              <Translate contentKey="riverApp.request.sender">Sender</Translate>
             </dt>
-            <dd>
-              <TextFormat value={requestEntity.requestCreatedDate} type="date" format={APP_DATE_FORMAT} />
-            </dd>
+            <dd>{requestEntity.senderLogin ? requestEntity.senderLogin : ''}</dd>
             <dt>
-              <span id="requestConsultantId">
-                <Translate contentKey="riverApp.request.requestConsultantId">Request Consultant Id</Translate>
-              </span>
+              <Translate contentKey="riverApp.request.receiver">Receiver</Translate>
             </dt>
-            <dd>{requestEntity.requestConsultantId}</dd>
-            <dt>
-              <Translate contentKey="riverApp.request.user">User</Translate>
-            </dt>
-            <dd>{requestEntity.userLogin ? requestEntity.userLogin : ''}</dd>
-            <dt>
-              <Translate contentKey="riverApp.request.property">Property</Translate>
-            </dt>
-            <dd>{requestEntity.propertyPropertyName ? requestEntity.propertyPropertyName : ''}</dd>
-            <dt>
-              <Translate contentKey="riverApp.request.project">Project</Translate>
-            </dt>
-            <dd>{requestEntity.projectProjectName ? requestEntity.projectProjectName : ''}</dd>
+            <dd>{requestEntity.receiverLogin ? requestEntity.receiverLogin : ''}</dd>
           </dl>
           <Button tag={Link} to="/entity/request" replace color="info">
             <FontAwesomeIcon icon="arrow-left" />{' '}

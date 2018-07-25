@@ -1,5 +1,5 @@
 /* tslint:disable no-unused-expression */
-import { browser, protractor } from 'protractor';
+import { browser } from 'protractor';
 
 import NavBarPage from './../../page-objects/navbar-page';
 import RequestComponentsPage from './request.page-object';
@@ -57,25 +57,18 @@ describe('Request e2e test', () => {
     }
     requestUpdatePage.setRequestPageUrlInput('requestPageUrl');
     expect(await requestUpdatePage.getRequestPageUrlInput()).to.match(/requestPageUrl/);
-    requestUpdatePage.setRequestPageNameInput('requestPageName');
-    expect(await requestUpdatePage.getRequestPageNameInput()).to.match(/requestPageName/);
-    requestUpdatePage.setRequestPropertyIdInput('5');
-    expect(await requestUpdatePage.getRequestPropertyIdInput()).to.eq('5');
-    requestUpdatePage.requestPropertyTypeSelectLastOption();
+    requestUpdatePage.setResourceIdInput('5');
+    expect(await requestUpdatePage.getResourceIdInput()).to.eq('5');
+    requestUpdatePage.resourceTypeSelectLastOption();
     requestUpdatePage.requestTypeSelectLastOption();
-    requestUpdatePage.setRequestMeetingDateInput('01/01/2001' + protractor.Key.TAB + '02:30AM');
-    expect(await requestUpdatePage.getRequestMeetingDateInput()).to.contain('2001-01-01T02:30');
+    requestUpdatePage.setRequestMeetingDateInput('01-01-2001');
+    expect(await requestUpdatePage.getRequestMeetingDateInput()).to.eq('2001-01-01');
     requestUpdatePage.setRequestQuestionInput('requestQuestion');
     expect(await requestUpdatePage.getRequestQuestionInput()).to.match(/requestQuestion/);
     requestUpdatePage.setRequestPriceInput('5');
     expect(await requestUpdatePage.getRequestPriceInput()).to.eq('5');
-    requestUpdatePage.setRequestCreatedDateInput('01/01/2001' + protractor.Key.TAB + '02:30AM');
-    expect(await requestUpdatePage.getRequestCreatedDateInput()).to.contain('2001-01-01T02:30');
-    requestUpdatePage.setRequestConsultantIdInput('5');
-    expect(await requestUpdatePage.getRequestConsultantIdInput()).to.eq('5');
-    requestUpdatePage.userSelectLastOption();
-    requestUpdatePage.propertySelectLastOption();
-    requestUpdatePage.projectSelectLastOption();
+    requestUpdatePage.senderSelectLastOption();
+    requestUpdatePage.receiverSelectLastOption();
     await requestUpdatePage.save();
     expect(await requestUpdatePage.getSaveButton().isPresent()).to.be.false;
   });

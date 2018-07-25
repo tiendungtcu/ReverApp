@@ -4,23 +4,13 @@ export default class CommentUpdatePage {
   pageTitle: ElementFinder = element(by.id('riverApp.comment.home.createOrEditLabel'));
   saveButton: ElementFinder = element(by.id('save-entity'));
   cancelButton: ElementFinder = element(by.id('cancel-save'));
-  commentTitleInput: ElementFinder = element(by.css('input#comment-commentTitle'));
   commentContentInput: ElementFinder = element(by.css('input#comment-commentContent'));
-  commentCreatedDateInput: ElementFinder = element(by.css('input#comment-commentCreatedDate'));
-  commentUpdateDateInput: ElementFinder = element(by.css('input#comment-commentUpdateDate'));
+  commentTimeStampInput: ElementFinder = element(by.css('input#comment-commentTimeStamp'));
   userSelect: ElementFinder = element(by.css('select#comment-user'));
   postSelect: ElementFinder = element(by.css('select#comment-post'));
 
   getPageTitle() {
     return this.pageTitle;
-  }
-
-  setCommentTitleInput(commentTitle) {
-    this.commentTitleInput.sendKeys(commentTitle);
-  }
-
-  getCommentTitleInput() {
-    return this.commentTitleInput.getAttribute('value');
   }
 
   setCommentContentInput(commentContent) {
@@ -31,20 +21,12 @@ export default class CommentUpdatePage {
     return this.commentContentInput.getAttribute('value');
   }
 
-  setCommentCreatedDateInput(commentCreatedDate) {
-    this.commentCreatedDateInput.sendKeys(commentCreatedDate);
+  setCommentTimeStampInput(commentTimeStamp) {
+    this.commentTimeStampInput.sendKeys(commentTimeStamp);
   }
 
-  getCommentCreatedDateInput() {
-    return this.commentCreatedDateInput.getAttribute('value');
-  }
-
-  setCommentUpdateDateInput(commentUpdateDate) {
-    this.commentUpdateDateInput.sendKeys(commentUpdateDate);
-  }
-
-  getCommentUpdateDateInput() {
-    return this.commentUpdateDateInput.getAttribute('value');
+  getCommentTimeStampInput() {
+    return this.commentTimeStampInput.getAttribute('value');
   }
 
   userSelectLastOption() {

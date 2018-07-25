@@ -97,12 +97,9 @@ export class Notification extends React.Component<INotificationProps, INotificat
                     <Translate contentKey="riverApp.notification.notificationType">Notification Type</Translate>{' '}
                     <FontAwesomeIcon icon="sort" />
                   </th>
-                  <th className="hand" onClick={this.sort('notificationReference')}>
-                    <Translate contentKey="riverApp.notification.notificationReference">Notification Reference</Translate>{' '}
+                  <th className="hand" onClick={this.sort('notificationSender')}>
+                    <Translate contentKey="riverApp.notification.notificationSender">Notification Sender</Translate>{' '}
                     <FontAwesomeIcon icon="sort" />
-                  </th>
-                  <th>
-                    <Translate contentKey="riverApp.notification.user">User</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th />
                 </tr>
@@ -122,8 +119,7 @@ export class Notification extends React.Component<INotificationProps, INotificat
                       <TextFormat type="date" value={notification.notificationDate} format={APP_DATE_FORMAT} />
                     </td>
                     <td>{notification.notificationType}</td>
-                    <td>{notification.notificationReference}</td>
-                    <td>{notification.userLogin ? notification.userLogin : ''}</td>
+                    <td>{notification.notificationSender}</td>
                     <td className="text-right">
                       <div className="btn-group flex-btn-group-container">
                         <Button tag={Link} to={`${match.url}/${notification.id}`} color="info" size="sm">

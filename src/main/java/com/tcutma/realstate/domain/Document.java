@@ -1,6 +1,5 @@
 package com.tcutma.realstate.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -12,7 +11,7 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
 
-import com.tcutma.realstate.domain.enumeration.DocumentType;
+import com.tcutma.realstate.domain.enumeration.ResourceType;
 
 /**
  * Document - Tai lieu du an entity
@@ -30,37 +29,29 @@ public class Document implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "document_name", nullable = false)
+    @Size(max = 256)
+    @Column(name = "document_name", length = 256, nullable = false)
     private String documentName;
 
-    @Column(name = "document_url")
+    @NotNull
+    @Column(name = "document_url", nullable = false)
     private String documentUrl;
 
     @Column(name = "document_date")
     private Instant documentDate;
 
-    @Lob
-    @Column(name = "document_content")
-    private String documentContent;
+    @Column(name = "document_mime_type")
+    private String documentMimeType;
 
-    @Lob
-    @Column(name = "document_photo")
-    private byte[] documentPhoto;
-
-    @Column(name = "document_photo_content_type")
-    private String documentPhotoContentType;
+    @Column(name = "document_size")
+    private String documentSize;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "document_type")
-    private DocumentType documentType;
+    @Column(name = "resource_type")
+    private ResourceType resourceType;
 
-    @OneToOne
-    @JoinColumn(unique = true)
-    private Photo photo;
-
-    @OneToOne(mappedBy = "document")
-    @JsonIgnore
-    private Project project;
+    @Column(name = "resource_id")
+    private Long resourceId;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -110,82 +101,56 @@ public class Document implements Serializable {
         this.documentDate = documentDate;
     }
 
-    public String getDocumentContent() {
-        return documentContent;
+    public String getDocumentMimeType() {
+        return documentMimeType;
     }
 
-    public Document documentContent(String documentContent) {
-        this.documentContent = documentContent;
+    public Document documentMimeType(String documentMimeType) {
+        this.documentMimeType = documentMimeType;
         return this;
     }
 
-    public void setDocumentContent(String documentContent) {
-        this.documentContent = documentContent;
+    public void setDocumentMimeType(String documentMimeType) {
+        this.documentMimeType = documentMimeType;
     }
 
-    public byte[] getDocumentPhoto() {
-        return documentPhoto;
+    public String getDocumentSize() {
+        return documentSize;
     }
 
-    public Document documentPhoto(byte[] documentPhoto) {
-        this.documentPhoto = documentPhoto;
+    public Document documentSize(String documentSize) {
+        this.documentSize = documentSize;
         return this;
     }
 
-    public void setDocumentPhoto(byte[] documentPhoto) {
-        this.documentPhoto = documentPhoto;
+    public void setDocumentSize(String documentSize) {
+        this.documentSize = documentSize;
     }
 
-    public String getDocumentPhotoContentType() {
-        return documentPhotoContentType;
+    public ResourceType getResourceType() {
+        return resourceType;
     }
 
-    public Document documentPhotoContentType(String documentPhotoContentType) {
-        this.documentPhotoContentType = documentPhotoContentType;
+    public Document resourceType(ResourceType resourceType) {
+        this.resourceType = resourceType;
         return this;
     }
 
-    public void setDocumentPhotoContentType(String documentPhotoContentType) {
-        this.documentPhotoContentType = documentPhotoContentType;
+    public void setResourceType(ResourceType resourceType) {
+        this.resourceType = resourceType;
     }
 
-    public DocumentType getDocumentType() {
-        return documentType;
+    public Long getResourceId() {
+        return resourceId;
     }
 
-    public Document documentType(DocumentType documentType) {
-        this.documentType = documentType;
+    public Document resourceId(Long resourceId) {
+        this.resourceId = resourceId;
         return this;
     }
 
-    public void setDocumentType(DocumentType documentType) {
-        this.documentType = documentType;
-    }
-
-    public Photo getPhoto() {
-        return photo;
-    }
-
-    public Document photo(Photo photo) {
-        this.photo = photo;
-        return this;
-    }
-
-    public void setPhoto(Photo photo) {
-        this.photo = photo;
-    }
-
-    public Project getProject() {
-        return project;
-    }
-
-    public Document project(Project project) {
-        this.project = project;
-        return this;
-    }
-
-    public void setProject(Project project) {
-        this.project = project;
+    public void setResourceId(Long resourceId) {
+        this.resourceId = resourceId;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -216,10 +181,10 @@ public class Document implements Serializable {
             ", documentName='" + getDocumentName() + "'" +
             ", documentUrl='" + getDocumentUrl() + "'" +
             ", documentDate='" + getDocumentDate() + "'" +
-            ", documentContent='" + getDocumentContent() + "'" +
-            ", documentPhoto='" + getDocumentPhoto() + "'" +
-            ", documentPhotoContentType='" + getDocumentPhotoContentType() + "'" +
-            ", documentType='" + getDocumentType() + "'" +
+            ", documentMimeType='" + getDocumentMimeType() + "'" +
+            ", documentSize='" + getDocumentSize() + "'" +
+            ", resourceType='" + getResourceType() + "'" +
+            ", resourceId=" + getResourceId() +
             "}";
     }
 }

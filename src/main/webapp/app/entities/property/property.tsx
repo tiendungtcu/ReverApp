@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Col, Row, Table } from 'reactstrap';
 // tslint:disable-next-line:no-unused-variable
-import { openFile, byteSize, Translate, ICrudGetAllAction, TextFormat, getSortState, IPaginationBaseState } from 'react-jhipster';
+import { byteSize, Translate, ICrudGetAllAction, TextFormat, getSortState, IPaginationBaseState } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IRootState } from 'app/shared/reducers';
@@ -277,8 +277,9 @@ export class Property extends React.Component<IPropertyProps, IPropertyState> {
                     <Translate contentKey="riverApp.property.propertyExtraInfo">Property Extra Info</Translate>{' '}
                     <FontAwesomeIcon icon="sort" />
                   </th>
-                  <th className="hand" onClick={this.sort('propertyDraft')}>
-                    <Translate contentKey="riverApp.property.propertyDraft">Property Draft</Translate> <FontAwesomeIcon icon="sort" />
+                  <th className="hand" onClick={this.sort('propertyDraftUrl')}>
+                    <Translate contentKey="riverApp.property.propertyDraftUrl">Property Draft Url</Translate>{' '}
+                    <FontAwesomeIcon icon="sort" />
                   </th>
                   <th className="hand" onClick={this.sort('longitude')}>
                     <Translate contentKey="riverApp.property.longitude">Longitude</Translate> <FontAwesomeIcon icon="sort" />
@@ -316,7 +317,7 @@ export class Property extends React.Component<IPropertyProps, IPropertyState> {
                     <Translate contentKey="riverApp.property.location">Location</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th>
-                    <Translate contentKey="riverApp.property.residentialArea">Residential Area</Translate> <FontAwesomeIcon icon="sort" />
+                    <Translate contentKey="riverApp.property.consultant">Consultant</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th />
                 </tr>
@@ -348,12 +349,12 @@ export class Property extends React.Component<IPropertyProps, IPropertyState> {
                     <td>{property.propertyRentPrice}</td>
                     <td>{property.propertyRentUnit}</td>
                     <td>
-                      <TextFormat type="date" value={property.propertyRentStartedDate} format={APP_DATE_FORMAT} />
+                      <TextFormat type="date" value={property.propertyRentStartedDate} format={APP_LOCAL_DATE_FORMAT} />
                     </td>
                     <td>{property.propertySellPrice}</td>
                     <td>{property.propertySellUnit}</td>
                     <td>
-                      <TextFormat type="date" value={property.propertySellStartedDate} format={APP_DATE_FORMAT} />
+                      <TextFormat type="date" value={property.propertySellStartedDate} format={APP_LOCAL_DATE_FORMAT} />
                     </td>
                     <td>{property.propertySofa ? 'true' : 'false'}</td>
                     <td>{property.propertyDiningTable ? 'true' : 'false'}</td>
@@ -389,22 +390,7 @@ export class Property extends React.Component<IPropertyProps, IPropertyState> {
                     <td>{property.propertyResidentialCommunity}</td>
                     <td>{property.propertyEducationalAspect}</td>
                     <td>{property.propertyExtraInfo}</td>
-                    <td>
-                      {property.propertyDraft ? (
-                        <div>
-                          <a onClick={openFile(property.propertyDraftContentType, property.propertyDraft)}>
-                            <img
-                              src={`data:${property.propertyDraftContentType};base64,${property.propertyDraft}`}
-                              style={{ maxHeight: '30px' }}
-                            />
-                            &nbsp;
-                          </a>
-                          <span>
-                            {property.propertyDraftContentType}, {byteSize(property.propertyDraft)}
-                          </span>
-                        </div>
-                      ) : null}
-                    </td>
+                    <td>{property.propertyDraftUrl}</td>
                     <td>{property.longitude}</td>
                     <td>{property.latitude}</td>
                     <td>{property.propertyGoodPrice ? 'true' : 'false'}</td>
@@ -415,13 +401,7 @@ export class Property extends React.Component<IPropertyProps, IPropertyState> {
                     <td>{property.propertyRefrigerator ? 'true' : 'false'}</td>
                     <td>{property.propertyAirconditioner ? 'true' : 'false'}</td>
                     <td>{property.locationId ? <Link to={`location/${property.locationId}`}>{property.locationId}</Link> : ''}</td>
-                    <td>
-                      {property.residentialAreaResidentialName ? (
-                        <Link to={`residentialArea/${property.residentialAreaId}`}>{property.residentialAreaResidentialName}</Link>
-                      ) : (
-                        ''
-                      )}
-                    </td>
+                    <td>{property.consultantLogin ? property.consultantLogin : ''}</td>
                     <td className="text-right">
                       <div className="btn-group flex-btn-group-container">
                         <Button tag={Link} to={`${match.url}/${property.id}`} color="info" size="sm">

@@ -7,7 +7,11 @@
         },
         {
             "fieldName": "locationFullAddress",
-            "fieldType": "String"
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 256
         },
         {
             "fieldName": "locationNumber",
@@ -30,10 +34,6 @@
             "fieldType": "String"
         },
         {
-            "fieldName": "locationCountry",
-            "fieldType": "String"
-        },
-        {
             "fieldName": "locationGmapUrl",
             "fieldType": "String"
         },
@@ -52,12 +52,16 @@
             ]
         },
         {
-            "fieldName": "locationHide",
-            "fieldType": "Boolean"
+            "fieldName": "locationZipCode",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 16
         }
     ],
     "relationships": [],
-    "changelogDate": "20180720045227",
+    "changelogDate": "20180724181701",
     "javadoc": "Location - vi tri entity",
     "entityTableName": "location",
     "dto": "mapstruct",

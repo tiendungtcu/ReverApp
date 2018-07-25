@@ -5,8 +5,10 @@
             "fieldName": "notificationTitle",
             "fieldType": "String",
             "fieldValidateRules": [
-                "required"
-            ]
+                "required",
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 128
         },
         {
             "fieldName": "notificationContent",
@@ -19,33 +21,26 @@
         },
         {
             "fieldName": "notificationDate",
-            "fieldType": "ZonedDateTime"
+            "fieldType": "Instant"
         },
         {
             "fieldName": "notificationType",
             "fieldType": "NotificationType",
-            "fieldValues": "NOTIFICATION,REQUEST,ALERT"
+            "fieldValues": "SYSTEM,REQUEST,ALERT"
         },
         {
-            "fieldName": "notificationReference",
-            "fieldType": "String"
+            "fieldName": "notificationSender",
+            "fieldType": "Long"
         }
     ],
-    "relationships": [
-        {
-            "relationshipType": "many-to-one",
-            "relationshipName": "user",
-            "otherEntityName": "user",
-            "otherEntityField": "login"
-        }
-    ],
-    "changelogDate": "20180720045231",
+    "relationships": [],
+    "changelogDate": "20180724181705",
     "javadoc": "Notification - entity",
     "entityTableName": "notification",
     "dto": "mapstruct",
     "pagination": "infinite-scroll",
     "service": "serviceImpl",
-    "jpaMetamodelFiltering": true,
+    "jpaMetamodelFiltering": false,
     "fluentMethods": true,
     "clientRootFolder": "",
     "applications": "*"

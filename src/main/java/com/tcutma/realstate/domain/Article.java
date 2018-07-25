@@ -1,6 +1,7 @@
 package com.tcutma.realstate.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import io.swagger.annotations.ApiModel;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -14,8 +15,9 @@ import java.util.Objects;
 import com.tcutma.realstate.domain.enumeration.BlogStatus;
 
 /**
- * A Article.
+ * Article entity
  */
+@ApiModel(description = "Article entity")
 @Entity
 @Table(name = "article")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
@@ -28,7 +30,8 @@ public class Article implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "article_title", nullable = false)
+    @Size(max = 128)
+    @Column(name = "article_title", length = 128, nullable = false)
     private String articleTitle;
 
     @Enumerated(EnumType.STRING)
@@ -47,11 +50,11 @@ public class Article implements Serializable {
 
     @ManyToOne
     @JsonIgnoreProperties("")
-    private SupportCategory category;
+    private User author;
 
     @ManyToOne
     @JsonIgnoreProperties("")
-    private User user;
+    private SupportCategory category;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -127,6 +130,19 @@ public class Article implements Serializable {
         this.articleContent = articleContent;
     }
 
+    public User getAuthor() {
+        return author;
+    }
+
+    public Article author(User user) {
+        this.author = user;
+        return this;
+    }
+
+    public void setAuthor(User user) {
+        this.author = user;
+    }
+
     public SupportCategory getCategory() {
         return category;
     }
@@ -138,19 +154,6 @@ public class Article implements Serializable {
 
     public void setCategory(SupportCategory supportCategory) {
         this.category = supportCategory;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public Article user(User user) {
-        this.user = user;
-        return this;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

@@ -3,14 +3,11 @@ package com.tcutma.realstate.web.rest;
 import com.tcutma.realstate.RiverApp;
 
 import com.tcutma.realstate.domain.Notification;
-import com.tcutma.realstate.domain.User;
 import com.tcutma.realstate.repository.NotificationRepository;
 import com.tcutma.realstate.service.NotificationService;
 import com.tcutma.realstate.service.dto.NotificationDTO;
 import com.tcutma.realstate.service.mapper.NotificationMapper;
 import com.tcutma.realstate.web.rest.errors.ExceptionTranslator;
-import com.tcutma.realstate.service.dto.NotificationCriteria;
-import com.tcutma.realstate.service.NotificationQueryService;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -29,13 +26,10 @@ import org.springframework.util.Base64Utils;
 
 import javax.persistence.EntityManager;
 import java.time.Instant;
-import java.time.ZonedDateTime;
-import java.time.ZoneOffset;
-import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 
-import static com.tcutma.realstate.web.rest.TestUtil.sameInstant;
 import static com.tcutma.realstate.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
@@ -61,14 +55,14 @@ public class NotificationResourceIntTest {
     private static final Boolean DEFAULT_NOTIFICATION_SEEN = false;
     private static final Boolean UPDATED_NOTIFICATION_SEEN = true;
 
-    private static final ZonedDateTime DEFAULT_NOTIFICATION_DATE = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
-    private static final ZonedDateTime UPDATED_NOTIFICATION_DATE = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
+    private static final Instant DEFAULT_NOTIFICATION_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_NOTIFICATION_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
-    private static final NotificationType DEFAULT_NOTIFICATION_TYPE = NotificationType.NOTIFICATION;
+    private static final NotificationType DEFAULT_NOTIFICATION_TYPE = NotificationType.SYSTEM;
     private static final NotificationType UPDATED_NOTIFICATION_TYPE = NotificationType.REQUEST;
 
-    private static final String DEFAULT_NOTIFICATION_REFERENCE = "AAAAAAAAAA";
-    private static final String UPDATED_NOTIFICATION_REFERENCE = "BBBBBBBBBB";
+    private static final Long DEFAULT_NOTIFICATION_SENDER = 1L;
+    private static final Long UPDATED_NOTIFICATION_SENDER = 2L;
 
     @Autowired
     private NotificationRepository notificationRepository;
@@ -80,9 +74,6 @@ public class NotificationResourceIntTest {
 
     @Autowired
     private NotificationService notificationService;
-
-    @Autowired
-    private NotificationQueryService notificationQueryService;
 
     @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
@@ -103,7 +94,7 @@ public class NotificationResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final NotificationResource notificationResource = new NotificationResource(notificationService, notificationQueryService);
+        final NotificationResource notificationResource = new NotificationResource(notificationService);
         this.restNotificationMockMvc = MockMvcBuilders.standaloneSetup(notificationResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -124,7 +115,7 @@ public class NotificationResourceIntTest {
             .notificationSeen(DEFAULT_NOTIFICATION_SEEN)
             .notificationDate(DEFAULT_NOTIFICATION_DATE)
             .notificationType(DEFAULT_NOTIFICATION_TYPE)
-            .notificationReference(DEFAULT_NOTIFICATION_REFERENCE);
+            .notificationSender(DEFAULT_NOTIFICATION_SENDER);
         return notification;
     }
 
@@ -154,7 +145,7 @@ public class NotificationResourceIntTest {
         assertThat(testNotification.isNotificationSeen()).isEqualTo(DEFAULT_NOTIFICATION_SEEN);
         assertThat(testNotification.getNotificationDate()).isEqualTo(DEFAULT_NOTIFICATION_DATE);
         assertThat(testNotification.getNotificationType()).isEqualTo(DEFAULT_NOTIFICATION_TYPE);
-        assertThat(testNotification.getNotificationReference()).isEqualTo(DEFAULT_NOTIFICATION_REFERENCE);
+        assertThat(testNotification.getNotificationSender()).isEqualTo(DEFAULT_NOTIFICATION_SENDER);
     }
 
     @Test
@@ -210,9 +201,9 @@ public class NotificationResourceIntTest {
             .andExpect(jsonPath("$.[*].notificationTitle").value(hasItem(DEFAULT_NOTIFICATION_TITLE.toString())))
             .andExpect(jsonPath("$.[*].notificationContent").value(hasItem(DEFAULT_NOTIFICATION_CONTENT.toString())))
             .andExpect(jsonPath("$.[*].notificationSeen").value(hasItem(DEFAULT_NOTIFICATION_SEEN.booleanValue())))
-            .andExpect(jsonPath("$.[*].notificationDate").value(hasItem(sameInstant(DEFAULT_NOTIFICATION_DATE))))
+            .andExpect(jsonPath("$.[*].notificationDate").value(hasItem(DEFAULT_NOTIFICATION_DATE.toString())))
             .andExpect(jsonPath("$.[*].notificationType").value(hasItem(DEFAULT_NOTIFICATION_TYPE.toString())))
-            .andExpect(jsonPath("$.[*].notificationReference").value(hasItem(DEFAULT_NOTIFICATION_REFERENCE.toString())));
+            .andExpect(jsonPath("$.[*].notificationSender").value(hasItem(DEFAULT_NOTIFICATION_SENDER.intValue())));
     }
     
 
@@ -230,278 +221,10 @@ public class NotificationResourceIntTest {
             .andExpect(jsonPath("$.notificationTitle").value(DEFAULT_NOTIFICATION_TITLE.toString()))
             .andExpect(jsonPath("$.notificationContent").value(DEFAULT_NOTIFICATION_CONTENT.toString()))
             .andExpect(jsonPath("$.notificationSeen").value(DEFAULT_NOTIFICATION_SEEN.booleanValue()))
-            .andExpect(jsonPath("$.notificationDate").value(sameInstant(DEFAULT_NOTIFICATION_DATE)))
+            .andExpect(jsonPath("$.notificationDate").value(DEFAULT_NOTIFICATION_DATE.toString()))
             .andExpect(jsonPath("$.notificationType").value(DEFAULT_NOTIFICATION_TYPE.toString()))
-            .andExpect(jsonPath("$.notificationReference").value(DEFAULT_NOTIFICATION_REFERENCE.toString()));
+            .andExpect(jsonPath("$.notificationSender").value(DEFAULT_NOTIFICATION_SENDER.intValue()));
     }
-
-    @Test
-    @Transactional
-    public void getAllNotificationsByNotificationTitleIsEqualToSomething() throws Exception {
-        // Initialize the database
-        notificationRepository.saveAndFlush(notification);
-
-        // Get all the notificationList where notificationTitle equals to DEFAULT_NOTIFICATION_TITLE
-        defaultNotificationShouldBeFound("notificationTitle.equals=" + DEFAULT_NOTIFICATION_TITLE);
-
-        // Get all the notificationList where notificationTitle equals to UPDATED_NOTIFICATION_TITLE
-        defaultNotificationShouldNotBeFound("notificationTitle.equals=" + UPDATED_NOTIFICATION_TITLE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllNotificationsByNotificationTitleIsInShouldWork() throws Exception {
-        // Initialize the database
-        notificationRepository.saveAndFlush(notification);
-
-        // Get all the notificationList where notificationTitle in DEFAULT_NOTIFICATION_TITLE or UPDATED_NOTIFICATION_TITLE
-        defaultNotificationShouldBeFound("notificationTitle.in=" + DEFAULT_NOTIFICATION_TITLE + "," + UPDATED_NOTIFICATION_TITLE);
-
-        // Get all the notificationList where notificationTitle equals to UPDATED_NOTIFICATION_TITLE
-        defaultNotificationShouldNotBeFound("notificationTitle.in=" + UPDATED_NOTIFICATION_TITLE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllNotificationsByNotificationTitleIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        notificationRepository.saveAndFlush(notification);
-
-        // Get all the notificationList where notificationTitle is not null
-        defaultNotificationShouldBeFound("notificationTitle.specified=true");
-
-        // Get all the notificationList where notificationTitle is null
-        defaultNotificationShouldNotBeFound("notificationTitle.specified=false");
-    }
-
-    @Test
-    @Transactional
-    public void getAllNotificationsByNotificationSeenIsEqualToSomething() throws Exception {
-        // Initialize the database
-        notificationRepository.saveAndFlush(notification);
-
-        // Get all the notificationList where notificationSeen equals to DEFAULT_NOTIFICATION_SEEN
-        defaultNotificationShouldBeFound("notificationSeen.equals=" + DEFAULT_NOTIFICATION_SEEN);
-
-        // Get all the notificationList where notificationSeen equals to UPDATED_NOTIFICATION_SEEN
-        defaultNotificationShouldNotBeFound("notificationSeen.equals=" + UPDATED_NOTIFICATION_SEEN);
-    }
-
-    @Test
-    @Transactional
-    public void getAllNotificationsByNotificationSeenIsInShouldWork() throws Exception {
-        // Initialize the database
-        notificationRepository.saveAndFlush(notification);
-
-        // Get all the notificationList where notificationSeen in DEFAULT_NOTIFICATION_SEEN or UPDATED_NOTIFICATION_SEEN
-        defaultNotificationShouldBeFound("notificationSeen.in=" + DEFAULT_NOTIFICATION_SEEN + "," + UPDATED_NOTIFICATION_SEEN);
-
-        // Get all the notificationList where notificationSeen equals to UPDATED_NOTIFICATION_SEEN
-        defaultNotificationShouldNotBeFound("notificationSeen.in=" + UPDATED_NOTIFICATION_SEEN);
-    }
-
-    @Test
-    @Transactional
-    public void getAllNotificationsByNotificationSeenIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        notificationRepository.saveAndFlush(notification);
-
-        // Get all the notificationList where notificationSeen is not null
-        defaultNotificationShouldBeFound("notificationSeen.specified=true");
-
-        // Get all the notificationList where notificationSeen is null
-        defaultNotificationShouldNotBeFound("notificationSeen.specified=false");
-    }
-
-    @Test
-    @Transactional
-    public void getAllNotificationsByNotificationDateIsEqualToSomething() throws Exception {
-        // Initialize the database
-        notificationRepository.saveAndFlush(notification);
-
-        // Get all the notificationList where notificationDate equals to DEFAULT_NOTIFICATION_DATE
-        defaultNotificationShouldBeFound("notificationDate.equals=" + DEFAULT_NOTIFICATION_DATE);
-
-        // Get all the notificationList where notificationDate equals to UPDATED_NOTIFICATION_DATE
-        defaultNotificationShouldNotBeFound("notificationDate.equals=" + UPDATED_NOTIFICATION_DATE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllNotificationsByNotificationDateIsInShouldWork() throws Exception {
-        // Initialize the database
-        notificationRepository.saveAndFlush(notification);
-
-        // Get all the notificationList where notificationDate in DEFAULT_NOTIFICATION_DATE or UPDATED_NOTIFICATION_DATE
-        defaultNotificationShouldBeFound("notificationDate.in=" + DEFAULT_NOTIFICATION_DATE + "," + UPDATED_NOTIFICATION_DATE);
-
-        // Get all the notificationList where notificationDate equals to UPDATED_NOTIFICATION_DATE
-        defaultNotificationShouldNotBeFound("notificationDate.in=" + UPDATED_NOTIFICATION_DATE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllNotificationsByNotificationDateIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        notificationRepository.saveAndFlush(notification);
-
-        // Get all the notificationList where notificationDate is not null
-        defaultNotificationShouldBeFound("notificationDate.specified=true");
-
-        // Get all the notificationList where notificationDate is null
-        defaultNotificationShouldNotBeFound("notificationDate.specified=false");
-    }
-
-    @Test
-    @Transactional
-    public void getAllNotificationsByNotificationDateIsGreaterThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        notificationRepository.saveAndFlush(notification);
-
-        // Get all the notificationList where notificationDate greater than or equals to DEFAULT_NOTIFICATION_DATE
-        defaultNotificationShouldBeFound("notificationDate.greaterOrEqualThan=" + DEFAULT_NOTIFICATION_DATE);
-
-        // Get all the notificationList where notificationDate greater than or equals to UPDATED_NOTIFICATION_DATE
-        defaultNotificationShouldNotBeFound("notificationDate.greaterOrEqualThan=" + UPDATED_NOTIFICATION_DATE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllNotificationsByNotificationDateIsLessThanSomething() throws Exception {
-        // Initialize the database
-        notificationRepository.saveAndFlush(notification);
-
-        // Get all the notificationList where notificationDate less than or equals to DEFAULT_NOTIFICATION_DATE
-        defaultNotificationShouldNotBeFound("notificationDate.lessThan=" + DEFAULT_NOTIFICATION_DATE);
-
-        // Get all the notificationList where notificationDate less than or equals to UPDATED_NOTIFICATION_DATE
-        defaultNotificationShouldBeFound("notificationDate.lessThan=" + UPDATED_NOTIFICATION_DATE);
-    }
-
-
-    @Test
-    @Transactional
-    public void getAllNotificationsByNotificationTypeIsEqualToSomething() throws Exception {
-        // Initialize the database
-        notificationRepository.saveAndFlush(notification);
-
-        // Get all the notificationList where notificationType equals to DEFAULT_NOTIFICATION_TYPE
-        defaultNotificationShouldBeFound("notificationType.equals=" + DEFAULT_NOTIFICATION_TYPE);
-
-        // Get all the notificationList where notificationType equals to UPDATED_NOTIFICATION_TYPE
-        defaultNotificationShouldNotBeFound("notificationType.equals=" + UPDATED_NOTIFICATION_TYPE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllNotificationsByNotificationTypeIsInShouldWork() throws Exception {
-        // Initialize the database
-        notificationRepository.saveAndFlush(notification);
-
-        // Get all the notificationList where notificationType in DEFAULT_NOTIFICATION_TYPE or UPDATED_NOTIFICATION_TYPE
-        defaultNotificationShouldBeFound("notificationType.in=" + DEFAULT_NOTIFICATION_TYPE + "," + UPDATED_NOTIFICATION_TYPE);
-
-        // Get all the notificationList where notificationType equals to UPDATED_NOTIFICATION_TYPE
-        defaultNotificationShouldNotBeFound("notificationType.in=" + UPDATED_NOTIFICATION_TYPE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllNotificationsByNotificationTypeIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        notificationRepository.saveAndFlush(notification);
-
-        // Get all the notificationList where notificationType is not null
-        defaultNotificationShouldBeFound("notificationType.specified=true");
-
-        // Get all the notificationList where notificationType is null
-        defaultNotificationShouldNotBeFound("notificationType.specified=false");
-    }
-
-    @Test
-    @Transactional
-    public void getAllNotificationsByNotificationReferenceIsEqualToSomething() throws Exception {
-        // Initialize the database
-        notificationRepository.saveAndFlush(notification);
-
-        // Get all the notificationList where notificationReference equals to DEFAULT_NOTIFICATION_REFERENCE
-        defaultNotificationShouldBeFound("notificationReference.equals=" + DEFAULT_NOTIFICATION_REFERENCE);
-
-        // Get all the notificationList where notificationReference equals to UPDATED_NOTIFICATION_REFERENCE
-        defaultNotificationShouldNotBeFound("notificationReference.equals=" + UPDATED_NOTIFICATION_REFERENCE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllNotificationsByNotificationReferenceIsInShouldWork() throws Exception {
-        // Initialize the database
-        notificationRepository.saveAndFlush(notification);
-
-        // Get all the notificationList where notificationReference in DEFAULT_NOTIFICATION_REFERENCE or UPDATED_NOTIFICATION_REFERENCE
-        defaultNotificationShouldBeFound("notificationReference.in=" + DEFAULT_NOTIFICATION_REFERENCE + "," + UPDATED_NOTIFICATION_REFERENCE);
-
-        // Get all the notificationList where notificationReference equals to UPDATED_NOTIFICATION_REFERENCE
-        defaultNotificationShouldNotBeFound("notificationReference.in=" + UPDATED_NOTIFICATION_REFERENCE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllNotificationsByNotificationReferenceIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        notificationRepository.saveAndFlush(notification);
-
-        // Get all the notificationList where notificationReference is not null
-        defaultNotificationShouldBeFound("notificationReference.specified=true");
-
-        // Get all the notificationList where notificationReference is null
-        defaultNotificationShouldNotBeFound("notificationReference.specified=false");
-    }
-
-    @Test
-    @Transactional
-    public void getAllNotificationsByUserIsEqualToSomething() throws Exception {
-        // Initialize the database
-        User user = UserResourceIntTest.createEntity(em);
-        em.persist(user);
-        em.flush();
-        notification.setUser(user);
-        notificationRepository.saveAndFlush(notification);
-        Long userId = user.getId();
-
-        // Get all the notificationList where user equals to userId
-        defaultNotificationShouldBeFound("userId.equals=" + userId);
-
-        // Get all the notificationList where user equals to userId + 1
-        defaultNotificationShouldNotBeFound("userId.equals=" + (userId + 1));
-    }
-
-    /**
-     * Executes the search, and checks that the default entity is returned
-     */
-    private void defaultNotificationShouldBeFound(String filter) throws Exception {
-        restNotificationMockMvc.perform(get("/api/notifications?sort=id,desc&" + filter))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(notification.getId().intValue())))
-            .andExpect(jsonPath("$.[*].notificationTitle").value(hasItem(DEFAULT_NOTIFICATION_TITLE.toString())))
-            .andExpect(jsonPath("$.[*].notificationContent").value(hasItem(DEFAULT_NOTIFICATION_CONTENT.toString())))
-            .andExpect(jsonPath("$.[*].notificationSeen").value(hasItem(DEFAULT_NOTIFICATION_SEEN.booleanValue())))
-            .andExpect(jsonPath("$.[*].notificationDate").value(hasItem(sameInstant(DEFAULT_NOTIFICATION_DATE))))
-            .andExpect(jsonPath("$.[*].notificationType").value(hasItem(DEFAULT_NOTIFICATION_TYPE.toString())))
-            .andExpect(jsonPath("$.[*].notificationReference").value(hasItem(DEFAULT_NOTIFICATION_REFERENCE.toString())));
-    }
-
-    /**
-     * Executes the search, and checks that the default entity is not returned
-     */
-    private void defaultNotificationShouldNotBeFound(String filter) throws Exception {
-        restNotificationMockMvc.perform(get("/api/notifications?sort=id,desc&" + filter))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$").isArray())
-            .andExpect(jsonPath("$").isEmpty());
-    }
-
     @Test
     @Transactional
     public void getNonExistingNotification() throws Exception {
@@ -528,7 +251,7 @@ public class NotificationResourceIntTest {
             .notificationSeen(UPDATED_NOTIFICATION_SEEN)
             .notificationDate(UPDATED_NOTIFICATION_DATE)
             .notificationType(UPDATED_NOTIFICATION_TYPE)
-            .notificationReference(UPDATED_NOTIFICATION_REFERENCE);
+            .notificationSender(UPDATED_NOTIFICATION_SENDER);
         NotificationDTO notificationDTO = notificationMapper.toDto(updatedNotification);
 
         restNotificationMockMvc.perform(put("/api/notifications")
@@ -545,7 +268,7 @@ public class NotificationResourceIntTest {
         assertThat(testNotification.isNotificationSeen()).isEqualTo(UPDATED_NOTIFICATION_SEEN);
         assertThat(testNotification.getNotificationDate()).isEqualTo(UPDATED_NOTIFICATION_DATE);
         assertThat(testNotification.getNotificationType()).isEqualTo(UPDATED_NOTIFICATION_TYPE);
-        assertThat(testNotification.getNotificationReference()).isEqualTo(UPDATED_NOTIFICATION_REFERENCE);
+        assertThat(testNotification.getNotificationSender()).isEqualTo(UPDATED_NOTIFICATION_SENDER);
     }
 
     @Test

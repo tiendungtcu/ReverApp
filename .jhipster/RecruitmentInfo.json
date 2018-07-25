@@ -5,13 +5,14 @@
             "fieldName": "recruitmentTitle",
             "fieldType": "String",
             "fieldValidateRules": [
-                "required"
-            ]
+                "required",
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 128
         },
         {
-            "fieldName": "recruitmentImage",
-            "fieldType": "byte[]",
-            "fieldTypeBlobContent": "image"
+            "fieldName": "recruitmentAvatarUrl",
+            "fieldType": "String"
         },
         {
             "fieldName": "recruitmentContent",
@@ -24,7 +25,7 @@
         },
         {
             "fieldName": "recruitmentDate",
-            "fieldType": "ZonedDateTime"
+            "fieldType": "LocalDate"
         },
         {
             "fieldName": "recruitmentSeenCount",
@@ -37,12 +38,10 @@
     ],
     "relationships": [
         {
-            "relationshipType": "one-to-one",
-            "relationshipName": "photo",
-            "otherEntityName": "photo",
-            "otherEntityField": "id",
-            "ownerSide": true,
-            "otherEntityRelationshipName": "recruitmentInfo"
+            "relationshipType": "many-to-one",
+            "relationshipName": "user",
+            "otherEntityName": "user",
+            "otherEntityField": "login"
         },
         {
             "relationshipType": "many-to-one",
@@ -51,7 +50,7 @@
             "otherEntityField": "titleName"
         }
     ],
-    "changelogDate": "20180720045239",
+    "changelogDate": "20180724181716",
     "javadoc": "RecruitmentInfo entity",
     "entityTableName": "recruitment_info",
     "dto": "mapstruct",

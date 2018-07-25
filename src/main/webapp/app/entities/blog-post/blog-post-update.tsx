@@ -12,8 +12,6 @@ import { ICategory } from 'app/shared/model/category.model';
 import { getEntities as getCategories } from 'app/entities/category/category.reducer';
 import { IUser } from 'app/shared/model/user.model';
 import { getUsers } from 'app/modules/administration/user-management/user-management.reducer';
-import { IProject } from 'app/shared/model/project.model';
-import { getEntities as getProjects } from 'app/entities/project/project.reducer';
 import { getEntity, updateEntity, createEntity, setBlob, reset } from './blog-post.reducer';
 import { IBlogPost } from 'app/shared/model/blog-post.model';
 // tslint:disable-next-line:no-unused-variable
@@ -26,7 +24,6 @@ export interface IBlogPostUpdateState {
   isNew: boolean;
   categoryId: number;
   userId: number;
-  projectId: number;
 }
 
 export class BlogPostUpdate extends React.Component<IBlogPostUpdateProps, IBlogPostUpdateState> {
@@ -35,7 +32,6 @@ export class BlogPostUpdate extends React.Component<IBlogPostUpdateProps, IBlogP
     this.state = {
       categoryId: 0,
       userId: 0,
-      projectId: 0,
       isNew: !this.props.match.params || !this.props.match.params.id
     };
   }
@@ -49,7 +45,6 @@ export class BlogPostUpdate extends React.Component<IBlogPostUpdateProps, IBlogP
 
     this.props.getCategories();
     this.props.getUsers();
-    this.props.getProjects();
   }
 
   onBlobChange = (isAnImage, name) => event => {
@@ -62,8 +57,6 @@ export class BlogPostUpdate extends React.Component<IBlogPostUpdateProps, IBlogP
 
   saveEntity = (event, errors, values) => {
     values.postCreatedDate = new Date(values.postCreatedDate);
-    values.postPublishDate = new Date(values.postPublishDate);
-    values.postUpdateDate = new Date(values.postUpdateDate);
 
     if (errors.length === 0) {
       const { blogPostEntity } = this.props;
@@ -86,14 +79,14 @@ export class BlogPostUpdate extends React.Component<IBlogPostUpdateProps, IBlogP
   };
 
   categoryUpdate = element => {
-    const id = element.target.value.toString();
-    if (id === '') {
+    const categoryName = element.target.value.toString();
+    if (categoryName === '') {
       this.setState({
         categoryId: -1
       });
     } else {
       for (const i in this.props.categories) {
-        if (id === this.props.categories[i].id.toString()) {
+        if (categoryName === this.props.categories[i].categoryName.toString()) {
           this.setState({
             categoryId: this.props.categories[i].id
           });
@@ -119,26 +112,9 @@ export class BlogPostUpdate extends React.Component<IBlogPostUpdateProps, IBlogP
     }
   };
 
-  projectUpdate = element => {
-    const projectName = element.target.value.toString();
-    if (projectName === '') {
-      this.setState({
-        projectId: -1
-      });
-    } else {
-      for (const i in this.props.projects) {
-        if (projectName === this.props.projects[i].projectName.toString()) {
-          this.setState({
-            projectId: this.props.projects[i].id
-          });
-        }
-      }
-    }
-  };
-
   render() {
     const isInvalid = false;
-    const { blogPostEntity, categories, users, projects, loading, updating } = this.props;
+    const { blogPostEntity, categories, users, loading, updating } = this.props;
     const { isNew } = this.state;
 
     const { postContent } = blogPostEntity;
@@ -175,7 +151,8 @@ export class BlogPostUpdate extends React.Component<IBlogPostUpdateProps, IBlogP
                     type="text"
                     name="postTitle"
                     validate={{
-                      required: { value: true, errorMessage: translate('entity.validation.required') }
+                      required: { value: true, errorMessage: translate('entity.validation.required') },
+                      maxLength: { value: 256, errorMessage: translate('entity.validation.maxlength', { max: 256 }) }
                     }}
                   />
                 </AvGroup>
@@ -208,30 +185,6 @@ export class BlogPostUpdate extends React.Component<IBlogPostUpdateProps, IBlogP
                   />
                 </AvGroup>
                 <AvGroup>
-                  <Label id="postPublishDateLabel" for="postPublishDate">
-                    <Translate contentKey="riverApp.blogPost.postPublishDate">Post Publish Date</Translate>
-                  </Label>
-                  <AvInput
-                    id="blog-post-postPublishDate"
-                    type="datetime-local"
-                    className="form-control"
-                    name="postPublishDate"
-                    value={isNew ? null : convertDateTimeFromServer(this.props.blogPostEntity.postPublishDate)}
-                  />
-                </AvGroup>
-                <AvGroup>
-                  <Label id="postUpdateDateLabel" for="postUpdateDate">
-                    <Translate contentKey="riverApp.blogPost.postUpdateDate">Post Update Date</Translate>
-                  </Label>
-                  <AvInput
-                    id="blog-post-postUpdateDate"
-                    type="datetime-local"
-                    className="form-control"
-                    name="postUpdateDate"
-                    value={isNew ? null : convertDateTimeFromServer(this.props.blogPostEntity.postUpdateDate)}
-                  />
-                </AvGroup>
-                <AvGroup>
                   <Label id="postSeenCountLabel" for="postSeenCount">
                     <Translate contentKey="riverApp.blogPost.postSeenCount">Post Seen Count</Translate>
                   </Label>
@@ -244,7 +197,7 @@ export class BlogPostUpdate extends React.Component<IBlogPostUpdateProps, IBlogP
                   <AvField id="blog-post-postContent" type="text" name="postContent" />
                 </AvGroup>
                 <AvGroup>
-                  <Label for="category.id">
+                  <Label for="category.categoryName">
                     <Translate contentKey="riverApp.blogPost.category">Category</Translate>
                   </Label>
                   <AvInput id="blog-post-category" type="select" className="form-control" name="categoryId" onChange={this.categoryUpdate}>
@@ -252,7 +205,7 @@ export class BlogPostUpdate extends React.Component<IBlogPostUpdateProps, IBlogP
                     {categories
                       ? categories.map(otherEntity => (
                           <option value={otherEntity.id} key={otherEntity.id}>
-                            {otherEntity.id}
+                            {otherEntity.categoryName}
                           </option>
                         ))
                       : null}
@@ -268,21 +221,6 @@ export class BlogPostUpdate extends React.Component<IBlogPostUpdateProps, IBlogP
                       ? users.map(otherEntity => (
                           <option value={otherEntity.id} key={otherEntity.id}>
                             {otherEntity.login}
-                          </option>
-                        ))
-                      : null}
-                  </AvInput>
-                </AvGroup>
-                <AvGroup>
-                  <Label for="project.projectName">
-                    <Translate contentKey="riverApp.blogPost.project">Project</Translate>
-                  </Label>
-                  <AvInput id="blog-post-project" type="select" className="form-control" name="projectId" onChange={this.projectUpdate}>
-                    <option value="" key="0" />
-                    {projects
-                      ? projects.map(otherEntity => (
-                          <option value={otherEntity.id} key={otherEntity.id}>
-                            {otherEntity.projectName}
                           </option>
                         ))
                       : null}
@@ -311,7 +249,6 @@ export class BlogPostUpdate extends React.Component<IBlogPostUpdateProps, IBlogP
 const mapStateToProps = (storeState: IRootState) => ({
   categories: storeState.category.entities,
   users: storeState.userManagement.users,
-  projects: storeState.project.entities,
   blogPostEntity: storeState.blogPost.entity,
   loading: storeState.blogPost.loading,
   updating: storeState.blogPost.updating
@@ -320,7 +257,6 @@ const mapStateToProps = (storeState: IRootState) => ({
 const mapDispatchToProps = {
   getCategories,
   getUsers,
-  getProjects,
   getEntity,
   updateEntity,
   setBlob,

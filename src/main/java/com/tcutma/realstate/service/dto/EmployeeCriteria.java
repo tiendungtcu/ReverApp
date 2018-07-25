@@ -11,8 +11,8 @@ import io.github.jhipster.service.filter.LongFilter;
 import io.github.jhipster.service.filter.StringFilter;
 
 
+import io.github.jhipster.service.filter.LocalDateFilter;
 
-import io.github.jhipster.service.filter.ZonedDateTimeFilter;
 
 
 /**
@@ -35,13 +35,11 @@ public class EmployeeCriteria implements Serializable {
 
     private LongFilter id;
 
-    private StringFilter employeeName;
-
     private StringFilter employeeFirstName;
 
     private StringFilter employeeLastName;
 
-    private ZonedDateTimeFilter employeeDob;
+    private LocalDateFilter employeeDob;
 
     private GenderFilter employeeSex;
 
@@ -51,29 +49,11 @@ public class EmployeeCriteria implements Serializable {
 
     private StringFilter employeeEmail;
 
-    private StringFilter employeeFacebook;
-
-    private StringFilter employeeLinkedin;
-
-    private StringFilter employeeInstagram;
-
-    private StringFilter employeeGooglePlus;
-
-    private StringFilter employeeZalo;
-
-    private StringFilter employeeTwitter;
-
-    private StringFilter employeeYoutube;
-
-    private LongFilter contactId;
-
-    private LongFilter photoId;
-
-    private LongFilter jobtitleId;
+    private LongFilter accountId;
 
     private LongFilter departmentId;
 
-    private LongFilter managerId;
+    private LongFilter jobtitleId;
 
     public EmployeeCriteria() {
     }
@@ -84,14 +64,6 @@ public class EmployeeCriteria implements Serializable {
 
     public void setId(LongFilter id) {
         this.id = id;
-    }
-
-    public StringFilter getEmployeeName() {
-        return employeeName;
-    }
-
-    public void setEmployeeName(StringFilter employeeName) {
-        this.employeeName = employeeName;
     }
 
     public StringFilter getEmployeeFirstName() {
@@ -110,11 +82,11 @@ public class EmployeeCriteria implements Serializable {
         this.employeeLastName = employeeLastName;
     }
 
-    public ZonedDateTimeFilter getEmployeeDob() {
+    public LocalDateFilter getEmployeeDob() {
         return employeeDob;
     }
 
-    public void setEmployeeDob(ZonedDateTimeFilter employeeDob) {
+    public void setEmployeeDob(LocalDateFilter employeeDob) {
         this.employeeDob = employeeDob;
     }
 
@@ -150,84 +122,12 @@ public class EmployeeCriteria implements Serializable {
         this.employeeEmail = employeeEmail;
     }
 
-    public StringFilter getEmployeeFacebook() {
-        return employeeFacebook;
+    public LongFilter getAccountId() {
+        return accountId;
     }
 
-    public void setEmployeeFacebook(StringFilter employeeFacebook) {
-        this.employeeFacebook = employeeFacebook;
-    }
-
-    public StringFilter getEmployeeLinkedin() {
-        return employeeLinkedin;
-    }
-
-    public void setEmployeeLinkedin(StringFilter employeeLinkedin) {
-        this.employeeLinkedin = employeeLinkedin;
-    }
-
-    public StringFilter getEmployeeInstagram() {
-        return employeeInstagram;
-    }
-
-    public void setEmployeeInstagram(StringFilter employeeInstagram) {
-        this.employeeInstagram = employeeInstagram;
-    }
-
-    public StringFilter getEmployeeGooglePlus() {
-        return employeeGooglePlus;
-    }
-
-    public void setEmployeeGooglePlus(StringFilter employeeGooglePlus) {
-        this.employeeGooglePlus = employeeGooglePlus;
-    }
-
-    public StringFilter getEmployeeZalo() {
-        return employeeZalo;
-    }
-
-    public void setEmployeeZalo(StringFilter employeeZalo) {
-        this.employeeZalo = employeeZalo;
-    }
-
-    public StringFilter getEmployeeTwitter() {
-        return employeeTwitter;
-    }
-
-    public void setEmployeeTwitter(StringFilter employeeTwitter) {
-        this.employeeTwitter = employeeTwitter;
-    }
-
-    public StringFilter getEmployeeYoutube() {
-        return employeeYoutube;
-    }
-
-    public void setEmployeeYoutube(StringFilter employeeYoutube) {
-        this.employeeYoutube = employeeYoutube;
-    }
-
-    public LongFilter getContactId() {
-        return contactId;
-    }
-
-    public void setContactId(LongFilter contactId) {
-        this.contactId = contactId;
-    }
-
-    public LongFilter getPhotoId() {
-        return photoId;
-    }
-
-    public void setPhotoId(LongFilter photoId) {
-        this.photoId = photoId;
-    }
-
-    public LongFilter getJobtitleId() {
-        return jobtitleId;
-    }
-
-    public void setJobtitleId(LongFilter jobtitleId) {
-        this.jobtitleId = jobtitleId;
+    public void setAccountId(LongFilter accountId) {
+        this.accountId = accountId;
     }
 
     public LongFilter getDepartmentId() {
@@ -238,19 +138,18 @@ public class EmployeeCriteria implements Serializable {
         this.departmentId = departmentId;
     }
 
-    public LongFilter getManagerId() {
-        return managerId;
+    public LongFilter getJobtitleId() {
+        return jobtitleId;
     }
 
-    public void setManagerId(LongFilter managerId) {
-        this.managerId = managerId;
+    public void setJobtitleId(LongFilter jobtitleId) {
+        this.jobtitleId = jobtitleId;
     }
 
     @Override
     public String toString() {
         return "EmployeeCriteria{" +
                 (id != null ? "id=" + id + ", " : "") +
-                (employeeName != null ? "employeeName=" + employeeName + ", " : "") +
                 (employeeFirstName != null ? "employeeFirstName=" + employeeFirstName + ", " : "") +
                 (employeeLastName != null ? "employeeLastName=" + employeeLastName + ", " : "") +
                 (employeeDob != null ? "employeeDob=" + employeeDob + ", " : "") +
@@ -258,18 +157,9 @@ public class EmployeeCriteria implements Serializable {
                 (employeeIdentityCard != null ? "employeeIdentityCard=" + employeeIdentityCard + ", " : "") +
                 (employeePhone != null ? "employeePhone=" + employeePhone + ", " : "") +
                 (employeeEmail != null ? "employeeEmail=" + employeeEmail + ", " : "") +
-                (employeeFacebook != null ? "employeeFacebook=" + employeeFacebook + ", " : "") +
-                (employeeLinkedin != null ? "employeeLinkedin=" + employeeLinkedin + ", " : "") +
-                (employeeInstagram != null ? "employeeInstagram=" + employeeInstagram + ", " : "") +
-                (employeeGooglePlus != null ? "employeeGooglePlus=" + employeeGooglePlus + ", " : "") +
-                (employeeZalo != null ? "employeeZalo=" + employeeZalo + ", " : "") +
-                (employeeTwitter != null ? "employeeTwitter=" + employeeTwitter + ", " : "") +
-                (employeeYoutube != null ? "employeeYoutube=" + employeeYoutube + ", " : "") +
-                (contactId != null ? "contactId=" + contactId + ", " : "") +
-                (photoId != null ? "photoId=" + photoId + ", " : "") +
-                (jobtitleId != null ? "jobtitleId=" + jobtitleId + ", " : "") +
+                (accountId != null ? "accountId=" + accountId + ", " : "") +
                 (departmentId != null ? "departmentId=" + departmentId + ", " : "") +
-                (managerId != null ? "managerId=" + managerId + ", " : "") +
+                (jobtitleId != null ? "jobtitleId=" + jobtitleId + ", " : "") +
             "}";
     }
 

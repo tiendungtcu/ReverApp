@@ -8,7 +8,6 @@ export const enum Gender {
 
 export interface IEmployee {
   id?: number;
-  employeeName?: string;
   employeeFirstName?: string;
   employeeLastName?: string;
   employeeDob?: Moment;
@@ -16,23 +15,12 @@ export interface IEmployee {
   employeeIdentityCard?: string;
   employeePhone?: string;
   employeeEmail?: string;
-  employeeAvatarContentType?: string;
-  employeeAvatar?: any;
-  employeeFacebook?: string;
-  employeeLinkedin?: string;
-  employeeInstagram?: string;
-  employeeGooglePlus?: string;
-  employeeZalo?: string;
-  employeeTwitter?: string;
-  employeeYoutube?: string;
-  contactId?: number;
-  photoId?: number;
-  jobtitleTitleName?: string;
-  jobtitleId?: number;
+  accountLogin?: string;
+  accountId?: number;
   departmentDepartmentName?: string;
   departmentId?: number;
-  managerEmployeeName?: string;
-  managerId?: number;
+  jobtitleTitleName?: string;
+  jobtitleId?: number;
 }
 
 export const defaultValue: Readonly<IEmployee> = {};

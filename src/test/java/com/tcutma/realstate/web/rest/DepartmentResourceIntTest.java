@@ -22,7 +22,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Base64Utils;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -46,10 +45,8 @@ public class DepartmentResourceIntTest {
     private static final String DEFAULT_DEPARTMENT_NAME = "AAAAAAAAAA";
     private static final String UPDATED_DEPARTMENT_NAME = "BBBBBBBBBB";
 
-    private static final byte[] DEFAULT_DEPARTMENT_PHOTO = TestUtil.createByteArray(1, "0");
-    private static final byte[] UPDATED_DEPARTMENT_PHOTO = TestUtil.createByteArray(2, "1");
-    private static final String DEFAULT_DEPARTMENT_PHOTO_CONTENT_TYPE = "image/jpg";
-    private static final String UPDATED_DEPARTMENT_PHOTO_CONTENT_TYPE = "image/png";
+    private static final String DEFAULT_DEPARTMENT_AVATAR_URL = "AAAAAAAAAA";
+    private static final String UPDATED_DEPARTMENT_AVATAR_URL = "BBBBBBBBBB";
 
     private static final String DEFAULT_DEPARTMENT_PHONE = "AAAAAAAAAA";
     private static final String UPDATED_DEPARTMENT_PHONE = "BBBBBBBBBB";
@@ -101,8 +98,7 @@ public class DepartmentResourceIntTest {
     public static Department createEntity(EntityManager em) {
         Department department = new Department()
             .departmentName(DEFAULT_DEPARTMENT_NAME)
-            .departmentPhoto(DEFAULT_DEPARTMENT_PHOTO)
-            .departmentPhotoContentType(DEFAULT_DEPARTMENT_PHOTO_CONTENT_TYPE)
+            .departmentAvatarUrl(DEFAULT_DEPARTMENT_AVATAR_URL)
             .departmentPhone(DEFAULT_DEPARTMENT_PHONE);
         return department;
     }
@@ -129,8 +125,7 @@ public class DepartmentResourceIntTest {
         assertThat(departmentList).hasSize(databaseSizeBeforeCreate + 1);
         Department testDepartment = departmentList.get(departmentList.size() - 1);
         assertThat(testDepartment.getDepartmentName()).isEqualTo(DEFAULT_DEPARTMENT_NAME);
-        assertThat(testDepartment.getDepartmentPhoto()).isEqualTo(DEFAULT_DEPARTMENT_PHOTO);
-        assertThat(testDepartment.getDepartmentPhotoContentType()).isEqualTo(DEFAULT_DEPARTMENT_PHOTO_CONTENT_TYPE);
+        assertThat(testDepartment.getDepartmentAvatarUrl()).isEqualTo(DEFAULT_DEPARTMENT_AVATAR_URL);
         assertThat(testDepartment.getDepartmentPhone()).isEqualTo(DEFAULT_DEPARTMENT_PHONE);
     }
 
@@ -185,8 +180,7 @@ public class DepartmentResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(department.getId().intValue())))
             .andExpect(jsonPath("$.[*].departmentName").value(hasItem(DEFAULT_DEPARTMENT_NAME.toString())))
-            .andExpect(jsonPath("$.[*].departmentPhotoContentType").value(hasItem(DEFAULT_DEPARTMENT_PHOTO_CONTENT_TYPE)))
-            .andExpect(jsonPath("$.[*].departmentPhoto").value(hasItem(Base64Utils.encodeToString(DEFAULT_DEPARTMENT_PHOTO))))
+            .andExpect(jsonPath("$.[*].departmentAvatarUrl").value(hasItem(DEFAULT_DEPARTMENT_AVATAR_URL.toString())))
             .andExpect(jsonPath("$.[*].departmentPhone").value(hasItem(DEFAULT_DEPARTMENT_PHONE.toString())));
     }
     
@@ -203,8 +197,7 @@ public class DepartmentResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(department.getId().intValue()))
             .andExpect(jsonPath("$.departmentName").value(DEFAULT_DEPARTMENT_NAME.toString()))
-            .andExpect(jsonPath("$.departmentPhotoContentType").value(DEFAULT_DEPARTMENT_PHOTO_CONTENT_TYPE))
-            .andExpect(jsonPath("$.departmentPhoto").value(Base64Utils.encodeToString(DEFAULT_DEPARTMENT_PHOTO)))
+            .andExpect(jsonPath("$.departmentAvatarUrl").value(DEFAULT_DEPARTMENT_AVATAR_URL.toString()))
             .andExpect(jsonPath("$.departmentPhone").value(DEFAULT_DEPARTMENT_PHONE.toString()));
     }
     @Test
@@ -229,8 +222,7 @@ public class DepartmentResourceIntTest {
         em.detach(updatedDepartment);
         updatedDepartment
             .departmentName(UPDATED_DEPARTMENT_NAME)
-            .departmentPhoto(UPDATED_DEPARTMENT_PHOTO)
-            .departmentPhotoContentType(UPDATED_DEPARTMENT_PHOTO_CONTENT_TYPE)
+            .departmentAvatarUrl(UPDATED_DEPARTMENT_AVATAR_URL)
             .departmentPhone(UPDATED_DEPARTMENT_PHONE);
         DepartmentDTO departmentDTO = departmentMapper.toDto(updatedDepartment);
 
@@ -244,8 +236,7 @@ public class DepartmentResourceIntTest {
         assertThat(departmentList).hasSize(databaseSizeBeforeUpdate);
         Department testDepartment = departmentList.get(departmentList.size() - 1);
         assertThat(testDepartment.getDepartmentName()).isEqualTo(UPDATED_DEPARTMENT_NAME);
-        assertThat(testDepartment.getDepartmentPhoto()).isEqualTo(UPDATED_DEPARTMENT_PHOTO);
-        assertThat(testDepartment.getDepartmentPhotoContentType()).isEqualTo(UPDATED_DEPARTMENT_PHOTO_CONTENT_TYPE);
+        assertThat(testDepartment.getDepartmentAvatarUrl()).isEqualTo(UPDATED_DEPARTMENT_AVATAR_URL);
         assertThat(testDepartment.getDepartmentPhone()).isEqualTo(UPDATED_DEPARTMENT_PHONE);
     }
 

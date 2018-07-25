@@ -1,10 +1,9 @@
 package com.tcutma.realstate.service.dto;
 
-import java.time.ZonedDateTime;
+import java.time.LocalDate;
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
-import javax.persistence.Lob;
 
 /**
  * A DTO for the Investor entity.
@@ -14,23 +13,26 @@ public class InvestorDTO implements Serializable {
     private Long id;
 
     @NotNull
+    @Size(max = 128)
     private String investorName;
 
+    @Size(max = 256)
     private String investorTitle;
 
-    private ZonedDateTime investorDate;
+    private LocalDate investorDate;
 
+    @Size(max = 256)
     private String investorDescription;
 
+    @Size(max = 256)
     private String investorAddress;
 
     private String investorWebsite;
 
+    @Size(max = 16)
     private String investorPhone;
 
-    @Lob
-    private byte[] investorPhoto;
-    private String investorPhotoContentType;
+    private String investorAvatarUrl;
 
     public Long getId() {
         return id;
@@ -56,11 +58,11 @@ public class InvestorDTO implements Serializable {
         this.investorTitle = investorTitle;
     }
 
-    public ZonedDateTime getInvestorDate() {
+    public LocalDate getInvestorDate() {
         return investorDate;
     }
 
-    public void setInvestorDate(ZonedDateTime investorDate) {
+    public void setInvestorDate(LocalDate investorDate) {
         this.investorDate = investorDate;
     }
 
@@ -96,20 +98,12 @@ public class InvestorDTO implements Serializable {
         this.investorPhone = investorPhone;
     }
 
-    public byte[] getInvestorPhoto() {
-        return investorPhoto;
+    public String getInvestorAvatarUrl() {
+        return investorAvatarUrl;
     }
 
-    public void setInvestorPhoto(byte[] investorPhoto) {
-        this.investorPhoto = investorPhoto;
-    }
-
-    public String getInvestorPhotoContentType() {
-        return investorPhotoContentType;
-    }
-
-    public void setInvestorPhotoContentType(String investorPhotoContentType) {
-        this.investorPhotoContentType = investorPhotoContentType;
+    public void setInvestorAvatarUrl(String investorAvatarUrl) {
+        this.investorAvatarUrl = investorAvatarUrl;
     }
 
     @Override
@@ -144,7 +138,7 @@ public class InvestorDTO implements Serializable {
             ", investorAddress='" + getInvestorAddress() + "'" +
             ", investorWebsite='" + getInvestorWebsite() + "'" +
             ", investorPhone='" + getInvestorPhone() + "'" +
-            ", investorPhoto='" + getInvestorPhoto() + "'" +
+            ", investorAvatarUrl='" + getInvestorAvatarUrl() + "'" +
             "}";
     }
 }

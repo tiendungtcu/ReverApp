@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Row, Col } from 'reactstrap';
 // tslint:disable-next-line:no-unused-variable
-import { Translate, ICrudGetAction, openFile, byteSize, TextFormat } from 'react-jhipster';
+import { Translate, ICrudGetAction, TextFormat } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IRootState } from 'app/shared/reducers';
@@ -49,41 +49,29 @@ export class DocumentDetail extends React.Component<IDocumentDetailProps> {
               <TextFormat value={documentEntity.documentDate} type="date" format={APP_DATE_FORMAT} />
             </dd>
             <dt>
-              <span id="documentContent">
-                <Translate contentKey="riverApp.document.documentContent">Document Content</Translate>
+              <span id="documentMimeType">
+                <Translate contentKey="riverApp.document.documentMimeType">Document Mime Type</Translate>
               </span>
             </dt>
-            <dd>{documentEntity.documentContent}</dd>
+            <dd>{documentEntity.documentMimeType}</dd>
             <dt>
-              <span id="documentPhoto">
-                <Translate contentKey="riverApp.document.documentPhoto">Document Photo</Translate>
+              <span id="documentSize">
+                <Translate contentKey="riverApp.document.documentSize">Document Size</Translate>
               </span>
             </dt>
-            <dd>
-              {documentEntity.documentPhoto ? (
-                <div>
-                  <a onClick={openFile(documentEntity.documentPhotoContentType, documentEntity.documentPhoto)}>
-                    <img
-                      src={`data:${documentEntity.documentPhotoContentType};base64,${documentEntity.documentPhoto}`}
-                      style={{ maxHeight: '30px' }}
-                    />
-                  </a>
-                  <span>
-                    {documentEntity.documentPhotoContentType}, {byteSize(documentEntity.documentPhoto)}
-                  </span>
-                </div>
-              ) : null}
-            </dd>
+            <dd>{documentEntity.documentSize}</dd>
             <dt>
-              <span id="documentType">
-                <Translate contentKey="riverApp.document.documentType">Document Type</Translate>
+              <span id="resourceType">
+                <Translate contentKey="riverApp.document.resourceType">Resource Type</Translate>
               </span>
             </dt>
-            <dd>{documentEntity.documentType}</dd>
+            <dd>{documentEntity.resourceType}</dd>
             <dt>
-              <Translate contentKey="riverApp.document.photo">Photo</Translate>
+              <span id="resourceId">
+                <Translate contentKey="riverApp.document.resourceId">Resource Id</Translate>
+              </span>
             </dt>
-            <dd>{documentEntity.photoId ? documentEntity.photoId : ''}</dd>
+            <dd>{documentEntity.resourceId}</dd>
           </dl>
           <Button tag={Link} to="/entity/document" replace color="info">
             <FontAwesomeIcon icon="arrow-left" />{' '}

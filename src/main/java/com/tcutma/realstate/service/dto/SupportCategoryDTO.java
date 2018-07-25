@@ -3,6 +3,7 @@ package com.tcutma.realstate.service.dto;
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
+import com.tcutma.realstate.domain.enumeration.SupportType;
 
 /**
  * A DTO for the SupportCategory entity.
@@ -12,9 +13,12 @@ public class SupportCategoryDTO implements Serializable {
     private Long id;
 
     @NotNull
+    @Size(max = 128)
     private String categoryName;
 
     private String categoryDescription;
+
+    private SupportType categorySupportType;
 
     public Long getId() {
         return id;
@@ -38,6 +42,14 @@ public class SupportCategoryDTO implements Serializable {
 
     public void setCategoryDescription(String categoryDescription) {
         this.categoryDescription = categoryDescription;
+    }
+
+    public SupportType getCategorySupportType() {
+        return categorySupportType;
+    }
+
+    public void setCategorySupportType(SupportType categorySupportType) {
+        this.categorySupportType = categorySupportType;
     }
 
     @Override
@@ -67,6 +79,7 @@ public class SupportCategoryDTO implements Serializable {
             "id=" + getId() +
             ", categoryName='" + getCategoryName() + "'" +
             ", categoryDescription='" + getCategoryDescription() + "'" +
+            ", categorySupportType='" + getCategorySupportType() + "'" +
             "}";
     }
 }

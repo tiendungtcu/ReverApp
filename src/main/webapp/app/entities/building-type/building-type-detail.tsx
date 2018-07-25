@@ -34,12 +34,6 @@ export class BuildingTypeDetail extends React.Component<IBuildingTypeDetailProps
               </span>
             </dt>
             <dd>{buildingTypeEntity.typeName}</dd>
-            <dt>
-              <span id="typeSelect">
-                <Translate contentKey="riverApp.buildingType.typeSelect">Type Select</Translate>
-              </span>
-            </dt>
-            <dd>{buildingTypeEntity.typeSelect}</dd>
           </dl>
           <Button tag={Link} to="/entity/building-type" replace color="info">
             <FontAwesomeIcon icon="arrow-left" />{' '}

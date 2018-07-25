@@ -1,6 +1,6 @@
 package com.tcutma.realstate.service.dto;
 
-import java.time.ZonedDateTime;
+import java.time.Instant;
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
@@ -15,6 +15,7 @@ public class NotificationDTO implements Serializable {
     private Long id;
 
     @NotNull
+    @Size(max = 128)
     private String notificationTitle;
 
     @Lob
@@ -22,15 +23,11 @@ public class NotificationDTO implements Serializable {
 
     private Boolean notificationSeen;
 
-    private ZonedDateTime notificationDate;
+    private Instant notificationDate;
 
     private NotificationType notificationType;
 
-    private String notificationReference;
-
-    private Long userId;
-
-    private String userLogin;
+    private Long notificationSender;
 
     public Long getId() {
         return id;
@@ -64,11 +61,11 @@ public class NotificationDTO implements Serializable {
         this.notificationSeen = notificationSeen;
     }
 
-    public ZonedDateTime getNotificationDate() {
+    public Instant getNotificationDate() {
         return notificationDate;
     }
 
-    public void setNotificationDate(ZonedDateTime notificationDate) {
+    public void setNotificationDate(Instant notificationDate) {
         this.notificationDate = notificationDate;
     }
 
@@ -80,28 +77,12 @@ public class NotificationDTO implements Serializable {
         this.notificationType = notificationType;
     }
 
-    public String getNotificationReference() {
-        return notificationReference;
+    public Long getNotificationSender() {
+        return notificationSender;
     }
 
-    public void setNotificationReference(String notificationReference) {
-        this.notificationReference = notificationReference;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public String getUserLogin() {
-        return userLogin;
-    }
-
-    public void setUserLogin(String userLogin) {
-        this.userLogin = userLogin;
+    public void setNotificationSender(Long notificationSender) {
+        this.notificationSender = notificationSender;
     }
 
     @Override
@@ -134,9 +115,7 @@ public class NotificationDTO implements Serializable {
             ", notificationSeen='" + isNotificationSeen() + "'" +
             ", notificationDate='" + getNotificationDate() + "'" +
             ", notificationType='" + getNotificationType() + "'" +
-            ", notificationReference='" + getNotificationReference() + "'" +
-            ", user=" + getUserId() +
-            ", user='" + getUserLogin() + "'" +
+            ", notificationSender=" + getNotificationSender() +
             "}";
     }
 }

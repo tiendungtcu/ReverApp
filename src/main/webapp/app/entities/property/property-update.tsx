@@ -4,20 +4,16 @@ import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Row, Col, Label } from 'reactstrap';
 import { AvForm, AvGroup, AvInput, AvField } from 'availity-reactstrap-validation';
 // tslint:disable-next-line:no-unused-variable
-import { Translate, translate, ICrudGetAction, ICrudGetAllAction, setFileData, openFile, byteSize, ICrudPutAction } from 'react-jhipster';
+import { Translate, translate, ICrudGetAction, ICrudGetAllAction, setFileData, byteSize, ICrudPutAction } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IRootState } from 'app/shared/reducers';
 
 import { ILocation } from 'app/shared/model/location.model';
 import { getEntities as getLocations } from 'app/entities/location/location.reducer';
-import { IResidentialArea } from 'app/shared/model/residential-area.model';
-import { getEntities as getResidentialAreas } from 'app/entities/residential-area/residential-area.reducer';
+import { IUser } from 'app/shared/model/user.model';
+import { getUsers } from 'app/modules/administration/user-management/user-management.reducer';
 import { ITag } from 'app/shared/model/tag.model';
 import { getEntities as getTags } from 'app/entities/tag/tag.reducer';
-import { IBuildingType } from 'app/shared/model/building-type.model';
-import { getEntities as getBuildingTypes } from 'app/entities/building-type/building-type.reducer';
-import { IPhoto } from 'app/shared/model/photo.model';
-import { getEntities as getPhotos } from 'app/entities/photo/photo.reducer';
 import { getEntity, updateEntity, createEntity, setBlob, reset } from './property.reducer';
 import { IProperty } from 'app/shared/model/property.model';
 // tslint:disable-next-line:no-unused-variable
@@ -29,10 +25,8 @@ export interface IPropertyUpdateProps extends StateProps, DispatchProps, RouteCo
 export interface IPropertyUpdateState {
   isNew: boolean;
   idstag: any[];
-  idsbuildingtype: any[];
-  idsphoto: any[];
   locationId: number;
-  residentialAreaId: number;
+  consultantId: number;
 }
 
 export class PropertyUpdate extends React.Component<IPropertyUpdateProps, IPropertyUpdateState> {
@@ -40,10 +34,8 @@ export class PropertyUpdate extends React.Component<IPropertyUpdateProps, IPrope
     super(props);
     this.state = {
       idstag: [],
-      idsbuildingtype: [],
-      idsphoto: [],
       locationId: 0,
-      residentialAreaId: 0,
+      consultantId: 0,
       isNew: !this.props.match.params || !this.props.match.params.id
     };
   }
@@ -56,10 +48,8 @@ export class PropertyUpdate extends React.Component<IPropertyUpdateProps, IPrope
     }
 
     this.props.getLocations();
-    this.props.getResidentialAreas();
+    this.props.getUsers();
     this.props.getTags();
-    this.props.getBuildingTypes();
-    this.props.getPhotos();
   }
 
   onBlobChange = (isAnImage, name) => event => {
@@ -71,9 +61,6 @@ export class PropertyUpdate extends React.Component<IPropertyUpdateProps, IPrope
   };
 
   saveEntity = (event, errors, values) => {
-    values.propertyRentStartedDate = new Date(values.propertyRentStartedDate);
-    values.propertySellStartedDate = new Date(values.propertySellStartedDate);
-
     if (errors.length === 0) {
       const { propertyEntity } = this.props;
       const entity = {
@@ -111,17 +98,17 @@ export class PropertyUpdate extends React.Component<IPropertyUpdateProps, IPrope
     }
   };
 
-  residentialAreaUpdate = element => {
-    const residentialName = element.target.value.toString();
-    if (residentialName === '') {
+  consultantUpdate = element => {
+    const login = element.target.value.toString();
+    if (login === '') {
       this.setState({
-        residentialAreaId: -1
+        consultantId: -1
       });
     } else {
-      for (const i in this.props.residentialAreas) {
-        if (residentialName === this.props.residentialAreas[i].residentialName.toString()) {
+      for (const i in this.props.users) {
+        if (login === this.props.users[i].login.toString()) {
           this.setState({
-            residentialAreaId: this.props.residentialAreas[i].id
+            consultantId: this.props.users[i].id
           });
         }
       }
@@ -132,20 +119,6 @@ export class PropertyUpdate extends React.Component<IPropertyUpdateProps, IPrope
     const selected = Array.from(element.target.selectedOptions).map((e: any) => e.value);
     this.setState({
       idstag: keysToValues(selected, this.props.tags, 'tagName')
-    });
-  };
-
-  buildingtypeUpdate = element => {
-    const selected = Array.from(element.target.selectedOptions).map((e: any) => e.value);
-    this.setState({
-      idsbuildingtype: keysToValues(selected, this.props.buildingTypes, 'typeName')
-    });
-  };
-
-  photoUpdate = element => {
-    const selected = Array.from(element.target.selectedOptions).map((e: any) => e.value);
-    this.setState({
-      idsphoto: keysToValues(selected, this.props.photos, 'id')
     });
   };
 
@@ -174,62 +147,12 @@ export class PropertyUpdate extends React.Component<IPropertyUpdateProps, IPrope
     return null;
   }
 
-  displaybuildingtype(value: any) {
-    if (this.state.idsbuildingtype && this.state.idsbuildingtype.length !== 0) {
-      const list = [];
-      for (const i in this.state.idsbuildingtype) {
-        if (this.state.idsbuildingtype[i]) {
-          list.push(this.state.idsbuildingtype[i].typeName);
-        }
-      }
-      return list;
-    }
-    if (value.buildingtypes && value.buildingtypes.length !== 0) {
-      const list = [];
-      for (const i in value.buildingtypes) {
-        if (value.buildingtypes[i]) {
-          list.push(value.buildingtypes[i].typeName);
-        }
-      }
-      this.setState({
-        idsbuildingtype: keysToValues(list, this.props.buildingTypes, 'typeName')
-      });
-      return list;
-    }
-    return null;
-  }
-
-  displayphoto(value: any) {
-    if (this.state.idsphoto && this.state.idsphoto.length !== 0) {
-      const list = [];
-      for (const i in this.state.idsphoto) {
-        if (this.state.idsphoto[i]) {
-          list.push(this.state.idsphoto[i].id);
-        }
-      }
-      return list;
-    }
-    if (value.photos && value.photos.length !== 0) {
-      const list = [];
-      for (const i in value.photos) {
-        if (value.photos[i]) {
-          list.push(value.photos[i].id);
-        }
-      }
-      this.setState({
-        idsphoto: keysToValues(list, this.props.photos, 'id')
-      });
-      return list;
-    }
-    return null;
-  }
-
   render() {
     const isInvalid = false;
-    const { propertyEntity, locations, residentialAreas, tags, buildingTypes, photos, loading, updating } = this.props;
+    const { propertyEntity, locations, users, tags, loading, updating } = this.props;
     const { isNew } = this.state;
 
-    const { propertyDescription, propertyDraft, propertyDraftContentType } = propertyEntity;
+    const { propertyDescription } = propertyEntity;
 
     return (
       <div>
@@ -263,7 +186,8 @@ export class PropertyUpdate extends React.Component<IPropertyUpdateProps, IPrope
                     type="text"
                     name="propertyCode"
                     validate={{
-                      required: { value: true, errorMessage: translate('entity.validation.required') }
+                      required: { value: true, errorMessage: translate('entity.validation.required') },
+                      maxLength: { value: 16, errorMessage: translate('entity.validation.maxlength', { max: 16 }) }
                     }}
                   />
                 </AvGroup>
@@ -276,7 +200,8 @@ export class PropertyUpdate extends React.Component<IPropertyUpdateProps, IPrope
                     type="text"
                     name="propertyName"
                     validate={{
-                      required: { value: true, errorMessage: translate('entity.validation.required') }
+                      required: { value: true, errorMessage: translate('entity.validation.required') },
+                      maxLength: { value: 128, errorMessage: translate('entity.validation.maxlength', { max: 128 }) }
                     }}
                   />
                 </AvGroup>
@@ -284,7 +209,14 @@ export class PropertyUpdate extends React.Component<IPropertyUpdateProps, IPrope
                   <Label id="propertyAliasLabel" for="propertyAlias">
                     <Translate contentKey="riverApp.property.propertyAlias">Property Alias</Translate>
                   </Label>
-                  <AvField id="property-propertyAlias" type="text" name="propertyAlias" />
+                  <AvField
+                    id="property-propertyAlias"
+                    type="text"
+                    name="propertyAlias"
+                    validate={{
+                      maxLength: { value: 128, errorMessage: translate('entity.validation.maxlength', { max: 128 }) }
+                    }}
+                  />
                 </AvGroup>
                 <AvGroup>
                   <Label id="propertyTransactionLabel">
@@ -307,31 +239,66 @@ export class PropertyUpdate extends React.Component<IPropertyUpdateProps, IPrope
                   <Label id="propertyNumberLabel" for="propertyNumber">
                     <Translate contentKey="riverApp.property.propertyNumber">Property Number</Translate>
                   </Label>
-                  <AvField id="property-propertyNumber" type="text" name="propertyNumber" />
+                  <AvField
+                    id="property-propertyNumber"
+                    type="text"
+                    name="propertyNumber"
+                    validate={{
+                      maxLength: { value: 64, errorMessage: translate('entity.validation.maxlength', { max: 64 }) }
+                    }}
+                  />
                 </AvGroup>
                 <AvGroup>
                   <Label id="propertyRoadLabel" for="propertyRoad">
                     <Translate contentKey="riverApp.property.propertyRoad">Property Road</Translate>
                   </Label>
-                  <AvField id="property-propertyRoad" type="text" name="propertyRoad" />
+                  <AvField
+                    id="property-propertyRoad"
+                    type="text"
+                    name="propertyRoad"
+                    validate={{
+                      maxLength: { value: 64, errorMessage: translate('entity.validation.maxlength', { max: 64 }) }
+                    }}
+                  />
                 </AvGroup>
                 <AvGroup>
                   <Label id="propertyWardLabel" for="propertyWard">
                     <Translate contentKey="riverApp.property.propertyWard">Property Ward</Translate>
                   </Label>
-                  <AvField id="property-propertyWard" type="text" name="propertyWard" />
+                  <AvField
+                    id="property-propertyWard"
+                    type="text"
+                    name="propertyWard"
+                    validate={{
+                      maxLength: { value: 64, errorMessage: translate('entity.validation.maxlength', { max: 64 }) }
+                    }}
+                  />
                 </AvGroup>
                 <AvGroup>
                   <Label id="propertyDistrictLabel" for="propertyDistrict">
                     <Translate contentKey="riverApp.property.propertyDistrict">Property District</Translate>
                   </Label>
-                  <AvField id="property-propertyDistrict" type="text" name="propertyDistrict" />
+                  <AvField
+                    id="property-propertyDistrict"
+                    type="text"
+                    name="propertyDistrict"
+                    validate={{
+                      maxLength: { value: 64, errorMessage: translate('entity.validation.maxlength', { max: 64 }) }
+                    }}
+                  />
                 </AvGroup>
                 <AvGroup>
                   <Label id="propertyProvinceLabel" for="propertyProvince">
                     <Translate contentKey="riverApp.property.propertyProvince">Property Province</Translate>
                   </Label>
-                  <AvField id="property-propertyProvince" type="text" name="propertyProvince" />
+                  <AvField
+                    id="property-propertyProvince"
+                    type="text"
+                    name="propertyProvince"
+                    validate={{
+                      maxLength: { value: 64, errorMessage: translate('entity.validation.maxlength', { max: 64 }) }
+                    }}
+                  />
                 </AvGroup>
                 <AvGroup>
                   <Label id="propertyDescriptionLabel" for="propertyDescription">
@@ -343,19 +310,46 @@ export class PropertyUpdate extends React.Component<IPropertyUpdateProps, IPrope
                   <Label id="propertyBedRoomsLabel" for="propertyBedRooms">
                     <Translate contentKey="riverApp.property.propertyBedRooms">Property Bed Rooms</Translate>
                   </Label>
-                  <AvField id="property-propertyBedRooms" type="number" className="form-control" name="propertyBedRooms" />
+                  <AvField
+                    id="property-propertyBedRooms"
+                    type="number"
+                    className="form-control"
+                    name="propertyBedRooms"
+                    validate={{
+                      min: { value: 0, errorMessage: translate('entity.validation.min', { min: 0 }) },
+                      number: { value: true, errorMessage: translate('entity.validation.number') }
+                    }}
+                  />
                 </AvGroup>
                 <AvGroup>
                   <Label id="propertyBathRoomsLabel" for="propertyBathRooms">
                     <Translate contentKey="riverApp.property.propertyBathRooms">Property Bath Rooms</Translate>
                   </Label>
-                  <AvField id="property-propertyBathRooms" type="number" className="form-control" name="propertyBathRooms" />
+                  <AvField
+                    id="property-propertyBathRooms"
+                    type="number"
+                    className="form-control"
+                    name="propertyBathRooms"
+                    validate={{
+                      min: { value: 0, errorMessage: translate('entity.validation.min', { min: 0 }) },
+                      number: { value: true, errorMessage: translate('entity.validation.number') }
+                    }}
+                  />
                 </AvGroup>
                 <AvGroup>
                   <Label id="propertySquareLabel" for="propertySquare">
                     <Translate contentKey="riverApp.property.propertySquare">Property Square</Translate>
                   </Label>
-                  <AvField id="property-propertySquare" type="number" className="form-control" name="propertySquare" />
+                  <AvField
+                    id="property-propertySquare"
+                    type="number"
+                    className="form-control"
+                    name="propertySquare"
+                    validate={{
+                      min: { value: 0, errorMessage: translate('entity.validation.min', { min: 0 }) },
+                      number: { value: true, errorMessage: translate('entity.validation.number') }
+                    }}
+                  />
                 </AvGroup>
                 <AvGroup>
                   <Label id="propertyUsePurposeLabel">
@@ -374,6 +368,12 @@ export class PropertyUpdate extends React.Component<IPropertyUpdateProps, IPrope
                     <option value="RESTAURANT">RESTAURANT</option>
                     <option value="HOTEL">HOTEL</option>
                     <option value="LEASE">LEASE</option>
+                    <option value="SHOPHOUSE">SHOPHOUSE</option>
+                    <option value="CITIHOUSE">CITIHOUSE</option>
+                    <option value="OFFICE">OFFICE</option>
+                    <option value="LAND">LAND</option>
+                    <option value="OFFICETEL">OFFICETEL</option>
+                    <option value="OTHER">OTHER</option>
                   </AvInput>
                 </AvGroup>
                 <AvGroup>
@@ -414,13 +414,7 @@ export class PropertyUpdate extends React.Component<IPropertyUpdateProps, IPrope
                   <Label id="propertyRentStartedDateLabel" for="propertyRentStartedDate">
                     <Translate contentKey="riverApp.property.propertyRentStartedDate">Property Rent Started Date</Translate>
                   </Label>
-                  <AvInput
-                    id="property-propertyRentStartedDate"
-                    type="datetime-local"
-                    className="form-control"
-                    name="propertyRentStartedDate"
-                    value={isNew ? null : convertDateTimeFromServer(this.props.propertyEntity.propertyRentStartedDate)}
-                  />
+                  <AvField id="property-propertyRentStartedDate" type="date" className="form-control" name="propertyRentStartedDate" />
                 </AvGroup>
                 <AvGroup>
                   <Label id="propertySellPriceLabel" for="propertySellPrice">
@@ -448,13 +442,7 @@ export class PropertyUpdate extends React.Component<IPropertyUpdateProps, IPrope
                   <Label id="propertySellStartedDateLabel" for="propertySellStartedDate">
                     <Translate contentKey="riverApp.property.propertySellStartedDate">Property Sell Started Date</Translate>
                   </Label>
-                  <AvInput
-                    id="property-propertySellStartedDate"
-                    type="datetime-local"
-                    className="form-control"
-                    name="propertySellStartedDate"
-                    value={isNew ? null : convertDateTimeFromServer(this.props.propertyEntity.propertySellStartedDate)}
-                  />
+                  <AvField id="property-propertySellStartedDate" type="date" className="form-control" name="propertySellStartedDate" />
                 </AvGroup>
                 <AvGroup>
                   <Label id="propertySofaLabel" check>
@@ -666,45 +654,40 @@ export class PropertyUpdate extends React.Component<IPropertyUpdateProps, IPrope
                   <AvField id="property-propertyExtraInfo" type="text" name="propertyExtraInfo" />
                 </AvGroup>
                 <AvGroup>
-                  <AvGroup>
-                    <Label id="propertyDraftLabel" for="propertyDraft">
-                      <Translate contentKey="riverApp.property.propertyDraft">Property Draft</Translate>
-                    </Label>
-                    <br />
-                    {propertyDraft ? (
-                      <div>
-                        <a onClick={openFile(propertyDraftContentType, propertyDraft)}>
-                          <img src={`data:${propertyDraftContentType};base64,${propertyDraft}`} style={{ maxHeight: '100px' }} />
-                        </a>
-                        <br />
-                        <Row>
-                          <Col md="11">
-                            <span>
-                              {propertyDraftContentType}, {byteSize(propertyDraft)}
-                            </span>
-                          </Col>
-                          <Col md="1">
-                            <Button color="danger" onClick={this.clearBlob('propertyDraft')}>
-                              <FontAwesomeIcon icon="times-circle" />
-                            </Button>
-                          </Col>
-                        </Row>
-                      </div>
-                    ) : null}
-                    <input id="file_propertyDraft" type="file" onChange={this.onBlobChange(true, 'propertyDraft')} accept="image/*" />
-                  </AvGroup>
+                  <Label id="propertyDraftUrlLabel" for="propertyDraftUrl">
+                    <Translate contentKey="riverApp.property.propertyDraftUrl">Property Draft Url</Translate>
+                  </Label>
+                  <AvField id="property-propertyDraftUrl" type="text" name="propertyDraftUrl" />
                 </AvGroup>
                 <AvGroup>
                   <Label id="longitudeLabel" for="longitude">
                     <Translate contentKey="riverApp.property.longitude">Longitude</Translate>
                   </Label>
-                  <AvField id="property-longitude" type="number" className="form-control" name="longitude" />
+                  <AvField
+                    id="property-longitude"
+                    type="number"
+                    className="form-control"
+                    name="longitude"
+                    validate={{
+                      min: { value: 0, errorMessage: translate('entity.validation.min', { min: 0 }) },
+                      number: { value: true, errorMessage: translate('entity.validation.number') }
+                    }}
+                  />
                 </AvGroup>
                 <AvGroup>
                   <Label id="latitudeLabel" for="latitude">
                     <Translate contentKey="riverApp.property.latitude">Latitude</Translate>
                   </Label>
-                  <AvField id="property-latitude" type="number" className="form-control" name="latitude" />
+                  <AvField
+                    id="property-latitude"
+                    type="number"
+                    className="form-control"
+                    name="latitude"
+                    validate={{
+                      min: { value: 0, errorMessage: translate('entity.validation.min', { min: 0 }) },
+                      number: { value: true, errorMessage: translate('entity.validation.number') }
+                    }}
+                  />
                 </AvGroup>
                 <AvGroup>
                   <Label id="propertyGoodPriceLabel" check>
@@ -764,21 +747,21 @@ export class PropertyUpdate extends React.Component<IPropertyUpdateProps, IPrope
                   </AvInput>
                 </AvGroup>
                 <AvGroup>
-                  <Label for="residentialArea.residentialName">
-                    <Translate contentKey="riverApp.property.residentialArea">Residential Area</Translate>
+                  <Label for="consultant.login">
+                    <Translate contentKey="riverApp.property.consultant">Consultant</Translate>
                   </Label>
                   <AvInput
-                    id="property-residentialArea"
+                    id="property-consultant"
                     type="select"
                     className="form-control"
-                    name="residentialAreaId"
-                    onChange={this.residentialAreaUpdate}
+                    name="consultantId"
+                    onChange={this.consultantUpdate}
                   >
                     <option value="" key="0" />
-                    {residentialAreas
-                      ? residentialAreas.map(otherEntity => (
+                    {users
+                      ? users.map(otherEntity => (
                           <option value={otherEntity.id} key={otherEntity.id}>
-                            {otherEntity.residentialName}
+                            {otherEntity.login}
                           </option>
                         ))
                       : null}
@@ -808,54 +791,6 @@ export class PropertyUpdate extends React.Component<IPropertyUpdateProps, IPrope
                   </AvInput>
                   <AvInput id="property-tag" type="hidden" name="tags" value={this.state.idstag} />
                 </AvGroup>
-                <AvGroup>
-                  <Label for="buildingTypes">
-                    <Translate contentKey="riverApp.property.buildingtype">Buildingtype</Translate>
-                  </Label>
-                  <AvInput
-                    id="property-buildingtype"
-                    type="select"
-                    multiple
-                    className="form-control"
-                    name="fakebuildingTypes"
-                    value={this.displaybuildingtype(propertyEntity)}
-                    onChange={this.buildingtypeUpdate}
-                  >
-                    <option value="" key="0" />
-                    {buildingTypes
-                      ? buildingTypes.map(otherEntity => (
-                          <option value={otherEntity.typeName} key={otherEntity.id}>
-                            {otherEntity.typeName}
-                          </option>
-                        ))
-                      : null}
-                  </AvInput>
-                  <AvInput id="property-buildingtype" type="hidden" name="buildingtypes" value={this.state.idsbuildingtype} />
-                </AvGroup>
-                <AvGroup>
-                  <Label for="photos">
-                    <Translate contentKey="riverApp.property.photo">Photo</Translate>
-                  </Label>
-                  <AvInput
-                    id="property-photo"
-                    type="select"
-                    multiple
-                    className="form-control"
-                    name="fakephotos"
-                    value={this.displayphoto(propertyEntity)}
-                    onChange={this.photoUpdate}
-                  >
-                    <option value="" key="0" />
-                    {photos
-                      ? photos.map(otherEntity => (
-                          <option value={otherEntity.id} key={otherEntity.id}>
-                            {otherEntity.id}
-                          </option>
-                        ))
-                      : null}
-                  </AvInput>
-                  <AvInput id="property-photo" type="hidden" name="photos" value={this.state.idsphoto} />
-                </AvGroup>
                 <Button tag={Link} id="cancel-save" to="/entity/property" replace color="info">
                   <FontAwesomeIcon icon="arrow-left" />&nbsp;
                   <span className="d-none d-md-inline">
@@ -878,10 +813,8 @@ export class PropertyUpdate extends React.Component<IPropertyUpdateProps, IPrope
 
 const mapStateToProps = (storeState: IRootState) => ({
   locations: storeState.location.entities,
-  residentialAreas: storeState.residentialArea.entities,
+  users: storeState.userManagement.users,
   tags: storeState.tag.entities,
-  buildingTypes: storeState.buildingType.entities,
-  photos: storeState.photo.entities,
   propertyEntity: storeState.property.entity,
   loading: storeState.property.loading,
   updating: storeState.property.updating
@@ -889,10 +822,8 @@ const mapStateToProps = (storeState: IRootState) => ({
 
 const mapDispatchToProps = {
   getLocations,
-  getResidentialAreas,
+  getUsers,
   getTags,
-  getBuildingTypes,
-  getPhotos,
   getEntity,
   updateEntity,
   setBlob,

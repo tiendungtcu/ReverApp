@@ -26,17 +26,15 @@ public class Department implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "department_name", nullable = false)
+    @Size(max = 128)
+    @Column(name = "department_name", length = 128, nullable = false)
     private String departmentName;
 
-    @Lob
-    @Column(name = "department_photo")
-    private byte[] departmentPhoto;
+    @Column(name = "department_avatar_url")
+    private String departmentAvatarUrl;
 
-    @Column(name = "department_photo_content_type")
-    private String departmentPhotoContentType;
-
-    @Column(name = "department_phone")
+    @Size(max = 16)
+    @Column(name = "department_phone", length = 16)
     private String departmentPhone;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
@@ -61,30 +59,17 @@ public class Department implements Serializable {
         this.departmentName = departmentName;
     }
 
-    public byte[] getDepartmentPhoto() {
-        return departmentPhoto;
+    public String getDepartmentAvatarUrl() {
+        return departmentAvatarUrl;
     }
 
-    public Department departmentPhoto(byte[] departmentPhoto) {
-        this.departmentPhoto = departmentPhoto;
+    public Department departmentAvatarUrl(String departmentAvatarUrl) {
+        this.departmentAvatarUrl = departmentAvatarUrl;
         return this;
     }
 
-    public void setDepartmentPhoto(byte[] departmentPhoto) {
-        this.departmentPhoto = departmentPhoto;
-    }
-
-    public String getDepartmentPhotoContentType() {
-        return departmentPhotoContentType;
-    }
-
-    public Department departmentPhotoContentType(String departmentPhotoContentType) {
-        this.departmentPhotoContentType = departmentPhotoContentType;
-        return this;
-    }
-
-    public void setDepartmentPhotoContentType(String departmentPhotoContentType) {
-        this.departmentPhotoContentType = departmentPhotoContentType;
+    public void setDepartmentAvatarUrl(String departmentAvatarUrl) {
+        this.departmentAvatarUrl = departmentAvatarUrl;
     }
 
     public String getDepartmentPhone() {
@@ -126,8 +111,7 @@ public class Department implements Serializable {
         return "Department{" +
             "id=" + getId() +
             ", departmentName='" + getDepartmentName() + "'" +
-            ", departmentPhoto='" + getDepartmentPhoto() + "'" +
-            ", departmentPhotoContentType='" + getDepartmentPhotoContentType() + "'" +
+            ", departmentAvatarUrl='" + getDepartmentAvatarUrl() + "'" +
             ", departmentPhone='" + getDepartmentPhone() + "'" +
             "}";
     }

@@ -8,13 +8,13 @@ import com.tcutma.realstate.service.mapper.ArticleMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.LinkedList;
-import java.util.List;
+
 import java.util.Optional;
-import java.util.stream.Collectors;
 /**
  * Service Implementation for managing Article.
  */
@@ -50,15 +50,15 @@ public class ArticleServiceImpl implements ArticleService {
     /**
      * Get all the articles.
      *
+     * @param pageable the pagination information
      * @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
-    public List<ArticleDTO> findAll() {
+    public Page<ArticleDTO> findAll(Pageable pageable) {
         log.debug("Request to get all Articles");
-        return articleRepository.findAll().stream()
-            .map(articleMapper::toDto)
-            .collect(Collectors.toCollection(LinkedList::new));
+        return articleRepository.findAll(pageable)
+            .map(articleMapper::toDto);
     }
 
 

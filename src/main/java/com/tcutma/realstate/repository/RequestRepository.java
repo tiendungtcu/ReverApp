@@ -13,7 +13,10 @@ import java.util.List;
 @Repository
 public interface RequestRepository extends JpaRepository<Request, Long> {
 
-    @Query("select request from Request request where request.user.login = ?#{principal.username}")
-    List<Request> findByUserIsCurrentUser();
+    @Query("select request from Request request where request.sender.login = ?#{principal.username}")
+    List<Request> findBySenderIsCurrentUser();
+
+    @Query("select request from Request request where request.receiver.login = ?#{principal.username}")
+    List<Request> findByReceiverIsCurrentUser();
 
 }

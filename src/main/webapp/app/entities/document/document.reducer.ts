@@ -1,13 +1,5 @@
-import isEqual from 'lodash/isEqual';
 import axios from 'axios';
-import {
-  parseHeaderForLinks,
-  loadMoreDataWhenScrolled,
-  ICrudGetAction,
-  ICrudGetAllAction,
-  ICrudPutAction,
-  ICrudDeleteAction
-} from 'react-jhipster';
+import { ICrudGetAction, ICrudGetAllAction, ICrudPutAction, ICrudDeleteAction } from 'react-jhipster';
 
 import { cleanEntity } from 'app/shared/util/entity-utils';
 import { REQUEST, SUCCESS, FAILURE } from 'app/shared/reducers/action-type.util';
@@ -21,7 +13,6 @@ export const ACTION_TYPES = {
   CREATE_DOCUMENT: 'document/CREATE_DOCUMENT',
   UPDATE_DOCUMENT: 'document/UPDATE_DOCUMENT',
   DELETE_DOCUMENT: 'document/DELETE_DOCUMENT',
-  SET_BLOB: 'document/SET_BLOB',
   RESET: 'document/RESET'
 };
 
@@ -30,11 +21,7 @@ const initialState = {
   errorMessage: null,
   entities: [] as ReadonlyArray<IDocument>,
   entity: defaultValue,
-  links: {
-    last: 0
-  },
   updating: false,
-  totalItems: 0,
   updateSuccess: false
 };
 
@@ -74,13 +61,10 @@ export default (state: DocumentState = initialState, action): DocumentState => {
         errorMessage: action.payload
       };
     case SUCCESS(ACTION_TYPES.FETCH_DOCUMENT_LIST):
-      const links = parseHeaderForLinks(action.payload.headers.link);
       return {
         ...state,
-        links: { last: links.last },
         loading: false,
-        totalItems: action.payload.headers['x-total-count'],
-        entities: loadMoreDataWhenScrolled(state.entities, action.payload.data, links)
+        entities: action.payload.data
       };
     case SUCCESS(ACTION_TYPES.FETCH_DOCUMENT):
       return {
@@ -103,16 +87,6 @@ export default (state: DocumentState = initialState, action): DocumentState => {
         updateSuccess: true,
         entity: {}
       };
-    case ACTION_TYPES.SET_BLOB:
-      const { name, data, contentType } = action.payload;
-      return {
-        ...state,
-        entity: {
-          ...state.entity,
-          [name]: data,
-          [name + 'ContentType']: contentType
-        }
-      };
     case ACTION_TYPES.RESET:
       return {
         ...initialState
@@ -126,13 +100,10 @@ const apiUrl = SERVER_API_URL + '/api/documents';
 
 // Actions
 
-export const getEntities: ICrudGetAllAction<IDocument> = (page, size, sort) => {
-  const requestUrl = `${apiUrl}${sort ? `?page=${page}&size=${size}&sort=${sort}` : ''}`;
-  return {
-    type: ACTION_TYPES.FETCH_DOCUMENT_LIST,
-    payload: axios.get<IDocument>(`${requestUrl}${sort ? '&' : '?'}cacheBuster=${new Date().getTime()}`)
-  };
-};
+export const getEntities: ICrudGetAllAction<IDocument> = (page, size, sort) => ({
+  type: ACTION_TYPES.FETCH_DOCUMENT_LIST,
+  payload: axios.get<IDocument>(`${apiUrl}?cacheBuster=${new Date().getTime()}`)
+});
 
 export const getEntity: ICrudGetAction<IDocument> = id => {
   const requestUrl = `${apiUrl}/${id}`;
@@ -169,15 +140,6 @@ export const deleteEntity: ICrudDeleteAction<IDocument> = id => async dispatch =
   dispatch(getEntities());
   return result;
 };
-
-export const setBlob = (name, data, contentType?) => ({
-  type: ACTION_TYPES.SET_BLOB,
-  payload: {
-    name,
-    data,
-    contentType
-  }
-});
 
 export const reset = () => ({
   type: ACTION_TYPES.RESET

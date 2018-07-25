@@ -15,6 +15,7 @@ public class ArticleDTO implements Serializable {
     private Long id;
 
     @NotNull
+    @Size(max = 128)
     private String articleTitle;
 
     private BlogStatus articleStatus;
@@ -26,11 +27,13 @@ public class ArticleDTO implements Serializable {
     @Lob
     private String articleContent;
 
+    private Long authorId;
+
+    private String authorLogin;
+
     private Long categoryId;
 
-    private Long userId;
-
-    private String userLogin;
+    private String categoryCategoryName;
 
     public Long getId() {
         return id;
@@ -80,6 +83,22 @@ public class ArticleDTO implements Serializable {
         this.articleContent = articleContent;
     }
 
+    public Long getAuthorId() {
+        return authorId;
+    }
+
+    public void setAuthorId(Long userId) {
+        this.authorId = userId;
+    }
+
+    public String getAuthorLogin() {
+        return authorLogin;
+    }
+
+    public void setAuthorLogin(String userLogin) {
+        this.authorLogin = userLogin;
+    }
+
     public Long getCategoryId() {
         return categoryId;
     }
@@ -88,20 +107,12 @@ public class ArticleDTO implements Serializable {
         this.categoryId = supportCategoryId;
     }
 
-    public Long getUserId() {
-        return userId;
+    public String getCategoryCategoryName() {
+        return categoryCategoryName;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public String getUserLogin() {
-        return userLogin;
-    }
-
-    public void setUserLogin(String userLogin) {
-        this.userLogin = userLogin;
+    public void setCategoryCategoryName(String supportCategoryCategoryName) {
+        this.categoryCategoryName = supportCategoryCategoryName;
     }
 
     @Override
@@ -134,9 +145,10 @@ public class ArticleDTO implements Serializable {
             ", articleDate='" + getArticleDate() + "'" +
             ", articleSeenCount=" + getArticleSeenCount() +
             ", articleContent='" + getArticleContent() + "'" +
+            ", author=" + getAuthorId() +
+            ", author='" + getAuthorLogin() + "'" +
             ", category=" + getCategoryId() +
-            ", user=" + getUserId() +
-            ", user='" + getUserLogin() + "'" +
+            ", category='" + getCategoryCategoryName() + "'" +
             "}";
     }
 }

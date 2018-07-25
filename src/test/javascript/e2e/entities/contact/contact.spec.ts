@@ -4,7 +4,6 @@ import { browser } from 'protractor';
 import NavBarPage from './../../page-objects/navbar-page';
 import ContactComponentsPage from './contact.page-object';
 import ContactUpdatePage from './contact-update.page-object';
-import path from 'path';
 
 const expect = chai.expect;
 
@@ -12,8 +11,6 @@ describe('Contact e2e test', () => {
   let navBarPage: NavBarPage;
   let contactUpdatePage: ContactUpdatePage;
   let contactComponentsPage: ContactComponentsPage;
-  const fileToUpload = '../../../../../main/webapp/static/images/logo-jhipster.png';
-  const absolutePath = path.resolve(__dirname, fileToUpload);
 
   before(() => {
     browser.get('/');
@@ -40,11 +37,10 @@ describe('Contact e2e test', () => {
     expect(await contactUpdatePage.getContactPhoneInput()).to.match(/contactPhone/);
     contactUpdatePage.setContactAddressInput('contactAddress');
     expect(await contactUpdatePage.getContactAddressInput()).to.match(/contactAddress/);
-    contactUpdatePage.setContactEmailInput('contactEmail');
-    expect(await contactUpdatePage.getContactEmailInput()).to.match(/contactEmail/);
     contactUpdatePage.setContactWebsiteInput('contactWebsite');
     expect(await contactUpdatePage.getContactWebsiteInput()).to.match(/contactWebsite/);
-    contactUpdatePage.setContactPhotoInput(absolutePath);
+    contactUpdatePage.setContactAvatarUrlInput('contactAvatarUrl');
+    expect(await contactUpdatePage.getContactAvatarUrlInput()).to.match(/contactAvatarUrl/);
     contactUpdatePage.setContactFacebookInput('contactFacebook');
     expect(await contactUpdatePage.getContactFacebookInput()).to.match(/contactFacebook/);
     contactUpdatePage.setContactTwitterInput('contactTwitter');
@@ -65,6 +61,7 @@ describe('Contact e2e test', () => {
       contactUpdatePage.getContactStatusInput().click();
       expect(await contactUpdatePage.getContactStatusInput().isSelected()).to.be.true;
     }
+    contactUpdatePage.userSelectLastOption();
     await contactUpdatePage.save();
     expect(await contactUpdatePage.getSaveButton().isPresent()).to.be.false;
   });

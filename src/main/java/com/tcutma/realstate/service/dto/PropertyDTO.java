@@ -1,6 +1,6 @@
 package com.tcutma.realstate.service.dto;
 
-import java.time.ZonedDateTime;
+import java.time.LocalDate;
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -20,32 +20,43 @@ public class PropertyDTO implements Serializable {
     private Long id;
 
     @NotNull
+    @Size(max = 16)
     private String propertyCode;
 
     @NotNull
+    @Size(max = 128)
     private String propertyName;
 
+    @Size(max = 128)
     private String propertyAlias;
 
     private TransactionType propertyTransaction;
 
+    @Size(max = 64)
     private String propertyNumber;
 
+    @Size(max = 64)
     private String propertyRoad;
 
+    @Size(max = 64)
     private String propertyWard;
 
+    @Size(max = 64)
     private String propertyDistrict;
 
+    @Size(max = 64)
     private String propertyProvince;
 
     @Lob
     private String propertyDescription;
 
+    @Min(value = 0)
     private Integer propertyBedRooms;
 
+    @Min(value = 0)
     private Integer propertyBathRooms;
 
+    @DecimalMin(value = "0")
     private Double propertySquare;
 
     private UseEstablishment propertyUsePurpose;
@@ -58,13 +69,13 @@ public class PropertyDTO implements Serializable {
 
     private PriceUnit propertyRentUnit;
 
-    private ZonedDateTime propertyRentStartedDate;
+    private LocalDate propertyRentStartedDate;
 
     private Double propertySellPrice;
 
     private PriceUnit propertySellUnit;
 
-    private ZonedDateTime propertySellStartedDate;
+    private LocalDate propertySellStartedDate;
 
     private Boolean propertySofa;
 
@@ -134,12 +145,12 @@ public class PropertyDTO implements Serializable {
 
     private String propertyExtraInfo;
 
-    @Lob
-    private byte[] propertyDraft;
-    private String propertyDraftContentType;
+    private String propertyDraftUrl;
 
+    @DecimalMin(value = "0")
     private Double longitude;
 
+    @DecimalMin(value = "0")
     private Double latitude;
 
     private Boolean propertyGoodPrice;
@@ -158,15 +169,11 @@ public class PropertyDTO implements Serializable {
 
     private Long locationId;
 
-    private Long residentialAreaId;
+    private Long consultantId;
 
-    private String residentialAreaResidentialName;
+    private String consultantLogin;
 
     private Set<TagDTO> tags = new HashSet<>();
-
-    private Set<BuildingTypeDTO> buildingtypes = new HashSet<>();
-
-    private Set<PhotoDTO> photos = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -320,11 +327,11 @@ public class PropertyDTO implements Serializable {
         this.propertyRentUnit = propertyRentUnit;
     }
 
-    public ZonedDateTime getPropertyRentStartedDate() {
+    public LocalDate getPropertyRentStartedDate() {
         return propertyRentStartedDate;
     }
 
-    public void setPropertyRentStartedDate(ZonedDateTime propertyRentStartedDate) {
+    public void setPropertyRentStartedDate(LocalDate propertyRentStartedDate) {
         this.propertyRentStartedDate = propertyRentStartedDate;
     }
 
@@ -344,11 +351,11 @@ public class PropertyDTO implements Serializable {
         this.propertySellUnit = propertySellUnit;
     }
 
-    public ZonedDateTime getPropertySellStartedDate() {
+    public LocalDate getPropertySellStartedDate() {
         return propertySellStartedDate;
     }
 
-    public void setPropertySellStartedDate(ZonedDateTime propertySellStartedDate) {
+    public void setPropertySellStartedDate(LocalDate propertySellStartedDate) {
         this.propertySellStartedDate = propertySellStartedDate;
     }
 
@@ -624,20 +631,12 @@ public class PropertyDTO implements Serializable {
         this.propertyExtraInfo = propertyExtraInfo;
     }
 
-    public byte[] getPropertyDraft() {
-        return propertyDraft;
+    public String getPropertyDraftUrl() {
+        return propertyDraftUrl;
     }
 
-    public void setPropertyDraft(byte[] propertyDraft) {
-        this.propertyDraft = propertyDraft;
-    }
-
-    public String getPropertyDraftContentType() {
-        return propertyDraftContentType;
-    }
-
-    public void setPropertyDraftContentType(String propertyDraftContentType) {
-        this.propertyDraftContentType = propertyDraftContentType;
+    public void setPropertyDraftUrl(String propertyDraftUrl) {
+        this.propertyDraftUrl = propertyDraftUrl;
     }
 
     public Double getLongitude() {
@@ -720,20 +719,20 @@ public class PropertyDTO implements Serializable {
         this.locationId = locationId;
     }
 
-    public Long getResidentialAreaId() {
-        return residentialAreaId;
+    public Long getConsultantId() {
+        return consultantId;
     }
 
-    public void setResidentialAreaId(Long residentialAreaId) {
-        this.residentialAreaId = residentialAreaId;
+    public void setConsultantId(Long userId) {
+        this.consultantId = userId;
     }
 
-    public String getResidentialAreaResidentialName() {
-        return residentialAreaResidentialName;
+    public String getConsultantLogin() {
+        return consultantLogin;
     }
 
-    public void setResidentialAreaResidentialName(String residentialAreaResidentialName) {
-        this.residentialAreaResidentialName = residentialAreaResidentialName;
+    public void setConsultantLogin(String userLogin) {
+        this.consultantLogin = userLogin;
     }
 
     public Set<TagDTO> getTags() {
@@ -742,22 +741,6 @@ public class PropertyDTO implements Serializable {
 
     public void setTags(Set<TagDTO> tags) {
         this.tags = tags;
-    }
-
-    public Set<BuildingTypeDTO> getBuildingtypes() {
-        return buildingtypes;
-    }
-
-    public void setBuildingtypes(Set<BuildingTypeDTO> buildingTypes) {
-        this.buildingtypes = buildingTypes;
-    }
-
-    public Set<PhotoDTO> getPhotos() {
-        return photos;
-    }
-
-    public void setPhotos(Set<PhotoDTO> photos) {
-        this.photos = photos;
     }
 
     @Override
@@ -841,7 +824,7 @@ public class PropertyDTO implements Serializable {
             ", propertyResidentialCommunity='" + getPropertyResidentialCommunity() + "'" +
             ", propertyEducationalAspect='" + getPropertyEducationalAspect() + "'" +
             ", propertyExtraInfo='" + getPropertyExtraInfo() + "'" +
-            ", propertyDraft='" + getPropertyDraft() + "'" +
+            ", propertyDraftUrl='" + getPropertyDraftUrl() + "'" +
             ", longitude=" + getLongitude() +
             ", latitude=" + getLatitude() +
             ", propertyGoodPrice='" + isPropertyGoodPrice() + "'" +
@@ -852,8 +835,8 @@ public class PropertyDTO implements Serializable {
             ", propertyRefrigerator='" + isPropertyRefrigerator() + "'" +
             ", propertyAirconditioner='" + isPropertyAirconditioner() + "'" +
             ", location=" + getLocationId() +
-            ", residentialArea=" + getResidentialAreaId() +
-            ", residentialArea='" + getResidentialAreaResidentialName() + "'" +
+            ", consultant=" + getConsultantId() +
+            ", consultant='" + getConsultantLogin() + "'" +
             "}";
     }
 }

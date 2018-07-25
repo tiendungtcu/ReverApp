@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Col, Row, Table } from 'reactstrap';
 // tslint:disable-next-line:no-unused-variable
-import { byteSize, Translate, ICrudGetAllAction, TextFormat } from 'react-jhipster';
+import { Translate, ICrudGetAllAction, TextFormat } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IRootState } from 'app/shared/reducers';
@@ -38,16 +38,10 @@ export class Comment extends React.Component<ICommentProps> {
                   <Translate contentKey="global.field.id">ID</Translate>
                 </th>
                 <th>
-                  <Translate contentKey="riverApp.comment.commentTitle">Comment Title</Translate>
-                </th>
-                <th>
                   <Translate contentKey="riverApp.comment.commentContent">Comment Content</Translate>
                 </th>
                 <th>
-                  <Translate contentKey="riverApp.comment.commentCreatedDate">Comment Created Date</Translate>
-                </th>
-                <th>
-                  <Translate contentKey="riverApp.comment.commentUpdateDate">Comment Update Date</Translate>
+                  <Translate contentKey="riverApp.comment.commentTimeStamp">Comment Time Stamp</Translate>
                 </th>
                 <th>
                   <Translate contentKey="riverApp.comment.user">User</Translate>
@@ -66,16 +60,12 @@ export class Comment extends React.Component<ICommentProps> {
                       {comment.id}
                     </Button>
                   </td>
-                  <td>{comment.commentTitle}</td>
                   <td>{comment.commentContent}</td>
                   <td>
-                    <TextFormat type="date" value={comment.commentCreatedDate} format={APP_DATE_FORMAT} />
-                  </td>
-                  <td>
-                    <TextFormat type="date" value={comment.commentUpdateDate} format={APP_DATE_FORMAT} />
+                    <TextFormat type="date" value={comment.commentTimeStamp} format={APP_DATE_FORMAT} />
                   </td>
                   <td>{comment.userLogin ? comment.userLogin : ''}</td>
-                  <td>{comment.postId ? <Link to={`blogPost/${comment.postId}`}>{comment.postId}</Link> : ''}</td>
+                  <td>{comment.postPostTitle ? <Link to={`blogPost/${comment.postId}`}>{comment.postPostTitle}</Link> : ''}</td>
                   <td className="text-right">
                     <div className="btn-group flex-btn-group-container">
                       <Button tag={Link} to={`${match.url}/${comment.id}`} color="info" size="sm">

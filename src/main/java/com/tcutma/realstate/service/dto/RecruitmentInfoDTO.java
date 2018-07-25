@@ -1,6 +1,6 @@
 package com.tcutma.realstate.service.dto;
 
-import java.time.ZonedDateTime;
+import java.time.LocalDate;
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
@@ -14,24 +14,25 @@ public class RecruitmentInfoDTO implements Serializable {
     private Long id;
 
     @NotNull
+    @Size(max = 128)
     private String recruitmentTitle;
 
-    @Lob
-    private byte[] recruitmentImage;
-    private String recruitmentImageContentType;
+    private String recruitmentAvatarUrl;
 
     @Lob
     private String recruitmentContent;
 
     private String recruitmentNotes;
 
-    private ZonedDateTime recruitmentDate;
+    private LocalDate recruitmentDate;
 
     private Long recruitmentSeenCount;
 
     private Boolean recruitmentStatus;
 
-    private Long photoId;
+    private Long userId;
+
+    private String userLogin;
 
     private Long jobtitleId;
 
@@ -53,20 +54,12 @@ public class RecruitmentInfoDTO implements Serializable {
         this.recruitmentTitle = recruitmentTitle;
     }
 
-    public byte[] getRecruitmentImage() {
-        return recruitmentImage;
+    public String getRecruitmentAvatarUrl() {
+        return recruitmentAvatarUrl;
     }
 
-    public void setRecruitmentImage(byte[] recruitmentImage) {
-        this.recruitmentImage = recruitmentImage;
-    }
-
-    public String getRecruitmentImageContentType() {
-        return recruitmentImageContentType;
-    }
-
-    public void setRecruitmentImageContentType(String recruitmentImageContentType) {
-        this.recruitmentImageContentType = recruitmentImageContentType;
+    public void setRecruitmentAvatarUrl(String recruitmentAvatarUrl) {
+        this.recruitmentAvatarUrl = recruitmentAvatarUrl;
     }
 
     public String getRecruitmentContent() {
@@ -85,11 +78,11 @@ public class RecruitmentInfoDTO implements Serializable {
         this.recruitmentNotes = recruitmentNotes;
     }
 
-    public ZonedDateTime getRecruitmentDate() {
+    public LocalDate getRecruitmentDate() {
         return recruitmentDate;
     }
 
-    public void setRecruitmentDate(ZonedDateTime recruitmentDate) {
+    public void setRecruitmentDate(LocalDate recruitmentDate) {
         this.recruitmentDate = recruitmentDate;
     }
 
@@ -109,12 +102,20 @@ public class RecruitmentInfoDTO implements Serializable {
         this.recruitmentStatus = recruitmentStatus;
     }
 
-    public Long getPhotoId() {
-        return photoId;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setPhotoId(Long photoId) {
-        this.photoId = photoId;
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public String getUserLogin() {
+        return userLogin;
+    }
+
+    public void setUserLogin(String userLogin) {
+        this.userLogin = userLogin;
     }
 
     public Long getJobtitleId() {
@@ -159,13 +160,14 @@ public class RecruitmentInfoDTO implements Serializable {
         return "RecruitmentInfoDTO{" +
             "id=" + getId() +
             ", recruitmentTitle='" + getRecruitmentTitle() + "'" +
-            ", recruitmentImage='" + getRecruitmentImage() + "'" +
+            ", recruitmentAvatarUrl='" + getRecruitmentAvatarUrl() + "'" +
             ", recruitmentContent='" + getRecruitmentContent() + "'" +
             ", recruitmentNotes='" + getRecruitmentNotes() + "'" +
             ", recruitmentDate='" + getRecruitmentDate() + "'" +
             ", recruitmentSeenCount=" + getRecruitmentSeenCount() +
             ", recruitmentStatus='" + isRecruitmentStatus() + "'" +
-            ", photo=" + getPhotoId() +
+            ", user=" + getUserId() +
+            ", user='" + getUserLogin() + "'" +
             ", jobtitle=" + getJobtitleId() +
             ", jobtitle='" + getJobtitleTitleName() + "'" +
             "}";

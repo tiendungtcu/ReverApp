@@ -1,10 +1,9 @@
 /* tslint:disable no-unused-expression */
-import { browser, protractor } from 'protractor';
+import { browser } from 'protractor';
 
 import NavBarPage from './../../page-objects/navbar-page';
 import PropertyComponentsPage from './property.page-object';
 import PropertyUpdatePage from './property-update.page-object';
-import path from 'path';
 
 const expect = chai.expect;
 
@@ -12,8 +11,6 @@ describe('Property e2e test', () => {
   let navBarPage: NavBarPage;
   let propertyUpdatePage: PropertyUpdatePage;
   let propertyComponentsPage: PropertyComponentsPage;
-  const fileToUpload = '../../../../../main/webapp/static/images/logo-jhipster.png';
-  const absolutePath = path.resolve(__dirname, fileToUpload);
 
   before(() => {
     browser.get('/');
@@ -67,13 +64,13 @@ describe('Property e2e test', () => {
     propertyUpdatePage.setPropertyRentPriceInput('5');
     expect(await propertyUpdatePage.getPropertyRentPriceInput()).to.eq('5');
     propertyUpdatePage.propertyRentUnitSelectLastOption();
-    propertyUpdatePage.setPropertyRentStartedDateInput('01/01/2001' + protractor.Key.TAB + '02:30AM');
-    expect(await propertyUpdatePage.getPropertyRentStartedDateInput()).to.contain('2001-01-01T02:30');
+    propertyUpdatePage.setPropertyRentStartedDateInput('01-01-2001');
+    expect(await propertyUpdatePage.getPropertyRentStartedDateInput()).to.eq('2001-01-01');
     propertyUpdatePage.setPropertySellPriceInput('5');
     expect(await propertyUpdatePage.getPropertySellPriceInput()).to.eq('5');
     propertyUpdatePage.propertySellUnitSelectLastOption();
-    propertyUpdatePage.setPropertySellStartedDateInput('01/01/2001' + protractor.Key.TAB + '02:30AM');
-    expect(await propertyUpdatePage.getPropertySellStartedDateInput()).to.contain('2001-01-01T02:30');
+    propertyUpdatePage.setPropertySellStartedDateInput('01-01-2001');
+    expect(await propertyUpdatePage.getPropertySellStartedDateInput()).to.eq('2001-01-01');
     const selectedPropertySofa = await propertyUpdatePage.getPropertySofaInput().isSelected();
     if (selectedPropertySofa) {
       propertyUpdatePage.getPropertySofaInput().click();
@@ -310,7 +307,8 @@ describe('Property e2e test', () => {
     expect(await propertyUpdatePage.getPropertyEducationalAspectInput()).to.match(/propertyEducationalAspect/);
     propertyUpdatePage.setPropertyExtraInfoInput('propertyExtraInfo');
     expect(await propertyUpdatePage.getPropertyExtraInfoInput()).to.match(/propertyExtraInfo/);
-    propertyUpdatePage.setPropertyDraftInput(absolutePath);
+    propertyUpdatePage.setPropertyDraftUrlInput('propertyDraftUrl');
+    expect(await propertyUpdatePage.getPropertyDraftUrlInput()).to.match(/propertyDraftUrl/);
     propertyUpdatePage.setLongitudeInput('5');
     expect(await propertyUpdatePage.getLongitudeInput()).to.eq('5');
     propertyUpdatePage.setLatitudeInput('5');
@@ -366,10 +364,8 @@ describe('Property e2e test', () => {
       expect(await propertyUpdatePage.getPropertyAirconditionerInput().isSelected()).to.be.true;
     }
     propertyUpdatePage.locationSelectLastOption();
-    propertyUpdatePage.residentialAreaSelectLastOption();
+    propertyUpdatePage.consultantSelectLastOption();
     // propertyUpdatePage.tagSelectLastOption();
-    // propertyUpdatePage.buildingtypeSelectLastOption();
-    // propertyUpdatePage.photoSelectLastOption();
     await propertyUpdatePage.save();
     expect(await propertyUpdatePage.getSaveButton().isPresent()).to.be.false;
   });

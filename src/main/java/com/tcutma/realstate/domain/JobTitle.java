@@ -26,9 +26,11 @@ public class JobTitle implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "title_name", nullable = false)
+    @Size(max = 128)
+    @Column(name = "title_name", length = 128, nullable = false)
     private String titleName;
 
+    @DecimalMin(value = "1")
     @Column(name = "salary_factor")
     private Double salaryFactor;
 

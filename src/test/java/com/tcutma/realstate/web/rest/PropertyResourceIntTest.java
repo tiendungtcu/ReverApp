@@ -4,10 +4,8 @@ import com.tcutma.realstate.RiverApp;
 
 import com.tcutma.realstate.domain.Property;
 import com.tcutma.realstate.domain.Location;
-import com.tcutma.realstate.domain.ResidentialArea;
+import com.tcutma.realstate.domain.User;
 import com.tcutma.realstate.domain.Tag;
-import com.tcutma.realstate.domain.BuildingType;
-import com.tcutma.realstate.domain.Photo;
 import com.tcutma.realstate.repository.PropertyRepository;
 import com.tcutma.realstate.service.PropertyService;
 import com.tcutma.realstate.service.dto.PropertyDTO;
@@ -35,15 +33,12 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Base64Utils;
 
 import javax.persistence.EntityManager;
-import java.time.Instant;
-import java.time.ZonedDateTime;
-import java.time.ZoneOffset;
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
 
-import static com.tcutma.realstate.web.rest.TestUtil.sameInstant;
 import static com.tcutma.realstate.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
@@ -94,14 +89,14 @@ public class PropertyResourceIntTest {
     private static final String DEFAULT_PROPERTY_DESCRIPTION = "AAAAAAAAAA";
     private static final String UPDATED_PROPERTY_DESCRIPTION = "BBBBBBBBBB";
 
-    private static final Integer DEFAULT_PROPERTY_BED_ROOMS = 1;
-    private static final Integer UPDATED_PROPERTY_BED_ROOMS = 2;
+    private static final Integer DEFAULT_PROPERTY_BED_ROOMS = 0;
+    private static final Integer UPDATED_PROPERTY_BED_ROOMS = 1;
 
-    private static final Integer DEFAULT_PROPERTY_BATH_ROOMS = 1;
-    private static final Integer UPDATED_PROPERTY_BATH_ROOMS = 2;
+    private static final Integer DEFAULT_PROPERTY_BATH_ROOMS = 0;
+    private static final Integer UPDATED_PROPERTY_BATH_ROOMS = 1;
 
-    private static final Double DEFAULT_PROPERTY_SQUARE = 1D;
-    private static final Double UPDATED_PROPERTY_SQUARE = 2D;
+    private static final Double DEFAULT_PROPERTY_SQUARE = 0D;
+    private static final Double UPDATED_PROPERTY_SQUARE = 1D;
 
     private static final UseEstablishment DEFAULT_PROPERTY_USE_PURPOSE = UseEstablishment.LODGE;
     private static final UseEstablishment UPDATED_PROPERTY_USE_PURPOSE = UseEstablishment.PUB;
@@ -118,8 +113,8 @@ public class PropertyResourceIntTest {
     private static final PriceUnit DEFAULT_PROPERTY_RENT_UNIT = PriceUnit.THOUSAND;
     private static final PriceUnit UPDATED_PROPERTY_RENT_UNIT = PriceUnit.MILLION;
 
-    private static final ZonedDateTime DEFAULT_PROPERTY_RENT_STARTED_DATE = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
-    private static final ZonedDateTime UPDATED_PROPERTY_RENT_STARTED_DATE = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
+    private static final LocalDate DEFAULT_PROPERTY_RENT_STARTED_DATE = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_PROPERTY_RENT_STARTED_DATE = LocalDate.now(ZoneId.systemDefault());
 
     private static final Double DEFAULT_PROPERTY_SELL_PRICE = 1D;
     private static final Double UPDATED_PROPERTY_SELL_PRICE = 2D;
@@ -127,8 +122,8 @@ public class PropertyResourceIntTest {
     private static final PriceUnit DEFAULT_PROPERTY_SELL_UNIT = PriceUnit.THOUSAND;
     private static final PriceUnit UPDATED_PROPERTY_SELL_UNIT = PriceUnit.MILLION;
 
-    private static final ZonedDateTime DEFAULT_PROPERTY_SELL_STARTED_DATE = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
-    private static final ZonedDateTime UPDATED_PROPERTY_SELL_STARTED_DATE = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
+    private static final LocalDate DEFAULT_PROPERTY_SELL_STARTED_DATE = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_PROPERTY_SELL_STARTED_DATE = LocalDate.now(ZoneId.systemDefault());
 
     private static final Boolean DEFAULT_PROPERTY_SOFA = false;
     private static final Boolean UPDATED_PROPERTY_SOFA = true;
@@ -232,16 +227,14 @@ public class PropertyResourceIntTest {
     private static final String DEFAULT_PROPERTY_EXTRA_INFO = "AAAAAAAAAA";
     private static final String UPDATED_PROPERTY_EXTRA_INFO = "BBBBBBBBBB";
 
-    private static final byte[] DEFAULT_PROPERTY_DRAFT = TestUtil.createByteArray(1, "0");
-    private static final byte[] UPDATED_PROPERTY_DRAFT = TestUtil.createByteArray(2, "1");
-    private static final String DEFAULT_PROPERTY_DRAFT_CONTENT_TYPE = "image/jpg";
-    private static final String UPDATED_PROPERTY_DRAFT_CONTENT_TYPE = "image/png";
+    private static final String DEFAULT_PROPERTY_DRAFT_URL = "AAAAAAAAAA";
+    private static final String UPDATED_PROPERTY_DRAFT_URL = "BBBBBBBBBB";
 
-    private static final Double DEFAULT_LONGITUDE = 1D;
-    private static final Double UPDATED_LONGITUDE = 2D;
+    private static final Double DEFAULT_LONGITUDE = 0D;
+    private static final Double UPDATED_LONGITUDE = 1D;
 
-    private static final Double DEFAULT_LATITUDE = 1D;
-    private static final Double UPDATED_LATITUDE = 2D;
+    private static final Double DEFAULT_LATITUDE = 0D;
+    private static final Double UPDATED_LATITUDE = 1D;
 
     private static final Boolean DEFAULT_PROPERTY_GOOD_PRICE = false;
     private static final Boolean UPDATED_PROPERTY_GOOD_PRICE = true;
@@ -372,8 +365,7 @@ public class PropertyResourceIntTest {
             .propertyResidentialCommunity(DEFAULT_PROPERTY_RESIDENTIAL_COMMUNITY)
             .propertyEducationalAspect(DEFAULT_PROPERTY_EDUCATIONAL_ASPECT)
             .propertyExtraInfo(DEFAULT_PROPERTY_EXTRA_INFO)
-            .propertyDraft(DEFAULT_PROPERTY_DRAFT)
-            .propertyDraftContentType(DEFAULT_PROPERTY_DRAFT_CONTENT_TYPE)
+            .propertyDraftUrl(DEFAULT_PROPERTY_DRAFT_URL)
             .longitude(DEFAULT_LONGITUDE)
             .latitude(DEFAULT_LATITUDE)
             .propertyGoodPrice(DEFAULT_PROPERTY_GOOD_PRICE)
@@ -463,8 +455,7 @@ public class PropertyResourceIntTest {
         assertThat(testProperty.getPropertyResidentialCommunity()).isEqualTo(DEFAULT_PROPERTY_RESIDENTIAL_COMMUNITY);
         assertThat(testProperty.getPropertyEducationalAspect()).isEqualTo(DEFAULT_PROPERTY_EDUCATIONAL_ASPECT);
         assertThat(testProperty.getPropertyExtraInfo()).isEqualTo(DEFAULT_PROPERTY_EXTRA_INFO);
-        assertThat(testProperty.getPropertyDraft()).isEqualTo(DEFAULT_PROPERTY_DRAFT);
-        assertThat(testProperty.getPropertyDraftContentType()).isEqualTo(DEFAULT_PROPERTY_DRAFT_CONTENT_TYPE);
+        assertThat(testProperty.getPropertyDraftUrl()).isEqualTo(DEFAULT_PROPERTY_DRAFT_URL);
         assertThat(testProperty.getLongitude()).isEqualTo(DEFAULT_LONGITUDE);
         assertThat(testProperty.getLatitude()).isEqualTo(DEFAULT_LATITUDE);
         assertThat(testProperty.isPropertyGoodPrice()).isEqualTo(DEFAULT_PROPERTY_GOOD_PRICE);
@@ -563,10 +554,10 @@ public class PropertyResourceIntTest {
             .andExpect(jsonPath("$.[*].propertyTower").value(hasItem(DEFAULT_PROPERTY_TOWER.toString())))
             .andExpect(jsonPath("$.[*].propertyRentPrice").value(hasItem(DEFAULT_PROPERTY_RENT_PRICE.doubleValue())))
             .andExpect(jsonPath("$.[*].propertyRentUnit").value(hasItem(DEFAULT_PROPERTY_RENT_UNIT.toString())))
-            .andExpect(jsonPath("$.[*].propertyRentStartedDate").value(hasItem(sameInstant(DEFAULT_PROPERTY_RENT_STARTED_DATE))))
+            .andExpect(jsonPath("$.[*].propertyRentStartedDate").value(hasItem(DEFAULT_PROPERTY_RENT_STARTED_DATE.toString())))
             .andExpect(jsonPath("$.[*].propertySellPrice").value(hasItem(DEFAULT_PROPERTY_SELL_PRICE.doubleValue())))
             .andExpect(jsonPath("$.[*].propertySellUnit").value(hasItem(DEFAULT_PROPERTY_SELL_UNIT.toString())))
-            .andExpect(jsonPath("$.[*].propertySellStartedDate").value(hasItem(sameInstant(DEFAULT_PROPERTY_SELL_STARTED_DATE))))
+            .andExpect(jsonPath("$.[*].propertySellStartedDate").value(hasItem(DEFAULT_PROPERTY_SELL_STARTED_DATE.toString())))
             .andExpect(jsonPath("$.[*].propertySofa").value(hasItem(DEFAULT_PROPERTY_SOFA.booleanValue())))
             .andExpect(jsonPath("$.[*].propertyDiningTable").value(hasItem(DEFAULT_PROPERTY_DINING_TABLE.booleanValue())))
             .andExpect(jsonPath("$.[*].propertyKitchen").value(hasItem(DEFAULT_PROPERTY_KITCHEN.booleanValue())))
@@ -601,8 +592,7 @@ public class PropertyResourceIntTest {
             .andExpect(jsonPath("$.[*].propertyResidentialCommunity").value(hasItem(DEFAULT_PROPERTY_RESIDENTIAL_COMMUNITY.toString())))
             .andExpect(jsonPath("$.[*].propertyEducationalAspect").value(hasItem(DEFAULT_PROPERTY_EDUCATIONAL_ASPECT.toString())))
             .andExpect(jsonPath("$.[*].propertyExtraInfo").value(hasItem(DEFAULT_PROPERTY_EXTRA_INFO.toString())))
-            .andExpect(jsonPath("$.[*].propertyDraftContentType").value(hasItem(DEFAULT_PROPERTY_DRAFT_CONTENT_TYPE)))
-            .andExpect(jsonPath("$.[*].propertyDraft").value(hasItem(Base64Utils.encodeToString(DEFAULT_PROPERTY_DRAFT))))
+            .andExpect(jsonPath("$.[*].propertyDraftUrl").value(hasItem(DEFAULT_PROPERTY_DRAFT_URL.toString())))
             .andExpect(jsonPath("$.[*].longitude").value(hasItem(DEFAULT_LONGITUDE.doubleValue())))
             .andExpect(jsonPath("$.[*].latitude").value(hasItem(DEFAULT_LATITUDE.doubleValue())))
             .andExpect(jsonPath("$.[*].propertyGoodPrice").value(hasItem(DEFAULT_PROPERTY_GOOD_PRICE.booleanValue())))
@@ -674,10 +664,10 @@ public class PropertyResourceIntTest {
             .andExpect(jsonPath("$.propertyTower").value(DEFAULT_PROPERTY_TOWER.toString()))
             .andExpect(jsonPath("$.propertyRentPrice").value(DEFAULT_PROPERTY_RENT_PRICE.doubleValue()))
             .andExpect(jsonPath("$.propertyRentUnit").value(DEFAULT_PROPERTY_RENT_UNIT.toString()))
-            .andExpect(jsonPath("$.propertyRentStartedDate").value(sameInstant(DEFAULT_PROPERTY_RENT_STARTED_DATE)))
+            .andExpect(jsonPath("$.propertyRentStartedDate").value(DEFAULT_PROPERTY_RENT_STARTED_DATE.toString()))
             .andExpect(jsonPath("$.propertySellPrice").value(DEFAULT_PROPERTY_SELL_PRICE.doubleValue()))
             .andExpect(jsonPath("$.propertySellUnit").value(DEFAULT_PROPERTY_SELL_UNIT.toString()))
-            .andExpect(jsonPath("$.propertySellStartedDate").value(sameInstant(DEFAULT_PROPERTY_SELL_STARTED_DATE)))
+            .andExpect(jsonPath("$.propertySellStartedDate").value(DEFAULT_PROPERTY_SELL_STARTED_DATE.toString()))
             .andExpect(jsonPath("$.propertySofa").value(DEFAULT_PROPERTY_SOFA.booleanValue()))
             .andExpect(jsonPath("$.propertyDiningTable").value(DEFAULT_PROPERTY_DINING_TABLE.booleanValue()))
             .andExpect(jsonPath("$.propertyKitchen").value(DEFAULT_PROPERTY_KITCHEN.booleanValue()))
@@ -712,8 +702,7 @@ public class PropertyResourceIntTest {
             .andExpect(jsonPath("$.propertyResidentialCommunity").value(DEFAULT_PROPERTY_RESIDENTIAL_COMMUNITY.toString()))
             .andExpect(jsonPath("$.propertyEducationalAspect").value(DEFAULT_PROPERTY_EDUCATIONAL_ASPECT.toString()))
             .andExpect(jsonPath("$.propertyExtraInfo").value(DEFAULT_PROPERTY_EXTRA_INFO.toString()))
-            .andExpect(jsonPath("$.propertyDraftContentType").value(DEFAULT_PROPERTY_DRAFT_CONTENT_TYPE))
-            .andExpect(jsonPath("$.propertyDraft").value(Base64Utils.encodeToString(DEFAULT_PROPERTY_DRAFT)))
+            .andExpect(jsonPath("$.propertyDraftUrl").value(DEFAULT_PROPERTY_DRAFT_URL.toString()))
             .andExpect(jsonPath("$.longitude").value(DEFAULT_LONGITUDE.doubleValue()))
             .andExpect(jsonPath("$.latitude").value(DEFAULT_LATITUDE.doubleValue()))
             .andExpect(jsonPath("$.propertyGoodPrice").value(DEFAULT_PROPERTY_GOOD_PRICE.booleanValue()))
@@ -2980,6 +2969,45 @@ public class PropertyResourceIntTest {
 
     @Test
     @Transactional
+    public void getAllPropertiesByPropertyDraftUrlIsEqualToSomething() throws Exception {
+        // Initialize the database
+        propertyRepository.saveAndFlush(property);
+
+        // Get all the propertyList where propertyDraftUrl equals to DEFAULT_PROPERTY_DRAFT_URL
+        defaultPropertyShouldBeFound("propertyDraftUrl.equals=" + DEFAULT_PROPERTY_DRAFT_URL);
+
+        // Get all the propertyList where propertyDraftUrl equals to UPDATED_PROPERTY_DRAFT_URL
+        defaultPropertyShouldNotBeFound("propertyDraftUrl.equals=" + UPDATED_PROPERTY_DRAFT_URL);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPropertiesByPropertyDraftUrlIsInShouldWork() throws Exception {
+        // Initialize the database
+        propertyRepository.saveAndFlush(property);
+
+        // Get all the propertyList where propertyDraftUrl in DEFAULT_PROPERTY_DRAFT_URL or UPDATED_PROPERTY_DRAFT_URL
+        defaultPropertyShouldBeFound("propertyDraftUrl.in=" + DEFAULT_PROPERTY_DRAFT_URL + "," + UPDATED_PROPERTY_DRAFT_URL);
+
+        // Get all the propertyList where propertyDraftUrl equals to UPDATED_PROPERTY_DRAFT_URL
+        defaultPropertyShouldNotBeFound("propertyDraftUrl.in=" + UPDATED_PROPERTY_DRAFT_URL);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPropertiesByPropertyDraftUrlIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        propertyRepository.saveAndFlush(property);
+
+        // Get all the propertyList where propertyDraftUrl is not null
+        defaultPropertyShouldBeFound("propertyDraftUrl.specified=true");
+
+        // Get all the propertyList where propertyDraftUrl is null
+        defaultPropertyShouldNotBeFound("propertyDraftUrl.specified=false");
+    }
+
+    @Test
+    @Transactional
     public void getAllPropertiesByLongitudeIsEqualToSomething() throws Exception {
         // Initialize the database
         propertyRepository.saveAndFlush(property);
@@ -3377,20 +3405,20 @@ public class PropertyResourceIntTest {
 
     @Test
     @Transactional
-    public void getAllPropertiesByResidentialAreaIsEqualToSomething() throws Exception {
+    public void getAllPropertiesByConsultantIsEqualToSomething() throws Exception {
         // Initialize the database
-        ResidentialArea residentialArea = ResidentialAreaResourceIntTest.createEntity(em);
-        em.persist(residentialArea);
+        User consultant = UserResourceIntTest.createEntity(em);
+        em.persist(consultant);
         em.flush();
-        property.setResidentialArea(residentialArea);
+        property.setConsultant(consultant);
         propertyRepository.saveAndFlush(property);
-        Long residentialAreaId = residentialArea.getId();
+        Long consultantId = consultant.getId();
 
-        // Get all the propertyList where residentialArea equals to residentialAreaId
-        defaultPropertyShouldBeFound("residentialAreaId.equals=" + residentialAreaId);
+        // Get all the propertyList where consultant equals to consultantId
+        defaultPropertyShouldBeFound("consultantId.equals=" + consultantId);
 
-        // Get all the propertyList where residentialArea equals to residentialAreaId + 1
-        defaultPropertyShouldNotBeFound("residentialAreaId.equals=" + (residentialAreaId + 1));
+        // Get all the propertyList where consultant equals to consultantId + 1
+        defaultPropertyShouldNotBeFound("consultantId.equals=" + (consultantId + 1));
     }
 
 
@@ -3410,44 +3438,6 @@ public class PropertyResourceIntTest {
 
         // Get all the propertyList where tag equals to tagId + 1
         defaultPropertyShouldNotBeFound("tagId.equals=" + (tagId + 1));
-    }
-
-
-    @Test
-    @Transactional
-    public void getAllPropertiesByBuildingtypeIsEqualToSomething() throws Exception {
-        // Initialize the database
-        BuildingType buildingtype = BuildingTypeResourceIntTest.createEntity(em);
-        em.persist(buildingtype);
-        em.flush();
-        property.addBuildingtype(buildingtype);
-        propertyRepository.saveAndFlush(property);
-        Long buildingtypeId = buildingtype.getId();
-
-        // Get all the propertyList where buildingtype equals to buildingtypeId
-        defaultPropertyShouldBeFound("buildingtypeId.equals=" + buildingtypeId);
-
-        // Get all the propertyList where buildingtype equals to buildingtypeId + 1
-        defaultPropertyShouldNotBeFound("buildingtypeId.equals=" + (buildingtypeId + 1));
-    }
-
-
-    @Test
-    @Transactional
-    public void getAllPropertiesByPhotoIsEqualToSomething() throws Exception {
-        // Initialize the database
-        Photo photo = PhotoResourceIntTest.createEntity(em);
-        em.persist(photo);
-        em.flush();
-        property.addPhoto(photo);
-        propertyRepository.saveAndFlush(property);
-        Long photoId = photo.getId();
-
-        // Get all the propertyList where photo equals to photoId
-        defaultPropertyShouldBeFound("photoId.equals=" + photoId);
-
-        // Get all the propertyList where photo equals to photoId + 1
-        defaultPropertyShouldNotBeFound("photoId.equals=" + (photoId + 1));
     }
 
     /**
@@ -3476,10 +3466,10 @@ public class PropertyResourceIntTest {
             .andExpect(jsonPath("$.[*].propertyTower").value(hasItem(DEFAULT_PROPERTY_TOWER.toString())))
             .andExpect(jsonPath("$.[*].propertyRentPrice").value(hasItem(DEFAULT_PROPERTY_RENT_PRICE.doubleValue())))
             .andExpect(jsonPath("$.[*].propertyRentUnit").value(hasItem(DEFAULT_PROPERTY_RENT_UNIT.toString())))
-            .andExpect(jsonPath("$.[*].propertyRentStartedDate").value(hasItem(sameInstant(DEFAULT_PROPERTY_RENT_STARTED_DATE))))
+            .andExpect(jsonPath("$.[*].propertyRentStartedDate").value(hasItem(DEFAULT_PROPERTY_RENT_STARTED_DATE.toString())))
             .andExpect(jsonPath("$.[*].propertySellPrice").value(hasItem(DEFAULT_PROPERTY_SELL_PRICE.doubleValue())))
             .andExpect(jsonPath("$.[*].propertySellUnit").value(hasItem(DEFAULT_PROPERTY_SELL_UNIT.toString())))
-            .andExpect(jsonPath("$.[*].propertySellStartedDate").value(hasItem(sameInstant(DEFAULT_PROPERTY_SELL_STARTED_DATE))))
+            .andExpect(jsonPath("$.[*].propertySellStartedDate").value(hasItem(DEFAULT_PROPERTY_SELL_STARTED_DATE.toString())))
             .andExpect(jsonPath("$.[*].propertySofa").value(hasItem(DEFAULT_PROPERTY_SOFA.booleanValue())))
             .andExpect(jsonPath("$.[*].propertyDiningTable").value(hasItem(DEFAULT_PROPERTY_DINING_TABLE.booleanValue())))
             .andExpect(jsonPath("$.[*].propertyKitchen").value(hasItem(DEFAULT_PROPERTY_KITCHEN.booleanValue())))
@@ -3514,8 +3504,7 @@ public class PropertyResourceIntTest {
             .andExpect(jsonPath("$.[*].propertyResidentialCommunity").value(hasItem(DEFAULT_PROPERTY_RESIDENTIAL_COMMUNITY.toString())))
             .andExpect(jsonPath("$.[*].propertyEducationalAspect").value(hasItem(DEFAULT_PROPERTY_EDUCATIONAL_ASPECT.toString())))
             .andExpect(jsonPath("$.[*].propertyExtraInfo").value(hasItem(DEFAULT_PROPERTY_EXTRA_INFO.toString())))
-            .andExpect(jsonPath("$.[*].propertyDraftContentType").value(hasItem(DEFAULT_PROPERTY_DRAFT_CONTENT_TYPE)))
-            .andExpect(jsonPath("$.[*].propertyDraft").value(hasItem(Base64Utils.encodeToString(DEFAULT_PROPERTY_DRAFT))))
+            .andExpect(jsonPath("$.[*].propertyDraftUrl").value(hasItem(DEFAULT_PROPERTY_DRAFT_URL.toString())))
             .andExpect(jsonPath("$.[*].longitude").value(hasItem(DEFAULT_LONGITUDE.doubleValue())))
             .andExpect(jsonPath("$.[*].latitude").value(hasItem(DEFAULT_LATITUDE.doubleValue())))
             .andExpect(jsonPath("$.[*].propertyGoodPrice").value(hasItem(DEFAULT_PROPERTY_GOOD_PRICE.booleanValue())))
@@ -3615,8 +3604,7 @@ public class PropertyResourceIntTest {
             .propertyResidentialCommunity(UPDATED_PROPERTY_RESIDENTIAL_COMMUNITY)
             .propertyEducationalAspect(UPDATED_PROPERTY_EDUCATIONAL_ASPECT)
             .propertyExtraInfo(UPDATED_PROPERTY_EXTRA_INFO)
-            .propertyDraft(UPDATED_PROPERTY_DRAFT)
-            .propertyDraftContentType(UPDATED_PROPERTY_DRAFT_CONTENT_TYPE)
+            .propertyDraftUrl(UPDATED_PROPERTY_DRAFT_URL)
             .longitude(UPDATED_LONGITUDE)
             .latitude(UPDATED_LATITUDE)
             .propertyGoodPrice(UPDATED_PROPERTY_GOOD_PRICE)
@@ -3693,8 +3681,7 @@ public class PropertyResourceIntTest {
         assertThat(testProperty.getPropertyResidentialCommunity()).isEqualTo(UPDATED_PROPERTY_RESIDENTIAL_COMMUNITY);
         assertThat(testProperty.getPropertyEducationalAspect()).isEqualTo(UPDATED_PROPERTY_EDUCATIONAL_ASPECT);
         assertThat(testProperty.getPropertyExtraInfo()).isEqualTo(UPDATED_PROPERTY_EXTRA_INFO);
-        assertThat(testProperty.getPropertyDraft()).isEqualTo(UPDATED_PROPERTY_DRAFT);
-        assertThat(testProperty.getPropertyDraftContentType()).isEqualTo(UPDATED_PROPERTY_DRAFT_CONTENT_TYPE);
+        assertThat(testProperty.getPropertyDraftUrl()).isEqualTo(UPDATED_PROPERTY_DRAFT_URL);
         assertThat(testProperty.getLongitude()).isEqualTo(UPDATED_LONGITUDE);
         assertThat(testProperty.getLatitude()).isEqualTo(UPDATED_LATITUDE);
         assertThat(testProperty.isPropertyGoodPrice()).isEqualTo(UPDATED_PROPERTY_GOOD_PRICE);

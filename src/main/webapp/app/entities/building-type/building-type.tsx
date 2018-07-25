@@ -40,9 +40,6 @@ export class BuildingType extends React.Component<IBuildingTypeProps> {
                 <th>
                   <Translate contentKey="riverApp.buildingType.typeName">Type Name</Translate>
                 </th>
-                <th>
-                  <Translate contentKey="riverApp.buildingType.typeSelect">Type Select</Translate>
-                </th>
                 <th />
               </tr>
             </thead>
@@ -55,7 +52,6 @@ export class BuildingType extends React.Component<IBuildingTypeProps> {
                     </Button>
                   </td>
                   <td>{buildingType.typeName}</td>
-                  <td>{buildingType.typeSelect}</td>
                   <td className="text-right">
                     <div className="btn-group flex-btn-group-container">
                       <Button tag={Link} to={`${match.url}/${buildingType.id}`} color="info" size="sm">

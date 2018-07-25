@@ -13,7 +13,6 @@ export const ACTION_TYPES = {
   CREATE_INVESTOR: 'investor/CREATE_INVESTOR',
   UPDATE_INVESTOR: 'investor/UPDATE_INVESTOR',
   DELETE_INVESTOR: 'investor/DELETE_INVESTOR',
-  SET_BLOB: 'investor/SET_BLOB',
   RESET: 'investor/RESET'
 };
 
@@ -90,16 +89,6 @@ export default (state: InvestorState = initialState, action): InvestorState => {
         updateSuccess: true,
         entity: {}
       };
-    case ACTION_TYPES.SET_BLOB:
-      const { name, data, contentType } = action.payload;
-      return {
-        ...state,
-        entity: {
-          ...state.entity,
-          [name]: data,
-          [name + 'ContentType']: contentType
-        }
-      };
     case ACTION_TYPES.RESET:
       return {
         ...initialState
@@ -156,15 +145,6 @@ export const deleteEntity: ICrudDeleteAction<IInvestor> = id => async dispatch =
   dispatch(getEntities());
   return result;
 };
-
-export const setBlob = (name, data, contentType?) => ({
-  type: ACTION_TYPES.SET_BLOB,
-  payload: {
-    name,
-    data,
-    contentType
-  }
-});
 
 export const reset = () => ({
   type: ACTION_TYPES.RESET

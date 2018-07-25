@@ -17,13 +17,13 @@
                 "title": "Recruitment Info"
             },
             "recruitmentTitle": "Recruitment Title",
-            "recruitmentImage": "Recruitment Image",
+            "recruitmentAvatarUrl": "Recruitment Avatar Url",
             "recruitmentContent": "Recruitment Content",
             "recruitmentNotes": "Recruitment Notes",
             "recruitmentDate": "Recruitment Date",
             "recruitmentSeenCount": "Recruitment Seen Count",
             "recruitmentStatus": "Recruitment Status",
-            "photo": "Photo",
+            "user": "User",
             "jobtitle": "Jobtitle"
         }
     }

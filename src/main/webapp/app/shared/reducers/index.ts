@@ -17,10 +17,6 @@ import company, {
   CompanyState
 } from 'app/entities/company/company.reducer';
 // prettier-ignore
-import contact, {
-  ContactState
-} from 'app/entities/contact/contact.reducer';
-// prettier-ignore
 import jobTitle, {
   JobTitleState
 } from 'app/entities/job-title/job-title.reducer';
@@ -37,9 +33,9 @@ import investor, {
   InvestorState
 } from 'app/entities/investor/investor.reducer';
 // prettier-ignore
-import projectBuilder, {
-  ProjectBuilderState
-} from 'app/entities/project-builder/project-builder.reducer';
+import contractor, {
+  ContractorState
+} from 'app/entities/contractor/contractor.reducer';
 // prettier-ignore
 import document, {
   DocumentState
@@ -73,6 +69,14 @@ import supportCategory, {
   SupportCategoryState
 } from 'app/entities/support-category/support-category.reducer';
 // prettier-ignore
+import contact, {
+  ContactState
+} from 'app/entities/contact/contact.reducer';
+// prettier-ignore
+import userNotification, {
+  UserNotificationState
+} from 'app/entities/user-notification/user-notification.reducer';
+// prettier-ignore
 import article, {
   ArticleState
 } from 'app/entities/article/article.reducer';
@@ -93,6 +97,10 @@ import property, {
   PropertyState
 } from 'app/entities/property/property.reducer';
 // prettier-ignore
+import favouriteItem, {
+  FavouriteItemState
+} from 'app/entities/favourite-item/favourite-item.reducer';
+// prettier-ignore
 import blogPost, {
   BlogPostState
 } from 'app/entities/blog-post/blog-post.reducer';
@@ -108,14 +116,6 @@ import request, {
 import comment, {
   CommentState
 } from 'app/entities/comment/comment.reducer';
-// prettier-ignore
-import projectUser, {
-  ProjectUserState
-} from 'app/entities/project-user/project-user.reducer';
-// prettier-ignore
-import propertyUser, {
-  PropertyUserState
-} from 'app/entities/property-user/property-user.reducer';
 /* jhipster-needle-add-reducer-import - JHipster will add reducer here */
 
 export interface IRootState {
@@ -130,12 +130,11 @@ export interface IRootState {
   readonly password: PasswordState;
   readonly settings: SettingsState;
   readonly company: CompanyState;
-  readonly contact: ContactState;
   readonly jobTitle: JobTitleState;
   readonly exchanger: ExchangerState;
   readonly department: DepartmentState;
   readonly investor: InvestorState;
-  readonly projectBuilder: ProjectBuilderState;
+  readonly contractor: ContractorState;
   readonly document: DocumentState;
   readonly photo: PhotoState;
   readonly location: LocationState;
@@ -144,17 +143,18 @@ export interface IRootState {
   readonly tag: TagState;
   readonly notification: NotificationState;
   readonly supportCategory: SupportCategoryState;
+  readonly contact: ContactState;
+  readonly userNotification: UserNotificationState;
   readonly article: ArticleState;
   readonly employee: EmployeeState;
   readonly residentialArea: ResidentialAreaState;
   readonly project: ProjectState;
   readonly property: PropertyState;
+  readonly favouriteItem: FavouriteItemState;
   readonly blogPost: BlogPostState;
   readonly recruitmentInfo: RecruitmentInfoState;
   readonly request: RequestState;
   readonly comment: CommentState;
-  readonly projectUser: ProjectUserState;
-  readonly propertyUser: PropertyUserState;
   /* jhipster-needle-add-reducer-type - JHipster will add reducer type here */
   readonly loadingBar: any;
 }
@@ -171,12 +171,11 @@ const rootReducer = combineReducers<IRootState>({
   password,
   settings,
   company,
-  contact,
   jobTitle,
   exchanger,
   department,
   investor,
-  projectBuilder,
+  contractor,
   document,
   photo,
   location,
@@ -185,17 +184,18 @@ const rootReducer = combineReducers<IRootState>({
   tag,
   notification,
   supportCategory,
+  contact,
+  userNotification,
   article,
   employee,
   residentialArea,
   project,
   property,
+  favouriteItem,
   blogPost,
   recruitmentInfo,
   request,
   comment,
-  projectUser,
-  propertyUser,
   /* jhipster-needle-add-reducer-combine - JHipster will add reducer here */
   loadingBar
 });

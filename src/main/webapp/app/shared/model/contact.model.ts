@@ -3,10 +3,8 @@ export interface IContact {
   contactName?: string;
   contactPhone?: string;
   contactAddress?: string;
-  contactEmail?: string;
   contactWebsite?: string;
-  contactPhotoContentType?: string;
-  contactPhoto?: any;
+  contactAvatarUrl?: string;
   contactFacebook?: string;
   contactTwitter?: string;
   contactInstagram?: string;
@@ -14,6 +12,7 @@ export interface IContact {
   contactGooglePlus?: string;
   contactYoutube?: string;
   contactStatus?: boolean;
+  userId?: number;
 }
 
 export const defaultValue: Readonly<IContact> = {

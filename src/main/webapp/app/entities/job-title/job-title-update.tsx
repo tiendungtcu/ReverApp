@@ -94,7 +94,8 @@ export class JobTitleUpdate extends React.Component<IJobTitleUpdateProps, IJobTi
                     type="text"
                     name="titleName"
                     validate={{
-                      required: { value: true, errorMessage: translate('entity.validation.required') }
+                      required: { value: true, errorMessage: translate('entity.validation.required') },
+                      maxLength: { value: 128, errorMessage: translate('entity.validation.maxlength', { max: 128 }) }
                     }}
                   />
                 </AvGroup>
@@ -102,7 +103,16 @@ export class JobTitleUpdate extends React.Component<IJobTitleUpdateProps, IJobTi
                   <Label id="salaryFactorLabel" for="salaryFactor">
                     <Translate contentKey="riverApp.jobTitle.salaryFactor">Salary Factor</Translate>
                   </Label>
-                  <AvField id="job-title-salaryFactor" type="number" className="form-control" name="salaryFactor" />
+                  <AvField
+                    id="job-title-salaryFactor"
+                    type="number"
+                    className="form-control"
+                    name="salaryFactor"
+                    validate={{
+                      min: { value: 1, errorMessage: translate('entity.validation.min', { min: 1 }) },
+                      number: { value: true, errorMessage: translate('entity.validation.number') }
+                    }}
+                  />
                 </AvGroup>
                 <Button tag={Link} id="cancel-save" to="/entity/job-title" replace color="info">
                   <FontAwesomeIcon icon="arrow-left" />&nbsp;

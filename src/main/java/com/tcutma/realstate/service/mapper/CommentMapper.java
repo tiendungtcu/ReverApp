@@ -14,6 +14,7 @@ public interface CommentMapper extends EntityMapper<CommentDTO, Comment> {
     @Mapping(source = "user.id", target = "userId")
     @Mapping(source = "user.login", target = "userLogin")
     @Mapping(source = "post.id", target = "postId")
+    @Mapping(source = "post.postTitle", target = "postPostTitle")
     CommentDTO toDto(Comment comment);
 
     @Mapping(source = "userId", target = "user")

@@ -8,12 +8,6 @@ import { Translate, translate, ICrudGetAction, ICrudGetAllAction, ICrudPutAction
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IRootState } from 'app/shared/reducers';
 
-import { IProperty } from 'app/shared/model/property.model';
-import { getEntities as getProperties } from 'app/entities/property/property.reducer';
-import { IProject } from 'app/shared/model/project.model';
-import { getEntities as getProjects } from 'app/entities/project/project.reducer';
-import { IResidentialArea } from 'app/shared/model/residential-area.model';
-import { getEntities as getResidentialAreas } from 'app/entities/residential-area/residential-area.reducer';
 import { getEntity, updateEntity, createEntity, reset } from './tag.reducer';
 import { ITag } from 'app/shared/model/tag.model';
 // tslint:disable-next-line:no-unused-variable
@@ -24,18 +18,12 @@ export interface ITagUpdateProps extends StateProps, DispatchProps, RouteCompone
 
 export interface ITagUpdateState {
   isNew: boolean;
-  propertyId: number;
-  projectId: number;
-  residentialAreaId: number;
 }
 
 export class TagUpdate extends React.Component<ITagUpdateProps, ITagUpdateState> {
   constructor(props) {
     super(props);
     this.state = {
-      propertyId: 0,
-      projectId: 0,
-      residentialAreaId: 0,
       isNew: !this.props.match.params || !this.props.match.params.id
     };
   }
@@ -46,10 +34,6 @@ export class TagUpdate extends React.Component<ITagUpdateProps, ITagUpdateState>
     } else {
       this.props.getEntity(this.props.match.params.id);
     }
-
-    this.props.getProperties();
-    this.props.getProjects();
-    this.props.getResidentialAreas();
   }
 
   saveEntity = (event, errors, values) => {
@@ -75,7 +59,7 @@ export class TagUpdate extends React.Component<ITagUpdateProps, ITagUpdateState>
 
   render() {
     const isInvalid = false;
-    const { tagEntity, properties, projects, residentialAreas, loading, updating } = this.props;
+    const { tagEntity, loading, updating } = this.props;
     const { isNew } = this.state;
 
     return (
@@ -110,7 +94,8 @@ export class TagUpdate extends React.Component<ITagUpdateProps, ITagUpdateState>
                     type="text"
                     name="tagName"
                     validate={{
-                      required: { value: true, errorMessage: translate('entity.validation.required') }
+                      required: { value: true, errorMessage: translate('entity.validation.required') },
+                      maxLength: { value: 128, errorMessage: translate('entity.validation.maxlength', { max: 128 }) }
                     }}
                   />
                 </AvGroup>
@@ -135,18 +120,12 @@ export class TagUpdate extends React.Component<ITagUpdateProps, ITagUpdateState>
 }
 
 const mapStateToProps = (storeState: IRootState) => ({
-  properties: storeState.property.entities,
-  projects: storeState.project.entities,
-  residentialAreas: storeState.residentialArea.entities,
   tagEntity: storeState.tag.entity,
   loading: storeState.tag.loading,
   updating: storeState.tag.updating
 });
 
 const mapDispatchToProps = {
-  getProperties,
-  getProjects,
-  getResidentialAreas,
   getEntity,
   updateEntity,
   createEntity,

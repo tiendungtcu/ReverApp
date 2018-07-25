@@ -3,10 +3,8 @@ package com.tcutma.realstate.web.rest;
 import com.tcutma.realstate.RiverApp;
 
 import com.tcutma.realstate.domain.BlogPost;
-import com.tcutma.realstate.domain.Comment;
 import com.tcutma.realstate.domain.Category;
 import com.tcutma.realstate.domain.User;
-import com.tcutma.realstate.domain.Project;
 import com.tcutma.realstate.repository.BlogPostRepository;
 import com.tcutma.realstate.service.BlogPostService;
 import com.tcutma.realstate.service.dto.BlogPostDTO;
@@ -60,12 +58,6 @@ public class BlogPostResourceIntTest {
 
     private static final Instant DEFAULT_POST_CREATED_DATE = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_POST_CREATED_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
-
-    private static final Instant DEFAULT_POST_PUBLISH_DATE = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_POST_PUBLISH_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
-
-    private static final Instant DEFAULT_POST_UPDATE_DATE = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_POST_UPDATE_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
     private static final Long DEFAULT_POST_SEEN_COUNT = 1L;
     private static final Long UPDATED_POST_SEEN_COUNT = 2L;
@@ -125,8 +117,6 @@ public class BlogPostResourceIntTest {
             .postTitle(DEFAULT_POST_TITLE)
             .postStatus(DEFAULT_POST_STATUS)
             .postCreatedDate(DEFAULT_POST_CREATED_DATE)
-            .postPublishDate(DEFAULT_POST_PUBLISH_DATE)
-            .postUpdateDate(DEFAULT_POST_UPDATE_DATE)
             .postSeenCount(DEFAULT_POST_SEEN_COUNT)
             .postContent(DEFAULT_POST_CONTENT);
         return blogPost;
@@ -156,8 +146,6 @@ public class BlogPostResourceIntTest {
         assertThat(testBlogPost.getPostTitle()).isEqualTo(DEFAULT_POST_TITLE);
         assertThat(testBlogPost.getPostStatus()).isEqualTo(DEFAULT_POST_STATUS);
         assertThat(testBlogPost.getPostCreatedDate()).isEqualTo(DEFAULT_POST_CREATED_DATE);
-        assertThat(testBlogPost.getPostPublishDate()).isEqualTo(DEFAULT_POST_PUBLISH_DATE);
-        assertThat(testBlogPost.getPostUpdateDate()).isEqualTo(DEFAULT_POST_UPDATE_DATE);
         assertThat(testBlogPost.getPostSeenCount()).isEqualTo(DEFAULT_POST_SEEN_COUNT);
         assertThat(testBlogPost.getPostContent()).isEqualTo(DEFAULT_POST_CONTENT);
     }
@@ -215,8 +203,6 @@ public class BlogPostResourceIntTest {
             .andExpect(jsonPath("$.[*].postTitle").value(hasItem(DEFAULT_POST_TITLE.toString())))
             .andExpect(jsonPath("$.[*].postStatus").value(hasItem(DEFAULT_POST_STATUS.toString())))
             .andExpect(jsonPath("$.[*].postCreatedDate").value(hasItem(DEFAULT_POST_CREATED_DATE.toString())))
-            .andExpect(jsonPath("$.[*].postPublishDate").value(hasItem(DEFAULT_POST_PUBLISH_DATE.toString())))
-            .andExpect(jsonPath("$.[*].postUpdateDate").value(hasItem(DEFAULT_POST_UPDATE_DATE.toString())))
             .andExpect(jsonPath("$.[*].postSeenCount").value(hasItem(DEFAULT_POST_SEEN_COUNT.intValue())))
             .andExpect(jsonPath("$.[*].postContent").value(hasItem(DEFAULT_POST_CONTENT.toString())));
     }
@@ -236,8 +222,6 @@ public class BlogPostResourceIntTest {
             .andExpect(jsonPath("$.postTitle").value(DEFAULT_POST_TITLE.toString()))
             .andExpect(jsonPath("$.postStatus").value(DEFAULT_POST_STATUS.toString()))
             .andExpect(jsonPath("$.postCreatedDate").value(DEFAULT_POST_CREATED_DATE.toString()))
-            .andExpect(jsonPath("$.postPublishDate").value(DEFAULT_POST_PUBLISH_DATE.toString()))
-            .andExpect(jsonPath("$.postUpdateDate").value(DEFAULT_POST_UPDATE_DATE.toString()))
             .andExpect(jsonPath("$.postSeenCount").value(DEFAULT_POST_SEEN_COUNT.intValue()))
             .andExpect(jsonPath("$.postContent").value(DEFAULT_POST_CONTENT.toString()));
     }
@@ -361,84 +345,6 @@ public class BlogPostResourceIntTest {
 
     @Test
     @Transactional
-    public void getAllBlogPostsByPostPublishDateIsEqualToSomething() throws Exception {
-        // Initialize the database
-        blogPostRepository.saveAndFlush(blogPost);
-
-        // Get all the blogPostList where postPublishDate equals to DEFAULT_POST_PUBLISH_DATE
-        defaultBlogPostShouldBeFound("postPublishDate.equals=" + DEFAULT_POST_PUBLISH_DATE);
-
-        // Get all the blogPostList where postPublishDate equals to UPDATED_POST_PUBLISH_DATE
-        defaultBlogPostShouldNotBeFound("postPublishDate.equals=" + UPDATED_POST_PUBLISH_DATE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllBlogPostsByPostPublishDateIsInShouldWork() throws Exception {
-        // Initialize the database
-        blogPostRepository.saveAndFlush(blogPost);
-
-        // Get all the blogPostList where postPublishDate in DEFAULT_POST_PUBLISH_DATE or UPDATED_POST_PUBLISH_DATE
-        defaultBlogPostShouldBeFound("postPublishDate.in=" + DEFAULT_POST_PUBLISH_DATE + "," + UPDATED_POST_PUBLISH_DATE);
-
-        // Get all the blogPostList where postPublishDate equals to UPDATED_POST_PUBLISH_DATE
-        defaultBlogPostShouldNotBeFound("postPublishDate.in=" + UPDATED_POST_PUBLISH_DATE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllBlogPostsByPostPublishDateIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        blogPostRepository.saveAndFlush(blogPost);
-
-        // Get all the blogPostList where postPublishDate is not null
-        defaultBlogPostShouldBeFound("postPublishDate.specified=true");
-
-        // Get all the blogPostList where postPublishDate is null
-        defaultBlogPostShouldNotBeFound("postPublishDate.specified=false");
-    }
-
-    @Test
-    @Transactional
-    public void getAllBlogPostsByPostUpdateDateIsEqualToSomething() throws Exception {
-        // Initialize the database
-        blogPostRepository.saveAndFlush(blogPost);
-
-        // Get all the blogPostList where postUpdateDate equals to DEFAULT_POST_UPDATE_DATE
-        defaultBlogPostShouldBeFound("postUpdateDate.equals=" + DEFAULT_POST_UPDATE_DATE);
-
-        // Get all the blogPostList where postUpdateDate equals to UPDATED_POST_UPDATE_DATE
-        defaultBlogPostShouldNotBeFound("postUpdateDate.equals=" + UPDATED_POST_UPDATE_DATE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllBlogPostsByPostUpdateDateIsInShouldWork() throws Exception {
-        // Initialize the database
-        blogPostRepository.saveAndFlush(blogPost);
-
-        // Get all the blogPostList where postUpdateDate in DEFAULT_POST_UPDATE_DATE or UPDATED_POST_UPDATE_DATE
-        defaultBlogPostShouldBeFound("postUpdateDate.in=" + DEFAULT_POST_UPDATE_DATE + "," + UPDATED_POST_UPDATE_DATE);
-
-        // Get all the blogPostList where postUpdateDate equals to UPDATED_POST_UPDATE_DATE
-        defaultBlogPostShouldNotBeFound("postUpdateDate.in=" + UPDATED_POST_UPDATE_DATE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllBlogPostsByPostUpdateDateIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        blogPostRepository.saveAndFlush(blogPost);
-
-        // Get all the blogPostList where postUpdateDate is not null
-        defaultBlogPostShouldBeFound("postUpdateDate.specified=true");
-
-        // Get all the blogPostList where postUpdateDate is null
-        defaultBlogPostShouldNotBeFound("postUpdateDate.specified=false");
-    }
-
-    @Test
-    @Transactional
     public void getAllBlogPostsByPostSeenCountIsEqualToSomething() throws Exception {
         // Initialize the database
         blogPostRepository.saveAndFlush(blogPost);
@@ -505,25 +411,6 @@ public class BlogPostResourceIntTest {
 
     @Test
     @Transactional
-    public void getAllBlogPostsByCommentIsEqualToSomething() throws Exception {
-        // Initialize the database
-        Comment comment = CommentResourceIntTest.createEntity(em);
-        em.persist(comment);
-        em.flush();
-        blogPost.addComment(comment);
-        blogPostRepository.saveAndFlush(blogPost);
-        Long commentId = comment.getId();
-
-        // Get all the blogPostList where comment equals to commentId
-        defaultBlogPostShouldBeFound("commentId.equals=" + commentId);
-
-        // Get all the blogPostList where comment equals to commentId + 1
-        defaultBlogPostShouldNotBeFound("commentId.equals=" + (commentId + 1));
-    }
-
-
-    @Test
-    @Transactional
     public void getAllBlogPostsByCategoryIsEqualToSomething() throws Exception {
         // Initialize the database
         Category category = CategoryResourceIntTest.createEntity(em);
@@ -559,25 +446,6 @@ public class BlogPostResourceIntTest {
         defaultBlogPostShouldNotBeFound("userId.equals=" + (userId + 1));
     }
 
-
-    @Test
-    @Transactional
-    public void getAllBlogPostsByProjectIsEqualToSomething() throws Exception {
-        // Initialize the database
-        Project project = ProjectResourceIntTest.createEntity(em);
-        em.persist(project);
-        em.flush();
-        blogPost.setProject(project);
-        blogPostRepository.saveAndFlush(blogPost);
-        Long projectId = project.getId();
-
-        // Get all the blogPostList where project equals to projectId
-        defaultBlogPostShouldBeFound("projectId.equals=" + projectId);
-
-        // Get all the blogPostList where project equals to projectId + 1
-        defaultBlogPostShouldNotBeFound("projectId.equals=" + (projectId + 1));
-    }
-
     /**
      * Executes the search, and checks that the default entity is returned
      */
@@ -589,8 +457,6 @@ public class BlogPostResourceIntTest {
             .andExpect(jsonPath("$.[*].postTitle").value(hasItem(DEFAULT_POST_TITLE.toString())))
             .andExpect(jsonPath("$.[*].postStatus").value(hasItem(DEFAULT_POST_STATUS.toString())))
             .andExpect(jsonPath("$.[*].postCreatedDate").value(hasItem(DEFAULT_POST_CREATED_DATE.toString())))
-            .andExpect(jsonPath("$.[*].postPublishDate").value(hasItem(DEFAULT_POST_PUBLISH_DATE.toString())))
-            .andExpect(jsonPath("$.[*].postUpdateDate").value(hasItem(DEFAULT_POST_UPDATE_DATE.toString())))
             .andExpect(jsonPath("$.[*].postSeenCount").value(hasItem(DEFAULT_POST_SEEN_COUNT.intValue())))
             .andExpect(jsonPath("$.[*].postContent").value(hasItem(DEFAULT_POST_CONTENT.toString())));
     }
@@ -630,8 +496,6 @@ public class BlogPostResourceIntTest {
             .postTitle(UPDATED_POST_TITLE)
             .postStatus(UPDATED_POST_STATUS)
             .postCreatedDate(UPDATED_POST_CREATED_DATE)
-            .postPublishDate(UPDATED_POST_PUBLISH_DATE)
-            .postUpdateDate(UPDATED_POST_UPDATE_DATE)
             .postSeenCount(UPDATED_POST_SEEN_COUNT)
             .postContent(UPDATED_POST_CONTENT);
         BlogPostDTO blogPostDTO = blogPostMapper.toDto(updatedBlogPost);
@@ -648,8 +512,6 @@ public class BlogPostResourceIntTest {
         assertThat(testBlogPost.getPostTitle()).isEqualTo(UPDATED_POST_TITLE);
         assertThat(testBlogPost.getPostStatus()).isEqualTo(UPDATED_POST_STATUS);
         assertThat(testBlogPost.getPostCreatedDate()).isEqualTo(UPDATED_POST_CREATED_DATE);
-        assertThat(testBlogPost.getPostPublishDate()).isEqualTo(UPDATED_POST_PUBLISH_DATE);
-        assertThat(testBlogPost.getPostUpdateDate()).isEqualTo(UPDATED_POST_UPDATE_DATE);
         assertThat(testBlogPost.getPostSeenCount()).isEqualTo(UPDATED_POST_SEEN_COUNT);
         assertThat(testBlogPost.getPostContent()).isEqualTo(UPDATED_POST_CONTENT);
     }

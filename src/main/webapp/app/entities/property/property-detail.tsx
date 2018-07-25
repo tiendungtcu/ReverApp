@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Row, Col } from 'reactstrap';
 // tslint:disable-next-line:no-unused-variable
-import { Translate, ICrudGetAction, openFile, byteSize, TextFormat } from 'react-jhipster';
+import { Translate, ICrudGetAction, byteSize, TextFormat } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IRootState } from 'app/shared/reducers';
@@ -142,7 +142,7 @@ export class PropertyDetail extends React.Component<IPropertyDetailProps> {
               </span>
             </dt>
             <dd>
-              <TextFormat value={propertyEntity.propertyRentStartedDate} type="date" format={APP_DATE_FORMAT} />
+              <TextFormat value={propertyEntity.propertyRentStartedDate} type="date" format={APP_LOCAL_DATE_FORMAT} />
             </dd>
             <dt>
               <span id="propertySellPrice">
@@ -162,7 +162,7 @@ export class PropertyDetail extends React.Component<IPropertyDetailProps> {
               </span>
             </dt>
             <dd>
-              <TextFormat value={propertyEntity.propertySellStartedDate} type="date" format={APP_DATE_FORMAT} />
+              <TextFormat value={propertyEntity.propertySellStartedDate} type="date" format={APP_LOCAL_DATE_FORMAT} />
             </dd>
             <dt>
               <span id="propertySofa">
@@ -369,25 +369,11 @@ export class PropertyDetail extends React.Component<IPropertyDetailProps> {
             </dt>
             <dd>{propertyEntity.propertyExtraInfo}</dd>
             <dt>
-              <span id="propertyDraft">
-                <Translate contentKey="riverApp.property.propertyDraft">Property Draft</Translate>
+              <span id="propertyDraftUrl">
+                <Translate contentKey="riverApp.property.propertyDraftUrl">Property Draft Url</Translate>
               </span>
             </dt>
-            <dd>
-              {propertyEntity.propertyDraft ? (
-                <div>
-                  <a onClick={openFile(propertyEntity.propertyDraftContentType, propertyEntity.propertyDraft)}>
-                    <img
-                      src={`data:${propertyEntity.propertyDraftContentType};base64,${propertyEntity.propertyDraft}`}
-                      style={{ maxHeight: '30px' }}
-                    />
-                  </a>
-                  <span>
-                    {propertyEntity.propertyDraftContentType}, {byteSize(propertyEntity.propertyDraft)}
-                  </span>
-                </div>
-              ) : null}
-            </dd>
+            <dd>{propertyEntity.propertyDraftUrl}</dd>
             <dt>
               <span id="longitude">
                 <Translate contentKey="riverApp.property.longitude">Longitude</Translate>
@@ -447,9 +433,9 @@ export class PropertyDetail extends React.Component<IPropertyDetailProps> {
             </dt>
             <dd>{propertyEntity.locationId ? propertyEntity.locationId : ''}</dd>
             <dt>
-              <Translate contentKey="riverApp.property.residentialArea">Residential Area</Translate>
+              <Translate contentKey="riverApp.property.consultant">Consultant</Translate>
             </dt>
-            <dd>{propertyEntity.residentialAreaResidentialName ? propertyEntity.residentialAreaResidentialName : ''}</dd>
+            <dd>{propertyEntity.consultantLogin ? propertyEntity.consultantLogin : ''}</dd>
             <dt>
               <Translate contentKey="riverApp.property.tag">Tag</Translate>
             </dt>
@@ -459,32 +445,6 @@ export class PropertyDetail extends React.Component<IPropertyDetailProps> {
                     <span key={val.id}>
                       <a>{val.tagName}</a>
                       {i === propertyEntity.tags.length - 1 ? '' : ', '}
-                    </span>
-                  ))
-                : null}
-            </dd>
-            <dt>
-              <Translate contentKey="riverApp.property.buildingtype">Buildingtype</Translate>
-            </dt>
-            <dd>
-              {propertyEntity.buildingtypes
-                ? propertyEntity.buildingtypes.map((val, i) => (
-                    <span key={val.id}>
-                      <a>{val.typeName}</a>
-                      {i === propertyEntity.buildingtypes.length - 1 ? '' : ', '}
-                    </span>
-                  ))
-                : null}
-            </dd>
-            <dt>
-              <Translate contentKey="riverApp.property.photo">Photo</Translate>
-            </dt>
-            <dd>
-              {propertyEntity.photos
-                ? propertyEntity.photos.map((val, i) => (
-                    <span key={val.id}>
-                      <a>{val.id}</a>
-                      {i === propertyEntity.photos.length - 1 ? '' : ', '}
                     </span>
                   ))
                 : null}

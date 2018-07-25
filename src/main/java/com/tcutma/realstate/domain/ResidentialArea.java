@@ -28,7 +28,8 @@ public class ResidentialArea implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "residential_name", nullable = false)
+    @Size(max = 128)
+    @Column(name = "residential_name", length = 128, nullable = false)
     private String residentialName;
 
     @NotNull
@@ -55,10 +56,6 @@ public class ResidentialArea implements Serializable {
 
     @Column(name = "residential_avatar")
     private String residentialAvatar;
-
-    @OneToOne
-    @JoinColumn(unique = true)
-    private Photo photo;
 
     @ManyToMany
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
@@ -180,19 +177,6 @@ public class ResidentialArea implements Serializable {
         this.residentialAvatar = residentialAvatar;
     }
 
-    public Photo getPhoto() {
-        return photo;
-    }
-
-    public ResidentialArea photo(Photo photo) {
-        this.photo = photo;
-        return this;
-    }
-
-    public void setPhoto(Photo photo) {
-        this.photo = photo;
-    }
-
     public Set<Tag> getTags() {
         return tags;
     }
@@ -204,13 +188,11 @@ public class ResidentialArea implements Serializable {
 
     public ResidentialArea addTag(Tag tag) {
         this.tags.add(tag);
-        tag.getResidentialAreas().add(this);
         return this;
     }
 
     public ResidentialArea removeTag(Tag tag) {
         this.tags.remove(tag);
-        tag.getResidentialAreas().remove(this);
         return this;
     }
 

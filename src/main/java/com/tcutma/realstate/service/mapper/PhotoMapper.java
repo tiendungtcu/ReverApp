@@ -13,9 +13,23 @@ import org.mapstruct.*;
 public interface PhotoMapper extends EntityMapper<PhotoDTO, Photo> {
 
 
-    @Mapping(target = "properties", ignore = true)
-    @Mapping(target = "projects", ignore = true)
-    Photo toEntity(PhotoDTO photoDTO);
+    @Mapping(source = "fileName",target = "photoName")
+    @Mapping(source = "fileDownloadUri", target = "photoUrl")
+    @Mapping(source = "fileType", target = "photoMimeType")
+    @Mapping(source = "fileThumbUri", target = "photoThumbnailUrl")
+    @Mapping(target = "resourceId", ignore = true)
+    @Mapping(target = "photoDate", ignore = true)
+    @Mapping(target = "id", ignore = true)
+    Photo toPhoto(UploadFileResponse ufr);
+
+    @Mapping(source = "photoName",target = "fileName")
+    @Mapping(source = "photoUrl", target = "fileDownloadUri")
+    @Mapping(source = "photoMimeType", target = "fileType")
+    @Mapping(source = "photoThumbnailUrl", target = "fileThumbUri")
+    @Mapping(target = "size", ignore = true)
+    //@Mapping(target = "resourceType", ignore = true)
+    //@Mapping(target = "resourceId", ignore = true)
+    UploadFileResponse toResponse(Photo photo);
 
 
 
@@ -27,19 +41,4 @@ public interface PhotoMapper extends EntityMapper<PhotoDTO, Photo> {
         photo.setId(id);
         return photo;
     }
-    @Mapping(source = "fileName",target = "photoName")
-    @Mapping(source = "fileDownloadUri", target = "photoUrl")
-    @Mapping(source = "fileType", target = "photoImageContentType")
-    @Mapping(source = "fileThumbUri", target = "photoThumbnailUrl")
-    @Mapping(target = "properties", ignore = true)
-    @Mapping(target = "projects", ignore = true)
-    @Mapping(target = "id", ignore = true)
-    Photo toPhoto(UploadFileResponse ufr);
-
-    @Mapping(source = "photoName",target = "fileName")
-    @Mapping(source = "photoUrl", target = "fileDownloadUri")
-    @Mapping(source = "photoImageContentType", target = "fileType")
-    @Mapping(source = "photoThumbnailUrl", target = "fileThumbUri")
-    @Mapping(target = "size", ignore = true)
-    UploadFileResponse toResponse(Photo photo);
 }

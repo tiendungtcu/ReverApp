@@ -3,7 +3,15 @@ import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Col, Row, Table } from 'reactstrap';
 // tslint:disable-next-line:no-unused-variable
-import { Translate, ICrudGetAllAction, getSortState, IPaginationBaseState, getPaginationItemsNumber, JhiPagination } from 'react-jhipster';
+import {
+  Translate,
+  ICrudGetAllAction,
+  TextFormat,
+  getSortState,
+  IPaginationBaseState,
+  getPaginationItemsNumber,
+  JhiPagination
+} from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IRootState } from 'app/shared/reducers';
@@ -72,9 +80,8 @@ export class Category extends React.Component<ICategoryProps, ICategoryState> {
                 <th className="hand" onClick={this.sort('categoryAlias')}>
                   <Translate contentKey="riverApp.category.categoryAlias">Category Alias</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
-                <th className="hand" onClick={this.sort('categoryDescription')}>
-                  <Translate contentKey="riverApp.category.categoryDescription">Category Description</Translate>{' '}
-                  <FontAwesomeIcon icon="sort" />
+                <th className="hand" onClick={this.sort('categoryDate')}>
+                  <Translate contentKey="riverApp.category.categoryDate">Category Date</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
                 <th />
               </tr>
@@ -89,7 +96,9 @@ export class Category extends React.Component<ICategoryProps, ICategoryState> {
                   </td>
                   <td>{category.categoryName}</td>
                   <td>{category.categoryAlias}</td>
-                  <td>{category.categoryDescription}</td>
+                  <td>
+                    <TextFormat type="date" value={category.categoryDate} format={APP_DATE_FORMAT} />
+                  </td>
                   <td className="text-right">
                     <div className="btn-group flex-btn-group-container">
                       <Button tag={Link} to={`${match.url}/${category.id}`} color="info" size="sm">

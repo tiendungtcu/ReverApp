@@ -2,7 +2,6 @@ package com.tcutma.realstate.service;
 
 import com.tcutma.realstate.service.dto.PropertyDTO;
 
-import com.tcutma.realstate.web.rest.vm.PropertyVM;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -35,7 +34,7 @@ public interface PropertyService {
      * @return the list of entities
      */
     Page<PropertyDTO> findAllWithEagerRelationships(Pageable pageable);
-
+    
     /**
      * Get the "id" property.
      *
@@ -50,12 +49,4 @@ public interface PropertyService {
      * @param id the id of the entity
      */
     void delete(Long id);
-
-    /**
-     * Get the "id" of my property.
-     *
-     * @param id the id of the entity
-     * @return the entity
-     */
-    Optional<PropertyVM> findMyOne(Long id);
 }

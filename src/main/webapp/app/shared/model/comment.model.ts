@@ -2,12 +2,11 @@ import { Moment } from 'moment';
 
 export interface IComment {
   id?: number;
-  commentTitle?: string;
-  commentContent?: any;
-  commentCreatedDate?: Moment;
-  commentUpdateDate?: Moment;
+  commentContent?: string;
+  commentTimeStamp?: Moment;
   userLogin?: string;
   userId?: number;
+  postPostTitle?: string;
   postId?: number;
 }
 

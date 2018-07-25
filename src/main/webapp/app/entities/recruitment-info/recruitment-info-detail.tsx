@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Row, Col } from 'reactstrap';
 // tslint:disable-next-line:no-unused-variable
-import { Translate, ICrudGetAction, openFile, byteSize, TextFormat } from 'react-jhipster';
+import { Translate, ICrudGetAction, byteSize, TextFormat } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IRootState } from 'app/shared/reducers';
@@ -35,25 +35,11 @@ export class RecruitmentInfoDetail extends React.Component<IRecruitmentInfoDetai
             </dt>
             <dd>{recruitmentInfoEntity.recruitmentTitle}</dd>
             <dt>
-              <span id="recruitmentImage">
-                <Translate contentKey="riverApp.recruitmentInfo.recruitmentImage">Recruitment Image</Translate>
+              <span id="recruitmentAvatarUrl">
+                <Translate contentKey="riverApp.recruitmentInfo.recruitmentAvatarUrl">Recruitment Avatar Url</Translate>
               </span>
             </dt>
-            <dd>
-              {recruitmentInfoEntity.recruitmentImage ? (
-                <div>
-                  <a onClick={openFile(recruitmentInfoEntity.recruitmentImageContentType, recruitmentInfoEntity.recruitmentImage)}>
-                    <img
-                      src={`data:${recruitmentInfoEntity.recruitmentImageContentType};base64,${recruitmentInfoEntity.recruitmentImage}`}
-                      style={{ maxHeight: '30px' }}
-                    />
-                  </a>
-                  <span>
-                    {recruitmentInfoEntity.recruitmentImageContentType}, {byteSize(recruitmentInfoEntity.recruitmentImage)}
-                  </span>
-                </div>
-              ) : null}
-            </dd>
+            <dd>{recruitmentInfoEntity.recruitmentAvatarUrl}</dd>
             <dt>
               <span id="recruitmentContent">
                 <Translate contentKey="riverApp.recruitmentInfo.recruitmentContent">Recruitment Content</Translate>
@@ -72,7 +58,7 @@ export class RecruitmentInfoDetail extends React.Component<IRecruitmentInfoDetai
               </span>
             </dt>
             <dd>
-              <TextFormat value={recruitmentInfoEntity.recruitmentDate} type="date" format={APP_DATE_FORMAT} />
+              <TextFormat value={recruitmentInfoEntity.recruitmentDate} type="date" format={APP_LOCAL_DATE_FORMAT} />
             </dd>
             <dt>
               <span id="recruitmentSeenCount">
@@ -87,9 +73,9 @@ export class RecruitmentInfoDetail extends React.Component<IRecruitmentInfoDetai
             </dt>
             <dd>{recruitmentInfoEntity.recruitmentStatus ? 'true' : 'false'}</dd>
             <dt>
-              <Translate contentKey="riverApp.recruitmentInfo.photo">Photo</Translate>
+              <Translate contentKey="riverApp.recruitmentInfo.user">User</Translate>
             </dt>
-            <dd>{recruitmentInfoEntity.photoId ? recruitmentInfoEntity.photoId : ''}</dd>
+            <dd>{recruitmentInfoEntity.userLogin ? recruitmentInfoEntity.userLogin : ''}</dd>
             <dt>
               <Translate contentKey="riverApp.recruitmentInfo.jobtitle">Jobtitle</Translate>
             </dt>

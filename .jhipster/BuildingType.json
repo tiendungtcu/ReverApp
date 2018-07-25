@@ -5,32 +5,14 @@
             "fieldName": "typeName",
             "fieldType": "String",
             "fieldValidateRules": [
-                "required"
-            ]
-        },
-        {
-            "fieldName": "typeSelect",
-            "fieldType": "PropertyType",
-            "fieldValues": "PROJECT,PROPERTY,LAND"
+                "required",
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 128
         }
     ],
-    "relationships": [
-        {
-            "relationshipType": "many-to-many",
-            "relationshipName": "project",
-            "otherEntityName": "project",
-            "ownerSide": false,
-            "otherEntityRelationshipName": "buildingtype"
-        },
-        {
-            "relationshipType": "many-to-many",
-            "relationshipName": "property",
-            "otherEntityName": "property",
-            "ownerSide": false,
-            "otherEntityRelationshipName": "buildingtype"
-        }
-    ],
-    "changelogDate": "20180720045228",
+    "relationships": [],
+    "changelogDate": "20180724181702",
     "javadoc": "BuildingType - Loai hinh du an entity",
     "entityTableName": "building_type",
     "dto": "mapstruct",

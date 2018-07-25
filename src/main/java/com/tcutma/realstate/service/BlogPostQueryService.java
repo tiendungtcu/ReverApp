@@ -85,26 +85,14 @@ public class BlogPostQueryService extends QueryService<BlogPost> {
             if (criteria.getPostCreatedDate() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getPostCreatedDate(), BlogPost_.postCreatedDate));
             }
-            if (criteria.getPostPublishDate() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getPostPublishDate(), BlogPost_.postPublishDate));
-            }
-            if (criteria.getPostUpdateDate() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getPostUpdateDate(), BlogPost_.postUpdateDate));
-            }
             if (criteria.getPostSeenCount() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getPostSeenCount(), BlogPost_.postSeenCount));
-            }
-            if (criteria.getCommentId() != null) {
-                specification = specification.and(buildReferringEntitySpecification(criteria.getCommentId(), BlogPost_.comments, Comment_.id));
             }
             if (criteria.getCategoryId() != null) {
                 specification = specification.and(buildReferringEntitySpecification(criteria.getCategoryId(), BlogPost_.category, Category_.id));
             }
             if (criteria.getUserId() != null) {
                 specification = specification.and(buildReferringEntitySpecification(criteria.getUserId(), BlogPost_.user, User_.id));
-            }
-            if (criteria.getProjectId() != null) {
-                specification = specification.and(buildReferringEntitySpecification(criteria.getProjectId(), BlogPost_.project, Project_.id));
             }
         }
         return specification;

@@ -5,28 +5,35 @@
             "fieldName": "exchangerName",
             "fieldType": "String",
             "fieldValidateRules": [
-                "required"
-            ]
+                "required",
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 128
         },
         {
             "fieldName": "exchangerAddress",
-            "fieldType": "String"
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 256
         },
         {
             "fieldName": "exchangerPhone",
             "fieldType": "String",
             "fieldValidateRules": [
-                "required"
-            ]
+                "required",
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 16
         },
         {
-            "fieldName": "exchangerPhoto",
-            "fieldType": "byte[]",
-            "fieldTypeBlobContent": "image"
+            "fieldName": "exchangerAvatarUrl",
+            "fieldType": "String"
         }
     ],
     "relationships": [],
-    "changelogDate": "20180720045221",
+    "changelogDate": "20180724181655",
     "javadoc": "Exchanger - san giao dich entity",
     "entityTableName": "exchanger",
     "dto": "mapstruct",

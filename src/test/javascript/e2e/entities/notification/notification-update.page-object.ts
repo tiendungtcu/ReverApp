@@ -9,8 +9,7 @@ export default class NotificationUpdatePage {
   notificationSeenInput: ElementFinder = element(by.css('input#notification-notificationSeen'));
   notificationDateInput: ElementFinder = element(by.css('input#notification-notificationDate'));
   notificationTypeSelect: ElementFinder = element(by.css('select#notification-notificationType'));
-  notificationReferenceInput: ElementFinder = element(by.css('input#notification-notificationReference'));
-  userSelect: ElementFinder = element(by.css('select#notification-user'));
+  notificationSenderInput: ElementFinder = element(by.css('input#notification-notificationSender'));
 
   getPageTitle() {
     return this.pageTitle;
@@ -57,31 +56,12 @@ export default class NotificationUpdatePage {
       .last()
       .click();
   }
-  setNotificationReferenceInput(notificationReference) {
-    this.notificationReferenceInput.sendKeys(notificationReference);
+  setNotificationSenderInput(notificationSender) {
+    this.notificationSenderInput.sendKeys(notificationSender);
   }
 
-  getNotificationReferenceInput() {
-    return this.notificationReferenceInput.getAttribute('value');
-  }
-
-  userSelectLastOption() {
-    this.userSelect
-      .all(by.tagName('option'))
-      .last()
-      .click();
-  }
-
-  userSelectOption(option) {
-    this.userSelect.sendKeys(option);
-  }
-
-  getUserSelect() {
-    return this.userSelect;
-  }
-
-  getUserSelectedOption() {
-    return this.userSelect.element(by.css('option:checked')).getText();
+  getNotificationSenderInput() {
+    return this.notificationSenderInput.getAttribute('value');
   }
 
   save() {

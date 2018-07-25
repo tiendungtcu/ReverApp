@@ -19,16 +19,16 @@
             "contactName": "Contact Name",
             "contactPhone": "Contact Phone",
             "contactAddress": "Contact Address",
-            "contactEmail": "Contact Email",
             "contactWebsite": "Contact Website",
-            "contactPhoto": "Contact Photo",
+            "contactAvatarUrl": "Contact Avatar Url",
             "contactFacebook": "Contact Facebook",
             "contactTwitter": "Contact Twitter",
             "contactInstagram": "Contact Instagram",
             "contactLinkedin": "Contact Linkedin",
             "contactGooglePlus": "Contact Google Plus",
             "contactYoutube": "Contact Youtube",
-            "contactStatus": "Contact Status"
+            "contactStatus": "Contact Status",
+            "user": "User"
         }
     }
 }

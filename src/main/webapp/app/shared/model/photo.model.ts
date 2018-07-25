@@ -1,16 +1,23 @@
-import { IProperty } from './property.model';
-import { IProject } from './project.model';
+import { Moment } from 'moment';
+
+export const enum ResourceType {
+  PROJECT = 'PROJECT',
+  PROPERTY = 'PROPERTY',
+  EMPLOYEE = 'EMPLOYEE',
+  RESIDENTIAL_AREA = 'RESIDENTIAL_AREA'
+}
 
 export interface IPhoto {
   id?: number;
   photoName?: string;
-  photoImageContentType?: string;
-  photoImage?: any;
-  photoExtension?: string;
+  photoDate?: Moment;
   photoUrl?: string;
+  photoMimeType?: string;
+  resourceId?: number;
+  resourceType?: ResourceType;
+  photoSize?: number;
+  photoAltText?: string;
   photoThumbnailUrl?: string;
-  properties?: IProperty[];
-  projects?: IProject[];
 }
 
 export const defaultValue: Readonly<IPhoto> = {};

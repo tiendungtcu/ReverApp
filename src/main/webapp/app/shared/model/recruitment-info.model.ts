@@ -3,14 +3,14 @@ import { Moment } from 'moment';
 export interface IRecruitmentInfo {
   id?: number;
   recruitmentTitle?: string;
-  recruitmentImageContentType?: string;
-  recruitmentImage?: any;
+  recruitmentAvatarUrl?: string;
   recruitmentContent?: any;
   recruitmentNotes?: string;
   recruitmentDate?: Moment;
   recruitmentSeenCount?: number;
   recruitmentStatus?: boolean;
-  photoId?: number;
+  userLogin?: string;
+  userId?: number;
   jobtitleTitleName?: string;
   jobtitleId?: number;
 }

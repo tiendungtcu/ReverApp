@@ -9,11 +9,10 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 
 import java.io.Serializable;
-import java.time.Instant;
-import java.time.ZonedDateTime;
+import java.time.LocalDate;
 import java.util.Objects;
 
-import com.tcutma.realstate.domain.enumeration.PropertyType;
+import com.tcutma.realstate.domain.enumeration.ResourceType;
 
 import com.tcutma.realstate.domain.enumeration.RequestType;
 
@@ -33,11 +32,13 @@ public class Request implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "request_first_name", nullable = false)
+    @Size(max = 128)
+    @Column(name = "request_first_name", length = 128, nullable = false)
     private String requestFirstName;
 
     @NotNull
-    @Column(name = "request_last_name", nullable = false)
+    @Size(max = 128)
+    @Column(name = "request_last_name", length = 128, nullable = false)
     private String requestLastName;
 
     @NotNull
@@ -45,7 +46,8 @@ public class Request implements Serializable {
     private String requestEmail;
 
     @NotNull
-    @Column(name = "request_phone", nullable = false)
+    @Size(max = 16)
+    @Column(name = "request_phone", length = 16, nullable = false)
     private String requestPhone;
 
     @Column(name = "request_get_analysis")
@@ -57,46 +59,34 @@ public class Request implements Serializable {
     @Column(name = "request_page_url")
     private String requestPageUrl;
 
-    @Column(name = "request_page_name")
-    private String requestPageName;
-
-    @Column(name = "request_property_id")
-    private Long requestPropertyId;
+    @Column(name = "resource_id")
+    private Long resourceId;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "request_property_type")
-    private PropertyType requestPropertyType;
+    @Column(name = "resource_type")
+    private ResourceType resourceType;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "request_type")
     private RequestType requestType;
 
     @Column(name = "request_meeting_date")
-    private Instant requestMeetingDate;
+    private LocalDate requestMeetingDate;
 
     @Column(name = "request_question")
     private String requestQuestion;
 
+    @DecimalMin(value = "0")
     @Column(name = "request_price")
     private Double requestPrice;
 
-    @Column(name = "request_created_date")
-    private ZonedDateTime requestCreatedDate;
-
-    @Column(name = "request_consultant_id")
-    private Integer requestConsultantId;
+    @ManyToOne
+    @JsonIgnoreProperties("")
+    private User sender;
 
     @ManyToOne
     @JsonIgnoreProperties("")
-    private User user;
-
-    @ManyToOne
-    @JsonIgnoreProperties("")
-    private Property property;
-
-    @ManyToOne
-    @JsonIgnoreProperties("")
-    private Project project;
+    private User receiver;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -198,43 +188,30 @@ public class Request implements Serializable {
         this.requestPageUrl = requestPageUrl;
     }
 
-    public String getRequestPageName() {
-        return requestPageName;
+    public Long getResourceId() {
+        return resourceId;
     }
 
-    public Request requestPageName(String requestPageName) {
-        this.requestPageName = requestPageName;
+    public Request resourceId(Long resourceId) {
+        this.resourceId = resourceId;
         return this;
     }
 
-    public void setRequestPageName(String requestPageName) {
-        this.requestPageName = requestPageName;
+    public void setResourceId(Long resourceId) {
+        this.resourceId = resourceId;
     }
 
-    public Long getRequestPropertyId() {
-        return requestPropertyId;
+    public ResourceType getResourceType() {
+        return resourceType;
     }
 
-    public Request requestPropertyId(Long requestPropertyId) {
-        this.requestPropertyId = requestPropertyId;
+    public Request resourceType(ResourceType resourceType) {
+        this.resourceType = resourceType;
         return this;
     }
 
-    public void setRequestPropertyId(Long requestPropertyId) {
-        this.requestPropertyId = requestPropertyId;
-    }
-
-    public PropertyType getRequestPropertyType() {
-        return requestPropertyType;
-    }
-
-    public Request requestPropertyType(PropertyType requestPropertyType) {
-        this.requestPropertyType = requestPropertyType;
-        return this;
-    }
-
-    public void setRequestPropertyType(PropertyType requestPropertyType) {
-        this.requestPropertyType = requestPropertyType;
+    public void setResourceType(ResourceType resourceType) {
+        this.resourceType = resourceType;
     }
 
     public RequestType getRequestType() {
@@ -250,16 +227,16 @@ public class Request implements Serializable {
         this.requestType = requestType;
     }
 
-    public Instant getRequestMeetingDate() {
+    public LocalDate getRequestMeetingDate() {
         return requestMeetingDate;
     }
 
-    public Request requestMeetingDate(Instant requestMeetingDate) {
+    public Request requestMeetingDate(LocalDate requestMeetingDate) {
         this.requestMeetingDate = requestMeetingDate;
         return this;
     }
 
-    public void setRequestMeetingDate(Instant requestMeetingDate) {
+    public void setRequestMeetingDate(LocalDate requestMeetingDate) {
         this.requestMeetingDate = requestMeetingDate;
     }
 
@@ -289,69 +266,30 @@ public class Request implements Serializable {
         this.requestPrice = requestPrice;
     }
 
-    public ZonedDateTime getRequestCreatedDate() {
-        return requestCreatedDate;
+    public User getSender() {
+        return sender;
     }
 
-    public Request requestCreatedDate(ZonedDateTime requestCreatedDate) {
-        this.requestCreatedDate = requestCreatedDate;
+    public Request sender(User user) {
+        this.sender = user;
         return this;
     }
 
-    public void setRequestCreatedDate(ZonedDateTime requestCreatedDate) {
-        this.requestCreatedDate = requestCreatedDate;
+    public void setSender(User user) {
+        this.sender = user;
     }
 
-    public Integer getRequestConsultantId() {
-        return requestConsultantId;
+    public User getReceiver() {
+        return receiver;
     }
 
-    public Request requestConsultantId(Integer requestConsultantId) {
-        this.requestConsultantId = requestConsultantId;
+    public Request receiver(User user) {
+        this.receiver = user;
         return this;
     }
 
-    public void setRequestConsultantId(Integer requestConsultantId) {
-        this.requestConsultantId = requestConsultantId;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public Request user(User user) {
-        this.user = user;
-        return this;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Property getProperty() {
-        return property;
-    }
-
-    public Request property(Property property) {
-        this.property = property;
-        return this;
-    }
-
-    public void setProperty(Property property) {
-        this.property = property;
-    }
-
-    public Project getProject() {
-        return project;
-    }
-
-    public Request project(Project project) {
-        this.project = project;
-        return this;
-    }
-
-    public void setProject(Project project) {
-        this.project = project;
+    public void setReceiver(User user) {
+        this.receiver = user;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -386,15 +324,12 @@ public class Request implements Serializable {
             ", requestGetAnalysis='" + isRequestGetAnalysis() + "'" +
             ", requestGetPrice='" + isRequestGetPrice() + "'" +
             ", requestPageUrl='" + getRequestPageUrl() + "'" +
-            ", requestPageName='" + getRequestPageName() + "'" +
-            ", requestPropertyId=" + getRequestPropertyId() +
-            ", requestPropertyType='" + getRequestPropertyType() + "'" +
+            ", resourceId=" + getResourceId() +
+            ", resourceType='" + getResourceType() + "'" +
             ", requestType='" + getRequestType() + "'" +
             ", requestMeetingDate='" + getRequestMeetingDate() + "'" +
             ", requestQuestion='" + getRequestQuestion() + "'" +
             ", requestPrice=" + getRequestPrice() +
-            ", requestCreatedDate='" + getRequestCreatedDate() + "'" +
-            ", requestConsultantId=" + getRequestConsultantId() +
             "}";
     }
 }

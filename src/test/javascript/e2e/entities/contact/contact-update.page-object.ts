@@ -7,9 +7,8 @@ export default class ContactUpdatePage {
   contactNameInput: ElementFinder = element(by.css('input#contact-contactName'));
   contactPhoneInput: ElementFinder = element(by.css('input#contact-contactPhone'));
   contactAddressInput: ElementFinder = element(by.css('input#contact-contactAddress'));
-  contactEmailInput: ElementFinder = element(by.css('input#contact-contactEmail'));
   contactWebsiteInput: ElementFinder = element(by.css('input#contact-contactWebsite'));
-  contactPhotoInput: ElementFinder = element(by.css('input#file_contactPhoto'));
+  contactAvatarUrlInput: ElementFinder = element(by.css('input#contact-contactAvatarUrl'));
   contactFacebookInput: ElementFinder = element(by.css('input#contact-contactFacebook'));
   contactTwitterInput: ElementFinder = element(by.css('input#contact-contactTwitter'));
   contactInstagramInput: ElementFinder = element(by.css('input#contact-contactInstagram'));
@@ -17,6 +16,7 @@ export default class ContactUpdatePage {
   contactGooglePlusInput: ElementFinder = element(by.css('input#contact-contactGooglePlus'));
   contactYoutubeInput: ElementFinder = element(by.css('input#contact-contactYoutube'));
   contactStatusInput: ElementFinder = element(by.css('input#contact-contactStatus'));
+  userSelect: ElementFinder = element(by.css('select#contact-user'));
 
   getPageTitle() {
     return this.pageTitle;
@@ -46,14 +46,6 @@ export default class ContactUpdatePage {
     return this.contactAddressInput.getAttribute('value');
   }
 
-  setContactEmailInput(contactEmail) {
-    this.contactEmailInput.sendKeys(contactEmail);
-  }
-
-  getContactEmailInput() {
-    return this.contactEmailInput.getAttribute('value');
-  }
-
   setContactWebsiteInput(contactWebsite) {
     this.contactWebsiteInput.sendKeys(contactWebsite);
   }
@@ -62,12 +54,12 @@ export default class ContactUpdatePage {
     return this.contactWebsiteInput.getAttribute('value');
   }
 
-  setContactPhotoInput(contactPhoto) {
-    this.contactPhotoInput.sendKeys(contactPhoto);
+  setContactAvatarUrlInput(contactAvatarUrl) {
+    this.contactAvatarUrlInput.sendKeys(contactAvatarUrl);
   }
 
-  getContactPhotoInput() {
-    return this.contactPhotoInput.getAttribute('value');
+  getContactAvatarUrlInput() {
+    return this.contactAvatarUrlInput.getAttribute('value');
   }
 
   setContactFacebookInput(contactFacebook) {
@@ -121,6 +113,25 @@ export default class ContactUpdatePage {
   getContactStatusInput() {
     return this.contactStatusInput;
   }
+  userSelectLastOption() {
+    this.userSelect
+      .all(by.tagName('option'))
+      .last()
+      .click();
+  }
+
+  userSelectOption(option) {
+    this.userSelect.sendKeys(option);
+  }
+
+  getUserSelect() {
+    return this.userSelect;
+  }
+
+  getUserSelectedOption() {
+    return this.userSelect.element(by.css('option:checked')).getText();
+  }
+
   save() {
     return this.saveButton.click();
   }

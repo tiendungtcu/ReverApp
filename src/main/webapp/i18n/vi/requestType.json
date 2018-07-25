@@ -4,7 +4,8 @@
             "null": "",
             "MEETING": "MEETING",
             "PRICE": "PRICE",
-            "QUESTION": "QUESTION"
+            "QUESTION": "QUESTION",
+            "OTHER": "OTHER"
         }
     }
 }

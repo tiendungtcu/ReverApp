@@ -61,13 +61,13 @@ export class ArticleDetail extends React.Component<IArticleDetailProps> {
             </dt>
             <dd>{articleEntity.articleContent}</dd>
             <dt>
+              <Translate contentKey="riverApp.article.author">Author</Translate>
+            </dt>
+            <dd>{articleEntity.authorLogin ? articleEntity.authorLogin : ''}</dd>
+            <dt>
               <Translate contentKey="riverApp.article.category">Category</Translate>
             </dt>
-            <dd>{articleEntity.categoryId ? articleEntity.categoryId : ''}</dd>
-            <dt>
-              <Translate contentKey="riverApp.article.user">User</Translate>
-            </dt>
-            <dd>{articleEntity.userLogin ? articleEntity.userLogin : ''}</dd>
+            <dd>{articleEntity.categoryCategoryName ? articleEntity.categoryCategoryName : ''}</dd>
           </dl>
           <Button tag={Link} to="/entity/article" replace color="info">
             <FontAwesomeIcon icon="arrow-left" />{' '}

@@ -1,6 +1,5 @@
 package com.tcutma.realstate.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -9,14 +8,12 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 
 import java.io.Serializable;
-import java.time.Instant;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Objects;
 
 import com.tcutma.realstate.domain.enumeration.TransactionStatus;
-
-import com.tcutma.realstate.domain.enumeration.AreaUnit;
 
 import com.tcutma.realstate.domain.enumeration.PriceUnit;
 
@@ -36,47 +33,39 @@ public class Project implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "project_name", nullable = false)
+    @Size(max = 128)
+    @Column(name = "project_name", length = 128, nullable = false)
     private String projectName;
 
-    @NotNull
-    @Column(name = "project_alias", nullable = false)
+    @Size(max = 128)
+    @Column(name = "project_alias", length = 128)
     private String projectAlias;
-
-    @Lob
-    @Column(name = "project_avatar")
-    private byte[] projectAvatar;
-
-    @Column(name = "project_avatar_content_type")
-    private String projectAvatarContentType;
-
-    @Column(name = "project_avatar_id")
-    private Integer projectAvatarId;
 
     @Column(name = "project_avatar_url")
     private String projectAvatarUrl;
 
-    @Column(name = "project_district")
+    @Size(max = 64)
+    @Column(name = "project_district", length = 64)
     private String projectDistrict;
 
-    @Column(name = "project_province")
+    @Size(max = 64)
+    @Column(name = "project_province", length = 64)
     private String projectProvince;
 
-    @Column(name = "project_residential_area")
-    private String projectResidentialArea;
+    @Column(name = "residential_area_id")
+    private Long residentialAreaId;
 
-    @Column(name = "project_road")
+    @Size(max = 128)
+    @Column(name = "project_road", length = 128)
     private String projectRoad;
 
-    @Column(name = "project_ward")
+    @Size(max = 64)
+    @Column(name = "project_ward", length = 64)
     private String projectWard;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "project_status")
     private TransactionStatus projectStatus;
-
-    @Column(name = "project_type")
-    private String projectType;
 
     @NotNull
     @Column(name = "project_no_blocks", nullable = false)
@@ -97,6 +86,7 @@ public class Project implements Serializable {
     @Column(name = "project_description")
     private String projectDescription;
 
+    @DecimalMin(value = "0")
     @Column(name = "project_min_sell_price")
     private Double projectMinSellPrice;
 
@@ -104,13 +94,10 @@ public class Project implements Serializable {
     private Double projectMaxSellPrice;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "project_sell_area_unit")
-    private AreaUnit projectSellAreaUnit;
-
-    @Enumerated(EnumType.STRING)
     @Column(name = "project_sell_price_unit")
     private PriceUnit projectSellPriceUnit;
 
+    @DecimalMin(value = "0")
     @Column(name = "project_min_rent_price")
     private Double projectMinRentPrice;
 
@@ -118,28 +105,29 @@ public class Project implements Serializable {
     private Double projectMaxRentPrice;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "project_rent_area_unit")
-    private AreaUnit projectRentAreaUnit;
-
-    @Enumerated(EnumType.STRING)
     @Column(name = "project_rent_price_unit")
     private PriceUnit projectRentPriceUnit;
 
     @Column(name = "project_started_date")
-    private Instant projectStartedDate;
+    private LocalDate projectStartedDate;
 
     @Column(name = "project_finishing_date")
-    private Instant projectFinishingDate;
+    private LocalDate projectFinishingDate;
 
+    @Min(value = 1)
     @Column(name = "project_min_apartment_square")
     private Integer projectMinApartmentSquare;
 
     @Column(name = "project_max_apartment_square")
     private Integer projectMaxApartmentSquare;
 
+    @Min(value = 0)
+    @Max(value = 100)
     @Column(name = "project_green_space")
     private Integer projectGreenSpace;
 
+    @Min(value = 0)
+    @Max(value = 100)
     @Column(name = "project_building_density")
     private Integer projectBuildingDensity;
 
@@ -190,15 +178,11 @@ public class Project implements Serializable {
 
     @OneToOne
     @JoinColumn(unique = true)
-    private Document document;
+    private Location location;
 
     @OneToOne
     @JoinColumn(unique = true)
-    private Location location;
-
-    @OneToMany(mappedBy = "project")
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<BlogPost> posts = new HashSet<>();
+    private User consultant;
 
     @ManyToMany
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
@@ -216,24 +200,17 @@ public class Project implements Serializable {
 
     @ManyToMany
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    @JoinTable(name = "project_investor",
+    @JoinTable(name = "project_inverstor",
                joinColumns = @JoinColumn(name = "projects_id", referencedColumnName = "id"),
-               inverseJoinColumns = @JoinColumn(name = "investors_id", referencedColumnName = "id"))
-    private Set<Investor> investors = new HashSet<>();
+               inverseJoinColumns = @JoinColumn(name = "inverstors_id", referencedColumnName = "id"))
+    private Set<Investor> inverstors = new HashSet<>();
 
     @ManyToMany
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    @JoinTable(name = "project_projectbuilder",
+    @JoinTable(name = "project_contractor",
                joinColumns = @JoinColumn(name = "projects_id", referencedColumnName = "id"),
-               inverseJoinColumns = @JoinColumn(name = "projectbuilders_id", referencedColumnName = "id"))
-    private Set<ProjectBuilder> projectbuilders = new HashSet<>();
-
-    @ManyToMany
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    @JoinTable(name = "project_photo",
-               joinColumns = @JoinColumn(name = "projects_id", referencedColumnName = "id"),
-               inverseJoinColumns = @JoinColumn(name = "photos_id", referencedColumnName = "id"))
-    private Set<Photo> photos = new HashSet<>();
+               inverseJoinColumns = @JoinColumn(name = "contractors_id", referencedColumnName = "id"))
+    private Set<Contractor> contractors = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -268,45 +245,6 @@ public class Project implements Serializable {
 
     public void setProjectAlias(String projectAlias) {
         this.projectAlias = projectAlias;
-    }
-
-    public byte[] getProjectAvatar() {
-        return projectAvatar;
-    }
-
-    public Project projectAvatar(byte[] projectAvatar) {
-        this.projectAvatar = projectAvatar;
-        return this;
-    }
-
-    public void setProjectAvatar(byte[] projectAvatar) {
-        this.projectAvatar = projectAvatar;
-    }
-
-    public String getProjectAvatarContentType() {
-        return projectAvatarContentType;
-    }
-
-    public Project projectAvatarContentType(String projectAvatarContentType) {
-        this.projectAvatarContentType = projectAvatarContentType;
-        return this;
-    }
-
-    public void setProjectAvatarContentType(String projectAvatarContentType) {
-        this.projectAvatarContentType = projectAvatarContentType;
-    }
-
-    public Integer getProjectAvatarId() {
-        return projectAvatarId;
-    }
-
-    public Project projectAvatarId(Integer projectAvatarId) {
-        this.projectAvatarId = projectAvatarId;
-        return this;
-    }
-
-    public void setProjectAvatarId(Integer projectAvatarId) {
-        this.projectAvatarId = projectAvatarId;
     }
 
     public String getProjectAvatarUrl() {
@@ -348,17 +286,17 @@ public class Project implements Serializable {
         this.projectProvince = projectProvince;
     }
 
-    public String getProjectResidentialArea() {
-        return projectResidentialArea;
+    public Long getResidentialAreaId() {
+        return residentialAreaId;
     }
 
-    public Project projectResidentialArea(String projectResidentialArea) {
-        this.projectResidentialArea = projectResidentialArea;
+    public Project residentialAreaId(Long residentialAreaId) {
+        this.residentialAreaId = residentialAreaId;
         return this;
     }
 
-    public void setProjectResidentialArea(String projectResidentialArea) {
-        this.projectResidentialArea = projectResidentialArea;
+    public void setResidentialAreaId(Long residentialAreaId) {
+        this.residentialAreaId = residentialAreaId;
     }
 
     public String getProjectRoad() {
@@ -398,19 +336,6 @@ public class Project implements Serializable {
 
     public void setProjectStatus(TransactionStatus projectStatus) {
         this.projectStatus = projectStatus;
-    }
-
-    public String getProjectType() {
-        return projectType;
-    }
-
-    public Project projectType(String projectType) {
-        this.projectType = projectType;
-        return this;
-    }
-
-    public void setProjectType(String projectType) {
-        this.projectType = projectType;
     }
 
     public Integer getProjectNoBlocks() {
@@ -504,19 +429,6 @@ public class Project implements Serializable {
         this.projectMaxSellPrice = projectMaxSellPrice;
     }
 
-    public AreaUnit getProjectSellAreaUnit() {
-        return projectSellAreaUnit;
-    }
-
-    public Project projectSellAreaUnit(AreaUnit projectSellAreaUnit) {
-        this.projectSellAreaUnit = projectSellAreaUnit;
-        return this;
-    }
-
-    public void setProjectSellAreaUnit(AreaUnit projectSellAreaUnit) {
-        this.projectSellAreaUnit = projectSellAreaUnit;
-    }
-
     public PriceUnit getProjectSellPriceUnit() {
         return projectSellPriceUnit;
     }
@@ -556,19 +468,6 @@ public class Project implements Serializable {
         this.projectMaxRentPrice = projectMaxRentPrice;
     }
 
-    public AreaUnit getProjectRentAreaUnit() {
-        return projectRentAreaUnit;
-    }
-
-    public Project projectRentAreaUnit(AreaUnit projectRentAreaUnit) {
-        this.projectRentAreaUnit = projectRentAreaUnit;
-        return this;
-    }
-
-    public void setProjectRentAreaUnit(AreaUnit projectRentAreaUnit) {
-        this.projectRentAreaUnit = projectRentAreaUnit;
-    }
-
     public PriceUnit getProjectRentPriceUnit() {
         return projectRentPriceUnit;
     }
@@ -582,29 +481,29 @@ public class Project implements Serializable {
         this.projectRentPriceUnit = projectRentPriceUnit;
     }
 
-    public Instant getProjectStartedDate() {
+    public LocalDate getProjectStartedDate() {
         return projectStartedDate;
     }
 
-    public Project projectStartedDate(Instant projectStartedDate) {
+    public Project projectStartedDate(LocalDate projectStartedDate) {
         this.projectStartedDate = projectStartedDate;
         return this;
     }
 
-    public void setProjectStartedDate(Instant projectStartedDate) {
+    public void setProjectStartedDate(LocalDate projectStartedDate) {
         this.projectStartedDate = projectStartedDate;
     }
 
-    public Instant getProjectFinishingDate() {
+    public LocalDate getProjectFinishingDate() {
         return projectFinishingDate;
     }
 
-    public Project projectFinishingDate(Instant projectFinishingDate) {
+    public Project projectFinishingDate(LocalDate projectFinishingDate) {
         this.projectFinishingDate = projectFinishingDate;
         return this;
     }
 
-    public void setProjectFinishingDate(Instant projectFinishingDate) {
+    public void setProjectFinishingDate(LocalDate projectFinishingDate) {
         this.projectFinishingDate = projectFinishingDate;
     }
 
@@ -855,19 +754,6 @@ public class Project implements Serializable {
         this.projectAvailable = projectAvailable;
     }
 
-    public Document getDocument() {
-        return document;
-    }
-
-    public Project document(Document document) {
-        this.document = document;
-        return this;
-    }
-
-    public void setDocument(Document document) {
-        this.document = document;
-    }
-
     public Location getLocation() {
         return location;
     }
@@ -881,29 +767,17 @@ public class Project implements Serializable {
         this.location = location;
     }
 
-    public Set<BlogPost> getPosts() {
-        return posts;
+    public User getConsultant() {
+        return consultant;
     }
 
-    public Project posts(Set<BlogPost> blogPosts) {
-        this.posts = blogPosts;
+    public Project consultant(User user) {
+        this.consultant = user;
         return this;
     }
 
-    public Project addPost(BlogPost blogPost) {
-        this.posts.add(blogPost);
-        blogPost.setProject(this);
-        return this;
-    }
-
-    public Project removePost(BlogPost blogPost) {
-        this.posts.remove(blogPost);
-        blogPost.setProject(null);
-        return this;
-    }
-
-    public void setPosts(Set<BlogPost> blogPosts) {
-        this.posts = blogPosts;
+    public void setConsultant(User user) {
+        this.consultant = user;
     }
 
     public Set<Tag> getTags() {
@@ -917,13 +791,11 @@ public class Project implements Serializable {
 
     public Project addTag(Tag tag) {
         this.tags.add(tag);
-        tag.getProjects().add(this);
         return this;
     }
 
     public Project removeTag(Tag tag) {
         this.tags.remove(tag);
-        tag.getProjects().remove(this);
         return this;
     }
 
@@ -942,13 +814,11 @@ public class Project implements Serializable {
 
     public Project addBuildingtype(BuildingType buildingType) {
         this.buildingtypes.add(buildingType);
-        buildingType.getProjects().add(this);
         return this;
     }
 
     public Project removeBuildingtype(BuildingType buildingType) {
         this.buildingtypes.remove(buildingType);
-        buildingType.getProjects().remove(this);
         return this;
     }
 
@@ -956,79 +826,50 @@ public class Project implements Serializable {
         this.buildingtypes = buildingTypes;
     }
 
-    public Set<Investor> getInvestors() {
-        return investors;
+    public Set<Investor> getInverstors() {
+        return inverstors;
     }
 
-    public Project investors(Set<Investor> investors) {
-        this.investors = investors;
+    public Project inverstors(Set<Investor> investors) {
+        this.inverstors = investors;
         return this;
     }
 
-    public Project addInvestor(Investor investor) {
-        this.investors.add(investor);
-        investor.getProjects().add(this);
+    public Project addInverstor(Investor investor) {
+        this.inverstors.add(investor);
         return this;
     }
 
-    public Project removeInvestor(Investor investor) {
-        this.investors.remove(investor);
-        investor.getProjects().remove(this);
+    public Project removeInverstor(Investor investor) {
+        this.inverstors.remove(investor);
         return this;
     }
 
-    public void setInvestors(Set<Investor> investors) {
-        this.investors = investors;
+    public void setInverstors(Set<Investor> investors) {
+        this.inverstors = investors;
     }
 
-    public Set<ProjectBuilder> getProjectbuilders() {
-        return projectbuilders;
+    public Set<Contractor> getContractors() {
+        return contractors;
     }
 
-    public Project projectbuilders(Set<ProjectBuilder> projectBuilders) {
-        this.projectbuilders = projectBuilders;
+    public Project contractors(Set<Contractor> contractors) {
+        this.contractors = contractors;
         return this;
     }
 
-    public Project addProjectbuilder(ProjectBuilder projectBuilder) {
-        this.projectbuilders.add(projectBuilder);
-        projectBuilder.getProjects().add(this);
+    public Project addContractor(Contractor contractor) {
+        this.contractors.add(contractor);
         return this;
     }
 
-    public Project removeProjectbuilder(ProjectBuilder projectBuilder) {
-        this.projectbuilders.remove(projectBuilder);
-        projectBuilder.getProjects().remove(this);
+    public Project removeContractor(Contractor contractor) {
+        this.contractors.remove(contractor);
         return this;
     }
 
-    public void setProjectbuilders(Set<ProjectBuilder> projectBuilders) {
-        this.projectbuilders = projectBuilders;
-    }
-
-    public Set<Photo> getPhotos() {
-        return photos;
-    }
-
-    public Project photos(Set<Photo> photos) {
-        this.photos = photos;
-        return this;
-    }
-
-    public Project addPhoto(Photo photo) {
-        this.photos.add(photo);
-        photo.getProjects().add(this);
-        return this;
-    }
-
-    public Project removePhoto(Photo photo) {
-        this.photos.remove(photo);
-        photo.getProjects().remove(this);
-        return this;
-    }
-
-    public void setPhotos(Set<Photo> photos) {
-        this.photos = photos;
+    public void setContractors(Set<Contractor> contractors) {
+        this.contractors = contractors;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -1058,17 +899,13 @@ public class Project implements Serializable {
             "id=" + getId() +
             ", projectName='" + getProjectName() + "'" +
             ", projectAlias='" + getProjectAlias() + "'" +
-            ", projectAvatar='" + getProjectAvatar() + "'" +
-            ", projectAvatarContentType='" + getProjectAvatarContentType() + "'" +
-            ", projectAvatarId=" + getProjectAvatarId() +
             ", projectAvatarUrl='" + getProjectAvatarUrl() + "'" +
             ", projectDistrict='" + getProjectDistrict() + "'" +
             ", projectProvince='" + getProjectProvince() + "'" +
-            ", projectResidentialArea='" + getProjectResidentialArea() + "'" +
+            ", residentialAreaId=" + getResidentialAreaId() +
             ", projectRoad='" + getProjectRoad() + "'" +
             ", projectWard='" + getProjectWard() + "'" +
             ", projectStatus='" + getProjectStatus() + "'" +
-            ", projectType='" + getProjectType() + "'" +
             ", projectNoBlocks=" + getProjectNoBlocks() +
             ", projectNoFloors=" + getProjectNoFloors() +
             ", projectNoApartments=" + getProjectNoApartments() +
@@ -1076,11 +913,9 @@ public class Project implements Serializable {
             ", projectDescription='" + getProjectDescription() + "'" +
             ", projectMinSellPrice=" + getProjectMinSellPrice() +
             ", projectMaxSellPrice=" + getProjectMaxSellPrice() +
-            ", projectSellAreaUnit='" + getProjectSellAreaUnit() + "'" +
             ", projectSellPriceUnit='" + getProjectSellPriceUnit() + "'" +
             ", projectMinRentPrice=" + getProjectMinRentPrice() +
             ", projectMaxRentPrice=" + getProjectMaxRentPrice() +
-            ", projectRentAreaUnit='" + getProjectRentAreaUnit() + "'" +
             ", projectRentPriceUnit='" + getProjectRentPriceUnit() + "'" +
             ", projectStartedDate='" + getProjectStartedDate() + "'" +
             ", projectFinishingDate='" + getProjectFinishingDate() + "'" +

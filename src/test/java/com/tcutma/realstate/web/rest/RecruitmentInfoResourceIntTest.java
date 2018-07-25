@@ -25,14 +25,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Base64Utils;
 
 import javax.persistence.EntityManager;
-import java.time.Instant;
-import java.time.ZonedDateTime;
-import java.time.ZoneOffset;
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.List;
 
 
-import static com.tcutma.realstate.web.rest.TestUtil.sameInstant;
 import static com.tcutma.realstate.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
@@ -51,10 +48,8 @@ public class RecruitmentInfoResourceIntTest {
     private static final String DEFAULT_RECRUITMENT_TITLE = "AAAAAAAAAA";
     private static final String UPDATED_RECRUITMENT_TITLE = "BBBBBBBBBB";
 
-    private static final byte[] DEFAULT_RECRUITMENT_IMAGE = TestUtil.createByteArray(1, "0");
-    private static final byte[] UPDATED_RECRUITMENT_IMAGE = TestUtil.createByteArray(2, "1");
-    private static final String DEFAULT_RECRUITMENT_IMAGE_CONTENT_TYPE = "image/jpg";
-    private static final String UPDATED_RECRUITMENT_IMAGE_CONTENT_TYPE = "image/png";
+    private static final String DEFAULT_RECRUITMENT_AVATAR_URL = "AAAAAAAAAA";
+    private static final String UPDATED_RECRUITMENT_AVATAR_URL = "BBBBBBBBBB";
 
     private static final String DEFAULT_RECRUITMENT_CONTENT = "AAAAAAAAAA";
     private static final String UPDATED_RECRUITMENT_CONTENT = "BBBBBBBBBB";
@@ -62,8 +57,8 @@ public class RecruitmentInfoResourceIntTest {
     private static final String DEFAULT_RECRUITMENT_NOTES = "AAAAAAAAAA";
     private static final String UPDATED_RECRUITMENT_NOTES = "BBBBBBBBBB";
 
-    private static final ZonedDateTime DEFAULT_RECRUITMENT_DATE = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
-    private static final ZonedDateTime UPDATED_RECRUITMENT_DATE = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
+    private static final LocalDate DEFAULT_RECRUITMENT_DATE = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_RECRUITMENT_DATE = LocalDate.now(ZoneId.systemDefault());
 
     private static final Long DEFAULT_RECRUITMENT_SEEN_COUNT = 1L;
     private static final Long UPDATED_RECRUITMENT_SEEN_COUNT = 2L;
@@ -118,8 +113,7 @@ public class RecruitmentInfoResourceIntTest {
     public static RecruitmentInfo createEntity(EntityManager em) {
         RecruitmentInfo recruitmentInfo = new RecruitmentInfo()
             .recruitmentTitle(DEFAULT_RECRUITMENT_TITLE)
-            .recruitmentImage(DEFAULT_RECRUITMENT_IMAGE)
-            .recruitmentImageContentType(DEFAULT_RECRUITMENT_IMAGE_CONTENT_TYPE)
+            .recruitmentAvatarUrl(DEFAULT_RECRUITMENT_AVATAR_URL)
             .recruitmentContent(DEFAULT_RECRUITMENT_CONTENT)
             .recruitmentNotes(DEFAULT_RECRUITMENT_NOTES)
             .recruitmentDate(DEFAULT_RECRUITMENT_DATE)
@@ -150,8 +144,7 @@ public class RecruitmentInfoResourceIntTest {
         assertThat(recruitmentInfoList).hasSize(databaseSizeBeforeCreate + 1);
         RecruitmentInfo testRecruitmentInfo = recruitmentInfoList.get(recruitmentInfoList.size() - 1);
         assertThat(testRecruitmentInfo.getRecruitmentTitle()).isEqualTo(DEFAULT_RECRUITMENT_TITLE);
-        assertThat(testRecruitmentInfo.getRecruitmentImage()).isEqualTo(DEFAULT_RECRUITMENT_IMAGE);
-        assertThat(testRecruitmentInfo.getRecruitmentImageContentType()).isEqualTo(DEFAULT_RECRUITMENT_IMAGE_CONTENT_TYPE);
+        assertThat(testRecruitmentInfo.getRecruitmentAvatarUrl()).isEqualTo(DEFAULT_RECRUITMENT_AVATAR_URL);
         assertThat(testRecruitmentInfo.getRecruitmentContent()).isEqualTo(DEFAULT_RECRUITMENT_CONTENT);
         assertThat(testRecruitmentInfo.getRecruitmentNotes()).isEqualTo(DEFAULT_RECRUITMENT_NOTES);
         assertThat(testRecruitmentInfo.getRecruitmentDate()).isEqualTo(DEFAULT_RECRUITMENT_DATE);
@@ -210,11 +203,10 @@ public class RecruitmentInfoResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(recruitmentInfo.getId().intValue())))
             .andExpect(jsonPath("$.[*].recruitmentTitle").value(hasItem(DEFAULT_RECRUITMENT_TITLE.toString())))
-            .andExpect(jsonPath("$.[*].recruitmentImageContentType").value(hasItem(DEFAULT_RECRUITMENT_IMAGE_CONTENT_TYPE)))
-            .andExpect(jsonPath("$.[*].recruitmentImage").value(hasItem(Base64Utils.encodeToString(DEFAULT_RECRUITMENT_IMAGE))))
+            .andExpect(jsonPath("$.[*].recruitmentAvatarUrl").value(hasItem(DEFAULT_RECRUITMENT_AVATAR_URL.toString())))
             .andExpect(jsonPath("$.[*].recruitmentContent").value(hasItem(DEFAULT_RECRUITMENT_CONTENT.toString())))
             .andExpect(jsonPath("$.[*].recruitmentNotes").value(hasItem(DEFAULT_RECRUITMENT_NOTES.toString())))
-            .andExpect(jsonPath("$.[*].recruitmentDate").value(hasItem(sameInstant(DEFAULT_RECRUITMENT_DATE))))
+            .andExpect(jsonPath("$.[*].recruitmentDate").value(hasItem(DEFAULT_RECRUITMENT_DATE.toString())))
             .andExpect(jsonPath("$.[*].recruitmentSeenCount").value(hasItem(DEFAULT_RECRUITMENT_SEEN_COUNT.intValue())))
             .andExpect(jsonPath("$.[*].recruitmentStatus").value(hasItem(DEFAULT_RECRUITMENT_STATUS.booleanValue())));
     }
@@ -232,11 +224,10 @@ public class RecruitmentInfoResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(recruitmentInfo.getId().intValue()))
             .andExpect(jsonPath("$.recruitmentTitle").value(DEFAULT_RECRUITMENT_TITLE.toString()))
-            .andExpect(jsonPath("$.recruitmentImageContentType").value(DEFAULT_RECRUITMENT_IMAGE_CONTENT_TYPE))
-            .andExpect(jsonPath("$.recruitmentImage").value(Base64Utils.encodeToString(DEFAULT_RECRUITMENT_IMAGE)))
+            .andExpect(jsonPath("$.recruitmentAvatarUrl").value(DEFAULT_RECRUITMENT_AVATAR_URL.toString()))
             .andExpect(jsonPath("$.recruitmentContent").value(DEFAULT_RECRUITMENT_CONTENT.toString()))
             .andExpect(jsonPath("$.recruitmentNotes").value(DEFAULT_RECRUITMENT_NOTES.toString()))
-            .andExpect(jsonPath("$.recruitmentDate").value(sameInstant(DEFAULT_RECRUITMENT_DATE)))
+            .andExpect(jsonPath("$.recruitmentDate").value(DEFAULT_RECRUITMENT_DATE.toString()))
             .andExpect(jsonPath("$.recruitmentSeenCount").value(DEFAULT_RECRUITMENT_SEEN_COUNT.intValue()))
             .andExpect(jsonPath("$.recruitmentStatus").value(DEFAULT_RECRUITMENT_STATUS.booleanValue()));
     }
@@ -262,8 +253,7 @@ public class RecruitmentInfoResourceIntTest {
         em.detach(updatedRecruitmentInfo);
         updatedRecruitmentInfo
             .recruitmentTitle(UPDATED_RECRUITMENT_TITLE)
-            .recruitmentImage(UPDATED_RECRUITMENT_IMAGE)
-            .recruitmentImageContentType(UPDATED_RECRUITMENT_IMAGE_CONTENT_TYPE)
+            .recruitmentAvatarUrl(UPDATED_RECRUITMENT_AVATAR_URL)
             .recruitmentContent(UPDATED_RECRUITMENT_CONTENT)
             .recruitmentNotes(UPDATED_RECRUITMENT_NOTES)
             .recruitmentDate(UPDATED_RECRUITMENT_DATE)
@@ -281,8 +271,7 @@ public class RecruitmentInfoResourceIntTest {
         assertThat(recruitmentInfoList).hasSize(databaseSizeBeforeUpdate);
         RecruitmentInfo testRecruitmentInfo = recruitmentInfoList.get(recruitmentInfoList.size() - 1);
         assertThat(testRecruitmentInfo.getRecruitmentTitle()).isEqualTo(UPDATED_RECRUITMENT_TITLE);
-        assertThat(testRecruitmentInfo.getRecruitmentImage()).isEqualTo(UPDATED_RECRUITMENT_IMAGE);
-        assertThat(testRecruitmentInfo.getRecruitmentImageContentType()).isEqualTo(UPDATED_RECRUITMENT_IMAGE_CONTENT_TYPE);
+        assertThat(testRecruitmentInfo.getRecruitmentAvatarUrl()).isEqualTo(UPDATED_RECRUITMENT_AVATAR_URL);
         assertThat(testRecruitmentInfo.getRecruitmentContent()).isEqualTo(UPDATED_RECRUITMENT_CONTENT);
         assertThat(testRecruitmentInfo.getRecruitmentNotes()).isEqualTo(UPDATED_RECRUITMENT_NOTES);
         assertThat(testRecruitmentInfo.getRecruitmentDate()).isEqualTo(UPDATED_RECRUITMENT_DATE);

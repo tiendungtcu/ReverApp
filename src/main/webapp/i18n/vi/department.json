@@ -17,7 +17,7 @@
                 "title": "Department"
             },
             "departmentName": "Department Name",
-            "departmentPhoto": "Department Photo",
+            "departmentAvatarUrl": "Department Avatar Url",
             "departmentPhone": "Department Phone"
         }
     }

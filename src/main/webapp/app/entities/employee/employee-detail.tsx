@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Row, Col } from 'reactstrap';
 // tslint:disable-next-line:no-unused-variable
-import { Translate, ICrudGetAction, openFile, byteSize, TextFormat } from 'react-jhipster';
+import { Translate, ICrudGetAction, TextFormat } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IRootState } from 'app/shared/reducers';
@@ -29,12 +29,6 @@ export class EmployeeDetail extends React.Component<IEmployeeDetailProps> {
           </h2>
           <dl className="jh-entity-details">
             <dt>
-              <span id="employeeName">
-                <Translate contentKey="riverApp.employee.employeeName">Employee Name</Translate>
-              </span>
-            </dt>
-            <dd>{employeeEntity.employeeName}</dd>
-            <dt>
               <span id="employeeFirstName">
                 <Translate contentKey="riverApp.employee.employeeFirstName">Employee First Name</Translate>
               </span>
@@ -52,7 +46,7 @@ export class EmployeeDetail extends React.Component<IEmployeeDetailProps> {
               </span>
             </dt>
             <dd>
-              <TextFormat value={employeeEntity.employeeDob} type="date" format={APP_DATE_FORMAT} />
+              <TextFormat value={employeeEntity.employeeDob} type="date" format={APP_LOCAL_DATE_FORMAT} />
             </dd>
             <dt>
               <span id="employeeSex">
@@ -79,87 +73,17 @@ export class EmployeeDetail extends React.Component<IEmployeeDetailProps> {
             </dt>
             <dd>{employeeEntity.employeeEmail}</dd>
             <dt>
-              <span id="employeeAvatar">
-                <Translate contentKey="riverApp.employee.employeeAvatar">Employee Avatar</Translate>
-              </span>
+              <Translate contentKey="riverApp.employee.account">Account</Translate>
             </dt>
-            <dd>
-              {employeeEntity.employeeAvatar ? (
-                <div>
-                  <a onClick={openFile(employeeEntity.employeeAvatarContentType, employeeEntity.employeeAvatar)}>
-                    <img
-                      src={`data:${employeeEntity.employeeAvatarContentType};base64,${employeeEntity.employeeAvatar}`}
-                      style={{ maxHeight: '30px' }}
-                    />
-                  </a>
-                  <span>
-                    {employeeEntity.employeeAvatarContentType}, {byteSize(employeeEntity.employeeAvatar)}
-                  </span>
-                </div>
-              ) : null}
-            </dd>
-            <dt>
-              <span id="employeeFacebook">
-                <Translate contentKey="riverApp.employee.employeeFacebook">Employee Facebook</Translate>
-              </span>
-            </dt>
-            <dd>{employeeEntity.employeeFacebook}</dd>
-            <dt>
-              <span id="employeeLinkedin">
-                <Translate contentKey="riverApp.employee.employeeLinkedin">Employee Linkedin</Translate>
-              </span>
-            </dt>
-            <dd>{employeeEntity.employeeLinkedin}</dd>
-            <dt>
-              <span id="employeeInstagram">
-                <Translate contentKey="riverApp.employee.employeeInstagram">Employee Instagram</Translate>
-              </span>
-            </dt>
-            <dd>{employeeEntity.employeeInstagram}</dd>
-            <dt>
-              <span id="employeeGooglePlus">
-                <Translate contentKey="riverApp.employee.employeeGooglePlus">Employee Google Plus</Translate>
-              </span>
-            </dt>
-            <dd>{employeeEntity.employeeGooglePlus}</dd>
-            <dt>
-              <span id="employeeZalo">
-                <Translate contentKey="riverApp.employee.employeeZalo">Employee Zalo</Translate>
-              </span>
-            </dt>
-            <dd>{employeeEntity.employeeZalo}</dd>
-            <dt>
-              <span id="employeeTwitter">
-                <Translate contentKey="riverApp.employee.employeeTwitter">Employee Twitter</Translate>
-              </span>
-            </dt>
-            <dd>{employeeEntity.employeeTwitter}</dd>
-            <dt>
-              <span id="employeeYoutube">
-                <Translate contentKey="riverApp.employee.employeeYoutube">Employee Youtube</Translate>
-              </span>
-            </dt>
-            <dd>{employeeEntity.employeeYoutube}</dd>
-            <dt>
-              <Translate contentKey="riverApp.employee.contact">Contact</Translate>
-            </dt>
-            <dd>{employeeEntity.contactId ? employeeEntity.contactId : ''}</dd>
-            <dt>
-              <Translate contentKey="riverApp.employee.photo">Photo</Translate>
-            </dt>
-            <dd>{employeeEntity.photoId ? employeeEntity.photoId : ''}</dd>
-            <dt>
-              <Translate contentKey="riverApp.employee.jobtitle">Jobtitle</Translate>
-            </dt>
-            <dd>{employeeEntity.jobtitleTitleName ? employeeEntity.jobtitleTitleName : ''}</dd>
+            <dd>{employeeEntity.accountLogin ? employeeEntity.accountLogin : ''}</dd>
             <dt>
               <Translate contentKey="riverApp.employee.department">Department</Translate>
             </dt>
             <dd>{employeeEntity.departmentDepartmentName ? employeeEntity.departmentDepartmentName : ''}</dd>
             <dt>
-              <Translate contentKey="riverApp.employee.manager">Manager</Translate>
+              <Translate contentKey="riverApp.employee.jobtitle">Jobtitle</Translate>
             </dt>
-            <dd>{employeeEntity.managerEmployeeName ? employeeEntity.managerEmployeeName : ''}</dd>
+            <dd>{employeeEntity.jobtitleTitleName ? employeeEntity.jobtitleTitleName : ''}</dd>
           </dl>
           <Button tag={Link} to="/entity/employee" replace color="info">
             <FontAwesomeIcon icon="arrow-left" />{' '}

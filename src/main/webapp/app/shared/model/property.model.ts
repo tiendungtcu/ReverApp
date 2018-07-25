@@ -1,7 +1,5 @@
 import { Moment } from 'moment';
 import { ITag } from './tag.model';
-import { IBuildingType } from './building-type.model';
-import { IPhoto } from './photo.model';
 
 export const enum TransactionType {
   SELL = 'SELL',
@@ -16,7 +14,13 @@ export const enum UseEstablishment {
   SHOP = 'SHOP',
   RESTAURANT = 'RESTAURANT',
   HOTEL = 'HOTEL',
-  LEASE = 'LEASE'
+  LEASE = 'LEASE',
+  SHOPHOUSE = 'SHOPHOUSE',
+  CITIHOUSE = 'CITIHOUSE',
+  OFFICE = 'OFFICE',
+  LAND = 'LAND',
+  OFFICETEL = 'OFFICETEL',
+  OTHER = 'OTHER'
 }
 
 export const enum PriceUnit {
@@ -83,8 +87,7 @@ export interface IProperty {
   propertyResidentialCommunity?: string;
   propertyEducationalAspect?: string;
   propertyExtraInfo?: string;
-  propertyDraftContentType?: string;
-  propertyDraft?: any;
+  propertyDraftUrl?: string;
   longitude?: number;
   latitude?: number;
   propertyGoodPrice?: boolean;
@@ -95,11 +98,9 @@ export interface IProperty {
   propertyRefrigerator?: boolean;
   propertyAirconditioner?: boolean;
   locationId?: number;
-  residentialAreaResidentialName?: string;
-  residentialAreaId?: number;
+  consultantLogin?: string;
+  consultantId?: number;
   tags?: ITag[];
-  buildingtypes?: IBuildingType[];
-  photos?: IPhoto[];
 }
 
 export const defaultValue: Readonly<IProperty> = {

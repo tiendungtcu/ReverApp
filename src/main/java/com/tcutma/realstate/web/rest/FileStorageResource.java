@@ -41,30 +41,31 @@ public class FileStorageResource {
     }
 
     /*
-    * Upload one file
+     * Upload one file
      */
 
-    public UploadFileResponse uploadFile(MultipartFile file){
+    public UploadFileResponse uploadFile(UploadType type, MultipartFile file){
 
-        UploadFileResponse uploadFileResponse = fileStorageService.storeFile(UploadType.PHOTO, file);
+        UploadFileResponse uploadFileResponse = fileStorageService.storeFile(type, file);
 
         return uploadFileResponse;
     }
 
     /*
-    * POST /files: Upload multiple files
-    *
-    * @param files array of files to upload
-    * @return ResponseEntity with status 200 (OK) and the list of uploaded files in body
-    */
+     * POST /files: Upload multiple files
+     *
+     * @param files array of files to upload
+     * @return ResponseEntity with status 200 (OK) and the list of uploaded files in body
+     */
 
-    @PostMapping("/files")
+    @PostMapping("/{fileType}/files")
     @Timed
-    public List<UploadFileResponse> uploadFiles(@RequestParam("files") MultipartFile[] files){
+    public List<UploadFileResponse> uploadFiles(@PathVariable(value = "fileType") int fileType, @RequestParam("files") MultipartFile[] files){
         log.debug("REST request to upload an array of files ");
+        UploadType uType = fileType==1?UploadType.PHOTO:fileType==2?UploadType.DOCUMENT:UploadType.FILE;
         return Arrays.asList(files)
             .stream()
-            .map(file ->uploadFile(file))
+            .map(file ->uploadFile(uType,file))
             .collect(Collectors.toList());
 
     }
@@ -77,9 +78,9 @@ public class FileStorageResource {
      * @return ResponseEntity with status 200 (OK) and the file with fileName
      */
 
-    @GetMapping("/files/{fileType}/{fileName:.+}")
+    @GetMapping("/{filetype}/files/{filename:.+}")
     @ResponseBody
-    public ResponseEntity<Resource> downloadFile (@PathVariable(value = "fileType") int fileType,@PathVariable(value = "fileName") String fileName){
+    public ResponseEntity<Resource> downloadFile (@PathVariable(value = "filetype") int fileType, @PathVariable(value = "filename") String fileName){
 
         log.info("Go go download {} with name {}",fileType,fileName);
         UploadType type = fileType==1?UploadType.PHOTO:fileType==2?UploadType.DOCUMENT:UploadType.FILE;
@@ -101,13 +102,14 @@ public class FileStorageResource {
     /*
      * GET /files/: Get all uploaded files
      *
-     * @param
+     * @param filetype =1->Get all Photo, 2->Get all Document, 3-> Get all other files
      * @return ResponseEntity with status 200 (OK) and the list of uploaded files in body
      */
 
-    @GetMapping("/files")
-    public List<String> listUploadedFiles(){
-        return fileStorageService.loadAllFiles(UploadType.FILE).map(path->MvcUriComponentsBuilder.fromMethodName(FileStorageResource.class,
+    @GetMapping("/{filetype}/files")
+    public List<String> listUploadedFiles(@PathVariable(value = "filetype") Integer filetype){
+        UploadType type = filetype == 1?UploadType.PHOTO:filetype==2?UploadType.DOCUMENT:UploadType.FILE;
+        return fileStorageService.loadAllFiles(type).map(path->MvcUriComponentsBuilder.fromMethodName(FileStorageResource.class,
             "downloadFile",path.getFileName().toString()).build().toString())
             .collect(Collectors.toList());
     }

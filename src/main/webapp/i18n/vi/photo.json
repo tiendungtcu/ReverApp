@@ -17,12 +17,14 @@
                 "title": "Photo"
             },
             "photoName": "Photo Name",
-            "photoImage": "Photo Image",
-            "photoExtension": "Photo Extension",
+            "photoDate": "Photo Date",
             "photoUrl": "Photo Url",
-            "photoThumbnailUrl": "Photo Thumbnail Url",
-            "property": "Property",
-            "project": "Project"
+            "photoMimeType": "Photo Mime Type",
+            "resourceId": "Resource Id",
+            "resourceType": "Resource Type",
+            "photoSize": "Photo Size",
+            "photoAltText": "Photo Alt Text",
+            "photoThumbnailUrl": "Photo Thumbnail Url"
         }
     }
 }

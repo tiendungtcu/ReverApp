@@ -3,7 +3,6 @@ package com.tcutma.realstate.service.dto;
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
-import com.tcutma.realstate.domain.enumeration.PropertyType;
 
 /**
  * A DTO for the BuildingType entity.
@@ -13,9 +12,8 @@ public class BuildingTypeDTO implements Serializable {
     private Long id;
 
     @NotNull
+    @Size(max = 128)
     private String typeName;
-
-    private PropertyType typeSelect;
 
     public Long getId() {
         return id;
@@ -31,14 +29,6 @@ public class BuildingTypeDTO implements Serializable {
 
     public void setTypeName(String typeName) {
         this.typeName = typeName;
-    }
-
-    public PropertyType getTypeSelect() {
-        return typeSelect;
-    }
-
-    public void setTypeSelect(PropertyType typeSelect) {
-        this.typeSelect = typeSelect;
     }
 
     @Override
@@ -67,7 +57,6 @@ public class BuildingTypeDTO implements Serializable {
         return "BuildingTypeDTO{" +
             "id=" + getId() +
             ", typeName='" + getTypeName() + "'" +
-            ", typeSelect='" + getTypeSelect() + "'" +
             "}";
     }
 }

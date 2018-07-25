@@ -31,7 +31,7 @@ public class RiverApp {
 
     private final FileStorageService storageService;  // my code
 
-    public RiverApp(Environment env, FileStorageService storageService) {  // my code
+    public RiverApp(Environment env, FileStorageService storageService) {
         this.env = env;
         this.storageService = storageService;  // my code
     }

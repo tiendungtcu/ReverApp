@@ -1,7 +1,7 @@
 import { Moment } from 'moment';
 
 export const enum NotificationType {
-  NOTIFICATION = 'NOTIFICATION',
+  SYSTEM = 'SYSTEM',
   REQUEST = 'REQUEST',
   ALERT = 'ALERT'
 }
@@ -13,9 +13,7 @@ export interface INotification {
   notificationSeen?: boolean;
   notificationDate?: Moment;
   notificationType?: NotificationType;
-  notificationReference?: string;
-  userLogin?: string;
-  userId?: number;
+  notificationSender?: number;
 }
 
 export const defaultValue: Readonly<INotification> = {

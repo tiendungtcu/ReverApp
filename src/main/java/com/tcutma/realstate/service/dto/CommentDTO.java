@@ -1,10 +1,8 @@
 package com.tcutma.realstate.service.dto;
 
 import java.time.Instant;
-import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
-import javax.persistence.Lob;
 
 /**
  * A DTO for the Comment entity.
@@ -13,15 +11,9 @@ public class CommentDTO implements Serializable {
 
     private Long id;
 
-    @NotNull
-    private String commentTitle;
-
-    @Lob
     private String commentContent;
 
-    private Instant commentCreatedDate;
-
-    private Instant commentUpdateDate;
+    private Instant commentTimeStamp;
 
     private Long userId;
 
@@ -29,20 +21,14 @@ public class CommentDTO implements Serializable {
 
     private Long postId;
 
+    private String postPostTitle;
+
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getCommentTitle() {
-        return commentTitle;
-    }
-
-    public void setCommentTitle(String commentTitle) {
-        this.commentTitle = commentTitle;
     }
 
     public String getCommentContent() {
@@ -53,20 +39,12 @@ public class CommentDTO implements Serializable {
         this.commentContent = commentContent;
     }
 
-    public Instant getCommentCreatedDate() {
-        return commentCreatedDate;
+    public Instant getCommentTimeStamp() {
+        return commentTimeStamp;
     }
 
-    public void setCommentCreatedDate(Instant commentCreatedDate) {
-        this.commentCreatedDate = commentCreatedDate;
-    }
-
-    public Instant getCommentUpdateDate() {
-        return commentUpdateDate;
-    }
-
-    public void setCommentUpdateDate(Instant commentUpdateDate) {
-        this.commentUpdateDate = commentUpdateDate;
+    public void setCommentTimeStamp(Instant commentTimeStamp) {
+        this.commentTimeStamp = commentTimeStamp;
     }
 
     public Long getUserId() {
@@ -91,6 +69,14 @@ public class CommentDTO implements Serializable {
 
     public void setPostId(Long blogPostId) {
         this.postId = blogPostId;
+    }
+
+    public String getPostPostTitle() {
+        return postPostTitle;
+    }
+
+    public void setPostPostTitle(String blogPostPostTitle) {
+        this.postPostTitle = blogPostPostTitle;
     }
 
     @Override
@@ -118,13 +104,12 @@ public class CommentDTO implements Serializable {
     public String toString() {
         return "CommentDTO{" +
             "id=" + getId() +
-            ", commentTitle='" + getCommentTitle() + "'" +
             ", commentContent='" + getCommentContent() + "'" +
-            ", commentCreatedDate='" + getCommentCreatedDate() + "'" +
-            ", commentUpdateDate='" + getCommentUpdateDate() + "'" +
+            ", commentTimeStamp='" + getCommentTimeStamp() + "'" +
             ", user=" + getUserId() +
             ", user='" + getUserLogin() + "'" +
             ", post=" + getPostId() +
+            ", post='" + getPostPostTitle() + "'" +
             "}";
     }
 }

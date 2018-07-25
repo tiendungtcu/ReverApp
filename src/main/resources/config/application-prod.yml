@@ -15,6 +15,7 @@
 
 logging:
     level:
+
         ROOT: INFO
         com.tcutma.realstate: INFO
         io.github.jhipster: INFO
@@ -23,6 +24,7 @@ eureka:
     instance:
         prefer-ip-address: true
     client:
+        enabled: false # not use Jhipster Registry
         service-url:
             defaultZone: http://admin:${jhipster.registry.password}@localhost:8761/eureka/
 
@@ -36,7 +38,7 @@ spring:
         type: com.zaxxer.hikari.HikariDataSource
         url: jdbc:mysql://localhost:3306/RiverApp?useUnicode=true&characterEncoding=utf8&useSSL=false
         username: root
-        password:
+        password: root
         hikari:
             data-source-properties:
                 cachePrepStmts: true
@@ -68,6 +70,16 @@ spring:
         locator:
             discovery:
                 enabled: true
+# This is my part to upload file
+#  If this succeed, move this code block to application.yml
+    servlet:
+        multipart:
+          enabled: true
+          file-size-threshold: 2KB
+          max-file-size: 20MB
+          max-request-size: 200MB
+
+# End of my part
 
 # ===================================================================
 # To enable SSL, generate a certificate using:
@@ -113,7 +125,7 @@ jhipster:
     security:
         authentication:
             jwt:
-                secret: 20b99e5c39bb8e11efeb065eec22886f12952a22
+                secret: 7f26a92ac06d898d06fb488d01ca52919dbf7a8b
                 # Token is valid 24 hours
                 token-validity-in-seconds: 86400
                 token-validity-in-seconds-for-remember-me: 2592000
@@ -143,3 +155,10 @@ jhipster:
 # ===================================================================
 
 # application:
+# This is my codes
+application:
+   upload-dir: ./uploads/files
+   photo-dir: ./uploads/photos
+   document-dir: ./uploads/documents
+
+# End of my codes

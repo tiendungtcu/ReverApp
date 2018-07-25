@@ -114,29 +114,29 @@ public class ResidentialAreaResource {
     /**
      * GET  /residential-areas/:id : get the "id" residentialArea.
      *
-     * @param id the id of the residentialAreaDTO to retrieve
+     * @param resid the id of the residentialAreaDTO to retrieve
      * @return the ResponseEntity with status 200 (OK) and with body the residentialAreaDTO, or with status 404 (Not Found)
      */
-    @GetMapping("/residential-areas/{id}")
+    @GetMapping("/residential-areas/{resid}")
     @Timed
-    public ResponseEntity<ResidentialAreaDTO> getResidentialArea(@PathVariable Long id) {
-        log.debug("REST request to get ResidentialArea : {}", id);
-        Optional<ResidentialAreaDTO> residentialAreaDTO = residentialAreaService.findOne(id);
+    public ResponseEntity<ResidentialAreaDTO> getResidentialArea(@PathVariable Long resid) {
+        log.debug("REST request to get ResidentialArea : {}", resid);
+        Optional<ResidentialAreaDTO> residentialAreaDTO = residentialAreaService.findOne(resid);
         return ResponseUtil.wrapOrNotFound(residentialAreaDTO);
     }
 
     /**
-     * DELETE  /residential-areas/:id : delete the "id" residentialArea.
+     * DELETE  /residential-areas/:resid : delete the "id" residentialArea.
      *
-     * @param id the id of the residentialAreaDTO to delete
+     * @param resid the id of the residentialAreaDTO to delete
      * @return the ResponseEntity with status 200 (OK)
      */
-    @DeleteMapping("/residential-areas/{id}")
+    @DeleteMapping("/residential-areas/{resid}")
     @Timed
-    public ResponseEntity<Void> deleteResidentialArea(@PathVariable Long id) {
-        log.debug("REST request to delete ResidentialArea : {}", id);
-        residentialAreaService.delete(id);
-        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+    public ResponseEntity<Void> deleteResidentialArea(@PathVariable Long resid) {
+        log.debug("REST request to delete ResidentialArea : {}", resid);
+        residentialAreaService.delete(resid);
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, resid.toString())).build();
     }
 
     /**
@@ -145,9 +145,9 @@ public class ResidentialAreaResource {
      * @param raId the id of the residentialAreaDTO to add tag to
      * @return  the ResponseEntity with status 201 (Created) and with body the new TagDTO, or with status 400 (Bad Request) if the Tag has already an ID
      */
-    @PostMapping("/residential-areas/{raId}/tags")
+    @PostMapping("/residential-areas/{resid}/tags")
     @Timed
-    public ResponseEntity<TagDTO> addNewTag(@PathVariable(value = "raId") Long raId, @Valid @RequestBody TagDTO tagDTO) throws URISyntaxException {
+    public ResponseEntity<TagDTO> addNewTag(@PathVariable(value = "resid") Long raId, @Valid @RequestBody TagDTO tagDTO) throws URISyntaxException {
         log.debug("REST request to Add Tag : {}", tagDTO);
         TagDTO result = residentialAreaService.addTag(raId,tagDTO).get();
         return ResponseEntity.created(new URI("/api/residential-areas/" + result.getId() + "/tags"))
@@ -157,32 +157,32 @@ public class ResidentialAreaResource {
     }
 
     /**
-     * DELETE  /residential-areas/:raId/tags/:id : remove "id" tag from the "raId" residentialArea.
+     * DELETE  /residential-areas/:resid/tags/:tagid : remove "id" tag from the "raId" residentialArea.
      *
-     * @param raId the id of the residentialAreaDTO to remove the tag
-     * @param  id the id of Tag to remove
+     * @param resid the id of the residentialAreaDTO to remove the tag
+     * @param  tagid the id of Tag to remove
      * @return the ResponseEntity with status 200 (OK)
      */
-    @DeleteMapping("/residential-areas/{raId}/tags/{id}")
+    @DeleteMapping("/residential-areas/{resid}/tags/{tagid}")
     @Timed
-    public ResponseEntity<Void> removeOneTag(@PathVariable (value = "raId") Long raId, @PathVariable(value="id") Long id) {
-        log.debug("REST request to remove tag {id} from ResidentialArea : {}", id, raId);
-        residentialAreaService.removeTag(raId,id);
-        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("tag", id.toString())).build();
+    public ResponseEntity<Void> removeOneTag(@PathVariable (value = "resid") Long resid, @PathVariable(value="tagid") Long tagid) {
+        log.debug("REST request to remove tag {id} from ResidentialArea : {}", tagid, resid);
+        residentialAreaService.removeTag(resid,tagid);
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("tag", tagid.toString())).build();
     }
 
     /**
      * GET  /residential-areas/{raId}/tags : get all the tags.
      *
      *
-     * @param  raId the Id of residential area
+     * @param  resid the Id of residential area
      * @return the ResponseEntity with status 200 (OK) and the list of tags in body
      */
-    @GetMapping("/residential-areas/{raId}/tags")
+    @GetMapping("/residential-areas/{resid}/tags")
     @Timed
-    public List<TagDTO> getAllRaTags(@PathVariable(value = "raId") Long raId) {
-        log.debug("REST request to get a page of Tags belong to residential area {}",raId);
-        return residentialAreaService.findAllTags(raId);
+    public List<TagDTO> getAllRaTags(@PathVariable(value = "resid") Long resid) {
+        log.debug("REST request to get a page of Tags belong to residential area {}",resid);
+        return residentialAreaService.findAllTags(resid);
         //HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/v1/residential-areas/"+raId +"/tags");
         //return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
@@ -190,16 +190,16 @@ public class ResidentialAreaResource {
     /**
      * POST  /residential-areas/{raId}/avatar: Upload avatar for residential area.
      *
-     * @param raId the residential area id to add avatar
+     * @param resid the residential area id to add avatar
      * @param  file Image file to upload
      * @return the ResponseEntity with status 201 (Created) and with body the new residentialAreaDTO, or with status 400 (Bad Request) if the residentialArea has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
-    @PostMapping("/residential-areas/{raId}/avatar")
+    @PostMapping("/residential-areas/{resid}/avatar")
     @Timed
-    public UploadFileResponse AddResidentialAvatar(@PathVariable(value = "raId") Long raId, MultipartFile file) throws URISyntaxException {
+    public UploadFileResponse AddResidentialAvatar(@PathVariable(value = "resid") Long resid, MultipartFile file) throws URISyntaxException {
         log.debug("REST request to save avatar : {}", file);
-        UploadFileResponse avatar = residentialAreaService.addAvatar(raId,file);
+        UploadFileResponse avatar = residentialAreaService.addAvatar(resid,file);
         //UploadFileResponse uploadFileResponse = fileStorageService.storeFile(UploadType.PHOTO,multipartFile);
         return avatar;
     }

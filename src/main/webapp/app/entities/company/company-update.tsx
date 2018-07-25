@@ -104,7 +104,8 @@ export class CompanyUpdate extends React.Component<ICompanyUpdateProps, ICompany
                     type="text"
                     name="companyName"
                     validate={{
-                      required: { value: true, errorMessage: translate('entity.validation.required') }
+                      required: { value: true, errorMessage: translate('entity.validation.required') },
+                      maxLength: { value: 128, errorMessage: translate('entity.validation.maxlength', { max: 128 }) }
                     }}
                   />
                 </AvGroup>
@@ -112,7 +113,14 @@ export class CompanyUpdate extends React.Component<ICompanyUpdateProps, ICompany
                   <Label id="companyPhoneLabel" for="companyPhone">
                     <Translate contentKey="riverApp.company.companyPhone">Company Phone</Translate>
                   </Label>
-                  <AvField id="company-companyPhone" type="text" name="companyPhone" />
+                  <AvField
+                    id="company-companyPhone"
+                    type="text"
+                    name="companyPhone"
+                    validate={{
+                      maxLength: { value: 16, errorMessage: translate('entity.validation.maxlength', { max: 16 }) }
+                    }}
+                  />
                 </AvGroup>
                 <AvGroup>
                   <Label id="companyAddressLabel" for="companyAddress">

@@ -12,10 +12,6 @@ import org.mapstruct.*;
 public interface TagMapper extends EntityMapper<TagDTO, Tag> {
 
 
-    @Mapping(target = "properties", ignore = true)
-    @Mapping(target = "projects", ignore = true)
-    @Mapping(target = "residentialAreas", ignore = true)
-    Tag toEntity(TagDTO tagDTO);
 
     default Tag fromId(Long id) {
         if (id == null) {

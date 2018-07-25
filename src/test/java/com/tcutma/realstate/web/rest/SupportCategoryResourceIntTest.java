@@ -33,6 +33,7 @@ import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import com.tcutma.realstate.domain.enumeration.SupportType;
 /**
  * Test class for the SupportCategoryResource REST controller.
  *
@@ -47,6 +48,9 @@ public class SupportCategoryResourceIntTest {
 
     private static final String DEFAULT_CATEGORY_DESCRIPTION = "AAAAAAAAAA";
     private static final String UPDATED_CATEGORY_DESCRIPTION = "BBBBBBBBBB";
+
+    private static final SupportType DEFAULT_CATEGORY_SUPPORT_TYPE = SupportType.ACCOUNT;
+    private static final SupportType UPDATED_CATEGORY_SUPPORT_TYPE = SupportType.SELL;
 
     @Autowired
     private SupportCategoryRepository supportCategoryRepository;
@@ -95,7 +99,8 @@ public class SupportCategoryResourceIntTest {
     public static SupportCategory createEntity(EntityManager em) {
         SupportCategory supportCategory = new SupportCategory()
             .categoryName(DEFAULT_CATEGORY_NAME)
-            .categoryDescription(DEFAULT_CATEGORY_DESCRIPTION);
+            .categoryDescription(DEFAULT_CATEGORY_DESCRIPTION)
+            .categorySupportType(DEFAULT_CATEGORY_SUPPORT_TYPE);
         return supportCategory;
     }
 
@@ -122,6 +127,7 @@ public class SupportCategoryResourceIntTest {
         SupportCategory testSupportCategory = supportCategoryList.get(supportCategoryList.size() - 1);
         assertThat(testSupportCategory.getCategoryName()).isEqualTo(DEFAULT_CATEGORY_NAME);
         assertThat(testSupportCategory.getCategoryDescription()).isEqualTo(DEFAULT_CATEGORY_DESCRIPTION);
+        assertThat(testSupportCategory.getCategorySupportType()).isEqualTo(DEFAULT_CATEGORY_SUPPORT_TYPE);
     }
 
     @Test
@@ -175,7 +181,8 @@ public class SupportCategoryResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(supportCategory.getId().intValue())))
             .andExpect(jsonPath("$.[*].categoryName").value(hasItem(DEFAULT_CATEGORY_NAME.toString())))
-            .andExpect(jsonPath("$.[*].categoryDescription").value(hasItem(DEFAULT_CATEGORY_DESCRIPTION.toString())));
+            .andExpect(jsonPath("$.[*].categoryDescription").value(hasItem(DEFAULT_CATEGORY_DESCRIPTION.toString())))
+            .andExpect(jsonPath("$.[*].categorySupportType").value(hasItem(DEFAULT_CATEGORY_SUPPORT_TYPE.toString())));
     }
     
 
@@ -191,7 +198,8 @@ public class SupportCategoryResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(supportCategory.getId().intValue()))
             .andExpect(jsonPath("$.categoryName").value(DEFAULT_CATEGORY_NAME.toString()))
-            .andExpect(jsonPath("$.categoryDescription").value(DEFAULT_CATEGORY_DESCRIPTION.toString()));
+            .andExpect(jsonPath("$.categoryDescription").value(DEFAULT_CATEGORY_DESCRIPTION.toString()))
+            .andExpect(jsonPath("$.categorySupportType").value(DEFAULT_CATEGORY_SUPPORT_TYPE.toString()));
     }
     @Test
     @Transactional
@@ -215,7 +223,8 @@ public class SupportCategoryResourceIntTest {
         em.detach(updatedSupportCategory);
         updatedSupportCategory
             .categoryName(UPDATED_CATEGORY_NAME)
-            .categoryDescription(UPDATED_CATEGORY_DESCRIPTION);
+            .categoryDescription(UPDATED_CATEGORY_DESCRIPTION)
+            .categorySupportType(UPDATED_CATEGORY_SUPPORT_TYPE);
         SupportCategoryDTO supportCategoryDTO = supportCategoryMapper.toDto(updatedSupportCategory);
 
         restSupportCategoryMockMvc.perform(put("/api/support-categories")
@@ -229,6 +238,7 @@ public class SupportCategoryResourceIntTest {
         SupportCategory testSupportCategory = supportCategoryList.get(supportCategoryList.size() - 1);
         assertThat(testSupportCategory.getCategoryName()).isEqualTo(UPDATED_CATEGORY_NAME);
         assertThat(testSupportCategory.getCategoryDescription()).isEqualTo(UPDATED_CATEGORY_DESCRIPTION);
+        assertThat(testSupportCategory.getCategorySupportType()).isEqualTo(UPDATED_CATEGORY_SUPPORT_TYPE);
     }
 
     @Test

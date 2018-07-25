@@ -8,24 +8,20 @@ import org.mapstruct.*;
 /**
  * Mapper for the entity Employee and its DTO EmployeeDTO.
  */
-@Mapper(componentModel = "spring", uses = {ContactMapper.class, PhotoMapper.class, JobTitleMapper.class, DepartmentMapper.class})
+@Mapper(componentModel = "spring", uses = {UserMapper.class, DepartmentMapper.class, JobTitleMapper.class})
 public interface EmployeeMapper extends EntityMapper<EmployeeDTO, Employee> {
 
-    @Mapping(source = "contact.id", target = "contactId")
-    @Mapping(source = "photo.id", target = "photoId")
-    @Mapping(source = "jobtitle.id", target = "jobtitleId")
-    @Mapping(source = "jobtitle.titleName", target = "jobtitleTitleName")
+    @Mapping(source = "account.id", target = "accountId")
+    @Mapping(source = "account.login", target = "accountLogin")
     @Mapping(source = "department.id", target = "departmentId")
     @Mapping(source = "department.departmentName", target = "departmentDepartmentName")
-    @Mapping(source = "manager.id", target = "managerId")
-    @Mapping(source = "manager.employeeName", target = "managerEmployeeName")
+    @Mapping(source = "jobtitle.id", target = "jobtitleId")
+    @Mapping(source = "jobtitle.titleName", target = "jobtitleTitleName")
     EmployeeDTO toDto(Employee employee);
 
-    @Mapping(source = "contactId", target = "contact")
-    @Mapping(source = "photoId", target = "photo")
-    @Mapping(source = "jobtitleId", target = "jobtitle")
+    @Mapping(source = "accountId", target = "account")
     @Mapping(source = "departmentId", target = "department")
-    @Mapping(source = "managerId", target = "manager")
+    @Mapping(source = "jobtitleId", target = "jobtitle")
     Employee toEntity(EmployeeDTO employeeDTO);
 
     default Employee fromId(Long id) {

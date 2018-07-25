@@ -1,5 +1,6 @@
 package com.tcutma.realstate.service.dto;
 
+import java.time.Instant;
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
@@ -12,11 +13,12 @@ public class CategoryDTO implements Serializable {
     private Long id;
 
     @NotNull
+    @Size(max = 128)
     private String categoryName;
 
     private String categoryAlias;
 
-    private String categoryDescription;
+    private Instant categoryDate;
 
     public Long getId() {
         return id;
@@ -42,12 +44,12 @@ public class CategoryDTO implements Serializable {
         this.categoryAlias = categoryAlias;
     }
 
-    public String getCategoryDescription() {
-        return categoryDescription;
+    public Instant getCategoryDate() {
+        return categoryDate;
     }
 
-    public void setCategoryDescription(String categoryDescription) {
-        this.categoryDescription = categoryDescription;
+    public void setCategoryDate(Instant categoryDate) {
+        this.categoryDate = categoryDate;
     }
 
     @Override
@@ -77,7 +79,7 @@ public class CategoryDTO implements Serializable {
             "id=" + getId() +
             ", categoryName='" + getCategoryName() + "'" +
             ", categoryAlias='" + getCategoryAlias() + "'" +
-            ", categoryDescription='" + getCategoryDescription() + "'" +
+            ", categoryDate='" + getCategoryDate() + "'" +
             "}";
     }
 }

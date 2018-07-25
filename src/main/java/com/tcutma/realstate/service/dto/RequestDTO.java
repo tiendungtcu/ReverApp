@@ -1,11 +1,10 @@
 package com.tcutma.realstate.service.dto;
 
-import java.time.Instant;
-import java.time.ZonedDateTime;
+import java.time.LocalDate;
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
-import com.tcutma.realstate.domain.enumeration.PropertyType;
+import com.tcutma.realstate.domain.enumeration.ResourceType;
 import com.tcutma.realstate.domain.enumeration.RequestType;
 
 /**
@@ -16,15 +15,18 @@ public class RequestDTO implements Serializable {
     private Long id;
 
     @NotNull
+    @Size(max = 128)
     private String requestFirstName;
 
     @NotNull
+    @Size(max = 128)
     private String requestLastName;
 
     @NotNull
     private String requestEmail;
 
     @NotNull
+    @Size(max = 16)
     private String requestPhone;
 
     private Boolean requestGetAnalysis;
@@ -33,35 +35,26 @@ public class RequestDTO implements Serializable {
 
     private String requestPageUrl;
 
-    private String requestPageName;
+    private Long resourceId;
 
-    private Long requestPropertyId;
-
-    private PropertyType requestPropertyType;
+    private ResourceType resourceType;
 
     private RequestType requestType;
 
-    private Instant requestMeetingDate;
+    private LocalDate requestMeetingDate;
 
     private String requestQuestion;
 
+    @DecimalMin(value = "0")
     private Double requestPrice;
 
-    private ZonedDateTime requestCreatedDate;
+    private Long senderId;
 
-    private Integer requestConsultantId;
+    private String senderLogin;
 
-    private Long userId;
+    private Long receiverId;
 
-    private String userLogin;
-
-    private Long propertyId;
-
-    private String propertyPropertyName;
-
-    private Long projectId;
-
-    private String projectProjectName;
+    private String receiverLogin;
 
     public Long getId() {
         return id;
@@ -127,28 +120,20 @@ public class RequestDTO implements Serializable {
         this.requestPageUrl = requestPageUrl;
     }
 
-    public String getRequestPageName() {
-        return requestPageName;
+    public Long getResourceId() {
+        return resourceId;
     }
 
-    public void setRequestPageName(String requestPageName) {
-        this.requestPageName = requestPageName;
+    public void setResourceId(Long resourceId) {
+        this.resourceId = resourceId;
     }
 
-    public Long getRequestPropertyId() {
-        return requestPropertyId;
+    public ResourceType getResourceType() {
+        return resourceType;
     }
 
-    public void setRequestPropertyId(Long requestPropertyId) {
-        this.requestPropertyId = requestPropertyId;
-    }
-
-    public PropertyType getRequestPropertyType() {
-        return requestPropertyType;
-    }
-
-    public void setRequestPropertyType(PropertyType requestPropertyType) {
-        this.requestPropertyType = requestPropertyType;
+    public void setResourceType(ResourceType resourceType) {
+        this.resourceType = resourceType;
     }
 
     public RequestType getRequestType() {
@@ -159,11 +144,11 @@ public class RequestDTO implements Serializable {
         this.requestType = requestType;
     }
 
-    public Instant getRequestMeetingDate() {
+    public LocalDate getRequestMeetingDate() {
         return requestMeetingDate;
     }
 
-    public void setRequestMeetingDate(Instant requestMeetingDate) {
+    public void setRequestMeetingDate(LocalDate requestMeetingDate) {
         this.requestMeetingDate = requestMeetingDate;
     }
 
@@ -183,68 +168,36 @@ public class RequestDTO implements Serializable {
         this.requestPrice = requestPrice;
     }
 
-    public ZonedDateTime getRequestCreatedDate() {
-        return requestCreatedDate;
+    public Long getSenderId() {
+        return senderId;
     }
 
-    public void setRequestCreatedDate(ZonedDateTime requestCreatedDate) {
-        this.requestCreatedDate = requestCreatedDate;
+    public void setSenderId(Long userId) {
+        this.senderId = userId;
     }
 
-    public Integer getRequestConsultantId() {
-        return requestConsultantId;
+    public String getSenderLogin() {
+        return senderLogin;
     }
 
-    public void setRequestConsultantId(Integer requestConsultantId) {
-        this.requestConsultantId = requestConsultantId;
+    public void setSenderLogin(String userLogin) {
+        this.senderLogin = userLogin;
     }
 
-    public Long getUserId() {
-        return userId;
+    public Long getReceiverId() {
+        return receiverId;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setReceiverId(Long userId) {
+        this.receiverId = userId;
     }
 
-    public String getUserLogin() {
-        return userLogin;
+    public String getReceiverLogin() {
+        return receiverLogin;
     }
 
-    public void setUserLogin(String userLogin) {
-        this.userLogin = userLogin;
-    }
-
-    public Long getPropertyId() {
-        return propertyId;
-    }
-
-    public void setPropertyId(Long propertyId) {
-        this.propertyId = propertyId;
-    }
-
-    public String getPropertyPropertyName() {
-        return propertyPropertyName;
-    }
-
-    public void setPropertyPropertyName(String propertyPropertyName) {
-        this.propertyPropertyName = propertyPropertyName;
-    }
-
-    public Long getProjectId() {
-        return projectId;
-    }
-
-    public void setProjectId(Long projectId) {
-        this.projectId = projectId;
-    }
-
-    public String getProjectProjectName() {
-        return projectProjectName;
-    }
-
-    public void setProjectProjectName(String projectProjectName) {
-        this.projectProjectName = projectProjectName;
+    public void setReceiverLogin(String userLogin) {
+        this.receiverLogin = userLogin;
     }
 
     @Override
@@ -279,21 +232,16 @@ public class RequestDTO implements Serializable {
             ", requestGetAnalysis='" + isRequestGetAnalysis() + "'" +
             ", requestGetPrice='" + isRequestGetPrice() + "'" +
             ", requestPageUrl='" + getRequestPageUrl() + "'" +
-            ", requestPageName='" + getRequestPageName() + "'" +
-            ", requestPropertyId=" + getRequestPropertyId() +
-            ", requestPropertyType='" + getRequestPropertyType() + "'" +
+            ", resourceId=" + getResourceId() +
+            ", resourceType='" + getResourceType() + "'" +
             ", requestType='" + getRequestType() + "'" +
             ", requestMeetingDate='" + getRequestMeetingDate() + "'" +
             ", requestQuestion='" + getRequestQuestion() + "'" +
             ", requestPrice=" + getRequestPrice() +
-            ", requestCreatedDate='" + getRequestCreatedDate() + "'" +
-            ", requestConsultantId=" + getRequestConsultantId() +
-            ", user=" + getUserId() +
-            ", user='" + getUserLogin() + "'" +
-            ", property=" + getPropertyId() +
-            ", property='" + getPropertyPropertyName() + "'" +
-            ", project=" + getProjectId() +
-            ", project='" + getProjectProjectName() + "'" +
+            ", sender=" + getSenderId() +
+            ", sender='" + getSenderLogin() + "'" +
+            ", receiver=" + getReceiverId() +
+            ", receiver='" + getReceiverLogin() + "'" +
             "}";
     }
 }

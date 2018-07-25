@@ -6,8 +6,6 @@ import com.tcutma.realstate.web.rest.errors.BadRequestAlertException;
 import com.tcutma.realstate.web.rest.util.HeaderUtil;
 import com.tcutma.realstate.web.rest.util.PaginationUtil;
 import com.tcutma.realstate.service.dto.NotificationDTO;
-import com.tcutma.realstate.service.dto.NotificationCriteria;
-import com.tcutma.realstate.service.NotificationQueryService;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,11 +36,8 @@ public class NotificationResource {
 
     private final NotificationService notificationService;
 
-    private final NotificationQueryService notificationQueryService;
-
-    public NotificationResource(NotificationService notificationService, NotificationQueryService notificationQueryService) {
+    public NotificationResource(NotificationService notificationService) {
         this.notificationService = notificationService;
-        this.notificationQueryService = notificationQueryService;
     }
 
     /**
@@ -91,14 +86,13 @@ public class NotificationResource {
      * GET  /notifications : get all the notifications.
      *
      * @param pageable the pagination information
-     * @param criteria the criterias which the requested entities should match
      * @return the ResponseEntity with status 200 (OK) and the list of notifications in body
      */
     @GetMapping("/notifications")
     @Timed
-    public ResponseEntity<List<NotificationDTO>> getAllNotifications(NotificationCriteria criteria, Pageable pageable) {
-        log.debug("REST request to get Notifications by criteria: {}", criteria);
-        Page<NotificationDTO> page = notificationQueryService.findByCriteria(criteria, pageable);
+    public ResponseEntity<List<NotificationDTO>> getAllNotifications(Pageable pageable) {
+        log.debug("REST request to get a page of Notifications");
+        Page<NotificationDTO> page = notificationService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/notifications");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }

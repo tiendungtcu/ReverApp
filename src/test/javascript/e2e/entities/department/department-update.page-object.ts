@@ -5,7 +5,7 @@ export default class DepartmentUpdatePage {
   saveButton: ElementFinder = element(by.id('save-entity'));
   cancelButton: ElementFinder = element(by.id('cancel-save'));
   departmentNameInput: ElementFinder = element(by.css('input#department-departmentName'));
-  departmentPhotoInput: ElementFinder = element(by.css('input#file_departmentPhoto'));
+  departmentAvatarUrlInput: ElementFinder = element(by.css('input#department-departmentAvatarUrl'));
   departmentPhoneInput: ElementFinder = element(by.css('input#department-departmentPhone'));
 
   getPageTitle() {
@@ -20,12 +20,12 @@ export default class DepartmentUpdatePage {
     return this.departmentNameInput.getAttribute('value');
   }
 
-  setDepartmentPhotoInput(departmentPhoto) {
-    this.departmentPhotoInput.sendKeys(departmentPhoto);
+  setDepartmentAvatarUrlInput(departmentAvatarUrl) {
+    this.departmentAvatarUrlInput.sendKeys(departmentAvatarUrl);
   }
 
-  getDepartmentPhotoInput() {
-    return this.departmentPhotoInput.getAttribute('value');
+  getDepartmentAvatarUrlInput() {
+    return this.departmentAvatarUrlInput.getAttribute('value');
   }
 
   setDepartmentPhoneInput(departmentPhone) {

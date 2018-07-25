@@ -40,6 +40,12 @@ export class SupportCategoryDetail extends React.Component<ISupportCategoryDetai
               </span>
             </dt>
             <dd>{supportCategoryEntity.categoryDescription}</dd>
+            <dt>
+              <span id="categorySupportType">
+                <Translate contentKey="riverApp.supportCategory.categorySupportType">Category Support Type</Translate>
+              </span>
+            </dt>
+            <dd>{supportCategoryEntity.categorySupportType}</dd>
           </dl>
           <Button tag={Link} to="/entity/support-category" replace color="info">
             <FontAwesomeIcon icon="arrow-left" />{' '}

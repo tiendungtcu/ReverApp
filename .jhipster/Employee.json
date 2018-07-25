@@ -2,23 +2,26 @@
     "name": "Employee",
     "fields": [
         {
-            "fieldName": "employeeName",
+            "fieldName": "employeeFirstName",
             "fieldType": "String",
             "fieldValidateRules": [
-                "required"
-            ]
-        },
-        {
-            "fieldName": "employeeFirstName",
-            "fieldType": "String"
+                "required",
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 128
         },
         {
             "fieldName": "employeeLastName",
-            "fieldType": "String"
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required",
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 128
         },
         {
             "fieldName": "employeeDob",
-            "fieldType": "ZonedDateTime"
+            "fieldType": "LocalDate"
         },
         {
             "fieldName": "employeeSex",
@@ -27,14 +30,20 @@
         },
         {
             "fieldName": "employeeIdentityCard",
-            "fieldType": "String"
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 16
         },
         {
             "fieldName": "employeePhone",
             "fieldType": "String",
             "fieldValidateRules": [
-                "required"
-            ]
+                "required",
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 16
         },
         {
             "fieldName": "employeeEmail",
@@ -42,63 +51,16 @@
             "fieldValidateRules": [
                 "required"
             ]
-        },
-        {
-            "fieldName": "employeeAvatar",
-            "fieldType": "byte[]",
-            "fieldTypeBlobContent": "image"
-        },
-        {
-            "fieldName": "employeeFacebook",
-            "fieldType": "String"
-        },
-        {
-            "fieldName": "employeeLinkedin",
-            "fieldType": "String"
-        },
-        {
-            "fieldName": "employeeInstagram",
-            "fieldType": "String"
-        },
-        {
-            "fieldName": "employeeGooglePlus",
-            "fieldType": "String"
-        },
-        {
-            "fieldName": "employeeZalo",
-            "fieldType": "String"
-        },
-        {
-            "fieldName": "employeeTwitter",
-            "fieldType": "String"
-        },
-        {
-            "fieldName": "employeeYoutube",
-            "fieldType": "String"
         }
     ],
     "relationships": [
         {
             "relationshipType": "one-to-one",
-            "relationshipName": "contact",
-            "otherEntityName": "contact",
-            "otherEntityField": "id",
+            "relationshipName": "account",
+            "otherEntityName": "user",
+            "otherEntityField": "login",
             "ownerSide": true,
             "otherEntityRelationshipName": "employee"
-        },
-        {
-            "relationshipType": "one-to-one",
-            "relationshipName": "photo",
-            "otherEntityName": "photo",
-            "otherEntityField": "id",
-            "ownerSide": true,
-            "otherEntityRelationshipName": "employee"
-        },
-        {
-            "relationshipType": "many-to-one",
-            "relationshipName": "jobtitle",
-            "otherEntityName": "jobTitle",
-            "otherEntityField": "titleName"
         },
         {
             "relationshipType": "many-to-one",
@@ -108,12 +70,12 @@
         },
         {
             "relationshipType": "many-to-one",
-            "relationshipName": "manager",
-            "otherEntityName": "employee",
-            "otherEntityField": "employeeName"
+            "relationshipName": "jobtitle",
+            "otherEntityName": "jobTitle",
+            "otherEntityField": "titleName"
         }
     ],
-    "changelogDate": "20180720045234",
+    "changelogDate": "20180724181710",
     "javadoc": "Employee - entity",
     "entityTableName": "employee",
     "dto": "mapstruct",

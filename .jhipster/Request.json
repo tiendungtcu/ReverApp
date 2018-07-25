@@ -5,15 +5,19 @@
             "fieldName": "requestFirstName",
             "fieldType": "String",
             "fieldValidateRules": [
-                "required"
-            ]
+                "required",
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 128
         },
         {
             "fieldName": "requestLastName",
             "fieldType": "String",
             "fieldValidateRules": [
-                "required"
-            ]
+                "required",
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 128
         },
         {
             "fieldName": "requestEmail",
@@ -26,8 +30,10 @@
             "fieldName": "requestPhone",
             "fieldType": "String",
             "fieldValidateRules": [
-                "required"
-            ]
+                "required",
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 16
         },
         {
             "fieldName": "requestGetAnalysis",
@@ -42,26 +48,22 @@
             "fieldType": "String"
         },
         {
-            "fieldName": "requestPageName",
-            "fieldType": "String"
-        },
-        {
-            "fieldName": "requestPropertyId",
+            "fieldName": "resourceId",
             "fieldType": "Long"
         },
         {
-            "fieldName": "requestPropertyType",
-            "fieldType": "PropertyType",
-            "fieldValues": "PROJECT,PROPERTY,LAND"
+            "fieldName": "resourceType",
+            "fieldType": "ResourceType",
+            "fieldValues": "PROJECT,PROPERTY,EMPLOYEE,RESIDENTIAL_AREA"
         },
         {
             "fieldName": "requestType",
             "fieldType": "RequestType",
-            "fieldValues": "MEETING,PRICE,QUESTION"
+            "fieldValues": "MEETING,PRICE,QUESTION,OTHER"
         },
         {
             "fieldName": "requestMeetingDate",
-            "fieldType": "Instant"
+            "fieldType": "LocalDate"
         },
         {
             "fieldName": "requestQuestion",
@@ -69,38 +71,28 @@
         },
         {
             "fieldName": "requestPrice",
-            "fieldType": "Double"
-        },
-        {
-            "fieldName": "requestCreatedDate",
-            "fieldType": "ZonedDateTime"
-        },
-        {
-            "fieldName": "requestConsultantId",
-            "fieldType": "Integer"
+            "fieldType": "Double",
+            "fieldValidateRules": [
+                "min"
+            ],
+            "fieldValidateRulesMin": 0
         }
     ],
     "relationships": [
         {
             "relationshipType": "many-to-one",
-            "relationshipName": "user",
+            "relationshipName": "sender",
             "otherEntityName": "user",
             "otherEntityField": "login"
         },
         {
             "relationshipType": "many-to-one",
-            "relationshipName": "property",
-            "otherEntityName": "property",
-            "otherEntityField": "propertyName"
-        },
-        {
-            "relationshipType": "many-to-one",
-            "relationshipName": "project",
-            "otherEntityName": "project",
-            "otherEntityField": "projectName"
+            "relationshipName": "receiver",
+            "otherEntityName": "user",
+            "otherEntityField": "login"
         }
     ],
-    "changelogDate": "20180720045240",
+    "changelogDate": "20180724181717",
     "javadoc": "Request entity",
     "entityTableName": "request",
     "dto": "mapstruct",

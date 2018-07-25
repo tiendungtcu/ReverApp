@@ -86,12 +86,6 @@ export class BlogPost extends React.Component<IBlogPostProps, IBlogPostState> {
                   <th className="hand" onClick={this.sort('postCreatedDate')}>
                     <Translate contentKey="riverApp.blogPost.postCreatedDate">Post Created Date</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
-                  <th className="hand" onClick={this.sort('postPublishDate')}>
-                    <Translate contentKey="riverApp.blogPost.postPublishDate">Post Publish Date</Translate> <FontAwesomeIcon icon="sort" />
-                  </th>
-                  <th className="hand" onClick={this.sort('postUpdateDate')}>
-                    <Translate contentKey="riverApp.blogPost.postUpdateDate">Post Update Date</Translate> <FontAwesomeIcon icon="sort" />
-                  </th>
                   <th className="hand" onClick={this.sort('postSeenCount')}>
                     <Translate contentKey="riverApp.blogPost.postSeenCount">Post Seen Count</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
@@ -103,9 +97,6 @@ export class BlogPost extends React.Component<IBlogPostProps, IBlogPostState> {
                   </th>
                   <th>
                     <Translate contentKey="riverApp.blogPost.user">User</Translate> <FontAwesomeIcon icon="sort" />
-                  </th>
-                  <th>
-                    <Translate contentKey="riverApp.blogPost.project">Project</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th />
                 </tr>
@@ -123,19 +114,16 @@ export class BlogPost extends React.Component<IBlogPostProps, IBlogPostState> {
                     <td>
                       <TextFormat type="date" value={blogPost.postCreatedDate} format={APP_DATE_FORMAT} />
                     </td>
-                    <td>
-                      <TextFormat type="date" value={blogPost.postPublishDate} format={APP_DATE_FORMAT} />
-                    </td>
-                    <td>
-                      <TextFormat type="date" value={blogPost.postUpdateDate} format={APP_DATE_FORMAT} />
-                    </td>
                     <td>{blogPost.postSeenCount}</td>
                     <td>{blogPost.postContent}</td>
-                    <td>{blogPost.categoryId ? <Link to={`category/${blogPost.categoryId}`}>{blogPost.categoryId}</Link> : ''}</td>
-                    <td>{blogPost.userLogin ? blogPost.userLogin : ''}</td>
                     <td>
-                      {blogPost.projectProjectName ? <Link to={`project/${blogPost.projectId}`}>{blogPost.projectProjectName}</Link> : ''}
+                      {blogPost.categoryCategoryName ? (
+                        <Link to={`category/${blogPost.categoryId}`}>{blogPost.categoryCategoryName}</Link>
+                      ) : (
+                        ''
+                      )}
                     </td>
+                    <td>{blogPost.userLogin ? blogPost.userLogin : ''}</td>
                     <td className="text-right">
                       <div className="btn-group flex-btn-group-container">
                         <Button tag={Link} to={`${match.url}/${blogPost.id}`} color="info" size="sm">

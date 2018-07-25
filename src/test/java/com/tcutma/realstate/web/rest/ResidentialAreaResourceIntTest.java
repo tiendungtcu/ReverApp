@@ -3,13 +3,13 @@ package com.tcutma.realstate.web.rest;
 import com.tcutma.realstate.RiverApp;
 
 import com.tcutma.realstate.domain.ResidentialArea;
-import com.tcutma.realstate.domain.Photo;
 import com.tcutma.realstate.domain.Tag;
 import com.tcutma.realstate.repository.ResidentialAreaRepository;
 import com.tcutma.realstate.service.ResidentialAreaService;
 import com.tcutma.realstate.service.dto.ResidentialAreaDTO;
 import com.tcutma.realstate.service.mapper.ResidentialAreaMapper;
 import com.tcutma.realstate.web.rest.errors.ExceptionTranslator;
+import com.tcutma.realstate.service.dto.ResidentialAreaCriteria;
 import com.tcutma.realstate.service.ResidentialAreaQueryService;
 
 import org.junit.Before;
@@ -20,6 +20,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -27,6 +28,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Base64Utils;
 
 import javax.persistence.EntityManager;
 import java.util.ArrayList;
@@ -80,7 +82,7 @@ public class ResidentialAreaResourceIntTest {
 
     @Autowired
     private ResidentialAreaMapper residentialAreaMapper;
-
+    
     @Mock
     private ResidentialAreaService residentialAreaServiceMock;
 
@@ -109,7 +111,7 @@ public class ResidentialAreaResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final ResidentialAreaResource residentialAreaResource = new ResidentialAreaResource(residentialAreaService, residentialAreaQueryService, fileStorageService);
+        final ResidentialAreaResource residentialAreaResource = new ResidentialAreaResource(residentialAreaService, residentialAreaQueryService);
         this.restResidentialAreaMockMvc = MockMvcBuilders.standaloneSetup(residentialAreaResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -245,9 +247,9 @@ public class ResidentialAreaResourceIntTest {
             .andExpect(jsonPath("$.[*].residentialBoundary").value(hasItem(DEFAULT_RESIDENTIAL_BOUNDARY.toString())))
             .andExpect(jsonPath("$.[*].residentialAvatar").value(hasItem(DEFAULT_RESIDENTIAL_AVATAR.toString())));
     }
-
+    
     public void getAllResidentialAreasWithEagerRelationshipsIsEnabled() throws Exception {
-        ResidentialAreaResource residentialAreaResource = new ResidentialAreaResource(residentialAreaServiceMock, residentialAreaQueryService, fileStorageService);
+        ResidentialAreaResource residentialAreaResource = new ResidentialAreaResource(residentialAreaServiceMock, residentialAreaQueryService);
         when(residentialAreaServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
 
         MockMvc restResidentialAreaMockMvc = MockMvcBuilders.standaloneSetup(residentialAreaResource)
@@ -263,7 +265,7 @@ public class ResidentialAreaResourceIntTest {
     }
 
     public void getAllResidentialAreasWithEagerRelationshipsIsNotEnabled() throws Exception {
-        ResidentialAreaResource residentialAreaResource = new ResidentialAreaResource(residentialAreaServiceMock, residentialAreaQueryService, fileStorageService);
+        ResidentialAreaResource residentialAreaResource = new ResidentialAreaResource(residentialAreaServiceMock, residentialAreaQueryService);
             when(residentialAreaServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
             MockMvc restResidentialAreaMockMvc = MockMvcBuilders.standaloneSetup(residentialAreaResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
@@ -492,25 +494,6 @@ public class ResidentialAreaResourceIntTest {
         // Get all the residentialAreaList where residentialAvatar is null
         defaultResidentialAreaShouldNotBeFound("residentialAvatar.specified=false");
     }
-
-    @Test
-    @Transactional
-    public void getAllResidentialAreasByPhotoIsEqualToSomething() throws Exception {
-        // Initialize the database
-        Photo photo = PhotoResourceIntTest.createEntity(em);
-        em.persist(photo);
-        em.flush();
-        residentialArea.setPhoto(photo);
-        residentialAreaRepository.saveAndFlush(residentialArea);
-        Long photoId = photo.getId();
-
-        // Get all the residentialAreaList where photo equals to photoId
-        defaultResidentialAreaShouldBeFound("photoId.equals=" + photoId);
-
-        // Get all the residentialAreaList where photo equals to photoId + 1
-        defaultResidentialAreaShouldNotBeFound("photoId.equals=" + (photoId + 1));
-    }
-
 
     @Test
     @Transactional

@@ -88,11 +88,11 @@ public class ArticleQueryService extends QueryService<Article> {
             if (criteria.getArticleSeenCount() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getArticleSeenCount(), Article_.articleSeenCount));
             }
+            if (criteria.getAuthorId() != null) {
+                specification = specification.and(buildReferringEntitySpecification(criteria.getAuthorId(), Article_.author, User_.id));
+            }
             if (criteria.getCategoryId() != null) {
                 specification = specification.and(buildReferringEntitySpecification(criteria.getCategoryId(), Article_.category, SupportCategory_.id));
-            }
-            if (criteria.getUserId() != null) {
-                specification = specification.and(buildReferringEntitySpecification(criteria.getUserId(), Article_.user, User_.id));
             }
         }
         return specification;

@@ -6,16 +6,13 @@ export default class ProjectUpdatePage {
   cancelButton: ElementFinder = element(by.id('cancel-save'));
   projectNameInput: ElementFinder = element(by.css('input#project-projectName'));
   projectAliasInput: ElementFinder = element(by.css('input#project-projectAlias'));
-  projectAvatarInput: ElementFinder = element(by.css('input#file_projectAvatar'));
-  projectAvatarIdInput: ElementFinder = element(by.css('input#project-projectAvatarId'));
   projectAvatarUrlInput: ElementFinder = element(by.css('input#project-projectAvatarUrl'));
   projectDistrictInput: ElementFinder = element(by.css('input#project-projectDistrict'));
   projectProvinceInput: ElementFinder = element(by.css('input#project-projectProvince'));
-  projectResidentialAreaInput: ElementFinder = element(by.css('input#project-projectResidentialArea'));
+  residentialAreaIdInput: ElementFinder = element(by.css('input#project-residentialAreaId'));
   projectRoadInput: ElementFinder = element(by.css('input#project-projectRoad'));
   projectWardInput: ElementFinder = element(by.css('input#project-projectWard'));
   projectStatusSelect: ElementFinder = element(by.css('select#project-projectStatus'));
-  projectTypeInput: ElementFinder = element(by.css('input#project-projectType'));
   projectNoBlocksInput: ElementFinder = element(by.css('input#project-projectNoBlocks'));
   projectNoFloorsInput: ElementFinder = element(by.css('input#project-projectNoFloors'));
   projectNoApartmentsInput: ElementFinder = element(by.css('input#project-projectNoApartments'));
@@ -23,11 +20,9 @@ export default class ProjectUpdatePage {
   projectDescriptionInput: ElementFinder = element(by.css('input#project-projectDescription'));
   projectMinSellPriceInput: ElementFinder = element(by.css('input#project-projectMinSellPrice'));
   projectMaxSellPriceInput: ElementFinder = element(by.css('input#project-projectMaxSellPrice'));
-  projectSellAreaUnitSelect: ElementFinder = element(by.css('select#project-projectSellAreaUnit'));
   projectSellPriceUnitSelect: ElementFinder = element(by.css('select#project-projectSellPriceUnit'));
   projectMinRentPriceInput: ElementFinder = element(by.css('input#project-projectMinRentPrice'));
   projectMaxRentPriceInput: ElementFinder = element(by.css('input#project-projectMaxRentPrice'));
-  projectRentAreaUnitSelect: ElementFinder = element(by.css('select#project-projectRentAreaUnit'));
   projectRentPriceUnitSelect: ElementFinder = element(by.css('select#project-projectRentPriceUnit'));
   projectStartedDateInput: ElementFinder = element(by.css('input#project-projectStartedDate'));
   projectFinishingDateInput: ElementFinder = element(by.css('input#project-projectFinishingDate'));
@@ -50,13 +45,12 @@ export default class ProjectUpdatePage {
   latitudeInput: ElementFinder = element(by.css('input#project-latitude'));
   projectSeenCountInput: ElementFinder = element(by.css('input#project-projectSeenCount'));
   projectAvailableInput: ElementFinder = element(by.css('input#project-projectAvailable'));
-  documentSelect: ElementFinder = element(by.css('select#project-document'));
   locationSelect: ElementFinder = element(by.css('select#project-location'));
+  consultantSelect: ElementFinder = element(by.css('select#project-consultant'));
   tagSelect: ElementFinder = element(by.css('select#project-tag'));
   buildingtypeSelect: ElementFinder = element(by.css('select#project-buildingtype'));
-  investorSelect: ElementFinder = element(by.css('select#project-investor'));
-  projectbuilderSelect: ElementFinder = element(by.css('select#project-projectbuilder'));
-  photoSelect: ElementFinder = element(by.css('select#project-photo'));
+  inverstorSelect: ElementFinder = element(by.css('select#project-inverstor'));
+  contractorSelect: ElementFinder = element(by.css('select#project-contractor'));
 
   getPageTitle() {
     return this.pageTitle;
@@ -76,22 +70,6 @@ export default class ProjectUpdatePage {
 
   getProjectAliasInput() {
     return this.projectAliasInput.getAttribute('value');
-  }
-
-  setProjectAvatarInput(projectAvatar) {
-    this.projectAvatarInput.sendKeys(projectAvatar);
-  }
-
-  getProjectAvatarInput() {
-    return this.projectAvatarInput.getAttribute('value');
-  }
-
-  setProjectAvatarIdInput(projectAvatarId) {
-    this.projectAvatarIdInput.sendKeys(projectAvatarId);
-  }
-
-  getProjectAvatarIdInput() {
-    return this.projectAvatarIdInput.getAttribute('value');
   }
 
   setProjectAvatarUrlInput(projectAvatarUrl) {
@@ -118,12 +96,12 @@ export default class ProjectUpdatePage {
     return this.projectProvinceInput.getAttribute('value');
   }
 
-  setProjectResidentialAreaInput(projectResidentialArea) {
-    this.projectResidentialAreaInput.sendKeys(projectResidentialArea);
+  setResidentialAreaIdInput(residentialAreaId) {
+    this.residentialAreaIdInput.sendKeys(residentialAreaId);
   }
 
-  getProjectResidentialAreaInput() {
-    return this.projectResidentialAreaInput.getAttribute('value');
+  getResidentialAreaIdInput() {
+    return this.residentialAreaIdInput.getAttribute('value');
   }
 
   setProjectRoadInput(projectRoad) {
@@ -156,14 +134,6 @@ export default class ProjectUpdatePage {
       .last()
       .click();
   }
-  setProjectTypeInput(projectType) {
-    this.projectTypeInput.sendKeys(projectType);
-  }
-
-  getProjectTypeInput() {
-    return this.projectTypeInput.getAttribute('value');
-  }
-
   setProjectNoBlocksInput(projectNoBlocks) {
     this.projectNoBlocksInput.sendKeys(projectNoBlocks);
   }
@@ -220,20 +190,6 @@ export default class ProjectUpdatePage {
     return this.projectMaxSellPriceInput.getAttribute('value');
   }
 
-  setProjectSellAreaUnitSelect(projectSellAreaUnit) {
-    this.projectSellAreaUnitSelect.sendKeys(projectSellAreaUnit);
-  }
-
-  getProjectSellAreaUnitSelect() {
-    return this.projectSellAreaUnitSelect.element(by.css('option:checked')).getText();
-  }
-
-  projectSellAreaUnitSelectLastOption() {
-    this.projectSellAreaUnitSelect
-      .all(by.tagName('option'))
-      .last()
-      .click();
-  }
   setProjectSellPriceUnitSelect(projectSellPriceUnit) {
     this.projectSellPriceUnitSelect.sendKeys(projectSellPriceUnit);
   }
@@ -264,20 +220,6 @@ export default class ProjectUpdatePage {
     return this.projectMaxRentPriceInput.getAttribute('value');
   }
 
-  setProjectRentAreaUnitSelect(projectRentAreaUnit) {
-    this.projectRentAreaUnitSelect.sendKeys(projectRentAreaUnit);
-  }
-
-  getProjectRentAreaUnitSelect() {
-    return this.projectRentAreaUnitSelect.element(by.css('option:checked')).getText();
-  }
-
-  projectRentAreaUnitSelectLastOption() {
-    this.projectRentAreaUnitSelect
-      .all(by.tagName('option'))
-      .last()
-      .click();
-  }
   setProjectRentPriceUnitSelect(projectRentPriceUnit) {
     this.projectRentPriceUnitSelect.sendKeys(projectRentPriceUnit);
   }
@@ -405,25 +347,6 @@ export default class ProjectUpdatePage {
   getProjectAvailableInput() {
     return this.projectAvailableInput;
   }
-  documentSelectLastOption() {
-    this.documentSelect
-      .all(by.tagName('option'))
-      .last()
-      .click();
-  }
-
-  documentSelectOption(option) {
-    this.documentSelect.sendKeys(option);
-  }
-
-  getDocumentSelect() {
-    return this.documentSelect;
-  }
-
-  getDocumentSelectedOption() {
-    return this.documentSelect.element(by.css('option:checked')).getText();
-  }
-
   locationSelectLastOption() {
     this.locationSelect
       .all(by.tagName('option'))
@@ -441,6 +364,25 @@ export default class ProjectUpdatePage {
 
   getLocationSelectedOption() {
     return this.locationSelect.element(by.css('option:checked')).getText();
+  }
+
+  consultantSelectLastOption() {
+    this.consultantSelect
+      .all(by.tagName('option'))
+      .last()
+      .click();
+  }
+
+  consultantSelectOption(option) {
+    this.consultantSelect.sendKeys(option);
+  }
+
+  getConsultantSelect() {
+    return this.consultantSelect;
+  }
+
+  getConsultantSelectedOption() {
+    return this.consultantSelect.element(by.css('option:checked')).getText();
   }
 
   tagSelectLastOption() {
@@ -481,61 +423,42 @@ export default class ProjectUpdatePage {
     return this.buildingtypeSelect.element(by.css('option:checked')).getText();
   }
 
-  investorSelectLastOption() {
-    this.investorSelect
+  inverstorSelectLastOption() {
+    this.inverstorSelect
       .all(by.tagName('option'))
       .last()
       .click();
   }
 
-  investorSelectOption(option) {
-    this.investorSelect.sendKeys(option);
+  inverstorSelectOption(option) {
+    this.inverstorSelect.sendKeys(option);
   }
 
-  getInvestorSelect() {
-    return this.investorSelect;
+  getInverstorSelect() {
+    return this.inverstorSelect;
   }
 
-  getInvestorSelectedOption() {
-    return this.investorSelect.element(by.css('option:checked')).getText();
+  getInverstorSelectedOption() {
+    return this.inverstorSelect.element(by.css('option:checked')).getText();
   }
 
-  projectbuilderSelectLastOption() {
-    this.projectbuilderSelect
+  contractorSelectLastOption() {
+    this.contractorSelect
       .all(by.tagName('option'))
       .last()
       .click();
   }
 
-  projectbuilderSelectOption(option) {
-    this.projectbuilderSelect.sendKeys(option);
+  contractorSelectOption(option) {
+    this.contractorSelect.sendKeys(option);
   }
 
-  getProjectbuilderSelect() {
-    return this.projectbuilderSelect;
+  getContractorSelect() {
+    return this.contractorSelect;
   }
 
-  getProjectbuilderSelectedOption() {
-    return this.projectbuilderSelect.element(by.css('option:checked')).getText();
-  }
-
-  photoSelectLastOption() {
-    this.photoSelect
-      .all(by.tagName('option'))
-      .last()
-      .click();
-  }
-
-  photoSelectOption(option) {
-    this.photoSelect.sendKeys(option);
-  }
-
-  getPhotoSelect() {
-    return this.photoSelect;
-  }
-
-  getPhotoSelectedOption() {
-    return this.photoSelect.element(by.css('option:checked')).getText();
+  getContractorSelectedOption() {
+    return this.contractorSelect.element(by.css('option:checked')).getText();
   }
 
   save() {

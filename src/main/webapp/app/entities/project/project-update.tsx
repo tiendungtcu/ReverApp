@@ -4,24 +4,22 @@ import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Row, Col, Label } from 'reactstrap';
 import { AvForm, AvGroup, AvInput, AvField } from 'availity-reactstrap-validation';
 // tslint:disable-next-line:no-unused-variable
-import { Translate, translate, ICrudGetAction, ICrudGetAllAction, setFileData, openFile, byteSize, ICrudPutAction } from 'react-jhipster';
+import { Translate, translate, ICrudGetAction, ICrudGetAllAction, setFileData, byteSize, ICrudPutAction } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IRootState } from 'app/shared/reducers';
 
-import { IDocument } from 'app/shared/model/document.model';
-import { getEntities as getDocuments } from 'app/entities/document/document.reducer';
 import { ILocation } from 'app/shared/model/location.model';
 import { getEntities as getLocations } from 'app/entities/location/location.reducer';
+import { IUser } from 'app/shared/model/user.model';
+import { getUsers } from 'app/modules/administration/user-management/user-management.reducer';
 import { ITag } from 'app/shared/model/tag.model';
 import { getEntities as getTags } from 'app/entities/tag/tag.reducer';
 import { IBuildingType } from 'app/shared/model/building-type.model';
 import { getEntities as getBuildingTypes } from 'app/entities/building-type/building-type.reducer';
 import { IInvestor } from 'app/shared/model/investor.model';
 import { getEntities as getInvestors } from 'app/entities/investor/investor.reducer';
-import { IProjectBuilder } from 'app/shared/model/project-builder.model';
-import { getEntities as getProjectBuilders } from 'app/entities/project-builder/project-builder.reducer';
-import { IPhoto } from 'app/shared/model/photo.model';
-import { getEntities as getPhotos } from 'app/entities/photo/photo.reducer';
+import { IContractor } from 'app/shared/model/contractor.model';
+import { getEntities as getContractors } from 'app/entities/contractor/contractor.reducer';
 import { getEntity, updateEntity, createEntity, setBlob, reset } from './project.reducer';
 import { IProject } from 'app/shared/model/project.model';
 // tslint:disable-next-line:no-unused-variable
@@ -34,11 +32,10 @@ export interface IProjectUpdateState {
   isNew: boolean;
   idstag: any[];
   idsbuildingtype: any[];
-  idsinvestor: any[];
-  idsprojectbuilder: any[];
-  idsphoto: any[];
-  documentId: number;
+  idsinverstor: any[];
+  idscontractor: any[];
   locationId: number;
+  consultantId: number;
 }
 
 export class ProjectUpdate extends React.Component<IProjectUpdateProps, IProjectUpdateState> {
@@ -47,11 +44,10 @@ export class ProjectUpdate extends React.Component<IProjectUpdateProps, IProject
     this.state = {
       idstag: [],
       idsbuildingtype: [],
-      idsinvestor: [],
-      idsprojectbuilder: [],
-      idsphoto: [],
-      documentId: 0,
+      idsinverstor: [],
+      idscontractor: [],
       locationId: 0,
+      consultantId: 0,
       isNew: !this.props.match.params || !this.props.match.params.id
     };
   }
@@ -63,13 +59,12 @@ export class ProjectUpdate extends React.Component<IProjectUpdateProps, IProject
       this.props.getEntity(this.props.match.params.id);
     }
 
-    this.props.getDocuments();
     this.props.getLocations();
+    this.props.getUsers();
     this.props.getTags();
     this.props.getBuildingTypes();
     this.props.getInvestors();
-    this.props.getProjectBuilders();
-    this.props.getPhotos();
+    this.props.getContractors();
   }
 
   onBlobChange = (isAnImage, name) => event => {
@@ -81,9 +76,6 @@ export class ProjectUpdate extends React.Component<IProjectUpdateProps, IProject
   };
 
   saveEntity = (event, errors, values) => {
-    values.projectStartedDate = new Date(values.projectStartedDate);
-    values.projectFinishingDate = new Date(values.projectFinishingDate);
-
     if (errors.length === 0) {
       const { projectEntity } = this.props;
       const entity = {
@@ -104,23 +96,6 @@ export class ProjectUpdate extends React.Component<IProjectUpdateProps, IProject
     this.props.history.push('/entity/project');
   };
 
-  documentUpdate = element => {
-    const id = element.target.value.toString();
-    if (id === '') {
-      this.setState({
-        documentId: -1
-      });
-    } else {
-      for (const i in this.props.documents) {
-        if (id === this.props.documents[i].id.toString()) {
-          this.setState({
-            documentId: this.props.documents[i].id
-          });
-        }
-      }
-    }
-  };
-
   locationUpdate = element => {
     const id = element.target.value.toString();
     if (id === '') {
@@ -132,6 +107,23 @@ export class ProjectUpdate extends React.Component<IProjectUpdateProps, IProject
         if (id === this.props.locations[i].id.toString()) {
           this.setState({
             locationId: this.props.locations[i].id
+          });
+        }
+      }
+    }
+  };
+
+  consultantUpdate = element => {
+    const login = element.target.value.toString();
+    if (login === '') {
+      this.setState({
+        consultantId: -1
+      });
+    } else {
+      for (const i in this.props.users) {
+        if (login === this.props.users[i].login.toString()) {
+          this.setState({
+            consultantId: this.props.users[i].id
           });
         }
       }
@@ -152,24 +144,17 @@ export class ProjectUpdate extends React.Component<IProjectUpdateProps, IProject
     });
   };
 
-  investorUpdate = element => {
+  inverstorUpdate = element => {
     const selected = Array.from(element.target.selectedOptions).map((e: any) => e.value);
     this.setState({
-      idsinvestor: keysToValues(selected, this.props.investors, 'investorName')
+      idsinverstor: keysToValues(selected, this.props.investors, 'investorName')
     });
   };
 
-  projectbuilderUpdate = element => {
+  contractorUpdate = element => {
     const selected = Array.from(element.target.selectedOptions).map((e: any) => e.value);
     this.setState({
-      idsprojectbuilder: keysToValues(selected, this.props.projectBuilders, 'builderName')
-    });
-  };
-
-  photoUpdate = element => {
-    const selected = Array.from(element.target.selectedOptions).map((e: any) => e.value);
-    this.setState({
-      idsphoto: keysToValues(selected, this.props.photos, 'id')
+      idscontractor: keysToValues(selected, this.props.contractors, 'contractorName')
     });
   };
 
@@ -223,75 +208,50 @@ export class ProjectUpdate extends React.Component<IProjectUpdateProps, IProject
     return null;
   }
 
-  displayinvestor(value: any) {
-    if (this.state.idsinvestor && this.state.idsinvestor.length !== 0) {
+  displayinverstor(value: any) {
+    if (this.state.idsinverstor && this.state.idsinverstor.length !== 0) {
       const list = [];
-      for (const i in this.state.idsinvestor) {
-        if (this.state.idsinvestor[i]) {
-          list.push(this.state.idsinvestor[i].investorName);
+      for (const i in this.state.idsinverstor) {
+        if (this.state.idsinverstor[i]) {
+          list.push(this.state.idsinverstor[i].investorName);
         }
       }
       return list;
     }
-    if (value.investors && value.investors.length !== 0) {
+    if (value.inverstors && value.inverstors.length !== 0) {
       const list = [];
-      for (const i in value.investors) {
-        if (value.investors[i]) {
-          list.push(value.investors[i].investorName);
+      for (const i in value.inverstors) {
+        if (value.inverstors[i]) {
+          list.push(value.inverstors[i].investorName);
         }
       }
       this.setState({
-        idsinvestor: keysToValues(list, this.props.investors, 'investorName')
+        idsinverstor: keysToValues(list, this.props.investors, 'investorName')
       });
       return list;
     }
     return null;
   }
 
-  displayprojectbuilder(value: any) {
-    if (this.state.idsprojectbuilder && this.state.idsprojectbuilder.length !== 0) {
+  displaycontractor(value: any) {
+    if (this.state.idscontractor && this.state.idscontractor.length !== 0) {
       const list = [];
-      for (const i in this.state.idsprojectbuilder) {
-        if (this.state.idsprojectbuilder[i]) {
-          list.push(this.state.idsprojectbuilder[i].builderName);
+      for (const i in this.state.idscontractor) {
+        if (this.state.idscontractor[i]) {
+          list.push(this.state.idscontractor[i].contractorName);
         }
       }
       return list;
     }
-    if (value.projectbuilders && value.projectbuilders.length !== 0) {
+    if (value.contractors && value.contractors.length !== 0) {
       const list = [];
-      for (const i in value.projectbuilders) {
-        if (value.projectbuilders[i]) {
-          list.push(value.projectbuilders[i].builderName);
+      for (const i in value.contractors) {
+        if (value.contractors[i]) {
+          list.push(value.contractors[i].contractorName);
         }
       }
       this.setState({
-        idsprojectbuilder: keysToValues(list, this.props.projectBuilders, 'builderName')
-      });
-      return list;
-    }
-    return null;
-  }
-
-  displayphoto(value: any) {
-    if (this.state.idsphoto && this.state.idsphoto.length !== 0) {
-      const list = [];
-      for (const i in this.state.idsphoto) {
-        if (this.state.idsphoto[i]) {
-          list.push(this.state.idsphoto[i].id);
-        }
-      }
-      return list;
-    }
-    if (value.photos && value.photos.length !== 0) {
-      const list = [];
-      for (const i in value.photos) {
-        if (value.photos[i]) {
-          list.push(value.photos[i].id);
-        }
-      }
-      this.setState({
-        idsphoto: keysToValues(list, this.props.photos, 'id')
+        idscontractor: keysToValues(list, this.props.contractors, 'contractorName')
       });
       return list;
     }
@@ -300,10 +260,10 @@ export class ProjectUpdate extends React.Component<IProjectUpdateProps, IProject
 
   render() {
     const isInvalid = false;
-    const { projectEntity, documents, locations, tags, buildingTypes, investors, projectBuilders, photos, loading, updating } = this.props;
+    const { projectEntity, locations, users, tags, buildingTypes, investors, contractors, loading, updating } = this.props;
     const { isNew } = this.state;
 
-    const { projectAvatar, projectAvatarContentType, projectDescription } = projectEntity;
+    const { projectDescription } = projectEntity;
 
     return (
       <div>
@@ -337,7 +297,8 @@ export class ProjectUpdate extends React.Component<IProjectUpdateProps, IProject
                     type="text"
                     name="projectName"
                     validate={{
-                      required: { value: true, errorMessage: translate('entity.validation.required') }
+                      required: { value: true, errorMessage: translate('entity.validation.required') },
+                      maxLength: { value: 128, errorMessage: translate('entity.validation.maxlength', { max: 128 }) }
                     }}
                   />
                 </AvGroup>
@@ -350,44 +311,9 @@ export class ProjectUpdate extends React.Component<IProjectUpdateProps, IProject
                     type="text"
                     name="projectAlias"
                     validate={{
-                      required: { value: true, errorMessage: translate('entity.validation.required') }
+                      maxLength: { value: 128, errorMessage: translate('entity.validation.maxlength', { max: 128 }) }
                     }}
                   />
-                </AvGroup>
-                <AvGroup>
-                  <AvGroup>
-                    <Label id="projectAvatarLabel" for="projectAvatar">
-                      <Translate contentKey="riverApp.project.projectAvatar">Project Avatar</Translate>
-                    </Label>
-                    <br />
-                    {projectAvatar ? (
-                      <div>
-                        <a onClick={openFile(projectAvatarContentType, projectAvatar)}>
-                          <img src={`data:${projectAvatarContentType};base64,${projectAvatar}`} style={{ maxHeight: '100px' }} />
-                        </a>
-                        <br />
-                        <Row>
-                          <Col md="11">
-                            <span>
-                              {projectAvatarContentType}, {byteSize(projectAvatar)}
-                            </span>
-                          </Col>
-                          <Col md="1">
-                            <Button color="danger" onClick={this.clearBlob('projectAvatar')}>
-                              <FontAwesomeIcon icon="times-circle" />
-                            </Button>
-                          </Col>
-                        </Row>
-                      </div>
-                    ) : null}
-                    <input id="file_projectAvatar" type="file" onChange={this.onBlobChange(true, 'projectAvatar')} accept="image/*" />
-                  </AvGroup>
-                </AvGroup>
-                <AvGroup>
-                  <Label id="projectAvatarIdLabel" for="projectAvatarId">
-                    <Translate contentKey="riverApp.project.projectAvatarId">Project Avatar Id</Translate>
-                  </Label>
-                  <AvField id="project-projectAvatarId" type="number" className="form-control" name="projectAvatarId" />
                 </AvGroup>
                 <AvGroup>
                   <Label id="projectAvatarUrlLabel" for="projectAvatarUrl">
@@ -399,31 +325,59 @@ export class ProjectUpdate extends React.Component<IProjectUpdateProps, IProject
                   <Label id="projectDistrictLabel" for="projectDistrict">
                     <Translate contentKey="riverApp.project.projectDistrict">Project District</Translate>
                   </Label>
-                  <AvField id="project-projectDistrict" type="text" name="projectDistrict" />
+                  <AvField
+                    id="project-projectDistrict"
+                    type="text"
+                    name="projectDistrict"
+                    validate={{
+                      maxLength: { value: 64, errorMessage: translate('entity.validation.maxlength', { max: 64 }) }
+                    }}
+                  />
                 </AvGroup>
                 <AvGroup>
                   <Label id="projectProvinceLabel" for="projectProvince">
                     <Translate contentKey="riverApp.project.projectProvince">Project Province</Translate>
                   </Label>
-                  <AvField id="project-projectProvince" type="text" name="projectProvince" />
+                  <AvField
+                    id="project-projectProvince"
+                    type="text"
+                    name="projectProvince"
+                    validate={{
+                      maxLength: { value: 64, errorMessage: translate('entity.validation.maxlength', { max: 64 }) }
+                    }}
+                  />
                 </AvGroup>
                 <AvGroup>
-                  <Label id="projectResidentialAreaLabel" for="projectResidentialArea">
-                    <Translate contentKey="riverApp.project.projectResidentialArea">Project Residential Area</Translate>
+                  <Label id="residentialAreaIdLabel" for="residentialAreaId">
+                    <Translate contentKey="riverApp.project.residentialAreaId">Residential Area Id</Translate>
                   </Label>
-                  <AvField id="project-projectResidentialArea" type="text" name="projectResidentialArea" />
+                  <AvField id="project-residentialAreaId" type="number" className="form-control" name="residentialAreaId" />
                 </AvGroup>
                 <AvGroup>
                   <Label id="projectRoadLabel" for="projectRoad">
                     <Translate contentKey="riverApp.project.projectRoad">Project Road</Translate>
                   </Label>
-                  <AvField id="project-projectRoad" type="text" name="projectRoad" />
+                  <AvField
+                    id="project-projectRoad"
+                    type="text"
+                    name="projectRoad"
+                    validate={{
+                      maxLength: { value: 128, errorMessage: translate('entity.validation.maxlength', { max: 128 }) }
+                    }}
+                  />
                 </AvGroup>
                 <AvGroup>
                   <Label id="projectWardLabel" for="projectWard">
                     <Translate contentKey="riverApp.project.projectWard">Project Ward</Translate>
                   </Label>
-                  <AvField id="project-projectWard" type="text" name="projectWard" />
+                  <AvField
+                    id="project-projectWard"
+                    type="text"
+                    name="projectWard"
+                    validate={{
+                      maxLength: { value: 64, errorMessage: translate('entity.validation.maxlength', { max: 64 }) }
+                    }}
+                  />
                 </AvGroup>
                 <AvGroup>
                   <Label id="projectStatusLabel">
@@ -440,12 +394,6 @@ export class ProjectUpdate extends React.Component<IProjectUpdateProps, IProject
                     <option value="PRESELL">PRESELL</option>
                     <option value="CLOSED">CLOSED</option>
                   </AvInput>
-                </AvGroup>
-                <AvGroup>
-                  <Label id="projectTypeLabel" for="projectType">
-                    <Translate contentKey="riverApp.project.projectType">Project Type</Translate>
-                  </Label>
-                  <AvField id="project-projectType" type="text" name="projectType" />
                 </AvGroup>
                 <AvGroup>
                   <Label id="projectNoBlocksLabel" for="projectNoBlocks">
@@ -508,30 +456,22 @@ export class ProjectUpdate extends React.Component<IProjectUpdateProps, IProject
                   <Label id="projectMinSellPriceLabel" for="projectMinSellPrice">
                     <Translate contentKey="riverApp.project.projectMinSellPrice">Project Min Sell Price</Translate>
                   </Label>
-                  <AvField id="project-projectMinSellPrice" type="number" className="form-control" name="projectMinSellPrice" />
+                  <AvField
+                    id="project-projectMinSellPrice"
+                    type="number"
+                    className="form-control"
+                    name="projectMinSellPrice"
+                    validate={{
+                      min: { value: 0, errorMessage: translate('entity.validation.min', { min: 0 }) },
+                      number: { value: true, errorMessage: translate('entity.validation.number') }
+                    }}
+                  />
                 </AvGroup>
                 <AvGroup>
                   <Label id="projectMaxSellPriceLabel" for="projectMaxSellPrice">
                     <Translate contentKey="riverApp.project.projectMaxSellPrice">Project Max Sell Price</Translate>
                   </Label>
                   <AvField id="project-projectMaxSellPrice" type="number" className="form-control" name="projectMaxSellPrice" />
-                </AvGroup>
-                <AvGroup>
-                  <Label id="projectSellAreaUnitLabel">
-                    <Translate contentKey="riverApp.project.projectSellAreaUnit">Project Sell Area Unit</Translate>
-                  </Label>
-                  <AvInput
-                    id="project-projectSellAreaUnit"
-                    type="select"
-                    className="form-control"
-                    name="projectSellAreaUnit"
-                    value={(!isNew && projectEntity.projectSellAreaUnit) || 'M2'}
-                  >
-                    <option value="M2">M2</option>
-                    <option value="CAN">CAN</option>
-                    <option value="MONTH">MONTH</option>
-                    <option value="YEAR">YEAR</option>
-                  </AvInput>
                 </AvGroup>
                 <AvGroup>
                   <Label id="projectSellPriceUnitLabel">
@@ -553,30 +493,22 @@ export class ProjectUpdate extends React.Component<IProjectUpdateProps, IProject
                   <Label id="projectMinRentPriceLabel" for="projectMinRentPrice">
                     <Translate contentKey="riverApp.project.projectMinRentPrice">Project Min Rent Price</Translate>
                   </Label>
-                  <AvField id="project-projectMinRentPrice" type="number" className="form-control" name="projectMinRentPrice" />
+                  <AvField
+                    id="project-projectMinRentPrice"
+                    type="number"
+                    className="form-control"
+                    name="projectMinRentPrice"
+                    validate={{
+                      min: { value: 0, errorMessage: translate('entity.validation.min', { min: 0 }) },
+                      number: { value: true, errorMessage: translate('entity.validation.number') }
+                    }}
+                  />
                 </AvGroup>
                 <AvGroup>
                   <Label id="projectMaxRentPriceLabel" for="projectMaxRentPrice">
                     <Translate contentKey="riverApp.project.projectMaxRentPrice">Project Max Rent Price</Translate>
                   </Label>
                   <AvField id="project-projectMaxRentPrice" type="number" className="form-control" name="projectMaxRentPrice" />
-                </AvGroup>
-                <AvGroup>
-                  <Label id="projectRentAreaUnitLabel">
-                    <Translate contentKey="riverApp.project.projectRentAreaUnit">Project Rent Area Unit</Translate>
-                  </Label>
-                  <AvInput
-                    id="project-projectRentAreaUnit"
-                    type="select"
-                    className="form-control"
-                    name="projectRentAreaUnit"
-                    value={(!isNew && projectEntity.projectRentAreaUnit) || 'M2'}
-                  >
-                    <option value="M2">M2</option>
-                    <option value="CAN">CAN</option>
-                    <option value="MONTH">MONTH</option>
-                    <option value="YEAR">YEAR</option>
-                  </AvInput>
                 </AvGroup>
                 <AvGroup>
                   <Label id="projectRentPriceUnitLabel">
@@ -598,31 +530,28 @@ export class ProjectUpdate extends React.Component<IProjectUpdateProps, IProject
                   <Label id="projectStartedDateLabel" for="projectStartedDate">
                     <Translate contentKey="riverApp.project.projectStartedDate">Project Started Date</Translate>
                   </Label>
-                  <AvInput
-                    id="project-projectStartedDate"
-                    type="datetime-local"
-                    className="form-control"
-                    name="projectStartedDate"
-                    value={isNew ? null : convertDateTimeFromServer(this.props.projectEntity.projectStartedDate)}
-                  />
+                  <AvField id="project-projectStartedDate" type="date" className="form-control" name="projectStartedDate" />
                 </AvGroup>
                 <AvGroup>
                   <Label id="projectFinishingDateLabel" for="projectFinishingDate">
                     <Translate contentKey="riverApp.project.projectFinishingDate">Project Finishing Date</Translate>
                   </Label>
-                  <AvInput
-                    id="project-projectFinishingDate"
-                    type="datetime-local"
-                    className="form-control"
-                    name="projectFinishingDate"
-                    value={isNew ? null : convertDateTimeFromServer(this.props.projectEntity.projectFinishingDate)}
-                  />
+                  <AvField id="project-projectFinishingDate" type="date" className="form-control" name="projectFinishingDate" />
                 </AvGroup>
                 <AvGroup>
                   <Label id="projectMinApartmentSquareLabel" for="projectMinApartmentSquare">
                     <Translate contentKey="riverApp.project.projectMinApartmentSquare">Project Min Apartment Square</Translate>
                   </Label>
-                  <AvField id="project-projectMinApartmentSquare" type="number" className="form-control" name="projectMinApartmentSquare" />
+                  <AvField
+                    id="project-projectMinApartmentSquare"
+                    type="number"
+                    className="form-control"
+                    name="projectMinApartmentSquare"
+                    validate={{
+                      min: { value: 1, errorMessage: translate('entity.validation.min', { min: 1 }) },
+                      number: { value: true, errorMessage: translate('entity.validation.number') }
+                    }}
+                  />
                 </AvGroup>
                 <AvGroup>
                   <Label id="projectMaxApartmentSquareLabel" for="projectMaxApartmentSquare">
@@ -634,13 +563,33 @@ export class ProjectUpdate extends React.Component<IProjectUpdateProps, IProject
                   <Label id="projectGreenSpaceLabel" for="projectGreenSpace">
                     <Translate contentKey="riverApp.project.projectGreenSpace">Project Green Space</Translate>
                   </Label>
-                  <AvField id="project-projectGreenSpace" type="number" className="form-control" name="projectGreenSpace" />
+                  <AvField
+                    id="project-projectGreenSpace"
+                    type="number"
+                    className="form-control"
+                    name="projectGreenSpace"
+                    validate={{
+                      min: { value: 0, errorMessage: translate('entity.validation.min', { min: 0 }) },
+                      max: { value: 100, errorMessage: translate('entity.validation.max', { max: 100 }) },
+                      number: { value: true, errorMessage: translate('entity.validation.number') }
+                    }}
+                  />
                 </AvGroup>
                 <AvGroup>
                   <Label id="projectBuildingDensityLabel" for="projectBuildingDensity">
                     <Translate contentKey="riverApp.project.projectBuildingDensity">Project Building Density</Translate>
                   </Label>
-                  <AvField id="project-projectBuildingDensity" type="number" className="form-control" name="projectBuildingDensity" />
+                  <AvField
+                    id="project-projectBuildingDensity"
+                    type="number"
+                    className="form-control"
+                    name="projectBuildingDensity"
+                    validate={{
+                      min: { value: 0, errorMessage: translate('entity.validation.min', { min: 0 }) },
+                      max: { value: 100, errorMessage: translate('entity.validation.max', { max: 100 }) },
+                      number: { value: true, errorMessage: translate('entity.validation.number') }
+                    }}
+                  />
                 </AvGroup>
                 <AvGroup>
                   <Label id="projectDesignCompanyLabel" for="projectDesignCompany">
@@ -733,21 +682,6 @@ export class ProjectUpdate extends React.Component<IProjectUpdateProps, IProject
                   </Label>
                 </AvGroup>
                 <AvGroup>
-                  <Label for="document.id">
-                    <Translate contentKey="riverApp.project.document">Document</Translate>
-                  </Label>
-                  <AvInput id="project-document" type="select" className="form-control" name="documentId" onChange={this.documentUpdate}>
-                    <option value="" key="0" />
-                    {documents
-                      ? documents.map(otherEntity => (
-                          <option value={otherEntity.id} key={otherEntity.id}>
-                            {otherEntity.id}
-                          </option>
-                        ))
-                      : null}
-                  </AvInput>
-                </AvGroup>
-                <AvGroup>
                   <Label for="location.id">
                     <Translate contentKey="riverApp.project.location">Location</Translate>
                   </Label>
@@ -757,6 +691,27 @@ export class ProjectUpdate extends React.Component<IProjectUpdateProps, IProject
                       ? locations.map(otherEntity => (
                           <option value={otherEntity.id} key={otherEntity.id}>
                             {otherEntity.id}
+                          </option>
+                        ))
+                      : null}
+                  </AvInput>
+                </AvGroup>
+                <AvGroup>
+                  <Label for="consultant.login">
+                    <Translate contentKey="riverApp.project.consultant">Consultant</Translate>
+                  </Label>
+                  <AvInput
+                    id="project-consultant"
+                    type="select"
+                    className="form-control"
+                    name="consultantId"
+                    onChange={this.consultantUpdate}
+                  >
+                    <option value="" key="0" />
+                    {users
+                      ? users.map(otherEntity => (
+                          <option value={otherEntity.id} key={otherEntity.id}>
+                            {otherEntity.login}
                           </option>
                         ))
                       : null}
@@ -812,16 +767,16 @@ export class ProjectUpdate extends React.Component<IProjectUpdateProps, IProject
                 </AvGroup>
                 <AvGroup>
                   <Label for="investors">
-                    <Translate contentKey="riverApp.project.investor">Investor</Translate>
+                    <Translate contentKey="riverApp.project.inverstor">Inverstor</Translate>
                   </Label>
                   <AvInput
-                    id="project-investor"
+                    id="project-inverstor"
                     type="select"
                     multiple
                     className="form-control"
                     name="fakeinvestors"
-                    value={this.displayinvestor(projectEntity)}
-                    onChange={this.investorUpdate}
+                    value={this.displayinverstor(projectEntity)}
+                    onChange={this.inverstorUpdate}
                   >
                     <option value="" key="0" />
                     {investors
@@ -832,55 +787,31 @@ export class ProjectUpdate extends React.Component<IProjectUpdateProps, IProject
                         ))
                       : null}
                   </AvInput>
-                  <AvInput id="project-investor" type="hidden" name="investors" value={this.state.idsinvestor} />
+                  <AvInput id="project-inverstor" type="hidden" name="inverstors" value={this.state.idsinverstor} />
                 </AvGroup>
                 <AvGroup>
-                  <Label for="projectBuilders">
-                    <Translate contentKey="riverApp.project.projectbuilder">Projectbuilder</Translate>
+                  <Label for="contractors">
+                    <Translate contentKey="riverApp.project.contractor">Contractor</Translate>
                   </Label>
                   <AvInput
-                    id="project-projectbuilder"
+                    id="project-contractor"
                     type="select"
                     multiple
                     className="form-control"
-                    name="fakeprojectBuilders"
-                    value={this.displayprojectbuilder(projectEntity)}
-                    onChange={this.projectbuilderUpdate}
+                    name="fakecontractors"
+                    value={this.displaycontractor(projectEntity)}
+                    onChange={this.contractorUpdate}
                   >
                     <option value="" key="0" />
-                    {projectBuilders
-                      ? projectBuilders.map(otherEntity => (
-                          <option value={otherEntity.builderName} key={otherEntity.id}>
-                            {otherEntity.builderName}
+                    {contractors
+                      ? contractors.map(otherEntity => (
+                          <option value={otherEntity.contractorName} key={otherEntity.id}>
+                            {otherEntity.contractorName}
                           </option>
                         ))
                       : null}
                   </AvInput>
-                  <AvInput id="project-projectbuilder" type="hidden" name="projectbuilders" value={this.state.idsprojectbuilder} />
-                </AvGroup>
-                <AvGroup>
-                  <Label for="photos">
-                    <Translate contentKey="riverApp.project.photo">Photo</Translate>
-                  </Label>
-                  <AvInput
-                    id="project-photo"
-                    type="select"
-                    multiple
-                    className="form-control"
-                    name="fakephotos"
-                    value={this.displayphoto(projectEntity)}
-                    onChange={this.photoUpdate}
-                  >
-                    <option value="" key="0" />
-                    {photos
-                      ? photos.map(otherEntity => (
-                          <option value={otherEntity.id} key={otherEntity.id}>
-                            {otherEntity.id}
-                          </option>
-                        ))
-                      : null}
-                  </AvInput>
-                  <AvInput id="project-photo" type="hidden" name="photos" value={this.state.idsphoto} />
+                  <AvInput id="project-contractor" type="hidden" name="contractors" value={this.state.idscontractor} />
                 </AvGroup>
                 <Button tag={Link} id="cancel-save" to="/entity/project" replace color="info">
                   <FontAwesomeIcon icon="arrow-left" />&nbsp;
@@ -903,26 +834,24 @@ export class ProjectUpdate extends React.Component<IProjectUpdateProps, IProject
 }
 
 const mapStateToProps = (storeState: IRootState) => ({
-  documents: storeState.document.entities,
   locations: storeState.location.entities,
+  users: storeState.userManagement.users,
   tags: storeState.tag.entities,
   buildingTypes: storeState.buildingType.entities,
   investors: storeState.investor.entities,
-  projectBuilders: storeState.projectBuilder.entities,
-  photos: storeState.photo.entities,
+  contractors: storeState.contractor.entities,
   projectEntity: storeState.project.entity,
   loading: storeState.project.loading,
   updating: storeState.project.updating
 });
 
 const mapDispatchToProps = {
-  getDocuments,
   getLocations,
+  getUsers,
   getTags,
   getBuildingTypes,
   getInvestors,
-  getProjectBuilders,
-  getPhotos,
+  getContractors,
   getEntity,
   updateEntity,
   setBlob,

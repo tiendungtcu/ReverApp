@@ -7,13 +7,10 @@ export interface ILocation {
   locationWard?: string;
   locationDistrict?: string;
   locationProvince?: string;
-  locationCountry?: string;
   locationGmapUrl?: string;
   longitude?: number;
   latitude?: number;
-  locationHide?: boolean;
+  locationZipCode?: string;
 }
 
-export const defaultValue: Readonly<ILocation> = {
-  locationHide: false
-};
+export const defaultValue: Readonly<ILocation> = {};

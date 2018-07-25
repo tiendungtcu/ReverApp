@@ -17,14 +17,14 @@ import java.util.Optional;
 @Repository
 public interface ProjectRepository extends JpaRepository<Project, Long>, JpaSpecificationExecutor<Project> {
 
-    @Query(value = "select distinct project from Project project left join fetch project.tags left join fetch project.buildingtypes left join fetch project.investors left join fetch project.projectbuilders left join fetch project.photos",
+    @Query(value = "select distinct project from Project project left join fetch project.tags left join fetch project.buildingtypes left join fetch project.inverstors left join fetch project.contractors",
         countQuery = "select count(distinct project) from Project project")
     Page<Project> findAllWithEagerRelationships(Pageable pageable);
 
-    @Query(value = "select distinct project from Project project left join fetch project.tags left join fetch project.buildingtypes left join fetch project.investors left join fetch project.projectbuilders left join fetch project.photos")
+    @Query(value = "select distinct project from Project project left join fetch project.tags left join fetch project.buildingtypes left join fetch project.inverstors left join fetch project.contractors")
     List<Project> findAllWithEagerRelationships();
 
-    @Query("select project from Project project left join fetch project.tags left join fetch project.buildingtypes left join fetch project.investors left join fetch project.projectbuilders left join fetch project.photos where project.id =:id")
+    @Query("select project from Project project left join fetch project.tags left join fetch project.buildingtypes left join fetch project.inverstors left join fetch project.contractors where project.id =:id")
     Optional<Project> findOneWithEagerRelationships(@Param("id") Long id);
 
 }

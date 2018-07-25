@@ -1,6 +1,5 @@
 package com.tcutma.realstate.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.annotations.ApiModel;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -9,7 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 
 import java.io.Serializable;
-import java.time.ZonedDateTime;
+import java.time.Instant;
 import java.util.Objects;
 
 import com.tcutma.realstate.domain.enumeration.NotificationType;
@@ -30,7 +29,8 @@ public class Notification implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "notification_title", nullable = false)
+    @Size(max = 128)
+    @Column(name = "notification_title", length = 128, nullable = false)
     private String notificationTitle;
 
     @Lob
@@ -41,18 +41,14 @@ public class Notification implements Serializable {
     private Boolean notificationSeen;
 
     @Column(name = "notification_date")
-    private ZonedDateTime notificationDate;
+    private Instant notificationDate;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "notification_type")
     private NotificationType notificationType;
 
-    @Column(name = "notification_reference")
-    private String notificationReference;
-
-    @ManyToOne
-    @JsonIgnoreProperties("")
-    private User user;
+    @Column(name = "notification_sender")
+    private Long notificationSender;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -102,16 +98,16 @@ public class Notification implements Serializable {
         this.notificationSeen = notificationSeen;
     }
 
-    public ZonedDateTime getNotificationDate() {
+    public Instant getNotificationDate() {
         return notificationDate;
     }
 
-    public Notification notificationDate(ZonedDateTime notificationDate) {
+    public Notification notificationDate(Instant notificationDate) {
         this.notificationDate = notificationDate;
         return this;
     }
 
-    public void setNotificationDate(ZonedDateTime notificationDate) {
+    public void setNotificationDate(Instant notificationDate) {
         this.notificationDate = notificationDate;
     }
 
@@ -128,30 +124,17 @@ public class Notification implements Serializable {
         this.notificationType = notificationType;
     }
 
-    public String getNotificationReference() {
-        return notificationReference;
+    public Long getNotificationSender() {
+        return notificationSender;
     }
 
-    public Notification notificationReference(String notificationReference) {
-        this.notificationReference = notificationReference;
+    public Notification notificationSender(Long notificationSender) {
+        this.notificationSender = notificationSender;
         return this;
     }
 
-    public void setNotificationReference(String notificationReference) {
-        this.notificationReference = notificationReference;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public Notification user(User user) {
-        this.user = user;
-        return this;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
+    public void setNotificationSender(Long notificationSender) {
+        this.notificationSender = notificationSender;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -184,7 +167,7 @@ public class Notification implements Serializable {
             ", notificationSeen='" + isNotificationSeen() + "'" +
             ", notificationDate='" + getNotificationDate() + "'" +
             ", notificationType='" + getNotificationType() + "'" +
-            ", notificationReference='" + getNotificationReference() + "'" +
+            ", notificationSender=" + getNotificationSender() +
             "}";
     }
 }

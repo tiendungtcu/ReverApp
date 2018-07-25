@@ -4,7 +4,6 @@ import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Col, Row, Table } from 'reactstrap';
 // tslint:disable-next-line:no-unused-variable
 import {
-  openFile,
   byteSize,
   Translate,
   ICrudGetAllAction,
@@ -80,8 +79,8 @@ export class RecruitmentInfo extends React.Component<IRecruitmentInfoProps, IRec
                   <Translate contentKey="riverApp.recruitmentInfo.recruitmentTitle">Recruitment Title</Translate>{' '}
                   <FontAwesomeIcon icon="sort" />
                 </th>
-                <th className="hand" onClick={this.sort('recruitmentImage')}>
-                  <Translate contentKey="riverApp.recruitmentInfo.recruitmentImage">Recruitment Image</Translate>{' '}
+                <th className="hand" onClick={this.sort('recruitmentAvatarUrl')}>
+                  <Translate contentKey="riverApp.recruitmentInfo.recruitmentAvatarUrl">Recruitment Avatar Url</Translate>{' '}
                   <FontAwesomeIcon icon="sort" />
                 </th>
                 <th className="hand" onClick={this.sort('recruitmentContent')}>
@@ -105,7 +104,7 @@ export class RecruitmentInfo extends React.Component<IRecruitmentInfoProps, IRec
                   <FontAwesomeIcon icon="sort" />
                 </th>
                 <th>
-                  <Translate contentKey="riverApp.recruitmentInfo.photo">Photo</Translate> <FontAwesomeIcon icon="sort" />
+                  <Translate contentKey="riverApp.recruitmentInfo.user">User</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
                 <th>
                   <Translate contentKey="riverApp.recruitmentInfo.jobtitle">Jobtitle</Translate> <FontAwesomeIcon icon="sort" />
@@ -122,30 +121,15 @@ export class RecruitmentInfo extends React.Component<IRecruitmentInfoProps, IRec
                     </Button>
                   </td>
                   <td>{recruitmentInfo.recruitmentTitle}</td>
-                  <td>
-                    {recruitmentInfo.recruitmentImage ? (
-                      <div>
-                        <a onClick={openFile(recruitmentInfo.recruitmentImageContentType, recruitmentInfo.recruitmentImage)}>
-                          <img
-                            src={`data:${recruitmentInfo.recruitmentImageContentType};base64,${recruitmentInfo.recruitmentImage}`}
-                            style={{ maxHeight: '30px' }}
-                          />
-                          &nbsp;
-                        </a>
-                        <span>
-                          {recruitmentInfo.recruitmentImageContentType}, {byteSize(recruitmentInfo.recruitmentImage)}
-                        </span>
-                      </div>
-                    ) : null}
-                  </td>
+                  <td>{recruitmentInfo.recruitmentAvatarUrl}</td>
                   <td>{recruitmentInfo.recruitmentContent}</td>
                   <td>{recruitmentInfo.recruitmentNotes}</td>
                   <td>
-                    <TextFormat type="date" value={recruitmentInfo.recruitmentDate} format={APP_DATE_FORMAT} />
+                    <TextFormat type="date" value={recruitmentInfo.recruitmentDate} format={APP_LOCAL_DATE_FORMAT} />
                   </td>
                   <td>{recruitmentInfo.recruitmentSeenCount}</td>
                   <td>{recruitmentInfo.recruitmentStatus ? 'true' : 'false'}</td>
-                  <td>{recruitmentInfo.photoId ? <Link to={`photo/${recruitmentInfo.photoId}`}>{recruitmentInfo.photoId}</Link> : ''}</td>
+                  <td>{recruitmentInfo.userLogin ? recruitmentInfo.userLogin : ''}</td>
                   <td>
                     {recruitmentInfo.jobtitleTitleName ? (
                       <Link to={`jobTitle/${recruitmentInfo.jobtitleId}`}>{recruitmentInfo.jobtitleTitleName}</Link>

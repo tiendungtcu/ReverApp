@@ -2,23 +2,11 @@
     "name": "Comment",
     "fields": [
         {
-            "fieldName": "commentTitle",
-            "fieldType": "String",
-            "fieldValidateRules": [
-                "required"
-            ]
-        },
-        {
             "fieldName": "commentContent",
-            "fieldType": "byte[]",
-            "fieldTypeBlobContent": "text"
+            "fieldType": "String"
         },
         {
-            "fieldName": "commentCreatedDate",
-            "fieldType": "Instant"
-        },
-        {
-            "fieldName": "commentUpdateDate",
+            "fieldName": "commentTimeStamp",
             "fieldType": "Instant"
         }
     ],
@@ -33,10 +21,10 @@
             "relationshipType": "many-to-one",
             "relationshipName": "post",
             "otherEntityName": "blogPost",
-            "otherEntityField": "id"
+            "otherEntityField": "postTitle"
         }
     ],
-    "changelogDate": "20180720045241",
+    "changelogDate": "20180724181718",
     "javadoc": "Comment entity",
     "entityTableName": "comment",
     "dto": "mapstruct",

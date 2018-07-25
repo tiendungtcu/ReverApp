@@ -1,6 +1,5 @@
 package com.tcutma.realstate.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.annotations.ApiModel;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -9,7 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 
 import java.io.Serializable;
-import java.time.ZonedDateTime;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Objects;
@@ -36,45 +35,56 @@ public class Property implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "property_code", nullable = false)
+    @Size(max = 16)
+    @Column(name = "property_code", length = 16, nullable = false)
     private String propertyCode;
 
     @NotNull
-    @Column(name = "property_name", nullable = false)
+    @Size(max = 128)
+    @Column(name = "property_name", length = 128, nullable = false)
     private String propertyName;
 
-    @Column(name = "property_alias")
+    @Size(max = 128)
+    @Column(name = "property_alias", length = 128)
     private String propertyAlias;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "property_transaction")
     private TransactionType propertyTransaction;
 
-    @Column(name = "property_number")
+    @Size(max = 64)
+    @Column(name = "property_number", length = 64)
     private String propertyNumber;
 
-    @Column(name = "property_road")
+    @Size(max = 64)
+    @Column(name = "property_road", length = 64)
     private String propertyRoad;
 
-    @Column(name = "property_ward")
+    @Size(max = 64)
+    @Column(name = "property_ward", length = 64)
     private String propertyWard;
 
-    @Column(name = "property_district")
+    @Size(max = 64)
+    @Column(name = "property_district", length = 64)
     private String propertyDistrict;
 
-    @Column(name = "property_province")
+    @Size(max = 64)
+    @Column(name = "property_province", length = 64)
     private String propertyProvince;
 
     @Lob
     @Column(name = "property_description")
     private String propertyDescription;
 
+    @Min(value = 0)
     @Column(name = "property_bed_rooms")
     private Integer propertyBedRooms;
 
+    @Min(value = 0)
     @Column(name = "property_bath_rooms")
     private Integer propertyBathRooms;
 
+    @DecimalMin(value = "0")
     @Column(name = "property_square")
     private Double propertySquare;
 
@@ -96,7 +106,7 @@ public class Property implements Serializable {
     private PriceUnit propertyRentUnit;
 
     @Column(name = "property_rent_started_date")
-    private ZonedDateTime propertyRentStartedDate;
+    private LocalDate propertyRentStartedDate;
 
     @Column(name = "property_sell_price")
     private Double propertySellPrice;
@@ -106,7 +116,7 @@ public class Property implements Serializable {
     private PriceUnit propertySellUnit;
 
     @Column(name = "property_sell_started_date")
-    private ZonedDateTime propertySellStartedDate;
+    private LocalDate propertySellStartedDate;
 
     @Column(name = "property_sofa")
     private Boolean propertySofa;
@@ -210,16 +220,14 @@ public class Property implements Serializable {
     @Column(name = "property_extra_info")
     private String propertyExtraInfo;
 
-    @Lob
-    @Column(name = "property_draft")
-    private byte[] propertyDraft;
+    @Column(name = "property_draft_url")
+    private String propertyDraftUrl;
 
-    @Column(name = "property_draft_content_type")
-    private String propertyDraftContentType;
-
+    @DecimalMin(value = "0")
     @Column(name = "longitude")
     private Double longitude;
 
+    @DecimalMin(value = "0")
     @Column(name = "latitude")
     private Double latitude;
 
@@ -248,9 +256,9 @@ public class Property implements Serializable {
     @JoinColumn(unique = true)
     private Location location;
 
-    @ManyToOne
-    @JsonIgnoreProperties("")
-    private ResidentialArea residentialArea;
+    @OneToOne
+    @JoinColumn(unique = true)
+    private User consultant;
 
     @ManyToMany
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
@@ -258,20 +266,6 @@ public class Property implements Serializable {
                joinColumns = @JoinColumn(name = "properties_id", referencedColumnName = "id"),
                inverseJoinColumns = @JoinColumn(name = "tags_id", referencedColumnName = "id"))
     private Set<Tag> tags = new HashSet<>();
-
-    @ManyToMany
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    @JoinTable(name = "property_buildingtype",
-               joinColumns = @JoinColumn(name = "properties_id", referencedColumnName = "id"),
-               inverseJoinColumns = @JoinColumn(name = "buildingtypes_id", referencedColumnName = "id"))
-    private Set<BuildingType> buildingtypes = new HashSet<>();
-
-    @ManyToMany
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    @JoinTable(name = "property_photo",
-               joinColumns = @JoinColumn(name = "properties_id", referencedColumnName = "id"),
-               inverseJoinColumns = @JoinColumn(name = "photos_id", referencedColumnName = "id"))
-    private Set<Photo> photos = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -516,16 +510,16 @@ public class Property implements Serializable {
         this.propertyRentUnit = propertyRentUnit;
     }
 
-    public ZonedDateTime getPropertyRentStartedDate() {
+    public LocalDate getPropertyRentStartedDate() {
         return propertyRentStartedDate;
     }
 
-    public Property propertyRentStartedDate(ZonedDateTime propertyRentStartedDate) {
+    public Property propertyRentStartedDate(LocalDate propertyRentStartedDate) {
         this.propertyRentStartedDate = propertyRentStartedDate;
         return this;
     }
 
-    public void setPropertyRentStartedDate(ZonedDateTime propertyRentStartedDate) {
+    public void setPropertyRentStartedDate(LocalDate propertyRentStartedDate) {
         this.propertyRentStartedDate = propertyRentStartedDate;
     }
 
@@ -555,16 +549,16 @@ public class Property implements Serializable {
         this.propertySellUnit = propertySellUnit;
     }
 
-    public ZonedDateTime getPropertySellStartedDate() {
+    public LocalDate getPropertySellStartedDate() {
         return propertySellStartedDate;
     }
 
-    public Property propertySellStartedDate(ZonedDateTime propertySellStartedDate) {
+    public Property propertySellStartedDate(LocalDate propertySellStartedDate) {
         this.propertySellStartedDate = propertySellStartedDate;
         return this;
     }
 
-    public void setPropertySellStartedDate(ZonedDateTime propertySellStartedDate) {
+    public void setPropertySellStartedDate(LocalDate propertySellStartedDate) {
         this.propertySellStartedDate = propertySellStartedDate;
     }
 
@@ -1010,30 +1004,17 @@ public class Property implements Serializable {
         this.propertyExtraInfo = propertyExtraInfo;
     }
 
-    public byte[] getPropertyDraft() {
-        return propertyDraft;
+    public String getPropertyDraftUrl() {
+        return propertyDraftUrl;
     }
 
-    public Property propertyDraft(byte[] propertyDraft) {
-        this.propertyDraft = propertyDraft;
+    public Property propertyDraftUrl(String propertyDraftUrl) {
+        this.propertyDraftUrl = propertyDraftUrl;
         return this;
     }
 
-    public void setPropertyDraft(byte[] propertyDraft) {
-        this.propertyDraft = propertyDraft;
-    }
-
-    public String getPropertyDraftContentType() {
-        return propertyDraftContentType;
-    }
-
-    public Property propertyDraftContentType(String propertyDraftContentType) {
-        this.propertyDraftContentType = propertyDraftContentType;
-        return this;
-    }
-
-    public void setPropertyDraftContentType(String propertyDraftContentType) {
-        this.propertyDraftContentType = propertyDraftContentType;
+    public void setPropertyDraftUrl(String propertyDraftUrl) {
+        this.propertyDraftUrl = propertyDraftUrl;
     }
 
     public Double getLongitude() {
@@ -1166,17 +1147,17 @@ public class Property implements Serializable {
         this.location = location;
     }
 
-    public ResidentialArea getResidentialArea() {
-        return residentialArea;
+    public User getConsultant() {
+        return consultant;
     }
 
-    public Property residentialArea(ResidentialArea residentialArea) {
-        this.residentialArea = residentialArea;
+    public Property consultant(User user) {
+        this.consultant = user;
         return this;
     }
 
-    public void setResidentialArea(ResidentialArea residentialArea) {
-        this.residentialArea = residentialArea;
+    public void setConsultant(User user) {
+        this.consultant = user;
     }
 
     public Set<Tag> getTags() {
@@ -1190,68 +1171,16 @@ public class Property implements Serializable {
 
     public Property addTag(Tag tag) {
         this.tags.add(tag);
-        tag.getProperties().add(this);
         return this;
     }
 
     public Property removeTag(Tag tag) {
         this.tags.remove(tag);
-        tag.getProperties().remove(this);
         return this;
     }
 
     public void setTags(Set<Tag> tags) {
         this.tags = tags;
-    }
-
-    public Set<BuildingType> getBuildingtypes() {
-        return buildingtypes;
-    }
-
-    public Property buildingtypes(Set<BuildingType> buildingTypes) {
-        this.buildingtypes = buildingTypes;
-        return this;
-    }
-
-    public Property addBuildingtype(BuildingType buildingType) {
-        this.buildingtypes.add(buildingType);
-        buildingType.getProperties().add(this);
-        return this;
-    }
-
-    public Property removeBuildingtype(BuildingType buildingType) {
-        this.buildingtypes.remove(buildingType);
-        buildingType.getProperties().remove(this);
-        return this;
-    }
-
-    public void setBuildingtypes(Set<BuildingType> buildingTypes) {
-        this.buildingtypes = buildingTypes;
-    }
-
-    public Set<Photo> getPhotos() {
-        return photos;
-    }
-
-    public Property photos(Set<Photo> photos) {
-        this.photos = photos;
-        return this;
-    }
-
-    public Property addPhoto(Photo photo) {
-        this.photos.add(photo);
-        photo.getProperties().add(this);
-        return this;
-    }
-
-    public Property removePhoto(Photo photo) {
-        this.photos.remove(photo);
-        photo.getProperties().remove(this);
-        return this;
-    }
-
-    public void setPhotos(Set<Photo> photos) {
-        this.photos = photos;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -1335,8 +1264,7 @@ public class Property implements Serializable {
             ", propertyResidentialCommunity='" + getPropertyResidentialCommunity() + "'" +
             ", propertyEducationalAspect='" + getPropertyEducationalAspect() + "'" +
             ", propertyExtraInfo='" + getPropertyExtraInfo() + "'" +
-            ", propertyDraft='" + getPropertyDraft() + "'" +
-            ", propertyDraftContentType='" + getPropertyDraftContentType() + "'" +
+            ", propertyDraftUrl='" + getPropertyDraftUrl() + "'" +
             ", longitude=" + getLongitude() +
             ", latitude=" + getLatitude() +
             ", propertyGoodPrice='" + isPropertyGoodPrice() + "'" +

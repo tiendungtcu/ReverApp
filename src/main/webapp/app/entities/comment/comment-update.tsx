@@ -4,7 +4,7 @@ import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Row, Col, Label } from 'reactstrap';
 import { AvForm, AvGroup, AvInput, AvField } from 'availity-reactstrap-validation';
 // tslint:disable-next-line:no-unused-variable
-import { Translate, translate, ICrudGetAction, ICrudGetAllAction, setFileData, byteSize, ICrudPutAction } from 'react-jhipster';
+import { Translate, translate, ICrudGetAction, ICrudGetAllAction, ICrudPutAction } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IRootState } from 'app/shared/reducers';
 
@@ -12,7 +12,7 @@ import { IUser } from 'app/shared/model/user.model';
 import { getUsers } from 'app/modules/administration/user-management/user-management.reducer';
 import { IBlogPost } from 'app/shared/model/blog-post.model';
 import { getEntities as getBlogPosts } from 'app/entities/blog-post/blog-post.reducer';
-import { getEntity, updateEntity, createEntity, setBlob, reset } from './comment.reducer';
+import { getEntity, updateEntity, createEntity, reset } from './comment.reducer';
 import { IComment } from 'app/shared/model/comment.model';
 // tslint:disable-next-line:no-unused-variable
 import { convertDateTimeFromServer } from 'app/shared/util/date-utils';
@@ -47,17 +47,8 @@ export class CommentUpdate extends React.Component<ICommentUpdateProps, IComment
     this.props.getBlogPosts();
   }
 
-  onBlobChange = (isAnImage, name) => event => {
-    setFileData(event, (contentType, data) => this.props.setBlob(name, data, contentType), isAnImage);
-  };
-
-  clearBlob = name => () => {
-    this.props.setBlob(name, undefined, undefined);
-  };
-
   saveEntity = (event, errors, values) => {
-    values.commentCreatedDate = new Date(values.commentCreatedDate);
-    values.commentUpdateDate = new Date(values.commentUpdateDate);
+    values.commentTimeStamp = new Date(values.commentTimeStamp);
 
     if (errors.length === 0) {
       const { commentEntity } = this.props;
@@ -97,14 +88,14 @@ export class CommentUpdate extends React.Component<ICommentUpdateProps, IComment
   };
 
   postUpdate = element => {
-    const id = element.target.value.toString();
-    if (id === '') {
+    const postTitle = element.target.value.toString();
+    if (postTitle === '') {
       this.setState({
         postId: -1
       });
     } else {
       for (const i in this.props.blogPosts) {
-        if (id === this.props.blogPosts[i].id.toString()) {
+        if (postTitle === this.props.blogPosts[i].postTitle.toString()) {
           this.setState({
             postId: this.props.blogPosts[i].id
           });
@@ -117,8 +108,6 @@ export class CommentUpdate extends React.Component<ICommentUpdateProps, IComment
     const isInvalid = false;
     const { commentEntity, users, blogPosts, loading, updating } = this.props;
     const { isNew } = this.state;
-
-    const { commentContent } = commentEntity;
 
     return (
       <div>
@@ -144,46 +133,21 @@ export class CommentUpdate extends React.Component<ICommentUpdateProps, IComment
                   </AvGroup>
                 ) : null}
                 <AvGroup>
-                  <Label id="commentTitleLabel" for="commentTitle">
-                    <Translate contentKey="riverApp.comment.commentTitle">Comment Title</Translate>
-                  </Label>
-                  <AvField
-                    id="comment-commentTitle"
-                    type="text"
-                    name="commentTitle"
-                    validate={{
-                      required: { value: true, errorMessage: translate('entity.validation.required') }
-                    }}
-                  />
-                </AvGroup>
-                <AvGroup>
                   <Label id="commentContentLabel" for="commentContent">
                     <Translate contentKey="riverApp.comment.commentContent">Comment Content</Translate>
                   </Label>
                   <AvField id="comment-commentContent" type="text" name="commentContent" />
                 </AvGroup>
                 <AvGroup>
-                  <Label id="commentCreatedDateLabel" for="commentCreatedDate">
-                    <Translate contentKey="riverApp.comment.commentCreatedDate">Comment Created Date</Translate>
+                  <Label id="commentTimeStampLabel" for="commentTimeStamp">
+                    <Translate contentKey="riverApp.comment.commentTimeStamp">Comment Time Stamp</Translate>
                   </Label>
                   <AvInput
-                    id="comment-commentCreatedDate"
+                    id="comment-commentTimeStamp"
                     type="datetime-local"
                     className="form-control"
-                    name="commentCreatedDate"
-                    value={isNew ? null : convertDateTimeFromServer(this.props.commentEntity.commentCreatedDate)}
-                  />
-                </AvGroup>
-                <AvGroup>
-                  <Label id="commentUpdateDateLabel" for="commentUpdateDate">
-                    <Translate contentKey="riverApp.comment.commentUpdateDate">Comment Update Date</Translate>
-                  </Label>
-                  <AvInput
-                    id="comment-commentUpdateDate"
-                    type="datetime-local"
-                    className="form-control"
-                    name="commentUpdateDate"
-                    value={isNew ? null : convertDateTimeFromServer(this.props.commentEntity.commentUpdateDate)}
+                    name="commentTimeStamp"
+                    value={isNew ? null : convertDateTimeFromServer(this.props.commentEntity.commentTimeStamp)}
                   />
                 </AvGroup>
                 <AvGroup>
@@ -202,7 +166,7 @@ export class CommentUpdate extends React.Component<ICommentUpdateProps, IComment
                   </AvInput>
                 </AvGroup>
                 <AvGroup>
-                  <Label for="post.id">
+                  <Label for="post.postTitle">
                     <Translate contentKey="riverApp.comment.post">Post</Translate>
                   </Label>
                   <AvInput id="comment-post" type="select" className="form-control" name="postId" onChange={this.postUpdate}>
@@ -210,7 +174,7 @@ export class CommentUpdate extends React.Component<ICommentUpdateProps, IComment
                     {blogPosts
                       ? blogPosts.map(otherEntity => (
                           <option value={otherEntity.id} key={otherEntity.id}>
-                            {otherEntity.id}
+                            {otherEntity.postTitle}
                           </option>
                         ))
                       : null}
@@ -249,7 +213,6 @@ const mapDispatchToProps = {
   getBlogPosts,
   getEntity,
   updateEntity,
-  setBlob,
   createEntity,
   reset
 };

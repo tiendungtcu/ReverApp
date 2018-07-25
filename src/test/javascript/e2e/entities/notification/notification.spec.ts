@@ -46,9 +46,8 @@ describe('Notification e2e test', () => {
     notificationUpdatePage.setNotificationDateInput('01/01/2001' + protractor.Key.TAB + '02:30AM');
     expect(await notificationUpdatePage.getNotificationDateInput()).to.contain('2001-01-01T02:30');
     notificationUpdatePage.notificationTypeSelectLastOption();
-    notificationUpdatePage.setNotificationReferenceInput('notificationReference');
-    expect(await notificationUpdatePage.getNotificationReferenceInput()).to.match(/notificationReference/);
-    notificationUpdatePage.userSelectLastOption();
+    notificationUpdatePage.setNotificationSenderInput('5');
+    expect(await notificationUpdatePage.getNotificationSenderInput()).to.eq('5');
     await notificationUpdatePage.save();
     expect(await notificationUpdatePage.getSaveButton().isPresent()).to.be.false;
   });

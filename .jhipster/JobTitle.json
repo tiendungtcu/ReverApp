@@ -5,16 +5,22 @@
             "fieldName": "titleName",
             "fieldType": "String",
             "fieldValidateRules": [
-                "required"
-            ]
+                "required",
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 128
         },
         {
             "fieldName": "salaryFactor",
-            "fieldType": "Double"
+            "fieldType": "Double",
+            "fieldValidateRules": [
+                "min"
+            ],
+            "fieldValidateRulesMin": 1
         }
     ],
     "relationships": [],
-    "changelogDate": "20180720045220",
+    "changelogDate": "20180724181654",
     "javadoc": "JobTitle - chuc vu entity",
     "entityTableName": "job_title",
     "dto": "mapstruct",

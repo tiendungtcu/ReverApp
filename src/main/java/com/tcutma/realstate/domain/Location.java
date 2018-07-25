@@ -28,7 +28,8 @@ public class Location implements Serializable {
     @Column(name = "location_name")
     private String locationName;
 
-    @Column(name = "location_full_address")
+    @Size(max = 256)
+    @Column(name = "location_full_address", length = 256)
     private String locationFullAddress;
 
     @Column(name = "location_number")
@@ -46,9 +47,6 @@ public class Location implements Serializable {
     @Column(name = "location_province")
     private String locationProvince;
 
-    @Column(name = "location_country")
-    private String locationCountry;
-
     @Column(name = "location_gmap_url")
     private String locationGmapUrl;
 
@@ -60,8 +58,9 @@ public class Location implements Serializable {
     @Column(name = "latitude", nullable = false)
     private Double latitude;
 
-    @Column(name = "location_hide")
-    private Boolean locationHide;
+    @Size(max = 16)
+    @Column(name = "location_zip_code", length = 16)
+    private String locationZipCode;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -163,19 +162,6 @@ public class Location implements Serializable {
         this.locationProvince = locationProvince;
     }
 
-    public String getLocationCountry() {
-        return locationCountry;
-    }
-
-    public Location locationCountry(String locationCountry) {
-        this.locationCountry = locationCountry;
-        return this;
-    }
-
-    public void setLocationCountry(String locationCountry) {
-        this.locationCountry = locationCountry;
-    }
-
     public String getLocationGmapUrl() {
         return locationGmapUrl;
     }
@@ -215,17 +201,17 @@ public class Location implements Serializable {
         this.latitude = latitude;
     }
 
-    public Boolean isLocationHide() {
-        return locationHide;
+    public String getLocationZipCode() {
+        return locationZipCode;
     }
 
-    public Location locationHide(Boolean locationHide) {
-        this.locationHide = locationHide;
+    public Location locationZipCode(String locationZipCode) {
+        this.locationZipCode = locationZipCode;
         return this;
     }
 
-    public void setLocationHide(Boolean locationHide) {
-        this.locationHide = locationHide;
+    public void setLocationZipCode(String locationZipCode) {
+        this.locationZipCode = locationZipCode;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -260,11 +246,10 @@ public class Location implements Serializable {
             ", locationWard='" + getLocationWard() + "'" +
             ", locationDistrict='" + getLocationDistrict() + "'" +
             ", locationProvince='" + getLocationProvince() + "'" +
-            ", locationCountry='" + getLocationCountry() + "'" +
             ", locationGmapUrl='" + getLocationGmapUrl() + "'" +
             ", longitude=" + getLongitude() +
             ", latitude=" + getLatitude() +
-            ", locationHide='" + isLocationHide() + "'" +
+            ", locationZipCode='" + getLocationZipCode() + "'" +
             "}";
     }
 }

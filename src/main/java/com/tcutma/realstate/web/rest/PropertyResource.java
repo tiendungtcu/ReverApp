@@ -8,7 +8,6 @@ import com.tcutma.realstate.web.rest.util.PaginationUtil;
 import com.tcutma.realstate.service.dto.PropertyDTO;
 import com.tcutma.realstate.service.dto.PropertyCriteria;
 import com.tcutma.realstate.service.PropertyQueryService;
-import com.tcutma.realstate.web.rest.vm.PropertyVM;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -131,19 +130,4 @@ public class PropertyResource {
         propertyService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
-
-    /**
-     * GET  /v1/properties/:id : get the "id" property.
-     *
-     * @param id the id of the propertyVM to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the propertyVM, or with status 404 (Not Found)
-     */
-    @GetMapping("/v1/properties/{id}")
-    @Timed
-    public ResponseEntity<PropertyVM> getOneProperty(@PathVariable Long id) {
-        log.debug("REST request to get Property : {}", id);
-        Optional<PropertyVM> propertyVM = propertyService.findMyOne(id);
-        return ResponseUtil.wrapOrNotFound(propertyVM);
-    }
-
 }

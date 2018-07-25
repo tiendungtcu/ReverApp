@@ -13,7 +13,7 @@ import java.util.List;
 @Repository
 public interface ArticleRepository extends JpaRepository<Article, Long>, JpaSpecificationExecutor<Article> {
 
-    @Query("select article from Article article where article.user.login = ?#{principal.username}")
-    List<Article> findByUserIsCurrentUser();
+    @Query("select article from Article article where article.author.login = ?#{principal.username}")
+    List<Article> findByAuthorIsCurrentUser();
 
 }

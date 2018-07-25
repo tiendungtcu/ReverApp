@@ -13,8 +13,10 @@ public class CompanyDTO implements Serializable {
     private Long id;
 
     @NotNull
+    @Size(max = 128)
     private String companyName;
 
+    @Size(max = 16)
     private String companyPhone;
 
     private String companyAddress;

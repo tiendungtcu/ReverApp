@@ -81,10 +81,9 @@ spring:
           enabled: true
           file-size-threshold: 2KB
           max-file-size: 20MB
-          max-request-size: 215MB
+          max-request-size: 200MB
 
 # End of my part
-
 # ===================================================================
 # To enable SSL, generate a certificate using:
 # keytool -genkey -alias riverapp -storetype PKCS12 -keyalg RSA -keysize 2048 -keystore keystore.p12 -validity 3650
@@ -159,7 +158,6 @@ jhipster:
 # ===================================================================
 
 # application:
-
 # This is my codes
 application:
    upload-dir: ./uploads/files

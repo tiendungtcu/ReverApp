@@ -2,9 +2,7 @@ package com.tcutma.realstate.service.dto;
 
 import java.io.Serializable;
 import com.tcutma.realstate.domain.enumeration.TransactionStatus;
-import com.tcutma.realstate.domain.enumeration.AreaUnit;
 import com.tcutma.realstate.domain.enumeration.PriceUnit;
-import com.tcutma.realstate.domain.enumeration.AreaUnit;
 import com.tcutma.realstate.domain.enumeration.PriceUnit;
 import io.github.jhipster.service.filter.BooleanFilter;
 import io.github.jhipster.service.filter.DoubleFilter;
@@ -14,8 +12,8 @@ import io.github.jhipster.service.filter.IntegerFilter;
 import io.github.jhipster.service.filter.LongFilter;
 import io.github.jhipster.service.filter.StringFilter;
 
-import io.github.jhipster.service.filter.InstantFilter;
 
+import io.github.jhipster.service.filter.LocalDateFilter;
 
 
 
@@ -35,12 +33,6 @@ public class ProjectCriteria implements Serializable {
     }
 
     /**
-     * Class for filtering AreaUnit
-     */
-    public static class AreaUnitFilter extends Filter<AreaUnit> {
-    }
-
-    /**
      * Class for filtering PriceUnit
      */
     public static class PriceUnitFilter extends Filter<PriceUnit> {
@@ -55,23 +47,19 @@ public class ProjectCriteria implements Serializable {
 
     private StringFilter projectAlias;
 
-    private IntegerFilter projectAvatarId;
-
     private StringFilter projectAvatarUrl;
 
     private StringFilter projectDistrict;
 
     private StringFilter projectProvince;
 
-    private StringFilter projectResidentialArea;
+    private LongFilter residentialAreaId;
 
     private StringFilter projectRoad;
 
     private StringFilter projectWard;
 
     private TransactionStatusFilter projectStatus;
-
-    private StringFilter projectType;
 
     private IntegerFilter projectNoBlocks;
 
@@ -85,21 +73,17 @@ public class ProjectCriteria implements Serializable {
 
     private DoubleFilter projectMaxSellPrice;
 
-    private AreaUnitFilter projectSellAreaUnit;
-
     private PriceUnitFilter projectSellPriceUnit;
 
     private DoubleFilter projectMinRentPrice;
 
     private DoubleFilter projectMaxRentPrice;
 
-    private AreaUnitFilter projectRentAreaUnit;
-
     private PriceUnitFilter projectRentPriceUnit;
 
-    private InstantFilter projectStartedDate;
+    private LocalDateFilter projectStartedDate;
 
-    private InstantFilter projectFinishingDate;
+    private LocalDateFilter projectFinishingDate;
 
     private IntegerFilter projectMinApartmentSquare;
 
@@ -139,21 +123,17 @@ public class ProjectCriteria implements Serializable {
 
     private BooleanFilter projectAvailable;
 
-    private LongFilter documentId;
-
     private LongFilter locationId;
 
-    private LongFilter postId;
+    private LongFilter consultantId;
 
     private LongFilter tagId;
 
     private LongFilter buildingtypeId;
 
-    private LongFilter investorId;
+    private LongFilter inverstorId;
 
-    private LongFilter projectbuilderId;
-
-    private LongFilter photoId;
+    private LongFilter contractorId;
 
     public ProjectCriteria() {
     }
@@ -182,14 +162,6 @@ public class ProjectCriteria implements Serializable {
         this.projectAlias = projectAlias;
     }
 
-    public IntegerFilter getProjectAvatarId() {
-        return projectAvatarId;
-    }
-
-    public void setProjectAvatarId(IntegerFilter projectAvatarId) {
-        this.projectAvatarId = projectAvatarId;
-    }
-
     public StringFilter getProjectAvatarUrl() {
         return projectAvatarUrl;
     }
@@ -214,12 +186,12 @@ public class ProjectCriteria implements Serializable {
         this.projectProvince = projectProvince;
     }
 
-    public StringFilter getProjectResidentialArea() {
-        return projectResidentialArea;
+    public LongFilter getResidentialAreaId() {
+        return residentialAreaId;
     }
 
-    public void setProjectResidentialArea(StringFilter projectResidentialArea) {
-        this.projectResidentialArea = projectResidentialArea;
+    public void setResidentialAreaId(LongFilter residentialAreaId) {
+        this.residentialAreaId = residentialAreaId;
     }
 
     public StringFilter getProjectRoad() {
@@ -244,14 +216,6 @@ public class ProjectCriteria implements Serializable {
 
     public void setProjectStatus(TransactionStatusFilter projectStatus) {
         this.projectStatus = projectStatus;
-    }
-
-    public StringFilter getProjectType() {
-        return projectType;
-    }
-
-    public void setProjectType(StringFilter projectType) {
-        this.projectType = projectType;
     }
 
     public IntegerFilter getProjectNoBlocks() {
@@ -302,14 +266,6 @@ public class ProjectCriteria implements Serializable {
         this.projectMaxSellPrice = projectMaxSellPrice;
     }
 
-    public AreaUnitFilter getProjectSellAreaUnit() {
-        return projectSellAreaUnit;
-    }
-
-    public void setProjectSellAreaUnit(AreaUnitFilter projectSellAreaUnit) {
-        this.projectSellAreaUnit = projectSellAreaUnit;
-    }
-
     public PriceUnitFilter getProjectSellPriceUnit() {
         return projectSellPriceUnit;
     }
@@ -334,14 +290,6 @@ public class ProjectCriteria implements Serializable {
         this.projectMaxRentPrice = projectMaxRentPrice;
     }
 
-    public AreaUnitFilter getProjectRentAreaUnit() {
-        return projectRentAreaUnit;
-    }
-
-    public void setProjectRentAreaUnit(AreaUnitFilter projectRentAreaUnit) {
-        this.projectRentAreaUnit = projectRentAreaUnit;
-    }
-
     public PriceUnitFilter getProjectRentPriceUnit() {
         return projectRentPriceUnit;
     }
@@ -350,19 +298,19 @@ public class ProjectCriteria implements Serializable {
         this.projectRentPriceUnit = projectRentPriceUnit;
     }
 
-    public InstantFilter getProjectStartedDate() {
+    public LocalDateFilter getProjectStartedDate() {
         return projectStartedDate;
     }
 
-    public void setProjectStartedDate(InstantFilter projectStartedDate) {
+    public void setProjectStartedDate(LocalDateFilter projectStartedDate) {
         this.projectStartedDate = projectStartedDate;
     }
 
-    public InstantFilter getProjectFinishingDate() {
+    public LocalDateFilter getProjectFinishingDate() {
         return projectFinishingDate;
     }
 
-    public void setProjectFinishingDate(InstantFilter projectFinishingDate) {
+    public void setProjectFinishingDate(LocalDateFilter projectFinishingDate) {
         this.projectFinishingDate = projectFinishingDate;
     }
 
@@ -518,14 +466,6 @@ public class ProjectCriteria implements Serializable {
         this.projectAvailable = projectAvailable;
     }
 
-    public LongFilter getDocumentId() {
-        return documentId;
-    }
-
-    public void setDocumentId(LongFilter documentId) {
-        this.documentId = documentId;
-    }
-
     public LongFilter getLocationId() {
         return locationId;
     }
@@ -534,12 +474,12 @@ public class ProjectCriteria implements Serializable {
         this.locationId = locationId;
     }
 
-    public LongFilter getPostId() {
-        return postId;
+    public LongFilter getConsultantId() {
+        return consultantId;
     }
 
-    public void setPostId(LongFilter postId) {
-        this.postId = postId;
+    public void setConsultantId(LongFilter consultantId) {
+        this.consultantId = consultantId;
     }
 
     public LongFilter getTagId() {
@@ -558,28 +498,20 @@ public class ProjectCriteria implements Serializable {
         this.buildingtypeId = buildingtypeId;
     }
 
-    public LongFilter getInvestorId() {
-        return investorId;
+    public LongFilter getInverstorId() {
+        return inverstorId;
     }
 
-    public void setInvestorId(LongFilter investorId) {
-        this.investorId = investorId;
+    public void setInverstorId(LongFilter inverstorId) {
+        this.inverstorId = inverstorId;
     }
 
-    public LongFilter getProjectbuilderId() {
-        return projectbuilderId;
+    public LongFilter getContractorId() {
+        return contractorId;
     }
 
-    public void setProjectbuilderId(LongFilter projectbuilderId) {
-        this.projectbuilderId = projectbuilderId;
-    }
-
-    public LongFilter getPhotoId() {
-        return photoId;
-    }
-
-    public void setPhotoId(LongFilter photoId) {
-        this.photoId = photoId;
+    public void setContractorId(LongFilter contractorId) {
+        this.contractorId = contractorId;
     }
 
     @Override
@@ -588,26 +520,22 @@ public class ProjectCriteria implements Serializable {
                 (id != null ? "id=" + id + ", " : "") +
                 (projectName != null ? "projectName=" + projectName + ", " : "") +
                 (projectAlias != null ? "projectAlias=" + projectAlias + ", " : "") +
-                (projectAvatarId != null ? "projectAvatarId=" + projectAvatarId + ", " : "") +
                 (projectAvatarUrl != null ? "projectAvatarUrl=" + projectAvatarUrl + ", " : "") +
                 (projectDistrict != null ? "projectDistrict=" + projectDistrict + ", " : "") +
                 (projectProvince != null ? "projectProvince=" + projectProvince + ", " : "") +
-                (projectResidentialArea != null ? "projectResidentialArea=" + projectResidentialArea + ", " : "") +
+                (residentialAreaId != null ? "residentialAreaId=" + residentialAreaId + ", " : "") +
                 (projectRoad != null ? "projectRoad=" + projectRoad + ", " : "") +
                 (projectWard != null ? "projectWard=" + projectWard + ", " : "") +
                 (projectStatus != null ? "projectStatus=" + projectStatus + ", " : "") +
-                (projectType != null ? "projectType=" + projectType + ", " : "") +
                 (projectNoBlocks != null ? "projectNoBlocks=" + projectNoBlocks + ", " : "") +
                 (projectNoFloors != null ? "projectNoFloors=" + projectNoFloors + ", " : "") +
                 (projectNoApartments != null ? "projectNoApartments=" + projectNoApartments + ", " : "") +
                 (projectNoShophouse != null ? "projectNoShophouse=" + projectNoShophouse + ", " : "") +
                 (projectMinSellPrice != null ? "projectMinSellPrice=" + projectMinSellPrice + ", " : "") +
                 (projectMaxSellPrice != null ? "projectMaxSellPrice=" + projectMaxSellPrice + ", " : "") +
-                (projectSellAreaUnit != null ? "projectSellAreaUnit=" + projectSellAreaUnit + ", " : "") +
                 (projectSellPriceUnit != null ? "projectSellPriceUnit=" + projectSellPriceUnit + ", " : "") +
                 (projectMinRentPrice != null ? "projectMinRentPrice=" + projectMinRentPrice + ", " : "") +
                 (projectMaxRentPrice != null ? "projectMaxRentPrice=" + projectMaxRentPrice + ", " : "") +
-                (projectRentAreaUnit != null ? "projectRentAreaUnit=" + projectRentAreaUnit + ", " : "") +
                 (projectRentPriceUnit != null ? "projectRentPriceUnit=" + projectRentPriceUnit + ", " : "") +
                 (projectStartedDate != null ? "projectStartedDate=" + projectStartedDate + ", " : "") +
                 (projectFinishingDate != null ? "projectFinishingDate=" + projectFinishingDate + ", " : "") +
@@ -630,14 +558,12 @@ public class ProjectCriteria implements Serializable {
                 (latitude != null ? "latitude=" + latitude + ", " : "") +
                 (projectSeenCount != null ? "projectSeenCount=" + projectSeenCount + ", " : "") +
                 (projectAvailable != null ? "projectAvailable=" + projectAvailable + ", " : "") +
-                (documentId != null ? "documentId=" + documentId + ", " : "") +
                 (locationId != null ? "locationId=" + locationId + ", " : "") +
-                (postId != null ? "postId=" + postId + ", " : "") +
+                (consultantId != null ? "consultantId=" + consultantId + ", " : "") +
                 (tagId != null ? "tagId=" + tagId + ", " : "") +
                 (buildingtypeId != null ? "buildingtypeId=" + buildingtypeId + ", " : "") +
-                (investorId != null ? "investorId=" + investorId + ", " : "") +
-                (projectbuilderId != null ? "projectbuilderId=" + projectbuilderId + ", " : "") +
-                (photoId != null ? "photoId=" + photoId + ", " : "") +
+                (inverstorId != null ? "inverstorId=" + inverstorId + ", " : "") +
+                (contractorId != null ? "contractorId=" + contractorId + ", " : "") +
             "}";
     }
 

@@ -5,24 +5,18 @@
             "fieldName": "projectName",
             "fieldType": "String",
             "fieldValidateRules": [
-                "required"
-            ]
+                "required",
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 128
         },
         {
             "fieldName": "projectAlias",
             "fieldType": "String",
             "fieldValidateRules": [
-                "required"
-            ]
-        },
-        {
-            "fieldName": "projectAvatar",
-            "fieldType": "byte[]",
-            "fieldTypeBlobContent": "image"
-        },
-        {
-            "fieldName": "projectAvatarId",
-            "fieldType": "Integer"
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 128
         },
         {
             "fieldName": "projectAvatarUrl",
@@ -30,32 +24,44 @@
         },
         {
             "fieldName": "projectDistrict",
-            "fieldType": "String"
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 64
         },
         {
             "fieldName": "projectProvince",
-            "fieldType": "String"
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 64
         },
         {
-            "fieldName": "projectResidentialArea",
-            "fieldType": "String"
+            "fieldName": "residentialAreaId",
+            "fieldType": "Long"
         },
         {
             "fieldName": "projectRoad",
-            "fieldType": "String"
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 128
         },
         {
             "fieldName": "projectWard",
-            "fieldType": "String"
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 64
         },
         {
             "fieldName": "projectStatus",
             "fieldType": "TransactionStatus",
             "fieldValues": "SELLING,PRESELL,CLOSED"
-        },
-        {
-            "fieldName": "projectType",
-            "fieldType": "String"
         },
         {
             "fieldName": "projectNoBlocks",
@@ -89,16 +95,15 @@
         },
         {
             "fieldName": "projectMinSellPrice",
-            "fieldType": "Double"
+            "fieldType": "Double",
+            "fieldValidateRules": [
+                "min"
+            ],
+            "fieldValidateRulesMin": 0
         },
         {
             "fieldName": "projectMaxSellPrice",
             "fieldType": "Double"
-        },
-        {
-            "fieldName": "projectSellAreaUnit",
-            "fieldType": "AreaUnit",
-            "fieldValues": "M2,CAN,MONTH,YEAR"
         },
         {
             "fieldName": "projectSellPriceUnit",
@@ -107,16 +112,15 @@
         },
         {
             "fieldName": "projectMinRentPrice",
-            "fieldType": "Double"
+            "fieldType": "Double",
+            "fieldValidateRules": [
+                "min"
+            ],
+            "fieldValidateRulesMin": 0
         },
         {
             "fieldName": "projectMaxRentPrice",
             "fieldType": "Double"
-        },
-        {
-            "fieldName": "projectRentAreaUnit",
-            "fieldType": "AreaUnit",
-            "fieldValues": "M2,CAN,MONTH,YEAR"
         },
         {
             "fieldName": "projectRentPriceUnit",
@@ -125,15 +129,19 @@
         },
         {
             "fieldName": "projectStartedDate",
-            "fieldType": "Instant"
+            "fieldType": "LocalDate"
         },
         {
             "fieldName": "projectFinishingDate",
-            "fieldType": "Instant"
+            "fieldType": "LocalDate"
         },
         {
             "fieldName": "projectMinApartmentSquare",
-            "fieldType": "Integer"
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "min"
+            ],
+            "fieldValidateRulesMin": 1
         },
         {
             "fieldName": "projectMaxApartmentSquare",
@@ -141,11 +149,23 @@
         },
         {
             "fieldName": "projectGreenSpace",
-            "fieldType": "Integer"
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "min",
+                "max"
+            ],
+            "fieldValidateRulesMin": 0,
+            "fieldValidateRulesMax": 100
         },
         {
             "fieldName": "projectBuildingDensity",
-            "fieldType": "Integer"
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "min",
+                "max"
+            ],
+            "fieldValidateRulesMin": 0,
+            "fieldValidateRulesMax": 100
         },
         {
             "fieldName": "projectDesignCompany",
@@ -211,14 +231,6 @@
     "relationships": [
         {
             "relationshipType": "one-to-one",
-            "relationshipName": "document",
-            "otherEntityName": "document",
-            "otherEntityField": "id",
-            "ownerSide": true,
-            "otherEntityRelationshipName": "project"
-        },
-        {
-            "relationshipType": "one-to-one",
             "relationshipName": "location",
             "otherEntityName": "location",
             "otherEntityField": "id",
@@ -226,14 +238,16 @@
             "otherEntityRelationshipName": "project"
         },
         {
-            "relationshipType": "one-to-many",
-            "relationshipName": "post",
-            "otherEntityName": "blogPost",
+            "relationshipType": "one-to-one",
+            "relationshipName": "consultant",
+            "otherEntityName": "user",
+            "otherEntityField": "login",
+            "ownerSide": true,
             "otherEntityRelationshipName": "project"
         },
         {
             "relationshipType": "many-to-many",
-            "otherEntityRelationshipName": "project",
+            "otherEntityRelationshipName": "",
             "relationshipName": "tag",
             "otherEntityName": "tag",
             "otherEntityField": "tagName",
@@ -241,7 +255,7 @@
         },
         {
             "relationshipType": "many-to-many",
-            "otherEntityRelationshipName": "project",
+            "otherEntityRelationshipName": "",
             "relationshipName": "buildingtype",
             "otherEntityName": "buildingType",
             "otherEntityField": "typeName",
@@ -249,30 +263,22 @@
         },
         {
             "relationshipType": "many-to-many",
-            "otherEntityRelationshipName": "project",
-            "relationshipName": "investor",
+            "otherEntityRelationshipName": "",
+            "relationshipName": "inverstor",
             "otherEntityName": "investor",
             "otherEntityField": "investorName",
             "ownerSide": true
         },
         {
             "relationshipType": "many-to-many",
-            "otherEntityRelationshipName": "project",
-            "relationshipName": "projectbuilder",
-            "otherEntityName": "projectBuilder",
-            "otherEntityField": "builderName",
-            "ownerSide": true
-        },
-        {
-            "relationshipType": "many-to-many",
-            "otherEntityRelationshipName": "project",
-            "relationshipName": "photo",
-            "otherEntityName": "photo",
-            "otherEntityField": "id",
+            "otherEntityRelationshipName": "",
+            "relationshipName": "contractor",
+            "otherEntityName": "contractor",
+            "otherEntityField": "contractorName",
             "ownerSide": true
         }
     ],
-    "changelogDate": "20180720045236",
+    "changelogDate": "20180724181712",
     "javadoc": "Project entity",
     "entityTableName": "project",
     "dto": "mapstruct",

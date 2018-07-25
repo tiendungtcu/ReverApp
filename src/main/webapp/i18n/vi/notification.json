@@ -21,8 +21,7 @@
             "notificationSeen": "Notification Seen",
             "notificationDate": "Notification Date",
             "notificationType": "Notification Type",
-            "notificationReference": "Notification Reference",
-            "user": "User"
+            "notificationSender": "Notification Sender"
         }
     }
 }

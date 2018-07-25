@@ -3,16 +3,7 @@ import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Col, Row, Table } from 'reactstrap';
 // tslint:disable-next-line:no-unused-variable
-import {
-  openFile,
-  byteSize,
-  Translate,
-  ICrudGetAllAction,
-  getSortState,
-  IPaginationBaseState,
-  getPaginationItemsNumber,
-  JhiPagination
-} from 'react-jhipster';
+import { Translate, ICrudGetAllAction, getSortState, IPaginationBaseState, getPaginationItemsNumber, JhiPagination } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IRootState } from 'app/shared/reducers';
@@ -78,8 +69,9 @@ export class Department extends React.Component<IDepartmentProps, IDepartmentSta
                 <th className="hand" onClick={this.sort('departmentName')}>
                   <Translate contentKey="riverApp.department.departmentName">Department Name</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
-                <th className="hand" onClick={this.sort('departmentPhoto')}>
-                  <Translate contentKey="riverApp.department.departmentPhoto">Department Photo</Translate> <FontAwesomeIcon icon="sort" />
+                <th className="hand" onClick={this.sort('departmentAvatarUrl')}>
+                  <Translate contentKey="riverApp.department.departmentAvatarUrl">Department Avatar Url</Translate>{' '}
+                  <FontAwesomeIcon icon="sort" />
                 </th>
                 <th className="hand" onClick={this.sort('departmentPhone')}>
                   <Translate contentKey="riverApp.department.departmentPhone">Department Phone</Translate> <FontAwesomeIcon icon="sort" />
@@ -96,22 +88,7 @@ export class Department extends React.Component<IDepartmentProps, IDepartmentSta
                     </Button>
                   </td>
                   <td>{department.departmentName}</td>
-                  <td>
-                    {department.departmentPhoto ? (
-                      <div>
-                        <a onClick={openFile(department.departmentPhotoContentType, department.departmentPhoto)}>
-                          <img
-                            src={`data:${department.departmentPhotoContentType};base64,${department.departmentPhoto}`}
-                            style={{ maxHeight: '30px' }}
-                          />
-                          &nbsp;
-                        </a>
-                        <span>
-                          {department.departmentPhotoContentType}, {byteSize(department.departmentPhoto)}
-                        </span>
-                      </div>
-                    ) : null}
-                  </td>
+                  <td>{department.departmentAvatarUrl}</td>
                   <td>{department.departmentPhone}</td>
                   <td className="text-right">
                     <div className="btn-group flex-btn-group-container">

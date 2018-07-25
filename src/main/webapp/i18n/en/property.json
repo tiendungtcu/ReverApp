@@ -72,7 +72,7 @@
             "propertyResidentialCommunity": "Property Residential Community",
             "propertyEducationalAspect": "Property Educational Aspect",
             "propertyExtraInfo": "Property Extra Info",
-            "propertyDraft": "Property Draft",
+            "propertyDraftUrl": "Property Draft Url",
             "longitude": "Longitude",
             "latitude": "Latitude",
             "propertyGoodPrice": "Property Good Price",
@@ -83,10 +83,8 @@
             "propertyRefrigerator": "Property Refrigerator",
             "propertyAirconditioner": "Property Airconditioner",
             "location": "Location",
-            "residentialArea": "Residential Area",
-            "tag": "Tag",
-            "buildingtype": "Buildingtype",
-            "photo": "Photo"
+            "consultant": "Consultant",
+            "tag": "Tag"
         }
     }
 }

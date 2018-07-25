@@ -5,20 +5,38 @@
             "fieldName": "photoName",
             "fieldType": "String",
             "fieldValidateRules": [
-                "required"
-            ]
+                "required",
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 256
         },
         {
-            "fieldName": "photoImage",
-            "fieldType": "byte[]",
-            "fieldTypeBlobContent": "image"
-        },
-        {
-            "fieldName": "photoExtension",
-            "fieldType": "String"
+            "fieldName": "photoDate",
+            "fieldType": "Instant"
         },
         {
             "fieldName": "photoUrl",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "photoMimeType",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "resourceId",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "resourceType",
+            "fieldType": "ResourceType",
+            "fieldValues": "PROJECT,PROPERTY,EMPLOYEE,RESIDENTIAL_AREA"
+        },
+        {
+            "fieldName": "photoSize",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "photoAltText",
             "fieldType": "String"
         },
         {
@@ -26,27 +44,12 @@
             "fieldType": "String"
         }
     ],
-    "relationships": [
-        {
-            "relationshipType": "many-to-many",
-            "relationshipName": "property",
-            "otherEntityName": "property",
-            "ownerSide": false,
-            "otherEntityRelationshipName": "photo"
-        },
-        {
-            "relationshipType": "many-to-many",
-            "relationshipName": "project",
-            "otherEntityName": "project",
-            "ownerSide": false,
-            "otherEntityRelationshipName": "photo"
-        }
-    ],
-    "changelogDate": "20180720045226",
+    "relationships": [],
+    "changelogDate": "20180724181700",
     "javadoc": "Photo - Hinh anh entity",
     "entityTableName": "photo",
     "dto": "mapstruct",
-    "pagination": "infinite-scroll",
+    "pagination": "no",
     "service": "serviceImpl",
     "jpaMetamodelFiltering": false,
     "fluentMethods": true,

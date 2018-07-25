@@ -61,15 +61,11 @@ export class NotificationDetail extends React.Component<INotificationDetailProps
             </dt>
             <dd>{notificationEntity.notificationType}</dd>
             <dt>
-              <span id="notificationReference">
-                <Translate contentKey="riverApp.notification.notificationReference">Notification Reference</Translate>
+              <span id="notificationSender">
+                <Translate contentKey="riverApp.notification.notificationSender">Notification Sender</Translate>
               </span>
             </dt>
-            <dd>{notificationEntity.notificationReference}</dd>
-            <dt>
-              <Translate contentKey="riverApp.notification.user">User</Translate>
-            </dt>
-            <dd>{notificationEntity.userLogin ? notificationEntity.userLogin : ''}</dd>
+            <dd>{notificationEntity.notificationSender}</dd>
           </dl>
           <Button tag={Link} to="/entity/notification" replace color="info">
             <FontAwesomeIcon icon="arrow-left" />{' '}

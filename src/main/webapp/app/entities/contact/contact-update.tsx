@@ -4,11 +4,13 @@ import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Row, Col, Label } from 'reactstrap';
 import { AvForm, AvGroup, AvInput, AvField } from 'availity-reactstrap-validation';
 // tslint:disable-next-line:no-unused-variable
-import { Translate, translate, ICrudGetAction, ICrudGetAllAction, setFileData, openFile, byteSize, ICrudPutAction } from 'react-jhipster';
+import { Translate, translate, ICrudGetAction, ICrudGetAllAction, ICrudPutAction } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IRootState } from 'app/shared/reducers';
 
-import { getEntity, updateEntity, createEntity, setBlob, reset } from './contact.reducer';
+import { IUser } from 'app/shared/model/user.model';
+import { getUsers } from 'app/modules/administration/user-management/user-management.reducer';
+import { getEntity, updateEntity, createEntity, reset } from './contact.reducer';
 import { IContact } from 'app/shared/model/contact.model';
 // tslint:disable-next-line:no-unused-variable
 import { convertDateTimeFromServer } from 'app/shared/util/date-utils';
@@ -18,12 +20,14 @@ export interface IContactUpdateProps extends StateProps, DispatchProps, RouteCom
 
 export interface IContactUpdateState {
   isNew: boolean;
+  userId: number;
 }
 
 export class ContactUpdate extends React.Component<IContactUpdateProps, IContactUpdateState> {
   constructor(props) {
     super(props);
     this.state = {
+      userId: 0,
       isNew: !this.props.match.params || !this.props.match.params.id
     };
   }
@@ -34,15 +38,9 @@ export class ContactUpdate extends React.Component<IContactUpdateProps, IContact
     } else {
       this.props.getEntity(this.props.match.params.id);
     }
+
+    this.props.getUsers();
   }
-
-  onBlobChange = (isAnImage, name) => event => {
-    setFileData(event, (contentType, data) => this.props.setBlob(name, data, contentType), isAnImage);
-  };
-
-  clearBlob = name => () => {
-    this.props.setBlob(name, undefined, undefined);
-  };
 
   saveEntity = (event, errors, values) => {
     if (errors.length === 0) {
@@ -65,12 +63,27 @@ export class ContactUpdate extends React.Component<IContactUpdateProps, IContact
     this.props.history.push('/entity/contact');
   };
 
+  userUpdate = element => {
+    const id = element.target.value.toString();
+    if (id === '') {
+      this.setState({
+        userId: -1
+      });
+    } else {
+      for (const i in this.props.users) {
+        if (id === this.props.users[i].id.toString()) {
+          this.setState({
+            userId: this.props.users[i].id
+          });
+        }
+      }
+    }
+  };
+
   render() {
     const isInvalid = false;
-    const { contactEntity, loading, updating } = this.props;
+    const { contactEntity, users, loading, updating } = this.props;
     const { isNew } = this.state;
-
-    const { contactPhoto, contactPhotoContentType } = contactEntity;
 
     return (
       <div>
@@ -104,7 +117,8 @@ export class ContactUpdate extends React.Component<IContactUpdateProps, IContact
                     type="text"
                     name="contactName"
                     validate={{
-                      required: { value: true, errorMessage: translate('entity.validation.required') }
+                      required: { value: true, errorMessage: translate('entity.validation.required') },
+                      maxLength: { value: 128, errorMessage: translate('entity.validation.maxlength', { max: 128 }) }
                     }}
                   />
                 </AvGroup>
@@ -117,7 +131,8 @@ export class ContactUpdate extends React.Component<IContactUpdateProps, IContact
                     type="text"
                     name="contactPhone"
                     validate={{
-                      required: { value: true, errorMessage: translate('entity.validation.required') }
+                      required: { value: true, errorMessage: translate('entity.validation.required') },
+                      maxLength: { value: 16, errorMessage: translate('entity.validation.maxlength', { max: 16 }) }
                     }}
                   />
                 </AvGroup>
@@ -128,52 +143,16 @@ export class ContactUpdate extends React.Component<IContactUpdateProps, IContact
                   <AvField id="contact-contactAddress" type="text" name="contactAddress" />
                 </AvGroup>
                 <AvGroup>
-                  <Label id="contactEmailLabel" for="contactEmail">
-                    <Translate contentKey="riverApp.contact.contactEmail">Contact Email</Translate>
-                  </Label>
-                  <AvField
-                    id="contact-contactEmail"
-                    type="text"
-                    name="contactEmail"
-                    validate={{
-                      required: { value: true, errorMessage: translate('entity.validation.required') }
-                    }}
-                  />
-                </AvGroup>
-                <AvGroup>
                   <Label id="contactWebsiteLabel" for="contactWebsite">
                     <Translate contentKey="riverApp.contact.contactWebsite">Contact Website</Translate>
                   </Label>
                   <AvField id="contact-contactWebsite" type="text" name="contactWebsite" />
                 </AvGroup>
                 <AvGroup>
-                  <AvGroup>
-                    <Label id="contactPhotoLabel" for="contactPhoto">
-                      <Translate contentKey="riverApp.contact.contactPhoto">Contact Photo</Translate>
-                    </Label>
-                    <br />
-                    {contactPhoto ? (
-                      <div>
-                        <a onClick={openFile(contactPhotoContentType, contactPhoto)}>
-                          <img src={`data:${contactPhotoContentType};base64,${contactPhoto}`} style={{ maxHeight: '100px' }} />
-                        </a>
-                        <br />
-                        <Row>
-                          <Col md="11">
-                            <span>
-                              {contactPhotoContentType}, {byteSize(contactPhoto)}
-                            </span>
-                          </Col>
-                          <Col md="1">
-                            <Button color="danger" onClick={this.clearBlob('contactPhoto')}>
-                              <FontAwesomeIcon icon="times-circle" />
-                            </Button>
-                          </Col>
-                        </Row>
-                      </div>
-                    ) : null}
-                    <input id="file_contactPhoto" type="file" onChange={this.onBlobChange(true, 'contactPhoto')} accept="image/*" />
-                  </AvGroup>
+                  <Label id="contactAvatarUrlLabel" for="contactAvatarUrl">
+                    <Translate contentKey="riverApp.contact.contactAvatarUrl">Contact Avatar Url</Translate>
+                  </Label>
+                  <AvField id="contact-contactAvatarUrl" type="text" name="contactAvatarUrl" />
                 </AvGroup>
                 <AvGroup>
                   <Label id="contactFacebookLabel" for="contactFacebook">
@@ -217,6 +196,21 @@ export class ContactUpdate extends React.Component<IContactUpdateProps, IContact
                     <Translate contentKey="riverApp.contact.contactStatus">Contact Status</Translate>
                   </Label>
                 </AvGroup>
+                <AvGroup>
+                  <Label for="user.id">
+                    <Translate contentKey="riverApp.contact.user">User</Translate>
+                  </Label>
+                  <AvInput id="contact-user" type="select" className="form-control" name="userId" onChange={this.userUpdate}>
+                    <option value="" key="0" />
+                    {users
+                      ? users.map(otherEntity => (
+                          <option value={otherEntity.id} key={otherEntity.id}>
+                            {otherEntity.id}
+                          </option>
+                        ))
+                      : null}
+                  </AvInput>
+                </AvGroup>
                 <Button tag={Link} id="cancel-save" to="/entity/contact" replace color="info">
                   <FontAwesomeIcon icon="arrow-left" />&nbsp;
                   <span className="d-none d-md-inline">
@@ -238,15 +232,16 @@ export class ContactUpdate extends React.Component<IContactUpdateProps, IContact
 }
 
 const mapStateToProps = (storeState: IRootState) => ({
+  users: storeState.userManagement.users,
   contactEntity: storeState.contact.entity,
   loading: storeState.contact.loading,
   updating: storeState.contact.updating
 });
 
 const mapDispatchToProps = {
+  getUsers,
   getEntity,
   updateEntity,
-  setBlob,
   createEntity,
   reset
 };

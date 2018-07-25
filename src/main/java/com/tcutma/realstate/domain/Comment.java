@@ -6,7 +6,6 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
 
 import java.io.Serializable;
 import java.time.Instant;
@@ -27,26 +26,18 @@ public class Comment implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
-    @Column(name = "comment_title", nullable = false)
-    private String commentTitle;
-
-    @Lob
     @Column(name = "comment_content")
     private String commentContent;
 
-    @Column(name = "comment_created_date")
-    private Instant commentCreatedDate;
-
-    @Column(name = "comment_update_date")
-    private Instant commentUpdateDate;
+    @Column(name = "comment_time_stamp")
+    private Instant commentTimeStamp;
 
     @ManyToOne
     @JsonIgnoreProperties("")
     private User user;
 
     @ManyToOne
-    @JsonIgnoreProperties("comments")
+    @JsonIgnoreProperties("")
     private BlogPost post;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
@@ -56,19 +47,6 @@ public class Comment implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getCommentTitle() {
-        return commentTitle;
-    }
-
-    public Comment commentTitle(String commentTitle) {
-        this.commentTitle = commentTitle;
-        return this;
-    }
-
-    public void setCommentTitle(String commentTitle) {
-        this.commentTitle = commentTitle;
     }
 
     public String getCommentContent() {
@@ -84,30 +62,17 @@ public class Comment implements Serializable {
         this.commentContent = commentContent;
     }
 
-    public Instant getCommentCreatedDate() {
-        return commentCreatedDate;
+    public Instant getCommentTimeStamp() {
+        return commentTimeStamp;
     }
 
-    public Comment commentCreatedDate(Instant commentCreatedDate) {
-        this.commentCreatedDate = commentCreatedDate;
+    public Comment commentTimeStamp(Instant commentTimeStamp) {
+        this.commentTimeStamp = commentTimeStamp;
         return this;
     }
 
-    public void setCommentCreatedDate(Instant commentCreatedDate) {
-        this.commentCreatedDate = commentCreatedDate;
-    }
-
-    public Instant getCommentUpdateDate() {
-        return commentUpdateDate;
-    }
-
-    public Comment commentUpdateDate(Instant commentUpdateDate) {
-        this.commentUpdateDate = commentUpdateDate;
-        return this;
-    }
-
-    public void setCommentUpdateDate(Instant commentUpdateDate) {
-        this.commentUpdateDate = commentUpdateDate;
+    public void setCommentTimeStamp(Instant commentTimeStamp) {
+        this.commentTimeStamp = commentTimeStamp;
     }
 
     public User getUser() {
@@ -161,10 +126,8 @@ public class Comment implements Serializable {
     public String toString() {
         return "Comment{" +
             "id=" + getId() +
-            ", commentTitle='" + getCommentTitle() + "'" +
             ", commentContent='" + getCommentContent() + "'" +
-            ", commentCreatedDate='" + getCommentCreatedDate() + "'" +
-            ", commentUpdateDate='" + getCommentUpdateDate() + "'" +
+            ", commentTimeStamp='" + getCommentTimeStamp() + "'" +
             "}";
     }
 }

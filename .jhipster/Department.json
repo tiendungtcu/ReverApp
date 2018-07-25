@@ -5,21 +5,26 @@
             "fieldName": "departmentName",
             "fieldType": "String",
             "fieldValidateRules": [
-                "required"
-            ]
+                "required",
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 128
         },
         {
-            "fieldName": "departmentPhoto",
-            "fieldType": "byte[]",
-            "fieldTypeBlobContent": "image"
+            "fieldName": "departmentAvatarUrl",
+            "fieldType": "String"
         },
         {
             "fieldName": "departmentPhone",
-            "fieldType": "String"
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 16
         }
     ],
     "relationships": [],
-    "changelogDate": "20180720045222",
+    "changelogDate": "20180724181656",
     "javadoc": "Department - Phong ban entity",
     "entityTableName": "department",
     "dto": "mapstruct",

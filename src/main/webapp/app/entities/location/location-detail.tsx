@@ -71,12 +71,6 @@ export class LocationDetail extends React.Component<ILocationDetailProps> {
             </dt>
             <dd>{locationEntity.locationProvince}</dd>
             <dt>
-              <span id="locationCountry">
-                <Translate contentKey="riverApp.location.locationCountry">Location Country</Translate>
-              </span>
-            </dt>
-            <dd>{locationEntity.locationCountry}</dd>
-            <dt>
               <span id="locationGmapUrl">
                 <Translate contentKey="riverApp.location.locationGmapUrl">Location Gmap Url</Translate>
               </span>
@@ -95,11 +89,11 @@ export class LocationDetail extends React.Component<ILocationDetailProps> {
             </dt>
             <dd>{locationEntity.latitude}</dd>
             <dt>
-              <span id="locationHide">
-                <Translate contentKey="riverApp.location.locationHide">Location Hide</Translate>
+              <span id="locationZipCode">
+                <Translate contentKey="riverApp.location.locationZipCode">Location Zip Code</Translate>
               </span>
             </dt>
-            <dd>{locationEntity.locationHide ? 'true' : 'false'}</dd>
+            <dd>{locationEntity.locationZipCode}</dd>
           </dl>
           <Button tag={Link} to="/entity/location" replace color="info">
             <FontAwesomeIcon icon="arrow-left" />{' '}

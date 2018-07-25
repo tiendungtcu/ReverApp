@@ -5,38 +5,18 @@
             "fieldName": "tagName",
             "fieldType": "String",
             "fieldValidateRules": [
-                "required"
-            ]
+                "required",
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 128
         }
     ],
-    "relationships": [
-        {
-            "relationshipType": "many-to-many",
-            "relationshipName": "property",
-            "otherEntityName": "property",
-            "ownerSide": false,
-            "otherEntityRelationshipName": "tag"
-        },
-        {
-            "relationshipType": "many-to-many",
-            "relationshipName": "project",
-            "otherEntityName": "project",
-            "ownerSide": false,
-            "otherEntityRelationshipName": "tag"
-        },
-        {
-            "relationshipType": "many-to-many",
-            "relationshipName": "residentialArea",
-            "otherEntityName": "residentialArea",
-            "ownerSide": false,
-            "otherEntityRelationshipName": "tag"
-        }
-    ],
-    "changelogDate": "20180720045230",
+    "relationships": [],
+    "changelogDate": "20180724181704",
     "javadoc": "Tag - the entity",
     "entityTableName": "tag",
     "dto": "mapstruct",
-    "pagination": "pagination",
+    "pagination": "no",
     "service": "serviceImpl",
     "jpaMetamodelFiltering": false,
     "fluentMethods": true,

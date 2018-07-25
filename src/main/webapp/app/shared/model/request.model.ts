@@ -1,15 +1,17 @@
 import { Moment } from 'moment';
 
-export const enum PropertyType {
+export const enum ResourceType {
   PROJECT = 'PROJECT',
   PROPERTY = 'PROPERTY',
-  LAND = 'LAND'
+  EMPLOYEE = 'EMPLOYEE',
+  RESIDENTIAL_AREA = 'RESIDENTIAL_AREA'
 }
 
 export const enum RequestType {
   MEETING = 'MEETING',
   PRICE = 'PRICE',
-  QUESTION = 'QUESTION'
+  QUESTION = 'QUESTION',
+  OTHER = 'OTHER'
 }
 
 export interface IRequest {
@@ -21,21 +23,16 @@ export interface IRequest {
   requestGetAnalysis?: boolean;
   requestGetPrice?: boolean;
   requestPageUrl?: string;
-  requestPageName?: string;
-  requestPropertyId?: number;
-  requestPropertyType?: PropertyType;
+  resourceId?: number;
+  resourceType?: ResourceType;
   requestType?: RequestType;
   requestMeetingDate?: Moment;
   requestQuestion?: string;
   requestPrice?: number;
-  requestCreatedDate?: Moment;
-  requestConsultantId?: number;
-  userLogin?: string;
-  userId?: number;
-  propertyPropertyName?: string;
-  propertyId?: number;
-  projectProjectName?: string;
-  projectId?: number;
+  senderLogin?: string;
+  senderId?: number;
+  receiverLogin?: string;
+  receiverId?: number;
 }
 
 export const defaultValue: Readonly<IRequest> = {

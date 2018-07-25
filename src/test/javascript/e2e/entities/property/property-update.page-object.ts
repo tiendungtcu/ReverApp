@@ -60,7 +60,7 @@ export default class PropertyUpdatePage {
   propertyResidentialCommunityInput: ElementFinder = element(by.css('input#property-propertyResidentialCommunity'));
   propertyEducationalAspectInput: ElementFinder = element(by.css('input#property-propertyEducationalAspect'));
   propertyExtraInfoInput: ElementFinder = element(by.css('input#property-propertyExtraInfo'));
-  propertyDraftInput: ElementFinder = element(by.css('input#file_propertyDraft'));
+  propertyDraftUrlInput: ElementFinder = element(by.css('input#property-propertyDraftUrl'));
   longitudeInput: ElementFinder = element(by.css('input#property-longitude'));
   latitudeInput: ElementFinder = element(by.css('input#property-latitude'));
   propertyGoodPriceInput: ElementFinder = element(by.css('input#property-propertyGoodPrice'));
@@ -71,10 +71,8 @@ export default class PropertyUpdatePage {
   propertyRefrigeratorInput: ElementFinder = element(by.css('input#property-propertyRefrigerator'));
   propertyAirconditionerInput: ElementFinder = element(by.css('input#property-propertyAirconditioner'));
   locationSelect: ElementFinder = element(by.css('select#property-location'));
-  residentialAreaSelect: ElementFinder = element(by.css('select#property-residentialArea'));
+  consultantSelect: ElementFinder = element(by.css('select#property-consultant'));
   tagSelect: ElementFinder = element(by.css('select#property-tag'));
-  buildingtypeSelect: ElementFinder = element(by.css('select#property-buildingtype'));
-  photoSelect: ElementFinder = element(by.css('select#property-photo'));
 
   getPageTitle() {
     return this.pageTitle;
@@ -412,12 +410,12 @@ export default class PropertyUpdatePage {
     return this.propertyExtraInfoInput.getAttribute('value');
   }
 
-  setPropertyDraftInput(propertyDraft) {
-    this.propertyDraftInput.sendKeys(propertyDraft);
+  setPropertyDraftUrlInput(propertyDraftUrl) {
+    this.propertyDraftUrlInput.sendKeys(propertyDraftUrl);
   }
 
-  getPropertyDraftInput() {
-    return this.propertyDraftInput.getAttribute('value');
+  getPropertyDraftUrlInput() {
+    return this.propertyDraftUrlInput.getAttribute('value');
   }
 
   setLongitudeInput(longitude) {
@@ -481,23 +479,23 @@ export default class PropertyUpdatePage {
     return this.locationSelect.element(by.css('option:checked')).getText();
   }
 
-  residentialAreaSelectLastOption() {
-    this.residentialAreaSelect
+  consultantSelectLastOption() {
+    this.consultantSelect
       .all(by.tagName('option'))
       .last()
       .click();
   }
 
-  residentialAreaSelectOption(option) {
-    this.residentialAreaSelect.sendKeys(option);
+  consultantSelectOption(option) {
+    this.consultantSelect.sendKeys(option);
   }
 
-  getResidentialAreaSelect() {
-    return this.residentialAreaSelect;
+  getConsultantSelect() {
+    return this.consultantSelect;
   }
 
-  getResidentialAreaSelectedOption() {
-    return this.residentialAreaSelect.element(by.css('option:checked')).getText();
+  getConsultantSelectedOption() {
+    return this.consultantSelect.element(by.css('option:checked')).getText();
   }
 
   tagSelectLastOption() {
@@ -517,44 +515,6 @@ export default class PropertyUpdatePage {
 
   getTagSelectedOption() {
     return this.tagSelect.element(by.css('option:checked')).getText();
-  }
-
-  buildingtypeSelectLastOption() {
-    this.buildingtypeSelect
-      .all(by.tagName('option'))
-      .last()
-      .click();
-  }
-
-  buildingtypeSelectOption(option) {
-    this.buildingtypeSelect.sendKeys(option);
-  }
-
-  getBuildingtypeSelect() {
-    return this.buildingtypeSelect;
-  }
-
-  getBuildingtypeSelectedOption() {
-    return this.buildingtypeSelect.element(by.css('option:checked')).getText();
-  }
-
-  photoSelectLastOption() {
-    this.photoSelect
-      .all(by.tagName('option'))
-      .last()
-      .click();
-  }
-
-  photoSelectOption(option) {
-    this.photoSelect.sendKeys(option);
-  }
-
-  getPhotoSelect() {
-    return this.photoSelect;
-  }
-
-  getPhotoSelectedOption() {
-    return this.photoSelect.element(by.css('option:checked')).getText();
   }
 
   save() {

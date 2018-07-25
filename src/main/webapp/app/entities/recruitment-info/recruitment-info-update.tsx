@@ -4,12 +4,12 @@ import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Row, Col, Label } from 'reactstrap';
 import { AvForm, AvGroup, AvInput, AvField } from 'availity-reactstrap-validation';
 // tslint:disable-next-line:no-unused-variable
-import { Translate, translate, ICrudGetAction, ICrudGetAllAction, setFileData, openFile, byteSize, ICrudPutAction } from 'react-jhipster';
+import { Translate, translate, ICrudGetAction, ICrudGetAllAction, setFileData, byteSize, ICrudPutAction } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IRootState } from 'app/shared/reducers';
 
-import { IPhoto } from 'app/shared/model/photo.model';
-import { getEntities as getPhotos } from 'app/entities/photo/photo.reducer';
+import { IUser } from 'app/shared/model/user.model';
+import { getUsers } from 'app/modules/administration/user-management/user-management.reducer';
 import { IJobTitle } from 'app/shared/model/job-title.model';
 import { getEntities as getJobTitles } from 'app/entities/job-title/job-title.reducer';
 import { getEntity, updateEntity, createEntity, setBlob, reset } from './recruitment-info.reducer';
@@ -22,7 +22,7 @@ export interface IRecruitmentInfoUpdateProps extends StateProps, DispatchProps, 
 
 export interface IRecruitmentInfoUpdateState {
   isNew: boolean;
-  photoId: number;
+  userId: number;
   jobtitleId: number;
 }
 
@@ -30,7 +30,7 @@ export class RecruitmentInfoUpdate extends React.Component<IRecruitmentInfoUpdat
   constructor(props) {
     super(props);
     this.state = {
-      photoId: 0,
+      userId: 0,
       jobtitleId: 0,
       isNew: !this.props.match.params || !this.props.match.params.id
     };
@@ -43,7 +43,7 @@ export class RecruitmentInfoUpdate extends React.Component<IRecruitmentInfoUpdat
       this.props.getEntity(this.props.match.params.id);
     }
 
-    this.props.getPhotos();
+    this.props.getUsers();
     this.props.getJobTitles();
   }
 
@@ -56,8 +56,6 @@ export class RecruitmentInfoUpdate extends React.Component<IRecruitmentInfoUpdat
   };
 
   saveEntity = (event, errors, values) => {
-    values.recruitmentDate = new Date(values.recruitmentDate);
-
     if (errors.length === 0) {
       const { recruitmentInfoEntity } = this.props;
       const entity = {
@@ -78,17 +76,17 @@ export class RecruitmentInfoUpdate extends React.Component<IRecruitmentInfoUpdat
     this.props.history.push('/entity/recruitment-info');
   };
 
-  photoUpdate = element => {
-    const id = element.target.value.toString();
-    if (id === '') {
+  userUpdate = element => {
+    const login = element.target.value.toString();
+    if (login === '') {
       this.setState({
-        photoId: -1
+        userId: -1
       });
     } else {
-      for (const i in this.props.photos) {
-        if (id === this.props.photos[i].id.toString()) {
+      for (const i in this.props.users) {
+        if (login === this.props.users[i].login.toString()) {
           this.setState({
-            photoId: this.props.photos[i].id
+            userId: this.props.users[i].id
           });
         }
       }
@@ -114,10 +112,10 @@ export class RecruitmentInfoUpdate extends React.Component<IRecruitmentInfoUpdat
 
   render() {
     const isInvalid = false;
-    const { recruitmentInfoEntity, photos, jobTitles, loading, updating } = this.props;
+    const { recruitmentInfoEntity, users, jobTitles, loading, updating } = this.props;
     const { isNew } = this.state;
 
-    const { recruitmentImage, recruitmentImageContentType, recruitmentContent } = recruitmentInfoEntity;
+    const { recruitmentContent } = recruitmentInfoEntity;
 
     return (
       <div>
@@ -151,38 +149,16 @@ export class RecruitmentInfoUpdate extends React.Component<IRecruitmentInfoUpdat
                     type="text"
                     name="recruitmentTitle"
                     validate={{
-                      required: { value: true, errorMessage: translate('entity.validation.required') }
+                      required: { value: true, errorMessage: translate('entity.validation.required') },
+                      maxLength: { value: 128, errorMessage: translate('entity.validation.maxlength', { max: 128 }) }
                     }}
                   />
                 </AvGroup>
                 <AvGroup>
-                  <AvGroup>
-                    <Label id="recruitmentImageLabel" for="recruitmentImage">
-                      <Translate contentKey="riverApp.recruitmentInfo.recruitmentImage">Recruitment Image</Translate>
-                    </Label>
-                    <br />
-                    {recruitmentImage ? (
-                      <div>
-                        <a onClick={openFile(recruitmentImageContentType, recruitmentImage)}>
-                          <img src={`data:${recruitmentImageContentType};base64,${recruitmentImage}`} style={{ maxHeight: '100px' }} />
-                        </a>
-                        <br />
-                        <Row>
-                          <Col md="11">
-                            <span>
-                              {recruitmentImageContentType}, {byteSize(recruitmentImage)}
-                            </span>
-                          </Col>
-                          <Col md="1">
-                            <Button color="danger" onClick={this.clearBlob('recruitmentImage')}>
-                              <FontAwesomeIcon icon="times-circle" />
-                            </Button>
-                          </Col>
-                        </Row>
-                      </div>
-                    ) : null}
-                    <input id="file_recruitmentImage" type="file" onChange={this.onBlobChange(true, 'recruitmentImage')} accept="image/*" />
-                  </AvGroup>
+                  <Label id="recruitmentAvatarUrlLabel" for="recruitmentAvatarUrl">
+                    <Translate contentKey="riverApp.recruitmentInfo.recruitmentAvatarUrl">Recruitment Avatar Url</Translate>
+                  </Label>
+                  <AvField id="recruitment-info-recruitmentAvatarUrl" type="text" name="recruitmentAvatarUrl" />
                 </AvGroup>
                 <AvGroup>
                   <Label id="recruitmentContentLabel" for="recruitmentContent">
@@ -200,13 +176,7 @@ export class RecruitmentInfoUpdate extends React.Component<IRecruitmentInfoUpdat
                   <Label id="recruitmentDateLabel" for="recruitmentDate">
                     <Translate contentKey="riverApp.recruitmentInfo.recruitmentDate">Recruitment Date</Translate>
                   </Label>
-                  <AvInput
-                    id="recruitment-info-recruitmentDate"
-                    type="datetime-local"
-                    className="form-control"
-                    name="recruitmentDate"
-                    value={isNew ? null : convertDateTimeFromServer(this.props.recruitmentInfoEntity.recruitmentDate)}
-                  />
+                  <AvField id="recruitment-info-recruitmentDate" type="date" className="form-control" name="recruitmentDate" />
                 </AvGroup>
                 <AvGroup>
                   <Label id="recruitmentSeenCountLabel" for="recruitmentSeenCount">
@@ -221,15 +191,15 @@ export class RecruitmentInfoUpdate extends React.Component<IRecruitmentInfoUpdat
                   </Label>
                 </AvGroup>
                 <AvGroup>
-                  <Label for="photo.id">
-                    <Translate contentKey="riverApp.recruitmentInfo.photo">Photo</Translate>
+                  <Label for="user.login">
+                    <Translate contentKey="riverApp.recruitmentInfo.user">User</Translate>
                   </Label>
-                  <AvInput id="recruitment-info-photo" type="select" className="form-control" name="photoId" onChange={this.photoUpdate}>
+                  <AvInput id="recruitment-info-user" type="select" className="form-control" name="userId" onChange={this.userUpdate}>
                     <option value="" key="0" />
-                    {photos
-                      ? photos.map(otherEntity => (
+                    {users
+                      ? users.map(otherEntity => (
                           <option value={otherEntity.id} key={otherEntity.id}>
-                            {otherEntity.id}
+                            {otherEntity.login}
                           </option>
                         ))
                       : null}
@@ -277,7 +247,7 @@ export class RecruitmentInfoUpdate extends React.Component<IRecruitmentInfoUpdat
 }
 
 const mapStateToProps = (storeState: IRootState) => ({
-  photos: storeState.photo.entities,
+  users: storeState.userManagement.users,
   jobTitles: storeState.jobTitle.entities,
   recruitmentInfoEntity: storeState.recruitmentInfo.entity,
   loading: storeState.recruitmentInfo.loading,
@@ -285,7 +255,7 @@ const mapStateToProps = (storeState: IRootState) => ({
 });
 
 const mapDispatchToProps = {
-  getPhotos,
+  getUsers,
   getJobTitles,
   getEntity,
   updateEntity,

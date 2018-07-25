@@ -8,10 +8,10 @@ import { Translate, translate, ICrudGetAction, ICrudGetAllAction, setFileData, b
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IRootState } from 'app/shared/reducers';
 
-import { ISupportCategory } from 'app/shared/model/support-category.model';
-import { getEntities as getSupportCategories } from 'app/entities/support-category/support-category.reducer';
 import { IUser } from 'app/shared/model/user.model';
 import { getUsers } from 'app/modules/administration/user-management/user-management.reducer';
+import { ISupportCategory } from 'app/shared/model/support-category.model';
+import { getEntities as getSupportCategories } from 'app/entities/support-category/support-category.reducer';
 import { getEntity, updateEntity, createEntity, setBlob, reset } from './article.reducer';
 import { IArticle } from 'app/shared/model/article.model';
 // tslint:disable-next-line:no-unused-variable
@@ -22,16 +22,16 @@ export interface IArticleUpdateProps extends StateProps, DispatchProps, RouteCom
 
 export interface IArticleUpdateState {
   isNew: boolean;
+  authorId: number;
   categoryId: number;
-  userId: number;
 }
 
 export class ArticleUpdate extends React.Component<IArticleUpdateProps, IArticleUpdateState> {
   constructor(props) {
     super(props);
     this.state = {
+      authorId: 0,
       categoryId: 0,
-      userId: 0,
       isNew: !this.props.match.params || !this.props.match.params.id
     };
   }
@@ -43,8 +43,8 @@ export class ArticleUpdate extends React.Component<IArticleUpdateProps, IArticle
       this.props.getEntity(this.props.match.params.id);
     }
 
-    this.props.getSupportCategories();
     this.props.getUsers();
+    this.props.getSupportCategories();
   }
 
   onBlobChange = (isAnImage, name) => event => {
@@ -78,15 +78,32 @@ export class ArticleUpdate extends React.Component<IArticleUpdateProps, IArticle
     this.props.history.push('/entity/article');
   };
 
+  authorUpdate = element => {
+    const login = element.target.value.toString();
+    if (login === '') {
+      this.setState({
+        authorId: -1
+      });
+    } else {
+      for (const i in this.props.users) {
+        if (login === this.props.users[i].login.toString()) {
+          this.setState({
+            authorId: this.props.users[i].id
+          });
+        }
+      }
+    }
+  };
+
   categoryUpdate = element => {
-    const id = element.target.value.toString();
-    if (id === '') {
+    const categoryName = element.target.value.toString();
+    if (categoryName === '') {
       this.setState({
         categoryId: -1
       });
     } else {
       for (const i in this.props.supportCategories) {
-        if (id === this.props.supportCategories[i].id.toString()) {
+        if (categoryName === this.props.supportCategories[i].categoryName.toString()) {
           this.setState({
             categoryId: this.props.supportCategories[i].id
           });
@@ -95,26 +112,9 @@ export class ArticleUpdate extends React.Component<IArticleUpdateProps, IArticle
     }
   };
 
-  userUpdate = element => {
-    const login = element.target.value.toString();
-    if (login === '') {
-      this.setState({
-        userId: -1
-      });
-    } else {
-      for (const i in this.props.users) {
-        if (login === this.props.users[i].login.toString()) {
-          this.setState({
-            userId: this.props.users[i].id
-          });
-        }
-      }
-    }
-  };
-
   render() {
     const isInvalid = false;
-    const { articleEntity, supportCategories, users, loading, updating } = this.props;
+    const { articleEntity, users, supportCategories, loading, updating } = this.props;
     const { isNew } = this.state;
 
     const { articleContent } = articleEntity;
@@ -151,7 +151,8 @@ export class ArticleUpdate extends React.Component<IArticleUpdateProps, IArticle
                     type="text"
                     name="articleTitle"
                     validate={{
-                      required: { value: true, errorMessage: translate('entity.validation.required') }
+                      required: { value: true, errorMessage: translate('entity.validation.required') },
+                      maxLength: { value: 128, errorMessage: translate('entity.validation.maxlength', { max: 128 }) }
                     }}
                   />
                 </AvGroup>
@@ -196,7 +197,22 @@ export class ArticleUpdate extends React.Component<IArticleUpdateProps, IArticle
                   <AvField id="article-articleContent" type="text" name="articleContent" />
                 </AvGroup>
                 <AvGroup>
-                  <Label for="category.id">
+                  <Label for="author.login">
+                    <Translate contentKey="riverApp.article.author">Author</Translate>
+                  </Label>
+                  <AvInput id="article-author" type="select" className="form-control" name="authorId" onChange={this.authorUpdate}>
+                    <option value="" key="0" />
+                    {users
+                      ? users.map(otherEntity => (
+                          <option value={otherEntity.id} key={otherEntity.id}>
+                            {otherEntity.login}
+                          </option>
+                        ))
+                      : null}
+                  </AvInput>
+                </AvGroup>
+                <AvGroup>
+                  <Label for="category.categoryName">
                     <Translate contentKey="riverApp.article.category">Category</Translate>
                   </Label>
                   <AvInput id="article-category" type="select" className="form-control" name="categoryId" onChange={this.categoryUpdate}>
@@ -204,22 +220,7 @@ export class ArticleUpdate extends React.Component<IArticleUpdateProps, IArticle
                     {supportCategories
                       ? supportCategories.map(otherEntity => (
                           <option value={otherEntity.id} key={otherEntity.id}>
-                            {otherEntity.id}
-                          </option>
-                        ))
-                      : null}
-                  </AvInput>
-                </AvGroup>
-                <AvGroup>
-                  <Label for="user.login">
-                    <Translate contentKey="riverApp.article.user">User</Translate>
-                  </Label>
-                  <AvInput id="article-user" type="select" className="form-control" name="userId" onChange={this.userUpdate}>
-                    <option value="" key="0" />
-                    {users
-                      ? users.map(otherEntity => (
-                          <option value={otherEntity.id} key={otherEntity.id}>
-                            {otherEntity.login}
+                            {otherEntity.categoryName}
                           </option>
                         ))
                       : null}
@@ -246,16 +247,16 @@ export class ArticleUpdate extends React.Component<IArticleUpdateProps, IArticle
 }
 
 const mapStateToProps = (storeState: IRootState) => ({
-  supportCategories: storeState.supportCategory.entities,
   users: storeState.userManagement.users,
+  supportCategories: storeState.supportCategory.entities,
   articleEntity: storeState.article.entity,
   loading: storeState.article.loading,
   updating: storeState.article.updating
 });
 
 const mapDispatchToProps = {
-  getSupportCategories,
   getUsers,
+  getSupportCategories,
   getEntity,
   updateEntity,
   setBlob,

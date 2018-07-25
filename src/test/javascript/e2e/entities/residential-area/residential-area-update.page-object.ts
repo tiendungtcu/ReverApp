@@ -11,8 +11,7 @@ export default class ResidentialAreaUpdatePage {
   residentialProvinceInput: ElementFinder = element(by.css('input#residential-area-residentialProvince'));
   residentialDistrictInput: ElementFinder = element(by.css('input#residential-area-residentialDistrict'));
   residentialBoundaryInput: ElementFinder = element(by.css('input#residential-area-residentialBoundary'));
-  residentialImageInput: ElementFinder = element(by.css('input#file_residentialImage'));
-  photoSelect: ElementFinder = element(by.css('select#residential-area-photo'));
+  residentialAvatarInput: ElementFinder = element(by.css('input#residential-area-residentialAvatar'));
   tagSelect: ElementFinder = element(by.css('select#residential-area-tag'));
 
   getPageTitle() {
@@ -75,31 +74,12 @@ export default class ResidentialAreaUpdatePage {
     return this.residentialBoundaryInput.getAttribute('value');
   }
 
-  setResidentialImageInput(residentialImage) {
-    this.residentialImageInput.sendKeys(residentialImage);
+  setResidentialAvatarInput(residentialAvatar) {
+    this.residentialAvatarInput.sendKeys(residentialAvatar);
   }
 
-  getResidentialImageInput() {
-    return this.residentialImageInput.getAttribute('value');
-  }
-
-  photoSelectLastOption() {
-    this.photoSelect
-      .all(by.tagName('option'))
-      .last()
-      .click();
-  }
-
-  photoSelectOption(option) {
-    this.photoSelect.sendKeys(option);
-  }
-
-  getPhotoSelect() {
-    return this.photoSelect;
-  }
-
-  getPhotoSelectedOption() {
-    return this.photoSelect.element(by.css('option:checked')).getText();
+  getResidentialAvatarInput() {
+    return this.residentialAvatarInput.getAttribute('value');
   }
 
   tagSelectLastOption() {

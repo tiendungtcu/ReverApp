@@ -17,14 +17,14 @@ import java.util.Optional;
 @Repository
 public interface PropertyRepository extends JpaRepository<Property, Long>, JpaSpecificationExecutor<Property> {
 
-    @Query(value = "select distinct property from Property property left join fetch property.tags left join fetch property.buildingtypes left join fetch property.photos",
+    @Query(value = "select distinct property from Property property left join fetch property.tags",
         countQuery = "select count(distinct property) from Property property")
     Page<Property> findAllWithEagerRelationships(Pageable pageable);
 
-    @Query(value = "select distinct property from Property property left join fetch property.tags left join fetch property.buildingtypes left join fetch property.photos")
+    @Query(value = "select distinct property from Property property left join fetch property.tags")
     List<Property> findAllWithEagerRelationships();
 
-    @Query("select property from Property property left join fetch property.tags left join fetch property.buildingtypes left join fetch property.photos where property.id =:id")
+    @Query("select property from Property property left join fetch property.tags where property.id =:id")
     Optional<Property> findOneWithEagerRelationships(@Param("id") Long id);
 
 }

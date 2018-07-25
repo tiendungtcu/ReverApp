@@ -13,6 +13,7 @@ public class LocationDTO implements Serializable {
 
     private String locationName;
 
+    @Size(max = 256)
     private String locationFullAddress;
 
     private String locationNumber;
@@ -25,8 +26,6 @@ public class LocationDTO implements Serializable {
 
     private String locationProvince;
 
-    private String locationCountry;
-
     private String locationGmapUrl;
 
     @NotNull
@@ -35,7 +34,8 @@ public class LocationDTO implements Serializable {
     @NotNull
     private Double latitude;
 
-    private Boolean locationHide;
+    @Size(max = 16)
+    private String locationZipCode;
 
     public Long getId() {
         return id;
@@ -101,14 +101,6 @@ public class LocationDTO implements Serializable {
         this.locationProvince = locationProvince;
     }
 
-    public String getLocationCountry() {
-        return locationCountry;
-    }
-
-    public void setLocationCountry(String locationCountry) {
-        this.locationCountry = locationCountry;
-    }
-
     public String getLocationGmapUrl() {
         return locationGmapUrl;
     }
@@ -133,12 +125,12 @@ public class LocationDTO implements Serializable {
         this.latitude = latitude;
     }
 
-    public Boolean isLocationHide() {
-        return locationHide;
+    public String getLocationZipCode() {
+        return locationZipCode;
     }
 
-    public void setLocationHide(Boolean locationHide) {
-        this.locationHide = locationHide;
+    public void setLocationZipCode(String locationZipCode) {
+        this.locationZipCode = locationZipCode;
     }
 
     @Override
@@ -173,11 +165,10 @@ public class LocationDTO implements Serializable {
             ", locationWard='" + getLocationWard() + "'" +
             ", locationDistrict='" + getLocationDistrict() + "'" +
             ", locationProvince='" + getLocationProvince() + "'" +
-            ", locationCountry='" + getLocationCountry() + "'" +
             ", locationGmapUrl='" + getLocationGmapUrl() + "'" +
             ", longitude=" + getLongitude() +
             ", latitude=" + getLatitude() +
-            ", locationHide='" + isLocationHide() + "'" +
+            ", locationZipCode='" + getLocationZipCode() + "'" +
             "}";
     }
 }

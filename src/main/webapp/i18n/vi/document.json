@@ -19,11 +19,10 @@
             "documentName": "Document Name",
             "documentUrl": "Document Url",
             "documentDate": "Document Date",
-            "documentContent": "Document Content",
-            "documentPhoto": "Document Photo",
-            "documentType": "Document Type",
-            "photo": "Photo",
-            "project": "Project"
+            "documentMimeType": "Document Mime Type",
+            "documentSize": "Document Size",
+            "resourceType": "Resource Type",
+            "resourceId": "Resource Id"
         }
     }
 }

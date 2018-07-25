@@ -22,17 +22,13 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Base64Utils;
 
 import javax.persistence.EntityManager;
-import java.time.Instant;
-import java.time.ZonedDateTime;
-import java.time.ZoneOffset;
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.List;
 
 
-import static com.tcutma.realstate.web.rest.TestUtil.sameInstant;
 import static com.tcutma.realstate.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
@@ -54,8 +50,8 @@ public class InvestorResourceIntTest {
     private static final String DEFAULT_INVESTOR_TITLE = "AAAAAAAAAA";
     private static final String UPDATED_INVESTOR_TITLE = "BBBBBBBBBB";
 
-    private static final ZonedDateTime DEFAULT_INVESTOR_DATE = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
-    private static final ZonedDateTime UPDATED_INVESTOR_DATE = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
+    private static final LocalDate DEFAULT_INVESTOR_DATE = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_INVESTOR_DATE = LocalDate.now(ZoneId.systemDefault());
 
     private static final String DEFAULT_INVESTOR_DESCRIPTION = "AAAAAAAAAA";
     private static final String UPDATED_INVESTOR_DESCRIPTION = "BBBBBBBBBB";
@@ -69,10 +65,8 @@ public class InvestorResourceIntTest {
     private static final String DEFAULT_INVESTOR_PHONE = "AAAAAAAAAA";
     private static final String UPDATED_INVESTOR_PHONE = "BBBBBBBBBB";
 
-    private static final byte[] DEFAULT_INVESTOR_PHOTO = TestUtil.createByteArray(1, "0");
-    private static final byte[] UPDATED_INVESTOR_PHOTO = TestUtil.createByteArray(2, "1");
-    private static final String DEFAULT_INVESTOR_PHOTO_CONTENT_TYPE = "image/jpg";
-    private static final String UPDATED_INVESTOR_PHOTO_CONTENT_TYPE = "image/png";
+    private static final String DEFAULT_INVESTOR_AVATAR_URL = "AAAAAAAAAA";
+    private static final String UPDATED_INVESTOR_AVATAR_URL = "BBBBBBBBBB";
 
     @Autowired
     private InvestorRepository investorRepository;
@@ -127,8 +121,7 @@ public class InvestorResourceIntTest {
             .investorAddress(DEFAULT_INVESTOR_ADDRESS)
             .investorWebsite(DEFAULT_INVESTOR_WEBSITE)
             .investorPhone(DEFAULT_INVESTOR_PHONE)
-            .investorPhoto(DEFAULT_INVESTOR_PHOTO)
-            .investorPhotoContentType(DEFAULT_INVESTOR_PHOTO_CONTENT_TYPE);
+            .investorAvatarUrl(DEFAULT_INVESTOR_AVATAR_URL);
         return investor;
     }
 
@@ -160,8 +153,7 @@ public class InvestorResourceIntTest {
         assertThat(testInvestor.getInvestorAddress()).isEqualTo(DEFAULT_INVESTOR_ADDRESS);
         assertThat(testInvestor.getInvestorWebsite()).isEqualTo(DEFAULT_INVESTOR_WEBSITE);
         assertThat(testInvestor.getInvestorPhone()).isEqualTo(DEFAULT_INVESTOR_PHONE);
-        assertThat(testInvestor.getInvestorPhoto()).isEqualTo(DEFAULT_INVESTOR_PHOTO);
-        assertThat(testInvestor.getInvestorPhotoContentType()).isEqualTo(DEFAULT_INVESTOR_PHOTO_CONTENT_TYPE);
+        assertThat(testInvestor.getInvestorAvatarUrl()).isEqualTo(DEFAULT_INVESTOR_AVATAR_URL);
     }
 
     @Test
@@ -216,13 +208,12 @@ public class InvestorResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(investor.getId().intValue())))
             .andExpect(jsonPath("$.[*].investorName").value(hasItem(DEFAULT_INVESTOR_NAME.toString())))
             .andExpect(jsonPath("$.[*].investorTitle").value(hasItem(DEFAULT_INVESTOR_TITLE.toString())))
-            .andExpect(jsonPath("$.[*].investorDate").value(hasItem(sameInstant(DEFAULT_INVESTOR_DATE))))
+            .andExpect(jsonPath("$.[*].investorDate").value(hasItem(DEFAULT_INVESTOR_DATE.toString())))
             .andExpect(jsonPath("$.[*].investorDescription").value(hasItem(DEFAULT_INVESTOR_DESCRIPTION.toString())))
             .andExpect(jsonPath("$.[*].investorAddress").value(hasItem(DEFAULT_INVESTOR_ADDRESS.toString())))
             .andExpect(jsonPath("$.[*].investorWebsite").value(hasItem(DEFAULT_INVESTOR_WEBSITE.toString())))
             .andExpect(jsonPath("$.[*].investorPhone").value(hasItem(DEFAULT_INVESTOR_PHONE.toString())))
-            .andExpect(jsonPath("$.[*].investorPhotoContentType").value(hasItem(DEFAULT_INVESTOR_PHOTO_CONTENT_TYPE)))
-            .andExpect(jsonPath("$.[*].investorPhoto").value(hasItem(Base64Utils.encodeToString(DEFAULT_INVESTOR_PHOTO))));
+            .andExpect(jsonPath("$.[*].investorAvatarUrl").value(hasItem(DEFAULT_INVESTOR_AVATAR_URL.toString())));
     }
     
 
@@ -239,13 +230,12 @@ public class InvestorResourceIntTest {
             .andExpect(jsonPath("$.id").value(investor.getId().intValue()))
             .andExpect(jsonPath("$.investorName").value(DEFAULT_INVESTOR_NAME.toString()))
             .andExpect(jsonPath("$.investorTitle").value(DEFAULT_INVESTOR_TITLE.toString()))
-            .andExpect(jsonPath("$.investorDate").value(sameInstant(DEFAULT_INVESTOR_DATE)))
+            .andExpect(jsonPath("$.investorDate").value(DEFAULT_INVESTOR_DATE.toString()))
             .andExpect(jsonPath("$.investorDescription").value(DEFAULT_INVESTOR_DESCRIPTION.toString()))
             .andExpect(jsonPath("$.investorAddress").value(DEFAULT_INVESTOR_ADDRESS.toString()))
             .andExpect(jsonPath("$.investorWebsite").value(DEFAULT_INVESTOR_WEBSITE.toString()))
             .andExpect(jsonPath("$.investorPhone").value(DEFAULT_INVESTOR_PHONE.toString()))
-            .andExpect(jsonPath("$.investorPhotoContentType").value(DEFAULT_INVESTOR_PHOTO_CONTENT_TYPE))
-            .andExpect(jsonPath("$.investorPhoto").value(Base64Utils.encodeToString(DEFAULT_INVESTOR_PHOTO)));
+            .andExpect(jsonPath("$.investorAvatarUrl").value(DEFAULT_INVESTOR_AVATAR_URL.toString()));
     }
     @Test
     @Transactional
@@ -275,8 +265,7 @@ public class InvestorResourceIntTest {
             .investorAddress(UPDATED_INVESTOR_ADDRESS)
             .investorWebsite(UPDATED_INVESTOR_WEBSITE)
             .investorPhone(UPDATED_INVESTOR_PHONE)
-            .investorPhoto(UPDATED_INVESTOR_PHOTO)
-            .investorPhotoContentType(UPDATED_INVESTOR_PHOTO_CONTENT_TYPE);
+            .investorAvatarUrl(UPDATED_INVESTOR_AVATAR_URL);
         InvestorDTO investorDTO = investorMapper.toDto(updatedInvestor);
 
         restInvestorMockMvc.perform(put("/api/investors")
@@ -295,8 +284,7 @@ public class InvestorResourceIntTest {
         assertThat(testInvestor.getInvestorAddress()).isEqualTo(UPDATED_INVESTOR_ADDRESS);
         assertThat(testInvestor.getInvestorWebsite()).isEqualTo(UPDATED_INVESTOR_WEBSITE);
         assertThat(testInvestor.getInvestorPhone()).isEqualTo(UPDATED_INVESTOR_PHONE);
-        assertThat(testInvestor.getInvestorPhoto()).isEqualTo(UPDATED_INVESTOR_PHOTO);
-        assertThat(testInvestor.getInvestorPhotoContentType()).isEqualTo(UPDATED_INVESTOR_PHOTO_CONTENT_TYPE);
+        assertThat(testInvestor.getInvestorAvatarUrl()).isEqualTo(UPDATED_INVESTOR_AVATAR_URL);
     }
 
     @Test

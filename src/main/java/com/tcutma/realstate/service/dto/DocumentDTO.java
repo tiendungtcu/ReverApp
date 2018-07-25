@@ -4,8 +4,7 @@ import java.time.Instant;
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
-import javax.persistence.Lob;
-import com.tcutma.realstate.domain.enumeration.DocumentType;
+import com.tcutma.realstate.domain.enumeration.ResourceType;
 
 /**
  * A DTO for the Document entity.
@@ -15,22 +14,21 @@ public class DocumentDTO implements Serializable {
     private Long id;
 
     @NotNull
+    @Size(max = 256)
     private String documentName;
 
+    @NotNull
     private String documentUrl;
 
     private Instant documentDate;
 
-    @Lob
-    private String documentContent;
+    private String documentMimeType;
 
-    @Lob
-    private byte[] documentPhoto;
-    private String documentPhotoContentType;
+    private String documentSize;
 
-    private DocumentType documentType;
+    private ResourceType resourceType;
 
-    private Long photoId;
+    private Long resourceId;
 
     public Long getId() {
         return id;
@@ -64,44 +62,36 @@ public class DocumentDTO implements Serializable {
         this.documentDate = documentDate;
     }
 
-    public String getDocumentContent() {
-        return documentContent;
+    public String getDocumentMimeType() {
+        return documentMimeType;
     }
 
-    public void setDocumentContent(String documentContent) {
-        this.documentContent = documentContent;
+    public void setDocumentMimeType(String documentMimeType) {
+        this.documentMimeType = documentMimeType;
     }
 
-    public byte[] getDocumentPhoto() {
-        return documentPhoto;
+    public String getDocumentSize() {
+        return documentSize;
     }
 
-    public void setDocumentPhoto(byte[] documentPhoto) {
-        this.documentPhoto = documentPhoto;
+    public void setDocumentSize(String documentSize) {
+        this.documentSize = documentSize;
     }
 
-    public String getDocumentPhotoContentType() {
-        return documentPhotoContentType;
+    public ResourceType getResourceType() {
+        return resourceType;
     }
 
-    public void setDocumentPhotoContentType(String documentPhotoContentType) {
-        this.documentPhotoContentType = documentPhotoContentType;
+    public void setResourceType(ResourceType resourceType) {
+        this.resourceType = resourceType;
     }
 
-    public DocumentType getDocumentType() {
-        return documentType;
+    public Long getResourceId() {
+        return resourceId;
     }
 
-    public void setDocumentType(DocumentType documentType) {
-        this.documentType = documentType;
-    }
-
-    public Long getPhotoId() {
-        return photoId;
-    }
-
-    public void setPhotoId(Long photoId) {
-        this.photoId = photoId;
+    public void setResourceId(Long resourceId) {
+        this.resourceId = resourceId;
     }
 
     @Override
@@ -132,10 +122,10 @@ public class DocumentDTO implements Serializable {
             ", documentName='" + getDocumentName() + "'" +
             ", documentUrl='" + getDocumentUrl() + "'" +
             ", documentDate='" + getDocumentDate() + "'" +
-            ", documentContent='" + getDocumentContent() + "'" +
-            ", documentPhoto='" + getDocumentPhoto() + "'" +
-            ", documentType='" + getDocumentType() + "'" +
-            ", photo=" + getPhotoId() +
+            ", documentMimeType='" + getDocumentMimeType() + "'" +
+            ", documentSize='" + getDocumentSize() + "'" +
+            ", resourceType='" + getResourceType() + "'" +
+            ", resourceId=" + getResourceId() +
             "}";
     }
 }

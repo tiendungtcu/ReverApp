@@ -4,7 +4,6 @@ import { browser } from 'protractor';
 import NavBarPage from './../../page-objects/navbar-page';
 import ExchangerComponentsPage from './exchanger.page-object';
 import ExchangerUpdatePage from './exchanger-update.page-object';
-import path from 'path';
 
 const expect = chai.expect;
 
@@ -12,8 +11,6 @@ describe('Exchanger e2e test', () => {
   let navBarPage: NavBarPage;
   let exchangerUpdatePage: ExchangerUpdatePage;
   let exchangerComponentsPage: ExchangerComponentsPage;
-  const fileToUpload = '../../../../../main/webapp/static/images/logo-jhipster.png';
-  const absolutePath = path.resolve(__dirname, fileToUpload);
 
   before(() => {
     browser.get('/');
@@ -40,7 +37,8 @@ describe('Exchanger e2e test', () => {
     expect(await exchangerUpdatePage.getExchangerAddressInput()).to.match(/exchangerAddress/);
     exchangerUpdatePage.setExchangerPhoneInput('exchangerPhone');
     expect(await exchangerUpdatePage.getExchangerPhoneInput()).to.match(/exchangerPhone/);
-    exchangerUpdatePage.setExchangerPhotoInput(absolutePath);
+    exchangerUpdatePage.setExchangerAvatarUrlInput('exchangerAvatarUrl');
+    expect(await exchangerUpdatePage.getExchangerAvatarUrlInput()).to.match(/exchangerAvatarUrl/);
     await exchangerUpdatePage.save();
     expect(await exchangerUpdatePage.getSaveButton().isPresent()).to.be.false;
   });

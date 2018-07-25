@@ -12,8 +12,6 @@ import org.mapstruct.*;
 public interface InvestorMapper extends EntityMapper<InvestorDTO, Investor> {
 
 
-    @Mapping(target = "projects", ignore = true)
-    Investor toEntity(InvestorDTO investorDTO);
 
     default Investor fromId(Long id) {
         if (id == null) {

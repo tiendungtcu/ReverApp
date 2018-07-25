@@ -5,8 +5,10 @@
             "fieldName": "articleTitle",
             "fieldType": "String",
             "fieldValidateRules": [
-                "required"
-            ]
+                "required",
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 128
         },
         {
             "fieldName": "articleStatus",
@@ -30,21 +32,22 @@
     "relationships": [
         {
             "relationshipType": "many-to-one",
-            "relationshipName": "category",
-            "otherEntityName": "supportCategory",
-            "otherEntityField": "id"
+            "relationshipName": "author",
+            "otherEntityName": "user",
+            "otherEntityField": "login"
         },
         {
             "relationshipType": "many-to-one",
-            "relationshipName": "user",
-            "otherEntityName": "user",
-            "otherEntityField": "login"
+            "relationshipName": "category",
+            "otherEntityName": "supportCategory",
+            "otherEntityField": "categoryName"
         }
     ],
-    "changelogDate": "20180720045233",
+    "changelogDate": "20180724181709",
+    "javadoc": "Article entity",
     "entityTableName": "article",
     "dto": "mapstruct",
-    "pagination": "no",
+    "pagination": "infinite-scroll",
     "service": "serviceImpl",
     "jpaMetamodelFiltering": true,
     "fluentMethods": true,

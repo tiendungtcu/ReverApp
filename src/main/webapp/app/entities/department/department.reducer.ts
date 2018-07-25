@@ -13,7 +13,6 @@ export const ACTION_TYPES = {
   CREATE_DEPARTMENT: 'department/CREATE_DEPARTMENT',
   UPDATE_DEPARTMENT: 'department/UPDATE_DEPARTMENT',
   DELETE_DEPARTMENT: 'department/DELETE_DEPARTMENT',
-  SET_BLOB: 'department/SET_BLOB',
   RESET: 'department/RESET'
 };
 
@@ -90,16 +89,6 @@ export default (state: DepartmentState = initialState, action): DepartmentState 
         updateSuccess: true,
         entity: {}
       };
-    case ACTION_TYPES.SET_BLOB:
-      const { name, data, contentType } = action.payload;
-      return {
-        ...state,
-        entity: {
-          ...state.entity,
-          [name]: data,
-          [name + 'ContentType']: contentType
-        }
-      };
     case ACTION_TYPES.RESET:
       return {
         ...initialState
@@ -156,15 +145,6 @@ export const deleteEntity: ICrudDeleteAction<IDepartment> = id => async dispatch
   dispatch(getEntities());
   return result;
 };
-
-export const setBlob = (name, data, contentType?) => ({
-  type: ACTION_TYPES.SET_BLOB,
-  payload: {
-    name,
-    data,
-    contentType
-  }
-});
 
 export const reset = () => ({
   type: ACTION_TYPES.RESET

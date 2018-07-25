@@ -4,7 +4,6 @@ import { browser, protractor } from 'protractor';
 import NavBarPage from './../../page-objects/navbar-page';
 import DocumentComponentsPage from './document.page-object';
 import DocumentUpdatePage from './document-update.page-object';
-import path from 'path';
 
 const expect = chai.expect;
 
@@ -12,8 +11,6 @@ describe('Document e2e test', () => {
   let navBarPage: NavBarPage;
   let documentUpdatePage: DocumentUpdatePage;
   let documentComponentsPage: DocumentComponentsPage;
-  const fileToUpload = '../../../../../main/webapp/static/images/logo-jhipster.png';
-  const absolutePath = path.resolve(__dirname, fileToUpload);
 
   before(() => {
     browser.get('/');
@@ -40,11 +37,13 @@ describe('Document e2e test', () => {
     expect(await documentUpdatePage.getDocumentUrlInput()).to.match(/documentUrl/);
     documentUpdatePage.setDocumentDateInput('01/01/2001' + protractor.Key.TAB + '02:30AM');
     expect(await documentUpdatePage.getDocumentDateInput()).to.contain('2001-01-01T02:30');
-    documentUpdatePage.setDocumentContentInput('documentContent');
-    expect(await documentUpdatePage.getDocumentContentInput()).to.match(/documentContent/);
-    documentUpdatePage.setDocumentPhotoInput(absolutePath);
-    documentUpdatePage.documentTypeSelectLastOption();
-    documentUpdatePage.photoSelectLastOption();
+    documentUpdatePage.setDocumentMimeTypeInput('documentMimeType');
+    expect(await documentUpdatePage.getDocumentMimeTypeInput()).to.match(/documentMimeType/);
+    documentUpdatePage.setDocumentSizeInput('documentSize');
+    expect(await documentUpdatePage.getDocumentSizeInput()).to.match(/documentSize/);
+    documentUpdatePage.resourceTypeSelectLastOption();
+    documentUpdatePage.setResourceIdInput('5');
+    expect(await documentUpdatePage.getResourceIdInput()).to.eq('5');
     await documentUpdatePage.save();
     expect(await documentUpdatePage.getSaveButton().isPresent()).to.be.false;
   });

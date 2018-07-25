@@ -1,5 +1,6 @@
 package com.tcutma.realstate.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.annotations.ApiModel;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -26,29 +27,23 @@ public class Contact implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "contact_name", nullable = false)
+    @Size(max = 128)
+    @Column(name = "contact_name", length = 128, nullable = false)
     private String contactName;
 
     @NotNull
-    @Column(name = "contact_phone", nullable = false)
+    @Size(max = 16)
+    @Column(name = "contact_phone", length = 16, nullable = false)
     private String contactPhone;
 
     @Column(name = "contact_address")
     private String contactAddress;
 
-    @NotNull
-    @Column(name = "contact_email", nullable = false)
-    private String contactEmail;
-
     @Column(name = "contact_website")
     private String contactWebsite;
 
-    @Lob
-    @Column(name = "contact_photo")
-    private byte[] contactPhoto;
-
-    @Column(name = "contact_photo_content_type")
-    private String contactPhotoContentType;
+    @Column(name = "contact_avatar_url")
+    private String contactAvatarUrl;
 
     @Column(name = "contact_facebook")
     private String contactFacebook;
@@ -70,6 +65,10 @@ public class Contact implements Serializable {
 
     @Column(name = "contact_status")
     private Boolean contactStatus;
+
+    @ManyToOne
+    @JsonIgnoreProperties("")
+    private User user;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -119,19 +118,6 @@ public class Contact implements Serializable {
         this.contactAddress = contactAddress;
     }
 
-    public String getContactEmail() {
-        return contactEmail;
-    }
-
-    public Contact contactEmail(String contactEmail) {
-        this.contactEmail = contactEmail;
-        return this;
-    }
-
-    public void setContactEmail(String contactEmail) {
-        this.contactEmail = contactEmail;
-    }
-
     public String getContactWebsite() {
         return contactWebsite;
     }
@@ -145,30 +131,17 @@ public class Contact implements Serializable {
         this.contactWebsite = contactWebsite;
     }
 
-    public byte[] getContactPhoto() {
-        return contactPhoto;
+    public String getContactAvatarUrl() {
+        return contactAvatarUrl;
     }
 
-    public Contact contactPhoto(byte[] contactPhoto) {
-        this.contactPhoto = contactPhoto;
+    public Contact contactAvatarUrl(String contactAvatarUrl) {
+        this.contactAvatarUrl = contactAvatarUrl;
         return this;
     }
 
-    public void setContactPhoto(byte[] contactPhoto) {
-        this.contactPhoto = contactPhoto;
-    }
-
-    public String getContactPhotoContentType() {
-        return contactPhotoContentType;
-    }
-
-    public Contact contactPhotoContentType(String contactPhotoContentType) {
-        this.contactPhotoContentType = contactPhotoContentType;
-        return this;
-    }
-
-    public void setContactPhotoContentType(String contactPhotoContentType) {
-        this.contactPhotoContentType = contactPhotoContentType;
+    public void setContactAvatarUrl(String contactAvatarUrl) {
+        this.contactAvatarUrl = contactAvatarUrl;
     }
 
     public String getContactFacebook() {
@@ -261,6 +234,19 @@ public class Contact implements Serializable {
     public void setContactStatus(Boolean contactStatus) {
         this.contactStatus = contactStatus;
     }
+
+    public User getUser() {
+        return user;
+    }
+
+    public Contact user(User user) {
+        this.user = user;
+        return this;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
@@ -290,10 +276,8 @@ public class Contact implements Serializable {
             ", contactName='" + getContactName() + "'" +
             ", contactPhone='" + getContactPhone() + "'" +
             ", contactAddress='" + getContactAddress() + "'" +
-            ", contactEmail='" + getContactEmail() + "'" +
             ", contactWebsite='" + getContactWebsite() + "'" +
-            ", contactPhoto='" + getContactPhoto() + "'" +
-            ", contactPhotoContentType='" + getContactPhotoContentType() + "'" +
+            ", contactAvatarUrl='" + getContactAvatarUrl() + "'" +
             ", contactFacebook='" + getContactFacebook() + "'" +
             ", contactTwitter='" + getContactTwitter() + "'" +
             ", contactInstagram='" + getContactInstagram() + "'" +

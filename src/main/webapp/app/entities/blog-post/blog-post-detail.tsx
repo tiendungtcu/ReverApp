@@ -49,22 +49,6 @@ export class BlogPostDetail extends React.Component<IBlogPostDetailProps> {
               <TextFormat value={blogPostEntity.postCreatedDate} type="date" format={APP_DATE_FORMAT} />
             </dd>
             <dt>
-              <span id="postPublishDate">
-                <Translate contentKey="riverApp.blogPost.postPublishDate">Post Publish Date</Translate>
-              </span>
-            </dt>
-            <dd>
-              <TextFormat value={blogPostEntity.postPublishDate} type="date" format={APP_DATE_FORMAT} />
-            </dd>
-            <dt>
-              <span id="postUpdateDate">
-                <Translate contentKey="riverApp.blogPost.postUpdateDate">Post Update Date</Translate>
-              </span>
-            </dt>
-            <dd>
-              <TextFormat value={blogPostEntity.postUpdateDate} type="date" format={APP_DATE_FORMAT} />
-            </dd>
-            <dt>
               <span id="postSeenCount">
                 <Translate contentKey="riverApp.blogPost.postSeenCount">Post Seen Count</Translate>
               </span>
@@ -79,15 +63,11 @@ export class BlogPostDetail extends React.Component<IBlogPostDetailProps> {
             <dt>
               <Translate contentKey="riverApp.blogPost.category">Category</Translate>
             </dt>
-            <dd>{blogPostEntity.categoryId ? blogPostEntity.categoryId : ''}</dd>
+            <dd>{blogPostEntity.categoryCategoryName ? blogPostEntity.categoryCategoryName : ''}</dd>
             <dt>
               <Translate contentKey="riverApp.blogPost.user">User</Translate>
             </dt>
             <dd>{blogPostEntity.userLogin ? blogPostEntity.userLogin : ''}</dd>
-            <dt>
-              <Translate contentKey="riverApp.blogPost.project">Project</Translate>
-            </dt>
-            <dd>{blogPostEntity.projectProjectName ? blogPostEntity.projectProjectName : ''}</dd>
           </dl>
           <Button tag={Link} to="/entity/blog-post" replace color="info">
             <FontAwesomeIcon icon="arrow-left" />{' '}

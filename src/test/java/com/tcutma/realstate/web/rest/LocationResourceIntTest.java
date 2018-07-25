@@ -65,9 +65,6 @@ public class LocationResourceIntTest {
     private static final String DEFAULT_LOCATION_PROVINCE = "AAAAAAAAAA";
     private static final String UPDATED_LOCATION_PROVINCE = "BBBBBBBBBB";
 
-    private static final String DEFAULT_LOCATION_COUNTRY = "AAAAAAAAAA";
-    private static final String UPDATED_LOCATION_COUNTRY = "BBBBBBBBBB";
-
     private static final String DEFAULT_LOCATION_GMAP_URL = "AAAAAAAAAA";
     private static final String UPDATED_LOCATION_GMAP_URL = "BBBBBBBBBB";
 
@@ -77,8 +74,8 @@ public class LocationResourceIntTest {
     private static final Double DEFAULT_LATITUDE = 1D;
     private static final Double UPDATED_LATITUDE = 2D;
 
-    private static final Boolean DEFAULT_LOCATION_HIDE = false;
-    private static final Boolean UPDATED_LOCATION_HIDE = true;
+    private static final String DEFAULT_LOCATION_ZIP_CODE = "AAAAAAAAAA";
+    private static final String UPDATED_LOCATION_ZIP_CODE = "BBBBBBBBBB";
 
     @Autowired
     private LocationRepository locationRepository;
@@ -136,11 +133,10 @@ public class LocationResourceIntTest {
             .locationWard(DEFAULT_LOCATION_WARD)
             .locationDistrict(DEFAULT_LOCATION_DISTRICT)
             .locationProvince(DEFAULT_LOCATION_PROVINCE)
-            .locationCountry(DEFAULT_LOCATION_COUNTRY)
             .locationGmapUrl(DEFAULT_LOCATION_GMAP_URL)
             .longitude(DEFAULT_LONGITUDE)
             .latitude(DEFAULT_LATITUDE)
-            .locationHide(DEFAULT_LOCATION_HIDE);
+            .locationZipCode(DEFAULT_LOCATION_ZIP_CODE);
         return location;
     }
 
@@ -172,11 +168,10 @@ public class LocationResourceIntTest {
         assertThat(testLocation.getLocationWard()).isEqualTo(DEFAULT_LOCATION_WARD);
         assertThat(testLocation.getLocationDistrict()).isEqualTo(DEFAULT_LOCATION_DISTRICT);
         assertThat(testLocation.getLocationProvince()).isEqualTo(DEFAULT_LOCATION_PROVINCE);
-        assertThat(testLocation.getLocationCountry()).isEqualTo(DEFAULT_LOCATION_COUNTRY);
         assertThat(testLocation.getLocationGmapUrl()).isEqualTo(DEFAULT_LOCATION_GMAP_URL);
         assertThat(testLocation.getLongitude()).isEqualTo(DEFAULT_LONGITUDE);
         assertThat(testLocation.getLatitude()).isEqualTo(DEFAULT_LATITUDE);
-        assertThat(testLocation.isLocationHide()).isEqualTo(DEFAULT_LOCATION_HIDE);
+        assertThat(testLocation.getLocationZipCode()).isEqualTo(DEFAULT_LOCATION_ZIP_CODE);
     }
 
     @Test
@@ -255,11 +250,10 @@ public class LocationResourceIntTest {
             .andExpect(jsonPath("$.[*].locationWard").value(hasItem(DEFAULT_LOCATION_WARD.toString())))
             .andExpect(jsonPath("$.[*].locationDistrict").value(hasItem(DEFAULT_LOCATION_DISTRICT.toString())))
             .andExpect(jsonPath("$.[*].locationProvince").value(hasItem(DEFAULT_LOCATION_PROVINCE.toString())))
-            .andExpect(jsonPath("$.[*].locationCountry").value(hasItem(DEFAULT_LOCATION_COUNTRY.toString())))
             .andExpect(jsonPath("$.[*].locationGmapUrl").value(hasItem(DEFAULT_LOCATION_GMAP_URL.toString())))
             .andExpect(jsonPath("$.[*].longitude").value(hasItem(DEFAULT_LONGITUDE.doubleValue())))
             .andExpect(jsonPath("$.[*].latitude").value(hasItem(DEFAULT_LATITUDE.doubleValue())))
-            .andExpect(jsonPath("$.[*].locationHide").value(hasItem(DEFAULT_LOCATION_HIDE.booleanValue())));
+            .andExpect(jsonPath("$.[*].locationZipCode").value(hasItem(DEFAULT_LOCATION_ZIP_CODE.toString())));
     }
     
 
@@ -281,11 +275,10 @@ public class LocationResourceIntTest {
             .andExpect(jsonPath("$.locationWard").value(DEFAULT_LOCATION_WARD.toString()))
             .andExpect(jsonPath("$.locationDistrict").value(DEFAULT_LOCATION_DISTRICT.toString()))
             .andExpect(jsonPath("$.locationProvince").value(DEFAULT_LOCATION_PROVINCE.toString()))
-            .andExpect(jsonPath("$.locationCountry").value(DEFAULT_LOCATION_COUNTRY.toString()))
             .andExpect(jsonPath("$.locationGmapUrl").value(DEFAULT_LOCATION_GMAP_URL.toString()))
             .andExpect(jsonPath("$.longitude").value(DEFAULT_LONGITUDE.doubleValue()))
             .andExpect(jsonPath("$.latitude").value(DEFAULT_LATITUDE.doubleValue()))
-            .andExpect(jsonPath("$.locationHide").value(DEFAULT_LOCATION_HIDE.booleanValue()));
+            .andExpect(jsonPath("$.locationZipCode").value(DEFAULT_LOCATION_ZIP_CODE.toString()));
     }
 
     @Test
@@ -563,45 +556,6 @@ public class LocationResourceIntTest {
 
     @Test
     @Transactional
-    public void getAllLocationsByLocationCountryIsEqualToSomething() throws Exception {
-        // Initialize the database
-        locationRepository.saveAndFlush(location);
-
-        // Get all the locationList where locationCountry equals to DEFAULT_LOCATION_COUNTRY
-        defaultLocationShouldBeFound("locationCountry.equals=" + DEFAULT_LOCATION_COUNTRY);
-
-        // Get all the locationList where locationCountry equals to UPDATED_LOCATION_COUNTRY
-        defaultLocationShouldNotBeFound("locationCountry.equals=" + UPDATED_LOCATION_COUNTRY);
-    }
-
-    @Test
-    @Transactional
-    public void getAllLocationsByLocationCountryIsInShouldWork() throws Exception {
-        // Initialize the database
-        locationRepository.saveAndFlush(location);
-
-        // Get all the locationList where locationCountry in DEFAULT_LOCATION_COUNTRY or UPDATED_LOCATION_COUNTRY
-        defaultLocationShouldBeFound("locationCountry.in=" + DEFAULT_LOCATION_COUNTRY + "," + UPDATED_LOCATION_COUNTRY);
-
-        // Get all the locationList where locationCountry equals to UPDATED_LOCATION_COUNTRY
-        defaultLocationShouldNotBeFound("locationCountry.in=" + UPDATED_LOCATION_COUNTRY);
-    }
-
-    @Test
-    @Transactional
-    public void getAllLocationsByLocationCountryIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        locationRepository.saveAndFlush(location);
-
-        // Get all the locationList where locationCountry is not null
-        defaultLocationShouldBeFound("locationCountry.specified=true");
-
-        // Get all the locationList where locationCountry is null
-        defaultLocationShouldNotBeFound("locationCountry.specified=false");
-    }
-
-    @Test
-    @Transactional
     public void getAllLocationsByLocationGmapUrlIsEqualToSomething() throws Exception {
         // Initialize the database
         locationRepository.saveAndFlush(location);
@@ -719,41 +673,41 @@ public class LocationResourceIntTest {
 
     @Test
     @Transactional
-    public void getAllLocationsByLocationHideIsEqualToSomething() throws Exception {
+    public void getAllLocationsByLocationZipCodeIsEqualToSomething() throws Exception {
         // Initialize the database
         locationRepository.saveAndFlush(location);
 
-        // Get all the locationList where locationHide equals to DEFAULT_LOCATION_HIDE
-        defaultLocationShouldBeFound("locationHide.equals=" + DEFAULT_LOCATION_HIDE);
+        // Get all the locationList where locationZipCode equals to DEFAULT_LOCATION_ZIP_CODE
+        defaultLocationShouldBeFound("locationZipCode.equals=" + DEFAULT_LOCATION_ZIP_CODE);
 
-        // Get all the locationList where locationHide equals to UPDATED_LOCATION_HIDE
-        defaultLocationShouldNotBeFound("locationHide.equals=" + UPDATED_LOCATION_HIDE);
+        // Get all the locationList where locationZipCode equals to UPDATED_LOCATION_ZIP_CODE
+        defaultLocationShouldNotBeFound("locationZipCode.equals=" + UPDATED_LOCATION_ZIP_CODE);
     }
 
     @Test
     @Transactional
-    public void getAllLocationsByLocationHideIsInShouldWork() throws Exception {
+    public void getAllLocationsByLocationZipCodeIsInShouldWork() throws Exception {
         // Initialize the database
         locationRepository.saveAndFlush(location);
 
-        // Get all the locationList where locationHide in DEFAULT_LOCATION_HIDE or UPDATED_LOCATION_HIDE
-        defaultLocationShouldBeFound("locationHide.in=" + DEFAULT_LOCATION_HIDE + "," + UPDATED_LOCATION_HIDE);
+        // Get all the locationList where locationZipCode in DEFAULT_LOCATION_ZIP_CODE or UPDATED_LOCATION_ZIP_CODE
+        defaultLocationShouldBeFound("locationZipCode.in=" + DEFAULT_LOCATION_ZIP_CODE + "," + UPDATED_LOCATION_ZIP_CODE);
 
-        // Get all the locationList where locationHide equals to UPDATED_LOCATION_HIDE
-        defaultLocationShouldNotBeFound("locationHide.in=" + UPDATED_LOCATION_HIDE);
+        // Get all the locationList where locationZipCode equals to UPDATED_LOCATION_ZIP_CODE
+        defaultLocationShouldNotBeFound("locationZipCode.in=" + UPDATED_LOCATION_ZIP_CODE);
     }
 
     @Test
     @Transactional
-    public void getAllLocationsByLocationHideIsNullOrNotNull() throws Exception {
+    public void getAllLocationsByLocationZipCodeIsNullOrNotNull() throws Exception {
         // Initialize the database
         locationRepository.saveAndFlush(location);
 
-        // Get all the locationList where locationHide is not null
-        defaultLocationShouldBeFound("locationHide.specified=true");
+        // Get all the locationList where locationZipCode is not null
+        defaultLocationShouldBeFound("locationZipCode.specified=true");
 
-        // Get all the locationList where locationHide is null
-        defaultLocationShouldNotBeFound("locationHide.specified=false");
+        // Get all the locationList where locationZipCode is null
+        defaultLocationShouldNotBeFound("locationZipCode.specified=false");
     }
     /**
      * Executes the search, and checks that the default entity is returned
@@ -770,11 +724,10 @@ public class LocationResourceIntTest {
             .andExpect(jsonPath("$.[*].locationWard").value(hasItem(DEFAULT_LOCATION_WARD.toString())))
             .andExpect(jsonPath("$.[*].locationDistrict").value(hasItem(DEFAULT_LOCATION_DISTRICT.toString())))
             .andExpect(jsonPath("$.[*].locationProvince").value(hasItem(DEFAULT_LOCATION_PROVINCE.toString())))
-            .andExpect(jsonPath("$.[*].locationCountry").value(hasItem(DEFAULT_LOCATION_COUNTRY.toString())))
             .andExpect(jsonPath("$.[*].locationGmapUrl").value(hasItem(DEFAULT_LOCATION_GMAP_URL.toString())))
             .andExpect(jsonPath("$.[*].longitude").value(hasItem(DEFAULT_LONGITUDE.doubleValue())))
             .andExpect(jsonPath("$.[*].latitude").value(hasItem(DEFAULT_LATITUDE.doubleValue())))
-            .andExpect(jsonPath("$.[*].locationHide").value(hasItem(DEFAULT_LOCATION_HIDE.booleanValue())));
+            .andExpect(jsonPath("$.[*].locationZipCode").value(hasItem(DEFAULT_LOCATION_ZIP_CODE.toString())));
     }
 
     /**
@@ -816,11 +769,10 @@ public class LocationResourceIntTest {
             .locationWard(UPDATED_LOCATION_WARD)
             .locationDistrict(UPDATED_LOCATION_DISTRICT)
             .locationProvince(UPDATED_LOCATION_PROVINCE)
-            .locationCountry(UPDATED_LOCATION_COUNTRY)
             .locationGmapUrl(UPDATED_LOCATION_GMAP_URL)
             .longitude(UPDATED_LONGITUDE)
             .latitude(UPDATED_LATITUDE)
-            .locationHide(UPDATED_LOCATION_HIDE);
+            .locationZipCode(UPDATED_LOCATION_ZIP_CODE);
         LocationDTO locationDTO = locationMapper.toDto(updatedLocation);
 
         restLocationMockMvc.perform(put("/api/locations")
@@ -839,11 +791,10 @@ public class LocationResourceIntTest {
         assertThat(testLocation.getLocationWard()).isEqualTo(UPDATED_LOCATION_WARD);
         assertThat(testLocation.getLocationDistrict()).isEqualTo(UPDATED_LOCATION_DISTRICT);
         assertThat(testLocation.getLocationProvince()).isEqualTo(UPDATED_LOCATION_PROVINCE);
-        assertThat(testLocation.getLocationCountry()).isEqualTo(UPDATED_LOCATION_COUNTRY);
         assertThat(testLocation.getLocationGmapUrl()).isEqualTo(UPDATED_LOCATION_GMAP_URL);
         assertThat(testLocation.getLongitude()).isEqualTo(UPDATED_LONGITUDE);
         assertThat(testLocation.getLatitude()).isEqualTo(UPDATED_LATITUDE);
-        assertThat(testLocation.isLocationHide()).isEqualTo(UPDATED_LOCATION_HIDE);
+        assertThat(testLocation.getLocationZipCode()).isEqualTo(UPDATED_LOCATION_ZIP_CODE);
     }
 
     @Test

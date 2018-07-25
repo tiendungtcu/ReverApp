@@ -8,20 +8,17 @@ import org.mapstruct.*;
 /**
  * Mapper for the entity Request and its DTO RequestDTO.
  */
-@Mapper(componentModel = "spring", uses = {UserMapper.class, PropertyMapper.class, ProjectMapper.class})
+@Mapper(componentModel = "spring", uses = {UserMapper.class})
 public interface RequestMapper extends EntityMapper<RequestDTO, Request> {
 
-    @Mapping(source = "user.id", target = "userId")
-    @Mapping(source = "user.login", target = "userLogin")
-    @Mapping(source = "property.id", target = "propertyId")
-    @Mapping(source = "property.propertyName", target = "propertyPropertyName")
-    @Mapping(source = "project.id", target = "projectId")
-    @Mapping(source = "project.projectName", target = "projectProjectName")
+    @Mapping(source = "sender.id", target = "senderId")
+    @Mapping(source = "sender.login", target = "senderLogin")
+    @Mapping(source = "receiver.id", target = "receiverId")
+    @Mapping(source = "receiver.login", target = "receiverLogin")
     RequestDTO toDto(Request request);
 
-    @Mapping(source = "userId", target = "user")
-    @Mapping(source = "propertyId", target = "property")
-    @Mapping(source = "projectId", target = "project")
+    @Mapping(source = "senderId", target = "sender")
+    @Mapping(source = "receiverId", target = "receiver")
     Request toEntity(RequestDTO requestDTO);
 
     default Request fromId(Long id) {

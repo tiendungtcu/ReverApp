@@ -7,7 +7,7 @@ export default class ExchangerUpdatePage {
   exchangerNameInput: ElementFinder = element(by.css('input#exchanger-exchangerName'));
   exchangerAddressInput: ElementFinder = element(by.css('input#exchanger-exchangerAddress'));
   exchangerPhoneInput: ElementFinder = element(by.css('input#exchanger-exchangerPhone'));
-  exchangerPhotoInput: ElementFinder = element(by.css('input#file_exchangerPhoto'));
+  exchangerAvatarUrlInput: ElementFinder = element(by.css('input#exchanger-exchangerAvatarUrl'));
 
   getPageTitle() {
     return this.pageTitle;
@@ -37,12 +37,12 @@ export default class ExchangerUpdatePage {
     return this.exchangerPhoneInput.getAttribute('value');
   }
 
-  setExchangerPhotoInput(exchangerPhoto) {
-    this.exchangerPhotoInput.sendKeys(exchangerPhoto);
+  setExchangerAvatarUrlInput(exchangerAvatarUrl) {
+    this.exchangerAvatarUrlInput.sendKeys(exchangerAvatarUrl);
   }
 
-  getExchangerPhotoInput() {
-    return this.exchangerPhotoInput.getAttribute('value');
+  getExchangerAvatarUrlInput() {
+    return this.exchangerAvatarUrlInput.getAttribute('value');
   }
 
   save() {

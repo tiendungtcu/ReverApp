@@ -1,6 +1,5 @@
 package com.tcutma.realstate.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -9,9 +8,10 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import java.time.Instant;
 import java.util.Objects;
+
+import com.tcutma.realstate.domain.enumeration.ResourceType;
 
 /**
  * Photo - Hinh anh entity
@@ -29,34 +29,34 @@ public class Photo implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "photo_name", nullable = false)
+    @Size(max = 256)
+    @Column(name = "photo_name", length = 256, nullable = false)
     private String photoName;
 
-    @Lob
-    @Column(name = "photo_image")
-    private byte[] photoImage;
-
-    @Column(name = "photo_image_content_type")
-    private String photoImageContentType;
-
-    @Column(name = "photo_extension")
-    private String photoExtension;
+    @Column(name = "photo_date")
+    private Instant photoDate;
 
     @Column(name = "photo_url")
     private String photoUrl;
 
+    @Column(name = "photo_mime_type")
+    private String photoMimeType;
+
+    @Column(name = "resource_id")
+    private Long resourceId;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "resource_type")
+    private ResourceType resourceType;
+
+    @Column(name = "photo_size")
+    private Integer photoSize;
+
+    @Column(name = "photo_alt_text")
+    private String photoAltText;
+
     @Column(name = "photo_thumbnail_url")
     private String photoThumbnailUrl;
-
-    @ManyToMany(mappedBy = "photos")
-    @JsonIgnore
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Property> properties = new HashSet<>();
-
-    @ManyToMany(mappedBy = "photos")
-    @JsonIgnore
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Project> projects = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -80,43 +80,17 @@ public class Photo implements Serializable {
         this.photoName = photoName;
     }
 
-    public byte[] getPhotoImage() {
-        return photoImage;
+    public Instant getPhotoDate() {
+        return photoDate;
     }
 
-    public Photo photoImage(byte[] photoImage) {
-        this.photoImage = photoImage;
+    public Photo photoDate(Instant photoDate) {
+        this.photoDate = photoDate;
         return this;
     }
 
-    public void setPhotoImage(byte[] photoImage) {
-        this.photoImage = photoImage;
-    }
-
-    public String getPhotoImageContentType() {
-        return photoImageContentType;
-    }
-
-    public Photo photoImageContentType(String photoImageContentType) {
-        this.photoImageContentType = photoImageContentType;
-        return this;
-    }
-
-    public void setPhotoImageContentType(String photoImageContentType) {
-        this.photoImageContentType = photoImageContentType;
-    }
-
-    public String getPhotoExtension() {
-        return photoExtension;
-    }
-
-    public Photo photoExtension(String photoExtension) {
-        this.photoExtension = photoExtension;
-        return this;
-    }
-
-    public void setPhotoExtension(String photoExtension) {
-        this.photoExtension = photoExtension;
+    public void setPhotoDate(Instant photoDate) {
+        this.photoDate = photoDate;
     }
 
     public String getPhotoUrl() {
@@ -132,6 +106,71 @@ public class Photo implements Serializable {
         this.photoUrl = photoUrl;
     }
 
+    public String getPhotoMimeType() {
+        return photoMimeType;
+    }
+
+    public Photo photoMimeType(String photoMimeType) {
+        this.photoMimeType = photoMimeType;
+        return this;
+    }
+
+    public void setPhotoMimeType(String photoMimeType) {
+        this.photoMimeType = photoMimeType;
+    }
+
+    public Long getResourceId() {
+        return resourceId;
+    }
+
+    public Photo resourceId(Long resourceId) {
+        this.resourceId = resourceId;
+        return this;
+    }
+
+    public void setResourceId(Long resourceId) {
+        this.resourceId = resourceId;
+    }
+
+    public ResourceType getResourceType() {
+        return resourceType;
+    }
+
+    public Photo resourceType(ResourceType resourceType) {
+        this.resourceType = resourceType;
+        return this;
+    }
+
+    public void setResourceType(ResourceType resourceType) {
+        this.resourceType = resourceType;
+    }
+
+    public Integer getPhotoSize() {
+        return photoSize;
+    }
+
+    public Photo photoSize(Integer photoSize) {
+        this.photoSize = photoSize;
+        return this;
+    }
+
+    public void setPhotoSize(Integer photoSize) {
+        this.photoSize = photoSize;
+    }
+
+    public String getPhotoAltText() {
+        return photoAltText;
+    }
+
+    public Photo photoAltText(String photoAltText) {
+        this.photoAltText = photoAltText;
+        return this;
+    }
+
+    public void setPhotoAltText(String photoAltText) {
+        this.photoAltText = photoAltText;
+    }
+
     public String getPhotoThumbnailUrl() {
         return photoThumbnailUrl;
     }
@@ -143,56 +182,6 @@ public class Photo implements Serializable {
 
     public void setPhotoThumbnailUrl(String photoThumbnailUrl) {
         this.photoThumbnailUrl = photoThumbnailUrl;
-    }
-
-    public Set<Property> getProperties() {
-        return properties;
-    }
-
-    public Photo properties(Set<Property> properties) {
-        this.properties = properties;
-        return this;
-    }
-
-    public Photo addProperty(Property property) {
-        this.properties.add(property);
-        property.getPhotos().add(this);
-        return this;
-    }
-
-    public Photo removeProperty(Property property) {
-        this.properties.remove(property);
-        property.getPhotos().remove(this);
-        return this;
-    }
-
-    public void setProperties(Set<Property> properties) {
-        this.properties = properties;
-    }
-
-    public Set<Project> getProjects() {
-        return projects;
-    }
-
-    public Photo projects(Set<Project> projects) {
-        this.projects = projects;
-        return this;
-    }
-
-    public Photo addProject(Project project) {
-        this.projects.add(project);
-        project.getPhotos().add(this);
-        return this;
-    }
-
-    public Photo removeProject(Project project) {
-        this.projects.remove(project);
-        project.getPhotos().remove(this);
-        return this;
-    }
-
-    public void setProjects(Set<Project> projects) {
-        this.projects = projects;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -221,10 +210,13 @@ public class Photo implements Serializable {
         return "Photo{" +
             "id=" + getId() +
             ", photoName='" + getPhotoName() + "'" +
-            ", photoImage='" + getPhotoImage() + "'" +
-            ", photoImageContentType='" + getPhotoImageContentType() + "'" +
-            ", photoExtension='" + getPhotoExtension() + "'" +
+            ", photoDate='" + getPhotoDate() + "'" +
             ", photoUrl='" + getPhotoUrl() + "'" +
+            ", photoMimeType='" + getPhotoMimeType() + "'" +
+            ", resourceId=" + getResourceId() +
+            ", resourceType='" + getResourceType() + "'" +
+            ", photoSize=" + getPhotoSize() +
+            ", photoAltText='" + getPhotoAltText() + "'" +
             ", photoThumbnailUrl='" + getPhotoThumbnailUrl() + "'" +
             "}";
     }

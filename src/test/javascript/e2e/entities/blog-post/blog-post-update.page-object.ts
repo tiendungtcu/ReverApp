@@ -7,13 +7,10 @@ export default class BlogPostUpdatePage {
   postTitleInput: ElementFinder = element(by.css('input#blog-post-postTitle'));
   postStatusSelect: ElementFinder = element(by.css('select#blog-post-postStatus'));
   postCreatedDateInput: ElementFinder = element(by.css('input#blog-post-postCreatedDate'));
-  postPublishDateInput: ElementFinder = element(by.css('input#blog-post-postPublishDate'));
-  postUpdateDateInput: ElementFinder = element(by.css('input#blog-post-postUpdateDate'));
   postSeenCountInput: ElementFinder = element(by.css('input#blog-post-postSeenCount'));
   postContentInput: ElementFinder = element(by.css('input#blog-post-postContent'));
   categorySelect: ElementFinder = element(by.css('select#blog-post-category'));
   userSelect: ElementFinder = element(by.css('select#blog-post-user'));
-  projectSelect: ElementFinder = element(by.css('select#blog-post-project'));
 
   getPageTitle() {
     return this.pageTitle;
@@ -47,22 +44,6 @@ export default class BlogPostUpdatePage {
 
   getPostCreatedDateInput() {
     return this.postCreatedDateInput.getAttribute('value');
-  }
-
-  setPostPublishDateInput(postPublishDate) {
-    this.postPublishDateInput.sendKeys(postPublishDate);
-  }
-
-  getPostPublishDateInput() {
-    return this.postPublishDateInput.getAttribute('value');
-  }
-
-  setPostUpdateDateInput(postUpdateDate) {
-    this.postUpdateDateInput.sendKeys(postUpdateDate);
-  }
-
-  getPostUpdateDateInput() {
-    return this.postUpdateDateInput.getAttribute('value');
   }
 
   setPostSeenCountInput(postSeenCount) {
@@ -117,25 +98,6 @@ export default class BlogPostUpdatePage {
 
   getUserSelectedOption() {
     return this.userSelect.element(by.css('option:checked')).getText();
-  }
-
-  projectSelectLastOption() {
-    this.projectSelect
-      .all(by.tagName('option'))
-      .last()
-      .click();
-  }
-
-  projectSelectOption(option) {
-    this.projectSelect.sendKeys(option);
-  }
-
-  getProjectSelect() {
-    return this.projectSelect;
-  }
-
-  getProjectSelectedOption() {
-    return this.projectSelect.element(by.css('option:checked')).getText();
   }
 
   save() {

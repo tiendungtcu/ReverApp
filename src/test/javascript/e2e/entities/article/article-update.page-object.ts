@@ -9,8 +9,8 @@ export default class ArticleUpdatePage {
   articleDateInput: ElementFinder = element(by.css('input#article-articleDate'));
   articleSeenCountInput: ElementFinder = element(by.css('input#article-articleSeenCount'));
   articleContentInput: ElementFinder = element(by.css('input#article-articleContent'));
+  authorSelect: ElementFinder = element(by.css('select#article-author'));
   categorySelect: ElementFinder = element(by.css('select#article-category'));
-  userSelect: ElementFinder = element(by.css('select#article-user'));
 
   getPageTitle() {
     return this.pageTitle;
@@ -62,6 +62,25 @@ export default class ArticleUpdatePage {
     return this.articleContentInput.getAttribute('value');
   }
 
+  authorSelectLastOption() {
+    this.authorSelect
+      .all(by.tagName('option'))
+      .last()
+      .click();
+  }
+
+  authorSelectOption(option) {
+    this.authorSelect.sendKeys(option);
+  }
+
+  getAuthorSelect() {
+    return this.authorSelect;
+  }
+
+  getAuthorSelectedOption() {
+    return this.authorSelect.element(by.css('option:checked')).getText();
+  }
+
   categorySelectLastOption() {
     this.categorySelect
       .all(by.tagName('option'))
@@ -79,25 +98,6 @@ export default class ArticleUpdatePage {
 
   getCategorySelectedOption() {
     return this.categorySelect.element(by.css('option:checked')).getText();
-  }
-
-  userSelectLastOption() {
-    this.userSelect
-      .all(by.tagName('option'))
-      .last()
-      .click();
-  }
-
-  userSelectOption(option) {
-    this.userSelect.sendKeys(option);
-  }
-
-  getUserSelect() {
-    return this.userSelect;
-  }
-
-  getUserSelectedOption() {
-    return this.userSelect.element(by.css('option:checked')).getText();
   }
 
   save() {

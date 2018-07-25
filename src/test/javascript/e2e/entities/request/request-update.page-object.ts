@@ -11,18 +11,14 @@ export default class RequestUpdatePage {
   requestGetAnalysisInput: ElementFinder = element(by.css('input#request-requestGetAnalysis'));
   requestGetPriceInput: ElementFinder = element(by.css('input#request-requestGetPrice'));
   requestPageUrlInput: ElementFinder = element(by.css('input#request-requestPageUrl'));
-  requestPageNameInput: ElementFinder = element(by.css('input#request-requestPageName'));
-  requestPropertyIdInput: ElementFinder = element(by.css('input#request-requestPropertyId'));
-  requestPropertyTypeSelect: ElementFinder = element(by.css('select#request-requestPropertyType'));
+  resourceIdInput: ElementFinder = element(by.css('input#request-resourceId'));
+  resourceTypeSelect: ElementFinder = element(by.css('select#request-resourceType'));
   requestTypeSelect: ElementFinder = element(by.css('select#request-requestType'));
   requestMeetingDateInput: ElementFinder = element(by.css('input#request-requestMeetingDate'));
   requestQuestionInput: ElementFinder = element(by.css('input#request-requestQuestion'));
   requestPriceInput: ElementFinder = element(by.css('input#request-requestPrice'));
-  requestCreatedDateInput: ElementFinder = element(by.css('input#request-requestCreatedDate'));
-  requestConsultantIdInput: ElementFinder = element(by.css('input#request-requestConsultantId'));
-  userSelect: ElementFinder = element(by.css('select#request-user'));
-  propertySelect: ElementFinder = element(by.css('select#request-property'));
-  projectSelect: ElementFinder = element(by.css('select#request-project'));
+  senderSelect: ElementFinder = element(by.css('select#request-sender'));
+  receiverSelect: ElementFinder = element(by.css('select#request-receiver'));
 
   getPageTitle() {
     return this.pageTitle;
@@ -74,32 +70,24 @@ export default class RequestUpdatePage {
     return this.requestPageUrlInput.getAttribute('value');
   }
 
-  setRequestPageNameInput(requestPageName) {
-    this.requestPageNameInput.sendKeys(requestPageName);
+  setResourceIdInput(resourceId) {
+    this.resourceIdInput.sendKeys(resourceId);
   }
 
-  getRequestPageNameInput() {
-    return this.requestPageNameInput.getAttribute('value');
+  getResourceIdInput() {
+    return this.resourceIdInput.getAttribute('value');
   }
 
-  setRequestPropertyIdInput(requestPropertyId) {
-    this.requestPropertyIdInput.sendKeys(requestPropertyId);
+  setResourceTypeSelect(resourceType) {
+    this.resourceTypeSelect.sendKeys(resourceType);
   }
 
-  getRequestPropertyIdInput() {
-    return this.requestPropertyIdInput.getAttribute('value');
+  getResourceTypeSelect() {
+    return this.resourceTypeSelect.element(by.css('option:checked')).getText();
   }
 
-  setRequestPropertyTypeSelect(requestPropertyType) {
-    this.requestPropertyTypeSelect.sendKeys(requestPropertyType);
-  }
-
-  getRequestPropertyTypeSelect() {
-    return this.requestPropertyTypeSelect.element(by.css('option:checked')).getText();
-  }
-
-  requestPropertyTypeSelectLastOption() {
-    this.requestPropertyTypeSelect
+  resourceTypeSelectLastOption() {
+    this.resourceTypeSelect
       .all(by.tagName('option'))
       .last()
       .click();
@@ -142,77 +130,42 @@ export default class RequestUpdatePage {
     return this.requestPriceInput.getAttribute('value');
   }
 
-  setRequestCreatedDateInput(requestCreatedDate) {
-    this.requestCreatedDateInput.sendKeys(requestCreatedDate);
-  }
-
-  getRequestCreatedDateInput() {
-    return this.requestCreatedDateInput.getAttribute('value');
-  }
-
-  setRequestConsultantIdInput(requestConsultantId) {
-    this.requestConsultantIdInput.sendKeys(requestConsultantId);
-  }
-
-  getRequestConsultantIdInput() {
-    return this.requestConsultantIdInput.getAttribute('value');
-  }
-
-  userSelectLastOption() {
-    this.userSelect
+  senderSelectLastOption() {
+    this.senderSelect
       .all(by.tagName('option'))
       .last()
       .click();
   }
 
-  userSelectOption(option) {
-    this.userSelect.sendKeys(option);
+  senderSelectOption(option) {
+    this.senderSelect.sendKeys(option);
   }
 
-  getUserSelect() {
-    return this.userSelect;
+  getSenderSelect() {
+    return this.senderSelect;
   }
 
-  getUserSelectedOption() {
-    return this.userSelect.element(by.css('option:checked')).getText();
+  getSenderSelectedOption() {
+    return this.senderSelect.element(by.css('option:checked')).getText();
   }
 
-  propertySelectLastOption() {
-    this.propertySelect
+  receiverSelectLastOption() {
+    this.receiverSelect
       .all(by.tagName('option'))
       .last()
       .click();
   }
 
-  propertySelectOption(option) {
-    this.propertySelect.sendKeys(option);
+  receiverSelectOption(option) {
+    this.receiverSelect.sendKeys(option);
   }
 
-  getPropertySelect() {
-    return this.propertySelect;
+  getReceiverSelect() {
+    return this.receiverSelect;
   }
 
-  getPropertySelectedOption() {
-    return this.propertySelect.element(by.css('option:checked')).getText();
-  }
-
-  projectSelectLastOption() {
-    this.projectSelect
-      .all(by.tagName('option'))
-      .last()
-      .click();
-  }
-
-  projectSelectOption(option) {
-    this.projectSelect.sendKeys(option);
-  }
-
-  getProjectSelect() {
-    return this.projectSelect;
-  }
-
-  getProjectSelectedOption() {
-    return this.projectSelect.element(by.css('option:checked')).getText();
+  getReceiverSelectedOption() {
+    return this.receiverSelect.element(by.css('option:checked')).getText();
   }
 
   save() {

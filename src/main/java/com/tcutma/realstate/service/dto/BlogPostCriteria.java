@@ -41,19 +41,11 @@ public class BlogPostCriteria implements Serializable {
 
     private InstantFilter postCreatedDate;
 
-    private InstantFilter postPublishDate;
-
-    private InstantFilter postUpdateDate;
-
     private LongFilter postSeenCount;
-
-    private LongFilter commentId;
 
     private LongFilter categoryId;
 
     private LongFilter userId;
-
-    private LongFilter projectId;
 
     public BlogPostCriteria() {
     }
@@ -90,36 +82,12 @@ public class BlogPostCriteria implements Serializable {
         this.postCreatedDate = postCreatedDate;
     }
 
-    public InstantFilter getPostPublishDate() {
-        return postPublishDate;
-    }
-
-    public void setPostPublishDate(InstantFilter postPublishDate) {
-        this.postPublishDate = postPublishDate;
-    }
-
-    public InstantFilter getPostUpdateDate() {
-        return postUpdateDate;
-    }
-
-    public void setPostUpdateDate(InstantFilter postUpdateDate) {
-        this.postUpdateDate = postUpdateDate;
-    }
-
     public LongFilter getPostSeenCount() {
         return postSeenCount;
     }
 
     public void setPostSeenCount(LongFilter postSeenCount) {
         this.postSeenCount = postSeenCount;
-    }
-
-    public LongFilter getCommentId() {
-        return commentId;
-    }
-
-    public void setCommentId(LongFilter commentId) {
-        this.commentId = commentId;
     }
 
     public LongFilter getCategoryId() {
@@ -138,14 +106,6 @@ public class BlogPostCriteria implements Serializable {
         this.userId = userId;
     }
 
-    public LongFilter getProjectId() {
-        return projectId;
-    }
-
-    public void setProjectId(LongFilter projectId) {
-        this.projectId = projectId;
-    }
-
     @Override
     public String toString() {
         return "BlogPostCriteria{" +
@@ -153,13 +113,9 @@ public class BlogPostCriteria implements Serializable {
                 (postTitle != null ? "postTitle=" + postTitle + ", " : "") +
                 (postStatus != null ? "postStatus=" + postStatus + ", " : "") +
                 (postCreatedDate != null ? "postCreatedDate=" + postCreatedDate + ", " : "") +
-                (postPublishDate != null ? "postPublishDate=" + postPublishDate + ", " : "") +
-                (postUpdateDate != null ? "postUpdateDate=" + postUpdateDate + ", " : "") +
                 (postSeenCount != null ? "postSeenCount=" + postSeenCount + ", " : "") +
-                (commentId != null ? "commentId=" + commentId + ", " : "") +
                 (categoryId != null ? "categoryId=" + categoryId + ", " : "") +
                 (userId != null ? "userId=" + userId + ", " : "") +
-                (projectId != null ? "projectId=" + projectId + ", " : "") +
             "}";
     }
 

@@ -5,24 +5,38 @@
             "fieldName": "investorName",
             "fieldType": "String",
             "fieldValidateRules": [
-                "required"
-            ]
+                "required",
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 128
         },
         {
             "fieldName": "investorTitle",
-            "fieldType": "String"
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 256
         },
         {
             "fieldName": "investorDate",
-            "fieldType": "ZonedDateTime"
+            "fieldType": "LocalDate"
         },
         {
             "fieldName": "investorDescription",
-            "fieldType": "String"
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 256
         },
         {
             "fieldName": "investorAddress",
-            "fieldType": "String"
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 256
         },
         {
             "fieldName": "investorWebsite",
@@ -30,24 +44,19 @@
         },
         {
             "fieldName": "investorPhone",
-            "fieldType": "String"
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 16
         },
         {
-            "fieldName": "investorPhoto",
-            "fieldType": "byte[]",
-            "fieldTypeBlobContent": "image"
+            "fieldName": "investorAvatarUrl",
+            "fieldType": "String"
         }
     ],
-    "relationships": [
-        {
-            "relationshipType": "many-to-many",
-            "relationshipName": "project",
-            "otherEntityName": "project",
-            "ownerSide": false,
-            "otherEntityRelationshipName": "investor"
-        }
-    ],
-    "changelogDate": "20180720045223",
+    "relationships": [],
+    "changelogDate": "20180724181657",
     "javadoc": "Investor - chu dau tu entity",
     "entityTableName": "investor",
     "dto": "mapstruct",

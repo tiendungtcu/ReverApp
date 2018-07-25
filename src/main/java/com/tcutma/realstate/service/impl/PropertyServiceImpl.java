@@ -5,7 +5,6 @@ import com.tcutma.realstate.domain.Property;
 import com.tcutma.realstate.repository.PropertyRepository;
 import com.tcutma.realstate.service.dto.PropertyDTO;
 import com.tcutma.realstate.service.mapper.PropertyMapper;
-import com.tcutma.realstate.web.rest.vm.PropertyVM;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -70,7 +69,7 @@ public class PropertyServiceImpl implements PropertyService {
     public Page<PropertyDTO> findAllWithEagerRelationships(Pageable pageable) {
         return propertyRepository.findAllWithEagerRelationships(pageable).map(propertyMapper::toDto);
     }
-
+    
 
     /**
      * Get one property by id.
@@ -95,13 +94,5 @@ public class PropertyServiceImpl implements PropertyService {
     public void delete(Long id) {
         log.debug("Request to delete Property : {}", id);
         propertyRepository.deleteById(id);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public Optional<PropertyVM> findMyOne(Long id) {
-        log.debug("Request to get Property : {}", id);
-        return propertyRepository.findOneWithEagerRelationships(id)
-            .map(propertyMapper::toVM);
     }
 }

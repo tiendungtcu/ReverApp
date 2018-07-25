@@ -3,8 +3,8 @@ package com.tcutma.realstate.web.rest;
 import com.tcutma.realstate.RiverApp;
 
 import com.tcutma.realstate.domain.Article;
-import com.tcutma.realstate.domain.SupportCategory;
 import com.tcutma.realstate.domain.User;
+import com.tcutma.realstate.domain.SupportCategory;
 import com.tcutma.realstate.repository.ArticleRepository;
 import com.tcutma.realstate.service.ArticleService;
 import com.tcutma.realstate.service.dto.ArticleDTO;
@@ -411,6 +411,25 @@ public class ArticleResourceIntTest {
 
     @Test
     @Transactional
+    public void getAllArticlesByAuthorIsEqualToSomething() throws Exception {
+        // Initialize the database
+        User author = UserResourceIntTest.createEntity(em);
+        em.persist(author);
+        em.flush();
+        article.setAuthor(author);
+        articleRepository.saveAndFlush(article);
+        Long authorId = author.getId();
+
+        // Get all the articleList where author equals to authorId
+        defaultArticleShouldBeFound("authorId.equals=" + authorId);
+
+        // Get all the articleList where author equals to authorId + 1
+        defaultArticleShouldNotBeFound("authorId.equals=" + (authorId + 1));
+    }
+
+
+    @Test
+    @Transactional
     public void getAllArticlesByCategoryIsEqualToSomething() throws Exception {
         // Initialize the database
         SupportCategory category = SupportCategoryResourceIntTest.createEntity(em);
@@ -425,25 +444,6 @@ public class ArticleResourceIntTest {
 
         // Get all the articleList where category equals to categoryId + 1
         defaultArticleShouldNotBeFound("categoryId.equals=" + (categoryId + 1));
-    }
-
-
-    @Test
-    @Transactional
-    public void getAllArticlesByUserIsEqualToSomething() throws Exception {
-        // Initialize the database
-        User user = UserResourceIntTest.createEntity(em);
-        em.persist(user);
-        em.flush();
-        article.setUser(user);
-        articleRepository.saveAndFlush(article);
-        Long userId = user.getId();
-
-        // Get all the articleList where user equals to userId
-        defaultArticleShouldBeFound("userId.equals=" + userId);
-
-        // Get all the articleList where user equals to userId + 1
-        defaultArticleShouldNotBeFound("userId.equals=" + (userId + 1));
     }
 
     /**

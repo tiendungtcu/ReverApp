@@ -5,19 +5,27 @@
             "fieldName": "propertyCode",
             "fieldType": "String",
             "fieldValidateRules": [
-                "required"
-            ]
+                "required",
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 16
         },
         {
             "fieldName": "propertyName",
             "fieldType": "String",
             "fieldValidateRules": [
-                "required"
-            ]
+                "required",
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 128
         },
         {
             "fieldName": "propertyAlias",
-            "fieldType": "String"
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 128
         },
         {
             "fieldName": "propertyTransaction",
@@ -26,23 +34,43 @@
         },
         {
             "fieldName": "propertyNumber",
-            "fieldType": "String"
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 64
         },
         {
             "fieldName": "propertyRoad",
-            "fieldType": "String"
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 64
         },
         {
             "fieldName": "propertyWard",
-            "fieldType": "String"
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 64
         },
         {
             "fieldName": "propertyDistrict",
-            "fieldType": "String"
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 64
         },
         {
             "fieldName": "propertyProvince",
-            "fieldType": "String"
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 64
         },
         {
             "fieldName": "propertyDescription",
@@ -51,20 +79,32 @@
         },
         {
             "fieldName": "propertyBedRooms",
-            "fieldType": "Integer"
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "min"
+            ],
+            "fieldValidateRulesMin": 0
         },
         {
             "fieldName": "propertyBathRooms",
-            "fieldType": "Integer"
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "min"
+            ],
+            "fieldValidateRulesMin": 0
         },
         {
             "fieldName": "propertySquare",
-            "fieldType": "Double"
+            "fieldType": "Double",
+            "fieldValidateRules": [
+                "min"
+            ],
+            "fieldValidateRulesMin": 0
         },
         {
             "fieldName": "propertyUsePurpose",
             "fieldType": "UseEstablishment",
-            "fieldValues": "LODGE,PUB,SHOP,RESTAURANT,HOTEL,LEASE"
+            "fieldValues": "LODGE,PUB,SHOP,RESTAURANT,HOTEL,LEASE,SHOPHOUSE,CITIHOUSE,OFFICE,LAND,OFFICETEL,OTHER"
         },
         {
             "fieldName": "propertyOwnerType",
@@ -85,7 +125,7 @@
         },
         {
             "fieldName": "propertyRentStartedDate",
-            "fieldType": "ZonedDateTime"
+            "fieldType": "LocalDate"
         },
         {
             "fieldName": "propertySellPrice",
@@ -98,7 +138,7 @@
         },
         {
             "fieldName": "propertySellStartedDate",
-            "fieldType": "ZonedDateTime"
+            "fieldType": "LocalDate"
         },
         {
             "fieldName": "propertySofa",
@@ -237,17 +277,24 @@
             "fieldType": "String"
         },
         {
-            "fieldName": "propertyDraft",
-            "fieldType": "byte[]",
-            "fieldTypeBlobContent": "image"
+            "fieldName": "propertyDraftUrl",
+            "fieldType": "String"
         },
         {
             "fieldName": "longitude",
-            "fieldType": "Double"
+            "fieldType": "Double",
+            "fieldValidateRules": [
+                "min"
+            ],
+            "fieldValidateRulesMin": 0
         },
         {
             "fieldName": "latitude",
-            "fieldType": "Double"
+            "fieldType": "Double",
+            "fieldValidateRules": [
+                "min"
+            ],
+            "fieldValidateRulesMin": 0
         },
         {
             "fieldName": "propertyGoodPrice",
@@ -288,37 +335,23 @@
             "otherEntityRelationshipName": "property"
         },
         {
-            "relationshipType": "many-to-one",
-            "relationshipName": "residentialArea",
-            "otherEntityName": "residentialArea",
-            "otherEntityField": "residentialName"
+            "relationshipType": "one-to-one",
+            "relationshipName": "consultant",
+            "otherEntityName": "user",
+            "otherEntityField": "login",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "property"
         },
         {
             "relationshipType": "many-to-many",
-            "otherEntityRelationshipName": "property",
+            "otherEntityRelationshipName": "",
             "relationshipName": "tag",
             "otherEntityName": "tag",
             "otherEntityField": "tagName",
             "ownerSide": true
-        },
-        {
-            "relationshipType": "many-to-many",
-            "otherEntityRelationshipName": "property",
-            "relationshipName": "buildingtype",
-            "otherEntityName": "buildingType",
-            "otherEntityField": "typeName",
-            "ownerSide": true
-        },
-        {
-            "relationshipType": "many-to-many",
-            "otherEntityRelationshipName": "property",
-            "relationshipName": "photo",
-            "otherEntityName": "photo",
-            "otherEntityField": "id",
-            "ownerSide": true
         }
     ],
-    "changelogDate": "20180720045237",
+    "changelogDate": "20180724181713",
     "javadoc": "Property entity",
     "entityTableName": "property",
     "dto": "mapstruct",

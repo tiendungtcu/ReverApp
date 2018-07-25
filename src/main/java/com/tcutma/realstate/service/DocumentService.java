@@ -2,9 +2,6 @@ package com.tcutma.realstate.service;
 
 import com.tcutma.realstate.service.dto.DocumentDTO;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -24,16 +21,9 @@ public interface DocumentService {
     /**
      * Get all the documents.
      *
-     * @param pageable the pagination information
      * @return the list of entities
      */
-    Page<DocumentDTO> findAll(Pageable pageable);
-    /**
-     * Get all the DocumentDTO where Project is null.
-     *
-     * @return the list of entities
-     */
-    List<DocumentDTO> findAllWhereProjectIsNull();
+    List<DocumentDTO> findAll();
 
 
     /**

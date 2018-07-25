@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Row, Col } from 'reactstrap';
 // tslint:disable-next-line:no-unused-variable
-import { Translate, ICrudGetAction } from 'react-jhipster';
+import { Translate, ICrudGetAction, TextFormat } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IRootState } from 'app/shared/reducers';
@@ -41,11 +41,13 @@ export class CategoryDetail extends React.Component<ICategoryDetailProps> {
             </dt>
             <dd>{categoryEntity.categoryAlias}</dd>
             <dt>
-              <span id="categoryDescription">
-                <Translate contentKey="riverApp.category.categoryDescription">Category Description</Translate>
+              <span id="categoryDate">
+                <Translate contentKey="riverApp.category.categoryDate">Category Date</Translate>
               </span>
             </dt>
-            <dd>{categoryEntity.categoryDescription}</dd>
+            <dd>
+              <TextFormat value={categoryEntity.categoryDate} type="date" format={APP_DATE_FORMAT} />
+            </dd>
           </dl>
           <Button tag={Link} to="/entity/category" replace color="info">
             <FontAwesomeIcon icon="arrow-left" />{' '}

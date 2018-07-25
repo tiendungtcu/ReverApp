@@ -1,6 +1,6 @@
 package com.tcutma.realstate.service.dto;
 
-import java.time.Instant;
+import java.time.LocalDate;
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -8,9 +8,7 @@ import java.util.Set;
 import java.util.Objects;
 import javax.persistence.Lob;
 import com.tcutma.realstate.domain.enumeration.TransactionStatus;
-import com.tcutma.realstate.domain.enumeration.AreaUnit;
 import com.tcutma.realstate.domain.enumeration.PriceUnit;
-import com.tcutma.realstate.domain.enumeration.AreaUnit;
 import com.tcutma.realstate.domain.enumeration.PriceUnit;
 
 /**
@@ -21,32 +19,29 @@ public class ProjectDTO implements Serializable {
     private Long id;
 
     @NotNull
+    @Size(max = 128)
     private String projectName;
 
-    @NotNull
+    @Size(max = 128)
     private String projectAlias;
-
-    @Lob
-    private byte[] projectAvatar;
-    private String projectAvatarContentType;
-
-    private Integer projectAvatarId;
 
     private String projectAvatarUrl;
 
+    @Size(max = 64)
     private String projectDistrict;
 
+    @Size(max = 64)
     private String projectProvince;
 
-    private String projectResidentialArea;
+    private Long residentialAreaId;
 
+    @Size(max = 128)
     private String projectRoad;
 
+    @Size(max = 64)
     private String projectWard;
 
     private TransactionStatus projectStatus;
-
-    private String projectType;
 
     @NotNull
     private Integer projectNoBlocks;
@@ -62,32 +57,35 @@ public class ProjectDTO implements Serializable {
     @Lob
     private String projectDescription;
 
+    @DecimalMin(value = "0")
     private Double projectMinSellPrice;
 
     private Double projectMaxSellPrice;
 
-    private AreaUnit projectSellAreaUnit;
-
     private PriceUnit projectSellPriceUnit;
 
+    @DecimalMin(value = "0")
     private Double projectMinRentPrice;
 
     private Double projectMaxRentPrice;
 
-    private AreaUnit projectRentAreaUnit;
-
     private PriceUnit projectRentPriceUnit;
 
-    private Instant projectStartedDate;
+    private LocalDate projectStartedDate;
 
-    private Instant projectFinishingDate;
+    private LocalDate projectFinishingDate;
 
+    @Min(value = 1)
     private Integer projectMinApartmentSquare;
 
     private Integer projectMaxApartmentSquare;
 
+    @Min(value = 0)
+    @Max(value = 100)
     private Integer projectGreenSpace;
 
+    @Min(value = 0)
+    @Max(value = 100)
     private Integer projectBuildingDensity;
 
     private String projectDesignCompany;
@@ -120,19 +118,19 @@ public class ProjectDTO implements Serializable {
 
     private Boolean projectAvailable;
 
-    private Long documentId;
-
     private Long locationId;
+
+    private Long consultantId;
+
+    private String consultantLogin;
 
     private Set<TagDTO> tags = new HashSet<>();
 
     private Set<BuildingTypeDTO> buildingtypes = new HashSet<>();
 
-    private Set<InvestorDTO> investors = new HashSet<>();
+    private Set<InvestorDTO> inverstors = new HashSet<>();
 
-    private Set<ProjectBuilderDTO> projectbuilders = new HashSet<>();
-
-    private Set<PhotoDTO> photos = new HashSet<>();
+    private Set<ContractorDTO> contractors = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -156,30 +154,6 @@ public class ProjectDTO implements Serializable {
 
     public void setProjectAlias(String projectAlias) {
         this.projectAlias = projectAlias;
-    }
-
-    public byte[] getProjectAvatar() {
-        return projectAvatar;
-    }
-
-    public void setProjectAvatar(byte[] projectAvatar) {
-        this.projectAvatar = projectAvatar;
-    }
-
-    public String getProjectAvatarContentType() {
-        return projectAvatarContentType;
-    }
-
-    public void setProjectAvatarContentType(String projectAvatarContentType) {
-        this.projectAvatarContentType = projectAvatarContentType;
-    }
-
-    public Integer getProjectAvatarId() {
-        return projectAvatarId;
-    }
-
-    public void setProjectAvatarId(Integer projectAvatarId) {
-        this.projectAvatarId = projectAvatarId;
     }
 
     public String getProjectAvatarUrl() {
@@ -206,12 +180,12 @@ public class ProjectDTO implements Serializable {
         this.projectProvince = projectProvince;
     }
 
-    public String getProjectResidentialArea() {
-        return projectResidentialArea;
+    public Long getResidentialAreaId() {
+        return residentialAreaId;
     }
 
-    public void setProjectResidentialArea(String projectResidentialArea) {
-        this.projectResidentialArea = projectResidentialArea;
+    public void setResidentialAreaId(Long residentialAreaId) {
+        this.residentialAreaId = residentialAreaId;
     }
 
     public String getProjectRoad() {
@@ -236,14 +210,6 @@ public class ProjectDTO implements Serializable {
 
     public void setProjectStatus(TransactionStatus projectStatus) {
         this.projectStatus = projectStatus;
-    }
-
-    public String getProjectType() {
-        return projectType;
-    }
-
-    public void setProjectType(String projectType) {
-        this.projectType = projectType;
     }
 
     public Integer getProjectNoBlocks() {
@@ -302,14 +268,6 @@ public class ProjectDTO implements Serializable {
         this.projectMaxSellPrice = projectMaxSellPrice;
     }
 
-    public AreaUnit getProjectSellAreaUnit() {
-        return projectSellAreaUnit;
-    }
-
-    public void setProjectSellAreaUnit(AreaUnit projectSellAreaUnit) {
-        this.projectSellAreaUnit = projectSellAreaUnit;
-    }
-
     public PriceUnit getProjectSellPriceUnit() {
         return projectSellPriceUnit;
     }
@@ -334,14 +292,6 @@ public class ProjectDTO implements Serializable {
         this.projectMaxRentPrice = projectMaxRentPrice;
     }
 
-    public AreaUnit getProjectRentAreaUnit() {
-        return projectRentAreaUnit;
-    }
-
-    public void setProjectRentAreaUnit(AreaUnit projectRentAreaUnit) {
-        this.projectRentAreaUnit = projectRentAreaUnit;
-    }
-
     public PriceUnit getProjectRentPriceUnit() {
         return projectRentPriceUnit;
     }
@@ -350,19 +300,19 @@ public class ProjectDTO implements Serializable {
         this.projectRentPriceUnit = projectRentPriceUnit;
     }
 
-    public Instant getProjectStartedDate() {
+    public LocalDate getProjectStartedDate() {
         return projectStartedDate;
     }
 
-    public void setProjectStartedDate(Instant projectStartedDate) {
+    public void setProjectStartedDate(LocalDate projectStartedDate) {
         this.projectStartedDate = projectStartedDate;
     }
 
-    public Instant getProjectFinishingDate() {
+    public LocalDate getProjectFinishingDate() {
         return projectFinishingDate;
     }
 
-    public void setProjectFinishingDate(Instant projectFinishingDate) {
+    public void setProjectFinishingDate(LocalDate projectFinishingDate) {
         this.projectFinishingDate = projectFinishingDate;
     }
 
@@ -518,20 +468,28 @@ public class ProjectDTO implements Serializable {
         this.projectAvailable = projectAvailable;
     }
 
-    public Long getDocumentId() {
-        return documentId;
-    }
-
-    public void setDocumentId(Long documentId) {
-        this.documentId = documentId;
-    }
-
     public Long getLocationId() {
         return locationId;
     }
 
     public void setLocationId(Long locationId) {
         this.locationId = locationId;
+    }
+
+    public Long getConsultantId() {
+        return consultantId;
+    }
+
+    public void setConsultantId(Long userId) {
+        this.consultantId = userId;
+    }
+
+    public String getConsultantLogin() {
+        return consultantLogin;
+    }
+
+    public void setConsultantLogin(String userLogin) {
+        this.consultantLogin = userLogin;
     }
 
     public Set<TagDTO> getTags() {
@@ -550,28 +508,20 @@ public class ProjectDTO implements Serializable {
         this.buildingtypes = buildingTypes;
     }
 
-    public Set<InvestorDTO> getInvestors() {
-        return investors;
+    public Set<InvestorDTO> getInverstors() {
+        return inverstors;
     }
 
-    public void setInvestors(Set<InvestorDTO> investors) {
-        this.investors = investors;
+    public void setInverstors(Set<InvestorDTO> investors) {
+        this.inverstors = investors;
     }
 
-    public Set<ProjectBuilderDTO> getProjectbuilders() {
-        return projectbuilders;
+    public Set<ContractorDTO> getContractors() {
+        return contractors;
     }
 
-    public void setProjectbuilders(Set<ProjectBuilderDTO> projectBuilders) {
-        this.projectbuilders = projectBuilders;
-    }
-
-    public Set<PhotoDTO> getPhotos() {
-        return photos;
-    }
-
-    public void setPhotos(Set<PhotoDTO> photos) {
-        this.photos = photos;
+    public void setContractors(Set<ContractorDTO> contractors) {
+        this.contractors = contractors;
     }
 
     @Override
@@ -601,16 +551,13 @@ public class ProjectDTO implements Serializable {
             "id=" + getId() +
             ", projectName='" + getProjectName() + "'" +
             ", projectAlias='" + getProjectAlias() + "'" +
-            ", projectAvatar='" + getProjectAvatar() + "'" +
-            ", projectAvatarId=" + getProjectAvatarId() +
             ", projectAvatarUrl='" + getProjectAvatarUrl() + "'" +
             ", projectDistrict='" + getProjectDistrict() + "'" +
             ", projectProvince='" + getProjectProvince() + "'" +
-            ", projectResidentialArea='" + getProjectResidentialArea() + "'" +
+            ", residentialAreaId=" + getResidentialAreaId() +
             ", projectRoad='" + getProjectRoad() + "'" +
             ", projectWard='" + getProjectWard() + "'" +
             ", projectStatus='" + getProjectStatus() + "'" +
-            ", projectType='" + getProjectType() + "'" +
             ", projectNoBlocks=" + getProjectNoBlocks() +
             ", projectNoFloors=" + getProjectNoFloors() +
             ", projectNoApartments=" + getProjectNoApartments() +
@@ -618,11 +565,9 @@ public class ProjectDTO implements Serializable {
             ", projectDescription='" + getProjectDescription() + "'" +
             ", projectMinSellPrice=" + getProjectMinSellPrice() +
             ", projectMaxSellPrice=" + getProjectMaxSellPrice() +
-            ", projectSellAreaUnit='" + getProjectSellAreaUnit() + "'" +
             ", projectSellPriceUnit='" + getProjectSellPriceUnit() + "'" +
             ", projectMinRentPrice=" + getProjectMinRentPrice() +
             ", projectMaxRentPrice=" + getProjectMaxRentPrice() +
-            ", projectRentAreaUnit='" + getProjectRentAreaUnit() + "'" +
             ", projectRentPriceUnit='" + getProjectRentPriceUnit() + "'" +
             ", projectStartedDate='" + getProjectStartedDate() + "'" +
             ", projectFinishingDate='" + getProjectFinishingDate() + "'" +
@@ -645,8 +590,9 @@ public class ProjectDTO implements Serializable {
             ", latitude=" + getLatitude() +
             ", projectSeenCount=" + getProjectSeenCount() +
             ", projectAvailable='" + isProjectAvailable() + "'" +
-            ", document=" + getDocumentId() +
             ", location=" + getLocationId() +
+            ", consultant=" + getConsultantId() +
+            ", consultant='" + getConsultantLogin() + "'" +
             "}";
     }
 }

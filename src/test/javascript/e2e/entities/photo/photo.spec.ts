@@ -1,10 +1,9 @@
 /* tslint:disable no-unused-expression */
-import { browser } from 'protractor';
+import { browser, protractor } from 'protractor';
 
 import NavBarPage from './../../page-objects/navbar-page';
 import PhotoComponentsPage from './photo.page-object';
 import PhotoUpdatePage from './photo-update.page-object';
-import path from 'path';
 
 const expect = chai.expect;
 
@@ -12,8 +11,6 @@ describe('Photo e2e test', () => {
   let navBarPage: NavBarPage;
   let photoUpdatePage: PhotoUpdatePage;
   let photoComponentsPage: PhotoComponentsPage;
-  const fileToUpload = '../../../../../main/webapp/static/images/logo-jhipster.png';
-  const absolutePath = path.resolve(__dirname, fileToUpload);
 
   before(() => {
     browser.get('/');
@@ -36,11 +33,19 @@ describe('Photo e2e test', () => {
   it('should create and save Photos', async () => {
     photoUpdatePage.setPhotoNameInput('photoName');
     expect(await photoUpdatePage.getPhotoNameInput()).to.match(/photoName/);
-    photoUpdatePage.setPhotoImageInput(absolutePath);
-    photoUpdatePage.setPhotoExtensionInput('photoExtension');
-    expect(await photoUpdatePage.getPhotoExtensionInput()).to.match(/photoExtension/);
+    photoUpdatePage.setPhotoDateInput('01/01/2001' + protractor.Key.TAB + '02:30AM');
+    expect(await photoUpdatePage.getPhotoDateInput()).to.contain('2001-01-01T02:30');
     photoUpdatePage.setPhotoUrlInput('photoUrl');
     expect(await photoUpdatePage.getPhotoUrlInput()).to.match(/photoUrl/);
+    photoUpdatePage.setPhotoMimeTypeInput('photoMimeType');
+    expect(await photoUpdatePage.getPhotoMimeTypeInput()).to.match(/photoMimeType/);
+    photoUpdatePage.setResourceIdInput('5');
+    expect(await photoUpdatePage.getResourceIdInput()).to.eq('5');
+    photoUpdatePage.resourceTypeSelectLastOption();
+    photoUpdatePage.setPhotoSizeInput('5');
+    expect(await photoUpdatePage.getPhotoSizeInput()).to.eq('5');
+    photoUpdatePage.setPhotoAltTextInput('photoAltText');
+    expect(await photoUpdatePage.getPhotoAltTextInput()).to.match(/photoAltText/);
     photoUpdatePage.setPhotoThumbnailUrlInput('photoThumbnailUrl');
     expect(await photoUpdatePage.getPhotoThumbnailUrlInput()).to.match(/photoThumbnailUrl/);
     await photoUpdatePage.save();

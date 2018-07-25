@@ -37,6 +37,8 @@ export class CategoryUpdate extends React.Component<ICategoryUpdateProps, ICateg
   }
 
   saveEntity = (event, errors, values) => {
+    values.categoryDate = new Date(values.categoryDate);
+
     if (errors.length === 0) {
       const { categoryEntity } = this.props;
       const entity = {
@@ -94,7 +96,8 @@ export class CategoryUpdate extends React.Component<ICategoryUpdateProps, ICateg
                     type="text"
                     name="categoryName"
                     validate={{
-                      required: { value: true, errorMessage: translate('entity.validation.required') }
+                      required: { value: true, errorMessage: translate('entity.validation.required') },
+                      maxLength: { value: 128, errorMessage: translate('entity.validation.maxlength', { max: 128 }) }
                     }}
                   />
                 </AvGroup>
@@ -105,10 +108,16 @@ export class CategoryUpdate extends React.Component<ICategoryUpdateProps, ICateg
                   <AvField id="category-categoryAlias" type="text" name="categoryAlias" />
                 </AvGroup>
                 <AvGroup>
-                  <Label id="categoryDescriptionLabel" for="categoryDescription">
-                    <Translate contentKey="riverApp.category.categoryDescription">Category Description</Translate>
+                  <Label id="categoryDateLabel" for="categoryDate">
+                    <Translate contentKey="riverApp.category.categoryDate">Category Date</Translate>
                   </Label>
-                  <AvField id="category-categoryDescription" type="text" name="categoryDescription" />
+                  <AvInput
+                    id="category-categoryDate"
+                    type="datetime-local"
+                    className="form-control"
+                    name="categoryDate"
+                    value={isNew ? null : convertDateTimeFromServer(this.props.categoryEntity.categoryDate)}
+                  />
                 </AvGroup>
                 <Button tag={Link} id="cancel-save" to="/entity/category" replace color="info">
                   <FontAwesomeIcon icon="arrow-left" />&nbsp;

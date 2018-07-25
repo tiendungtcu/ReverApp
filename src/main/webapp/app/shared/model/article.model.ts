@@ -13,9 +13,10 @@ export interface IArticle {
   articleDate?: Moment;
   articleSeenCount?: number;
   articleContent?: any;
+  authorLogin?: string;
+  authorId?: number;
+  categoryCategoryName?: string;
   categoryId?: number;
-  userLogin?: string;
-  userId?: number;
 }
 
 export const defaultValue: Readonly<IArticle> = {};

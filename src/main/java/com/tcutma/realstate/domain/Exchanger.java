@@ -26,22 +26,21 @@ public class Exchanger implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "exchanger_name", nullable = false)
+    @Size(max = 128)
+    @Column(name = "exchanger_name", length = 128, nullable = false)
     private String exchangerName;
 
-    @Column(name = "exchanger_address")
+    @Size(max = 256)
+    @Column(name = "exchanger_address", length = 256)
     private String exchangerAddress;
 
     @NotNull
-    @Column(name = "exchanger_phone", nullable = false)
+    @Size(max = 16)
+    @Column(name = "exchanger_phone", length = 16, nullable = false)
     private String exchangerPhone;
 
-    @Lob
-    @Column(name = "exchanger_photo")
-    private byte[] exchangerPhoto;
-
-    @Column(name = "exchanger_photo_content_type")
-    private String exchangerPhotoContentType;
+    @Column(name = "exchanger_avatar_url")
+    private String exchangerAvatarUrl;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -91,30 +90,17 @@ public class Exchanger implements Serializable {
         this.exchangerPhone = exchangerPhone;
     }
 
-    public byte[] getExchangerPhoto() {
-        return exchangerPhoto;
+    public String getExchangerAvatarUrl() {
+        return exchangerAvatarUrl;
     }
 
-    public Exchanger exchangerPhoto(byte[] exchangerPhoto) {
-        this.exchangerPhoto = exchangerPhoto;
+    public Exchanger exchangerAvatarUrl(String exchangerAvatarUrl) {
+        this.exchangerAvatarUrl = exchangerAvatarUrl;
         return this;
     }
 
-    public void setExchangerPhoto(byte[] exchangerPhoto) {
-        this.exchangerPhoto = exchangerPhoto;
-    }
-
-    public String getExchangerPhotoContentType() {
-        return exchangerPhotoContentType;
-    }
-
-    public Exchanger exchangerPhotoContentType(String exchangerPhotoContentType) {
-        this.exchangerPhotoContentType = exchangerPhotoContentType;
-        return this;
-    }
-
-    public void setExchangerPhotoContentType(String exchangerPhotoContentType) {
-        this.exchangerPhotoContentType = exchangerPhotoContentType;
+    public void setExchangerAvatarUrl(String exchangerAvatarUrl) {
+        this.exchangerAvatarUrl = exchangerAvatarUrl;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -145,8 +131,7 @@ public class Exchanger implements Serializable {
             ", exchangerName='" + getExchangerName() + "'" +
             ", exchangerAddress='" + getExchangerAddress() + "'" +
             ", exchangerPhone='" + getExchangerPhone() + "'" +
-            ", exchangerPhoto='" + getExchangerPhoto() + "'" +
-            ", exchangerPhotoContentType='" + getExchangerPhotoContentType() + "'" +
+            ", exchangerAvatarUrl='" + getExchangerAvatarUrl() + "'" +
             "}";
     }
 }

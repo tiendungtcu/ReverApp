@@ -8,8 +8,6 @@ import com.tcutma.realstate.service.mapper.DocumentMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,7 +15,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 /**
  * Service Implementation for managing Document.
  */
@@ -53,32 +50,17 @@ public class DocumentServiceImpl implements DocumentService {
     /**
      * Get all the documents.
      *
-     * @param pageable the pagination information
      * @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
-    public Page<DocumentDTO> findAll(Pageable pageable) {
+    public List<DocumentDTO> findAll() {
         log.debug("Request to get all Documents");
-        return documentRepository.findAll(pageable)
-            .map(documentMapper::toDto);
-    }
-
-
-
-    /**
-     *  get all the documents where Project is null.
-     *  @return the list of entities
-     */
-    @Transactional(readOnly = true) 
-    public List<DocumentDTO> findAllWhereProjectIsNull() {
-        log.debug("Request to get all documents where Project is null");
-        return StreamSupport
-            .stream(documentRepository.findAll().spliterator(), false)
-            .filter(document -> document.getProject() == null)
+        return documentRepository.findAll().stream()
             .map(documentMapper::toDto)
             .collect(Collectors.toCollection(LinkedList::new));
     }
+
 
     /**
      * Get one document by id.

@@ -7,10 +7,10 @@ export default class DocumentUpdatePage {
   documentNameInput: ElementFinder = element(by.css('input#document-documentName'));
   documentUrlInput: ElementFinder = element(by.css('input#document-documentUrl'));
   documentDateInput: ElementFinder = element(by.css('input#document-documentDate'));
-  documentContentInput: ElementFinder = element(by.css('input#document-documentContent'));
-  documentPhotoInput: ElementFinder = element(by.css('input#file_documentPhoto'));
-  documentTypeSelect: ElementFinder = element(by.css('select#document-documentType'));
-  photoSelect: ElementFinder = element(by.css('select#document-photo'));
+  documentMimeTypeInput: ElementFinder = element(by.css('input#document-documentMimeType'));
+  documentSizeInput: ElementFinder = element(by.css('input#document-documentSize'));
+  resourceTypeSelect: ElementFinder = element(by.css('select#document-resourceType'));
+  resourceIdInput: ElementFinder = element(by.css('input#document-resourceId'));
 
   getPageTitle() {
     return this.pageTitle;
@@ -40,53 +40,42 @@ export default class DocumentUpdatePage {
     return this.documentDateInput.getAttribute('value');
   }
 
-  setDocumentContentInput(documentContent) {
-    this.documentContentInput.sendKeys(documentContent);
+  setDocumentMimeTypeInput(documentMimeType) {
+    this.documentMimeTypeInput.sendKeys(documentMimeType);
   }
 
-  getDocumentContentInput() {
-    return this.documentContentInput.getAttribute('value');
+  getDocumentMimeTypeInput() {
+    return this.documentMimeTypeInput.getAttribute('value');
   }
 
-  setDocumentPhotoInput(documentPhoto) {
-    this.documentPhotoInput.sendKeys(documentPhoto);
+  setDocumentSizeInput(documentSize) {
+    this.documentSizeInput.sendKeys(documentSize);
   }
 
-  getDocumentPhotoInput() {
-    return this.documentPhotoInput.getAttribute('value');
+  getDocumentSizeInput() {
+    return this.documentSizeInput.getAttribute('value');
   }
 
-  setDocumentTypeSelect(documentType) {
-    this.documentTypeSelect.sendKeys(documentType);
+  setResourceTypeSelect(resourceType) {
+    this.resourceTypeSelect.sendKeys(resourceType);
   }
 
-  getDocumentTypeSelect() {
-    return this.documentTypeSelect.element(by.css('option:checked')).getText();
+  getResourceTypeSelect() {
+    return this.resourceTypeSelect.element(by.css('option:checked')).getText();
   }
 
-  documentTypeSelectLastOption() {
-    this.documentTypeSelect
+  resourceTypeSelectLastOption() {
+    this.resourceTypeSelect
       .all(by.tagName('option'))
       .last()
       .click();
   }
-  photoSelectLastOption() {
-    this.photoSelect
-      .all(by.tagName('option'))
-      .last()
-      .click();
+  setResourceIdInput(resourceId) {
+    this.resourceIdInput.sendKeys(resourceId);
   }
 
-  photoSelectOption(option) {
-    this.photoSelect.sendKeys(option);
-  }
-
-  getPhotoSelect() {
-    return this.photoSelect;
-  }
-
-  getPhotoSelectedOption() {
-    return this.photoSelect.element(by.css('option:checked')).getText();
+  getResourceIdInput() {
+    return this.resourceIdInput.getAttribute('value');
   }
 
   save() {

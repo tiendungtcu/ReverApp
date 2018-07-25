@@ -8,16 +8,16 @@ import org.mapstruct.*;
 /**
  * Mapper for the entity Project and its DTO ProjectDTO.
  */
-@Mapper(componentModel = "spring", uses = {DocumentMapper.class, LocationMapper.class, TagMapper.class, BuildingTypeMapper.class, InvestorMapper.class, ProjectBuilderMapper.class, PhotoMapper.class})
+@Mapper(componentModel = "spring", uses = {LocationMapper.class, UserMapper.class, TagMapper.class, BuildingTypeMapper.class, InvestorMapper.class, ContractorMapper.class})
 public interface ProjectMapper extends EntityMapper<ProjectDTO, Project> {
 
-    @Mapping(source = "document.id", target = "documentId")
     @Mapping(source = "location.id", target = "locationId")
+    @Mapping(source = "consultant.id", target = "consultantId")
+    @Mapping(source = "consultant.login", target = "consultantLogin")
     ProjectDTO toDto(Project project);
 
-    @Mapping(source = "documentId", target = "document")
     @Mapping(source = "locationId", target = "location")
-    @Mapping(target = "posts", ignore = true)
+    @Mapping(source = "consultantId", target = "consultant")
     Project toEntity(ProjectDTO projectDTO);
 
     default Project fromId(Long id) {

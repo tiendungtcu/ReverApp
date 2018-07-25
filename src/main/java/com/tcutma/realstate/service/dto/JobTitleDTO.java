@@ -12,8 +12,10 @@ public class JobTitleDTO implements Serializable {
     private Long id;
 
     @NotNull
+    @Size(max = 128)
     private String titleName;
 
+    @DecimalMin(value = "1")
     private Double salaryFactor;
 
     public Long getId() {

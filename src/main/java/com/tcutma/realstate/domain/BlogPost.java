@@ -1,6 +1,5 @@
 package com.tcutma.realstate.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.annotations.ApiModel;
 import org.hibernate.annotations.Cache;
@@ -11,8 +10,6 @@ import javax.validation.constraints.*;
 
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.Objects;
 
 import com.tcutma.realstate.domain.enumeration.BlogStatus;
@@ -33,7 +30,8 @@ public class BlogPost implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "post_title", nullable = false)
+    @Size(max = 256)
+    @Column(name = "post_title", length = 256, nullable = false)
     private String postTitle;
 
     @Enumerated(EnumType.STRING)
@@ -43,22 +41,12 @@ public class BlogPost implements Serializable {
     @Column(name = "post_created_date")
     private Instant postCreatedDate;
 
-    @Column(name = "post_publish_date")
-    private Instant postPublishDate;
-
-    @Column(name = "post_update_date")
-    private Instant postUpdateDate;
-
     @Column(name = "post_seen_count")
     private Long postSeenCount;
 
     @Lob
     @Column(name = "post_content")
     private String postContent;
-
-    @OneToMany(mappedBy = "post")
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Comment> comments = new HashSet<>();
 
     @ManyToOne
     @JsonIgnoreProperties("")
@@ -67,10 +55,6 @@ public class BlogPost implements Serializable {
     @ManyToOne
     @JsonIgnoreProperties("")
     private User user;
-
-    @ManyToOne
-    @JsonIgnoreProperties("posts")
-    private Project project;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -120,32 +104,6 @@ public class BlogPost implements Serializable {
         this.postCreatedDate = postCreatedDate;
     }
 
-    public Instant getPostPublishDate() {
-        return postPublishDate;
-    }
-
-    public BlogPost postPublishDate(Instant postPublishDate) {
-        this.postPublishDate = postPublishDate;
-        return this;
-    }
-
-    public void setPostPublishDate(Instant postPublishDate) {
-        this.postPublishDate = postPublishDate;
-    }
-
-    public Instant getPostUpdateDate() {
-        return postUpdateDate;
-    }
-
-    public BlogPost postUpdateDate(Instant postUpdateDate) {
-        this.postUpdateDate = postUpdateDate;
-        return this;
-    }
-
-    public void setPostUpdateDate(Instant postUpdateDate) {
-        this.postUpdateDate = postUpdateDate;
-    }
-
     public Long getPostSeenCount() {
         return postSeenCount;
     }
@@ -172,31 +130,6 @@ public class BlogPost implements Serializable {
         this.postContent = postContent;
     }
 
-    public Set<Comment> getComments() {
-        return comments;
-    }
-
-    public BlogPost comments(Set<Comment> comments) {
-        this.comments = comments;
-        return this;
-    }
-
-    public BlogPost addComment(Comment comment) {
-        this.comments.add(comment);
-        comment.setPost(this);
-        return this;
-    }
-
-    public BlogPost removeComment(Comment comment) {
-        this.comments.remove(comment);
-        comment.setPost(null);
-        return this;
-    }
-
-    public void setComments(Set<Comment> comments) {
-        this.comments = comments;
-    }
-
     public Category getCategory() {
         return category;
     }
@@ -221,19 +154,6 @@ public class BlogPost implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public Project getProject() {
-        return project;
-    }
-
-    public BlogPost project(Project project) {
-        this.project = project;
-        return this;
-    }
-
-    public void setProject(Project project) {
-        this.project = project;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -264,8 +184,6 @@ public class BlogPost implements Serializable {
             ", postTitle='" + getPostTitle() + "'" +
             ", postStatus='" + getPostStatus() + "'" +
             ", postCreatedDate='" + getPostCreatedDate() + "'" +
-            ", postPublishDate='" + getPostPublishDate() + "'" +
-            ", postUpdateDate='" + getPostUpdateDate() + "'" +
             ", postSeenCount=" + getPostSeenCount() +
             ", postContent='" + getPostContent() + "'" +
             "}";

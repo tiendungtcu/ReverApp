@@ -6,6 +6,7 @@ export default class SupportCategoryUpdatePage {
   cancelButton: ElementFinder = element(by.id('cancel-save'));
   categoryNameInput: ElementFinder = element(by.css('input#support-category-categoryName'));
   categoryDescriptionInput: ElementFinder = element(by.css('input#support-category-categoryDescription'));
+  categorySupportTypeSelect: ElementFinder = element(by.css('select#support-category-categorySupportType'));
 
   getPageTitle() {
     return this.pageTitle;
@@ -27,6 +28,20 @@ export default class SupportCategoryUpdatePage {
     return this.categoryDescriptionInput.getAttribute('value');
   }
 
+  setCategorySupportTypeSelect(categorySupportType) {
+    this.categorySupportTypeSelect.sendKeys(categorySupportType);
+  }
+
+  getCategorySupportTypeSelect() {
+    return this.categorySupportTypeSelect.element(by.css('option:checked')).getText();
+  }
+
+  categorySupportTypeSelectLastOption() {
+    this.categorySupportTypeSelect
+      .all(by.tagName('option'))
+      .last()
+      .click();
+  }
   save() {
     return this.saveButton.click();
   }

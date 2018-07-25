@@ -5,12 +5,18 @@
             "fieldName": "companyName",
             "fieldType": "String",
             "fieldValidateRules": [
-                "required"
-            ]
+                "required",
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 128
         },
         {
             "fieldName": "companyPhone",
-            "fieldType": "String"
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 16
         },
         {
             "fieldName": "companyAddress",
@@ -56,7 +62,7 @@
         }
     ],
     "relationships": [],
-    "changelogDate": "20180720045218",
+    "changelogDate": "20180724181653",
     "javadoc": "Company-thong tin cong ty entity",
     "entityTableName": "company",
     "dto": "mapstruct",

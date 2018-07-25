@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Row, Col } from 'reactstrap';
 // tslint:disable-next-line:no-unused-variable
-import { Translate, ICrudGetAction, openFile, byteSize, TextFormat } from 'react-jhipster';
+import { Translate, ICrudGetAction, TextFormat } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IRootState } from 'app/shared/reducers';
@@ -46,7 +46,7 @@ export class InvestorDetail extends React.Component<IInvestorDetailProps> {
               </span>
             </dt>
             <dd>
-              <TextFormat value={investorEntity.investorDate} type="date" format={APP_DATE_FORMAT} />
+              <TextFormat value={investorEntity.investorDate} type="date" format={APP_LOCAL_DATE_FORMAT} />
             </dd>
             <dt>
               <span id="investorDescription">
@@ -73,25 +73,11 @@ export class InvestorDetail extends React.Component<IInvestorDetailProps> {
             </dt>
             <dd>{investorEntity.investorPhone}</dd>
             <dt>
-              <span id="investorPhoto">
-                <Translate contentKey="riverApp.investor.investorPhoto">Investor Photo</Translate>
+              <span id="investorAvatarUrl">
+                <Translate contentKey="riverApp.investor.investorAvatarUrl">Investor Avatar Url</Translate>
               </span>
             </dt>
-            <dd>
-              {investorEntity.investorPhoto ? (
-                <div>
-                  <a onClick={openFile(investorEntity.investorPhotoContentType, investorEntity.investorPhoto)}>
-                    <img
-                      src={`data:${investorEntity.investorPhotoContentType};base64,${investorEntity.investorPhoto}`}
-                      style={{ maxHeight: '30px' }}
-                    />
-                  </a>
-                  <span>
-                    {investorEntity.investorPhotoContentType}, {byteSize(investorEntity.investorPhoto)}
-                  </span>
-                </div>
-              ) : null}
-            </dd>
+            <dd>{investorEntity.investorAvatarUrl}</dd>
           </dl>
           <Button tag={Link} to="/entity/investor" replace color="info">
             <FontAwesomeIcon icon="arrow-left" />{' '}

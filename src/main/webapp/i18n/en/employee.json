@@ -16,7 +16,6 @@
             "detail": {
                 "title": "Employee"
             },
-            "employeeName": "Employee Name",
             "employeeFirstName": "Employee First Name",
             "employeeLastName": "Employee Last Name",
             "employeeDob": "Employee Dob",
@@ -24,19 +23,9 @@
             "employeeIdentityCard": "Employee Identity Card",
             "employeePhone": "Employee Phone",
             "employeeEmail": "Employee Email",
-            "employeeAvatar": "Employee Avatar",
-            "employeeFacebook": "Employee Facebook",
-            "employeeLinkedin": "Employee Linkedin",
-            "employeeInstagram": "Employee Instagram",
-            "employeeGooglePlus": "Employee Google Plus",
-            "employeeZalo": "Employee Zalo",
-            "employeeTwitter": "Employee Twitter",
-            "employeeYoutube": "Employee Youtube",
-            "contact": "Contact",
-            "photo": "Photo",
-            "jobtitle": "Jobtitle",
+            "account": "Account",
             "department": "Department",
-            "manager": "Manager"
+            "jobtitle": "Jobtitle"
         }
     }
 }

@@ -13,7 +13,6 @@ export const ACTION_TYPES = {
   CREATE_CONTACT: 'contact/CREATE_CONTACT',
   UPDATE_CONTACT: 'contact/UPDATE_CONTACT',
   DELETE_CONTACT: 'contact/DELETE_CONTACT',
-  SET_BLOB: 'contact/SET_BLOB',
   RESET: 'contact/RESET'
 };
 
@@ -90,16 +89,6 @@ export default (state: ContactState = initialState, action): ContactState => {
         updateSuccess: true,
         entity: {}
       };
-    case ACTION_TYPES.SET_BLOB:
-      const { name, data, contentType } = action.payload;
-      return {
-        ...state,
-        entity: {
-          ...state.entity,
-          [name]: data,
-          [name + 'ContentType']: contentType
-        }
-      };
     case ACTION_TYPES.RESET:
       return {
         ...initialState
@@ -156,15 +145,6 @@ export const deleteEntity: ICrudDeleteAction<IContact> = id => async dispatch =>
   dispatch(getEntities());
   return result;
 };
-
-export const setBlob = (name, data, contentType?) => ({
-  type: ACTION_TYPES.SET_BLOB,
-  payload: {
-    name,
-    data,
-    contentType
-  }
-});
 
 export const reset = () => ({
   type: ACTION_TYPES.RESET

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Row, Col } from 'reactstrap';
 // tslint:disable-next-line:no-unused-variable
-import { Translate, ICrudGetAction, openFile, byteSize } from 'react-jhipster';
+import { Translate, ICrudGetAction, TextFormat } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IRootState } from 'app/shared/reducers';
@@ -35,34 +35,49 @@ export class PhotoDetail extends React.Component<IPhotoDetailProps> {
             </dt>
             <dd>{photoEntity.photoName}</dd>
             <dt>
-              <span id="photoImage">
-                <Translate contentKey="riverApp.photo.photoImage">Photo Image</Translate>
+              <span id="photoDate">
+                <Translate contentKey="riverApp.photo.photoDate">Photo Date</Translate>
               </span>
             </dt>
             <dd>
-              {photoEntity.photoImage ? (
-                <div>
-                  <a onClick={openFile(photoEntity.photoImageContentType, photoEntity.photoImage)}>
-                    <img src={`data:${photoEntity.photoImageContentType};base64,${photoEntity.photoImage}`} style={{ maxHeight: '30px' }} />
-                  </a>
-                  <span>
-                    {photoEntity.photoImageContentType}, {byteSize(photoEntity.photoImage)}
-                  </span>
-                </div>
-              ) : null}
+              <TextFormat value={photoEntity.photoDate} type="date" format={APP_DATE_FORMAT} />
             </dd>
-            <dt>
-              <span id="photoExtension">
-                <Translate contentKey="riverApp.photo.photoExtension">Photo Extension</Translate>
-              </span>
-            </dt>
-            <dd>{photoEntity.photoExtension}</dd>
             <dt>
               <span id="photoUrl">
                 <Translate contentKey="riverApp.photo.photoUrl">Photo Url</Translate>
               </span>
             </dt>
             <dd>{photoEntity.photoUrl}</dd>
+            <dt>
+              <span id="photoMimeType">
+                <Translate contentKey="riverApp.photo.photoMimeType">Photo Mime Type</Translate>
+              </span>
+            </dt>
+            <dd>{photoEntity.photoMimeType}</dd>
+            <dt>
+              <span id="resourceId">
+                <Translate contentKey="riverApp.photo.resourceId">Resource Id</Translate>
+              </span>
+            </dt>
+            <dd>{photoEntity.resourceId}</dd>
+            <dt>
+              <span id="resourceType">
+                <Translate contentKey="riverApp.photo.resourceType">Resource Type</Translate>
+              </span>
+            </dt>
+            <dd>{photoEntity.resourceType}</dd>
+            <dt>
+              <span id="photoSize">
+                <Translate contentKey="riverApp.photo.photoSize">Photo Size</Translate>
+              </span>
+            </dt>
+            <dd>{photoEntity.photoSize}</dd>
+            <dt>
+              <span id="photoAltText">
+                <Translate contentKey="riverApp.photo.photoAltText">Photo Alt Text</Translate>
+              </span>
+            </dt>
+            <dd>{photoEntity.photoAltText}</dd>
             <dt>
               <span id="photoThumbnailUrl">
                 <Translate contentKey="riverApp.photo.photoThumbnailUrl">Photo Thumbnail Url</Translate>

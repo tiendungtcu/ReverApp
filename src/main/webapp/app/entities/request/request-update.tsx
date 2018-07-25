@@ -10,10 +10,6 @@ import { IRootState } from 'app/shared/reducers';
 
 import { IUser } from 'app/shared/model/user.model';
 import { getUsers } from 'app/modules/administration/user-management/user-management.reducer';
-import { IProperty } from 'app/shared/model/property.model';
-import { getEntities as getProperties } from 'app/entities/property/property.reducer';
-import { IProject } from 'app/shared/model/project.model';
-import { getEntities as getProjects } from 'app/entities/project/project.reducer';
 import { getEntity, updateEntity, createEntity, reset } from './request.reducer';
 import { IRequest } from 'app/shared/model/request.model';
 // tslint:disable-next-line:no-unused-variable
@@ -24,18 +20,16 @@ export interface IRequestUpdateProps extends StateProps, DispatchProps, RouteCom
 
 export interface IRequestUpdateState {
   isNew: boolean;
-  userId: number;
-  propertyId: number;
-  projectId: number;
+  senderId: number;
+  receiverId: number;
 }
 
 export class RequestUpdate extends React.Component<IRequestUpdateProps, IRequestUpdateState> {
   constructor(props) {
     super(props);
     this.state = {
-      userId: 0,
-      propertyId: 0,
-      projectId: 0,
+      senderId: 0,
+      receiverId: 0,
       isNew: !this.props.match.params || !this.props.match.params.id
     };
   }
@@ -48,14 +42,9 @@ export class RequestUpdate extends React.Component<IRequestUpdateProps, IRequest
     }
 
     this.props.getUsers();
-    this.props.getProperties();
-    this.props.getProjects();
   }
 
   saveEntity = (event, errors, values) => {
-    values.requestMeetingDate = new Date(values.requestMeetingDate);
-    values.requestCreatedDate = new Date(values.requestCreatedDate);
-
     if (errors.length === 0) {
       const { requestEntity } = this.props;
       const entity = {
@@ -76,51 +65,34 @@ export class RequestUpdate extends React.Component<IRequestUpdateProps, IRequest
     this.props.history.push('/entity/request');
   };
 
-  userUpdate = element => {
+  senderUpdate = element => {
     const login = element.target.value.toString();
     if (login === '') {
       this.setState({
-        userId: -1
+        senderId: -1
       });
     } else {
       for (const i in this.props.users) {
         if (login === this.props.users[i].login.toString()) {
           this.setState({
-            userId: this.props.users[i].id
+            senderId: this.props.users[i].id
           });
         }
       }
     }
   };
 
-  propertyUpdate = element => {
-    const propertyName = element.target.value.toString();
-    if (propertyName === '') {
+  receiverUpdate = element => {
+    const login = element.target.value.toString();
+    if (login === '') {
       this.setState({
-        propertyId: -1
+        receiverId: -1
       });
     } else {
-      for (const i in this.props.properties) {
-        if (propertyName === this.props.properties[i].propertyName.toString()) {
+      for (const i in this.props.users) {
+        if (login === this.props.users[i].login.toString()) {
           this.setState({
-            propertyId: this.props.properties[i].id
-          });
-        }
-      }
-    }
-  };
-
-  projectUpdate = element => {
-    const projectName = element.target.value.toString();
-    if (projectName === '') {
-      this.setState({
-        projectId: -1
-      });
-    } else {
-      for (const i in this.props.projects) {
-        if (projectName === this.props.projects[i].projectName.toString()) {
-          this.setState({
-            projectId: this.props.projects[i].id
+            receiverId: this.props.users[i].id
           });
         }
       }
@@ -129,7 +101,7 @@ export class RequestUpdate extends React.Component<IRequestUpdateProps, IRequest
 
   render() {
     const isInvalid = false;
-    const { requestEntity, users, properties, projects, loading, updating } = this.props;
+    const { requestEntity, users, loading, updating } = this.props;
     const { isNew } = this.state;
 
     return (
@@ -164,7 +136,8 @@ export class RequestUpdate extends React.Component<IRequestUpdateProps, IRequest
                     type="text"
                     name="requestFirstName"
                     validate={{
-                      required: { value: true, errorMessage: translate('entity.validation.required') }
+                      required: { value: true, errorMessage: translate('entity.validation.required') },
+                      maxLength: { value: 128, errorMessage: translate('entity.validation.maxlength', { max: 128 }) }
                     }}
                   />
                 </AvGroup>
@@ -177,7 +150,8 @@ export class RequestUpdate extends React.Component<IRequestUpdateProps, IRequest
                     type="text"
                     name="requestLastName"
                     validate={{
-                      required: { value: true, errorMessage: translate('entity.validation.required') }
+                      required: { value: true, errorMessage: translate('entity.validation.required') },
+                      maxLength: { value: 128, errorMessage: translate('entity.validation.maxlength', { max: 128 }) }
                     }}
                   />
                 </AvGroup>
@@ -203,7 +177,8 @@ export class RequestUpdate extends React.Component<IRequestUpdateProps, IRequest
                     type="text"
                     name="requestPhone"
                     validate={{
-                      required: { value: true, errorMessage: translate('entity.validation.required') }
+                      required: { value: true, errorMessage: translate('entity.validation.required') },
+                      maxLength: { value: 16, errorMessage: translate('entity.validation.maxlength', { max: 16 }) }
                     }}
                   />
                 </AvGroup>
@@ -226,31 +201,26 @@ export class RequestUpdate extends React.Component<IRequestUpdateProps, IRequest
                   <AvField id="request-requestPageUrl" type="text" name="requestPageUrl" />
                 </AvGroup>
                 <AvGroup>
-                  <Label id="requestPageNameLabel" for="requestPageName">
-                    <Translate contentKey="riverApp.request.requestPageName">Request Page Name</Translate>
+                  <Label id="resourceIdLabel" for="resourceId">
+                    <Translate contentKey="riverApp.request.resourceId">Resource Id</Translate>
                   </Label>
-                  <AvField id="request-requestPageName" type="text" name="requestPageName" />
+                  <AvField id="request-resourceId" type="number" className="form-control" name="resourceId" />
                 </AvGroup>
                 <AvGroup>
-                  <Label id="requestPropertyIdLabel" for="requestPropertyId">
-                    <Translate contentKey="riverApp.request.requestPropertyId">Request Property Id</Translate>
-                  </Label>
-                  <AvField id="request-requestPropertyId" type="number" className="form-control" name="requestPropertyId" />
-                </AvGroup>
-                <AvGroup>
-                  <Label id="requestPropertyTypeLabel">
-                    <Translate contentKey="riverApp.request.requestPropertyType">Request Property Type</Translate>
+                  <Label id="resourceTypeLabel">
+                    <Translate contentKey="riverApp.request.resourceType">Resource Type</Translate>
                   </Label>
                   <AvInput
-                    id="request-requestPropertyType"
+                    id="request-resourceType"
                     type="select"
                     className="form-control"
-                    name="requestPropertyType"
-                    value={(!isNew && requestEntity.requestPropertyType) || 'PROJECT'}
+                    name="resourceType"
+                    value={(!isNew && requestEntity.resourceType) || 'PROJECT'}
                   >
                     <option value="PROJECT">PROJECT</option>
                     <option value="PROPERTY">PROPERTY</option>
-                    <option value="LAND">LAND</option>
+                    <option value="EMPLOYEE">EMPLOYEE</option>
+                    <option value="RESIDENTIAL_AREA">RESIDENTIAL_AREA</option>
                   </AvInput>
                 </AvGroup>
                 <AvGroup>
@@ -267,19 +237,14 @@ export class RequestUpdate extends React.Component<IRequestUpdateProps, IRequest
                     <option value="MEETING">MEETING</option>
                     <option value="PRICE">PRICE</option>
                     <option value="QUESTION">QUESTION</option>
+                    <option value="OTHER">OTHER</option>
                   </AvInput>
                 </AvGroup>
                 <AvGroup>
                   <Label id="requestMeetingDateLabel" for="requestMeetingDate">
                     <Translate contentKey="riverApp.request.requestMeetingDate">Request Meeting Date</Translate>
                   </Label>
-                  <AvInput
-                    id="request-requestMeetingDate"
-                    type="datetime-local"
-                    className="form-control"
-                    name="requestMeetingDate"
-                    value={isNew ? null : convertDateTimeFromServer(this.props.requestEntity.requestMeetingDate)}
-                  />
+                  <AvField id="request-requestMeetingDate" type="date" className="form-control" name="requestMeetingDate" />
                 </AvGroup>
                 <AvGroup>
                   <Label id="requestQuestionLabel" for="requestQuestion">
@@ -291,31 +256,22 @@ export class RequestUpdate extends React.Component<IRequestUpdateProps, IRequest
                   <Label id="requestPriceLabel" for="requestPrice">
                     <Translate contentKey="riverApp.request.requestPrice">Request Price</Translate>
                   </Label>
-                  <AvField id="request-requestPrice" type="number" className="form-control" name="requestPrice" />
-                </AvGroup>
-                <AvGroup>
-                  <Label id="requestCreatedDateLabel" for="requestCreatedDate">
-                    <Translate contentKey="riverApp.request.requestCreatedDate">Request Created Date</Translate>
-                  </Label>
-                  <AvInput
-                    id="request-requestCreatedDate"
-                    type="datetime-local"
+                  <AvField
+                    id="request-requestPrice"
+                    type="number"
                     className="form-control"
-                    name="requestCreatedDate"
-                    value={isNew ? null : convertDateTimeFromServer(this.props.requestEntity.requestCreatedDate)}
+                    name="requestPrice"
+                    validate={{
+                      min: { value: 0, errorMessage: translate('entity.validation.min', { min: 0 }) },
+                      number: { value: true, errorMessage: translate('entity.validation.number') }
+                    }}
                   />
                 </AvGroup>
                 <AvGroup>
-                  <Label id="requestConsultantIdLabel" for="requestConsultantId">
-                    <Translate contentKey="riverApp.request.requestConsultantId">Request Consultant Id</Translate>
+                  <Label for="sender.login">
+                    <Translate contentKey="riverApp.request.sender">Sender</Translate>
                   </Label>
-                  <AvField id="request-requestConsultantId" type="number" className="form-control" name="requestConsultantId" />
-                </AvGroup>
-                <AvGroup>
-                  <Label for="user.login">
-                    <Translate contentKey="riverApp.request.user">User</Translate>
-                  </Label>
-                  <AvInput id="request-user" type="select" className="form-control" name="userId" onChange={this.userUpdate}>
+                  <AvInput id="request-sender" type="select" className="form-control" name="senderId" onChange={this.senderUpdate}>
                     <option value="" key="0" />
                     {users
                       ? users.map(otherEntity => (
@@ -327,30 +283,15 @@ export class RequestUpdate extends React.Component<IRequestUpdateProps, IRequest
                   </AvInput>
                 </AvGroup>
                 <AvGroup>
-                  <Label for="property.propertyName">
-                    <Translate contentKey="riverApp.request.property">Property</Translate>
+                  <Label for="receiver.login">
+                    <Translate contentKey="riverApp.request.receiver">Receiver</Translate>
                   </Label>
-                  <AvInput id="request-property" type="select" className="form-control" name="propertyId" onChange={this.propertyUpdate}>
+                  <AvInput id="request-receiver" type="select" className="form-control" name="receiverId" onChange={this.receiverUpdate}>
                     <option value="" key="0" />
-                    {properties
-                      ? properties.map(otherEntity => (
+                    {users
+                      ? users.map(otherEntity => (
                           <option value={otherEntity.id} key={otherEntity.id}>
-                            {otherEntity.propertyName}
-                          </option>
-                        ))
-                      : null}
-                  </AvInput>
-                </AvGroup>
-                <AvGroup>
-                  <Label for="project.projectName">
-                    <Translate contentKey="riverApp.request.project">Project</Translate>
-                  </Label>
-                  <AvInput id="request-project" type="select" className="form-control" name="projectId" onChange={this.projectUpdate}>
-                    <option value="" key="0" />
-                    {projects
-                      ? projects.map(otherEntity => (
-                          <option value={otherEntity.id} key={otherEntity.id}>
-                            {otherEntity.projectName}
+                            {otherEntity.login}
                           </option>
                         ))
                       : null}
@@ -378,8 +319,6 @@ export class RequestUpdate extends React.Component<IRequestUpdateProps, IRequest
 
 const mapStateToProps = (storeState: IRootState) => ({
   users: storeState.userManagement.users,
-  properties: storeState.property.entities,
-  projects: storeState.project.entities,
   requestEntity: storeState.request.entity,
   loading: storeState.request.loading,
   updating: storeState.request.updating
@@ -387,8 +326,6 @@ const mapStateToProps = (storeState: IRootState) => ({
 
 const mapDispatchToProps = {
   getUsers,
-  getProperties,
-  getProjects,
   getEntity,
   updateEntity,
   createEntity,

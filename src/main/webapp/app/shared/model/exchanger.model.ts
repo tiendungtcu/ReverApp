@@ -3,8 +3,7 @@ export interface IExchanger {
   exchangerName?: string;
   exchangerAddress?: string;
   exchangerPhone?: string;
-  exchangerPhotoContentType?: string;
-  exchangerPhoto?: any;
+  exchangerAvatarUrl?: string;
 }
 
 export const defaultValue: Readonly<IExchanger> = {};

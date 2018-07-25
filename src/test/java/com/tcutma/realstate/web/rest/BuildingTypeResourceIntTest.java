@@ -32,7 +32,6 @@ import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import com.tcutma.realstate.domain.enumeration.PropertyType;
 /**
  * Test class for the BuildingTypeResource REST controller.
  *
@@ -44,9 +43,6 @@ public class BuildingTypeResourceIntTest {
 
     private static final String DEFAULT_TYPE_NAME = "AAAAAAAAAA";
     private static final String UPDATED_TYPE_NAME = "BBBBBBBBBB";
-
-    private static final PropertyType DEFAULT_TYPE_SELECT = PropertyType.PROJECT;
-    private static final PropertyType UPDATED_TYPE_SELECT = PropertyType.PROPERTY;
 
     @Autowired
     private BuildingTypeRepository buildingTypeRepository;
@@ -90,8 +86,7 @@ public class BuildingTypeResourceIntTest {
      */
     public static BuildingType createEntity(EntityManager em) {
         BuildingType buildingType = new BuildingType()
-            .typeName(DEFAULT_TYPE_NAME)
-            .typeSelect(DEFAULT_TYPE_SELECT);
+            .typeName(DEFAULT_TYPE_NAME);
         return buildingType;
     }
 
@@ -117,7 +112,6 @@ public class BuildingTypeResourceIntTest {
         assertThat(buildingTypeList).hasSize(databaseSizeBeforeCreate + 1);
         BuildingType testBuildingType = buildingTypeList.get(buildingTypeList.size() - 1);
         assertThat(testBuildingType.getTypeName()).isEqualTo(DEFAULT_TYPE_NAME);
-        assertThat(testBuildingType.getTypeSelect()).isEqualTo(DEFAULT_TYPE_SELECT);
     }
 
     @Test
@@ -170,8 +164,7 @@ public class BuildingTypeResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(buildingType.getId().intValue())))
-            .andExpect(jsonPath("$.[*].typeName").value(hasItem(DEFAULT_TYPE_NAME.toString())))
-            .andExpect(jsonPath("$.[*].typeSelect").value(hasItem(DEFAULT_TYPE_SELECT.toString())));
+            .andExpect(jsonPath("$.[*].typeName").value(hasItem(DEFAULT_TYPE_NAME.toString())));
     }
     
 
@@ -186,8 +179,7 @@ public class BuildingTypeResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(buildingType.getId().intValue()))
-            .andExpect(jsonPath("$.typeName").value(DEFAULT_TYPE_NAME.toString()))
-            .andExpect(jsonPath("$.typeSelect").value(DEFAULT_TYPE_SELECT.toString()));
+            .andExpect(jsonPath("$.typeName").value(DEFAULT_TYPE_NAME.toString()));
     }
     @Test
     @Transactional
@@ -210,8 +202,7 @@ public class BuildingTypeResourceIntTest {
         // Disconnect from session so that the updates on updatedBuildingType are not directly saved in db
         em.detach(updatedBuildingType);
         updatedBuildingType
-            .typeName(UPDATED_TYPE_NAME)
-            .typeSelect(UPDATED_TYPE_SELECT);
+            .typeName(UPDATED_TYPE_NAME);
         BuildingTypeDTO buildingTypeDTO = buildingTypeMapper.toDto(updatedBuildingType);
 
         restBuildingTypeMockMvc.perform(put("/api/building-types")
@@ -224,7 +215,6 @@ public class BuildingTypeResourceIntTest {
         assertThat(buildingTypeList).hasSize(databaseSizeBeforeUpdate);
         BuildingType testBuildingType = buildingTypeList.get(buildingTypeList.size() - 1);
         assertThat(testBuildingType.getTypeName()).isEqualTo(UPDATED_TYPE_NAME);
-        assertThat(testBuildingType.getTypeSelect()).isEqualTo(UPDATED_TYPE_SELECT);
     }
 
     @Test

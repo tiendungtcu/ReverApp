@@ -241,6 +241,9 @@ public class PropertyQueryService extends QueryService<Property> {
             if (criteria.getPropertyExtraInfo() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getPropertyExtraInfo(), Property_.propertyExtraInfo));
             }
+            if (criteria.getPropertyDraftUrl() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getPropertyDraftUrl(), Property_.propertyDraftUrl));
+            }
             if (criteria.getLongitude() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getLongitude(), Property_.longitude));
             }
@@ -271,17 +274,11 @@ public class PropertyQueryService extends QueryService<Property> {
             if (criteria.getLocationId() != null) {
                 specification = specification.and(buildReferringEntitySpecification(criteria.getLocationId(), Property_.location, Location_.id));
             }
-            if (criteria.getResidentialAreaId() != null) {
-                specification = specification.and(buildReferringEntitySpecification(criteria.getResidentialAreaId(), Property_.residentialArea, ResidentialArea_.id));
+            if (criteria.getConsultantId() != null) {
+                specification = specification.and(buildReferringEntitySpecification(criteria.getConsultantId(), Property_.consultant, User_.id));
             }
             if (criteria.getTagId() != null) {
                 specification = specification.and(buildReferringEntitySpecification(criteria.getTagId(), Property_.tags, Tag_.id));
-            }
-            if (criteria.getBuildingtypeId() != null) {
-                specification = specification.and(buildReferringEntitySpecification(criteria.getBuildingtypeId(), Property_.buildingtypes, BuildingType_.id));
-            }
-            if (criteria.getPhotoId() != null) {
-                specification = specification.and(buildReferringEntitySpecification(criteria.getPhotoId(), Property_.photos, Photo_.id));
             }
         }
         return specification;

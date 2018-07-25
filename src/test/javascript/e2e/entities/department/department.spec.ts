@@ -4,7 +4,6 @@ import { browser } from 'protractor';
 import NavBarPage from './../../page-objects/navbar-page';
 import DepartmentComponentsPage from './department.page-object';
 import DepartmentUpdatePage from './department-update.page-object';
-import path from 'path';
 
 const expect = chai.expect;
 
@@ -12,8 +11,6 @@ describe('Department e2e test', () => {
   let navBarPage: NavBarPage;
   let departmentUpdatePage: DepartmentUpdatePage;
   let departmentComponentsPage: DepartmentComponentsPage;
-  const fileToUpload = '../../../../../main/webapp/static/images/logo-jhipster.png';
-  const absolutePath = path.resolve(__dirname, fileToUpload);
 
   before(() => {
     browser.get('/');
@@ -36,7 +33,8 @@ describe('Department e2e test', () => {
   it('should create and save Departments', async () => {
     departmentUpdatePage.setDepartmentNameInput('departmentName');
     expect(await departmentUpdatePage.getDepartmentNameInput()).to.match(/departmentName/);
-    departmentUpdatePage.setDepartmentPhotoInput(absolutePath);
+    departmentUpdatePage.setDepartmentAvatarUrlInput('departmentAvatarUrl');
+    expect(await departmentUpdatePage.getDepartmentAvatarUrlInput()).to.match(/departmentAvatarUrl/);
     departmentUpdatePage.setDepartmentPhoneInput('departmentPhone');
     expect(await departmentUpdatePage.getDepartmentPhoneInput()).to.match(/departmentPhone/);
     await departmentUpdatePage.save();

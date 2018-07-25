@@ -2,9 +2,7 @@ package com.tcutma.realstate.service;
 
 import com.tcutma.realstate.service.dto.TagDTO;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -23,10 +21,9 @@ public interface TagService {
     /**
      * Get all the tags.
      *
-     * @param pageable the pagination information
      * @return the list of entities
      */
-    Page<TagDTO> findAll(Pageable pageable);
+    List<TagDTO> findAll();
 
 
     /**

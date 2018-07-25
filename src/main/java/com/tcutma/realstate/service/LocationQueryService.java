@@ -97,9 +97,6 @@ public class LocationQueryService extends QueryService<Location> {
             if (criteria.getLocationProvince() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getLocationProvince(), Location_.locationProvince));
             }
-            if (criteria.getLocationCountry() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getLocationCountry(), Location_.locationCountry));
-            }
             if (criteria.getLocationGmapUrl() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getLocationGmapUrl(), Location_.locationGmapUrl));
             }
@@ -109,8 +106,8 @@ public class LocationQueryService extends QueryService<Location> {
             if (criteria.getLatitude() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getLatitude(), Location_.latitude));
             }
-            if (criteria.getLocationHide() != null) {
-                specification = specification.and(buildSpecification(criteria.getLocationHide(), Location_.locationHide));
+            if (criteria.getLocationZipCode() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getLocationZipCode(), Location_.locationZipCode));
             }
         }
         return specification;

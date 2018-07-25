@@ -5,13 +5,13 @@ export default class RecruitmentInfoUpdatePage {
   saveButton: ElementFinder = element(by.id('save-entity'));
   cancelButton: ElementFinder = element(by.id('cancel-save'));
   recruitmentTitleInput: ElementFinder = element(by.css('input#recruitment-info-recruitmentTitle'));
-  recruitmentImageInput: ElementFinder = element(by.css('input#file_recruitmentImage'));
+  recruitmentAvatarUrlInput: ElementFinder = element(by.css('input#recruitment-info-recruitmentAvatarUrl'));
   recruitmentContentInput: ElementFinder = element(by.css('input#recruitment-info-recruitmentContent'));
   recruitmentNotesInput: ElementFinder = element(by.css('input#recruitment-info-recruitmentNotes'));
   recruitmentDateInput: ElementFinder = element(by.css('input#recruitment-info-recruitmentDate'));
   recruitmentSeenCountInput: ElementFinder = element(by.css('input#recruitment-info-recruitmentSeenCount'));
   recruitmentStatusInput: ElementFinder = element(by.css('input#recruitment-info-recruitmentStatus'));
-  photoSelect: ElementFinder = element(by.css('select#recruitment-info-photo'));
+  userSelect: ElementFinder = element(by.css('select#recruitment-info-user'));
   jobtitleSelect: ElementFinder = element(by.css('select#recruitment-info-jobtitle'));
 
   getPageTitle() {
@@ -26,12 +26,12 @@ export default class RecruitmentInfoUpdatePage {
     return this.recruitmentTitleInput.getAttribute('value');
   }
 
-  setRecruitmentImageInput(recruitmentImage) {
-    this.recruitmentImageInput.sendKeys(recruitmentImage);
+  setRecruitmentAvatarUrlInput(recruitmentAvatarUrl) {
+    this.recruitmentAvatarUrlInput.sendKeys(recruitmentAvatarUrl);
   }
 
-  getRecruitmentImageInput() {
-    return this.recruitmentImageInput.getAttribute('value');
+  getRecruitmentAvatarUrlInput() {
+    return this.recruitmentAvatarUrlInput.getAttribute('value');
   }
 
   setRecruitmentContentInput(recruitmentContent) {
@@ -69,23 +69,23 @@ export default class RecruitmentInfoUpdatePage {
   getRecruitmentStatusInput() {
     return this.recruitmentStatusInput;
   }
-  photoSelectLastOption() {
-    this.photoSelect
+  userSelectLastOption() {
+    this.userSelect
       .all(by.tagName('option'))
       .last()
       .click();
   }
 
-  photoSelectOption(option) {
-    this.photoSelect.sendKeys(option);
+  userSelectOption(option) {
+    this.userSelect.sendKeys(option);
   }
 
-  getPhotoSelect() {
-    return this.photoSelect;
+  getUserSelect() {
+    return this.userSelect;
   }
 
-  getPhotoSelectedOption() {
-    return this.photoSelect.element(by.css('option:checked')).getText();
+  getUserSelectedOption() {
+    return this.userSelect.element(by.css('option:checked')).getText();
   }
 
   jobtitleSelectLastOption() {

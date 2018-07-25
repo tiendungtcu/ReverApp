@@ -8,8 +8,6 @@ import { Translate, translate, ICrudGetAction, ICrudGetAllAction, setFileData, b
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IRootState } from 'app/shared/reducers';
 
-import { IUser } from 'app/shared/model/user.model';
-import { getUsers } from 'app/modules/administration/user-management/user-management.reducer';
 import { getEntity, updateEntity, createEntity, setBlob, reset } from './notification.reducer';
 import { INotification } from 'app/shared/model/notification.model';
 // tslint:disable-next-line:no-unused-variable
@@ -20,14 +18,12 @@ export interface INotificationUpdateProps extends StateProps, DispatchProps, Rou
 
 export interface INotificationUpdateState {
   isNew: boolean;
-  userId: number;
 }
 
 export class NotificationUpdate extends React.Component<INotificationUpdateProps, INotificationUpdateState> {
   constructor(props) {
     super(props);
     this.state = {
-      userId: 0,
       isNew: !this.props.match.params || !this.props.match.params.id
     };
   }
@@ -38,8 +34,6 @@ export class NotificationUpdate extends React.Component<INotificationUpdateProps
     } else {
       this.props.getEntity(this.props.match.params.id);
     }
-
-    this.props.getUsers();
   }
 
   onBlobChange = (isAnImage, name) => event => {
@@ -73,26 +67,9 @@ export class NotificationUpdate extends React.Component<INotificationUpdateProps
     this.props.history.push('/entity/notification');
   };
 
-  userUpdate = element => {
-    const login = element.target.value.toString();
-    if (login === '') {
-      this.setState({
-        userId: -1
-      });
-    } else {
-      for (const i in this.props.users) {
-        if (login === this.props.users[i].login.toString()) {
-          this.setState({
-            userId: this.props.users[i].id
-          });
-        }
-      }
-    }
-  };
-
   render() {
     const isInvalid = false;
-    const { notificationEntity, users, loading, updating } = this.props;
+    const { notificationEntity, loading, updating } = this.props;
     const { isNew } = this.state;
 
     const { notificationContent } = notificationEntity;
@@ -129,7 +106,8 @@ export class NotificationUpdate extends React.Component<INotificationUpdateProps
                     type="text"
                     name="notificationTitle"
                     validate={{
-                      required: { value: true, errorMessage: translate('entity.validation.required') }
+                      required: { value: true, errorMessage: translate('entity.validation.required') },
+                      maxLength: { value: 128, errorMessage: translate('entity.validation.maxlength', { max: 128 }) }
                     }}
                   />
                 </AvGroup>
@@ -166,33 +144,18 @@ export class NotificationUpdate extends React.Component<INotificationUpdateProps
                     type="select"
                     className="form-control"
                     name="notificationType"
-                    value={(!isNew && notificationEntity.notificationType) || 'NOTIFICATION'}
+                    value={(!isNew && notificationEntity.notificationType) || 'SYSTEM'}
                   >
-                    <option value="NOTIFICATION">NOTIFICATION</option>
+                    <option value="SYSTEM">SYSTEM</option>
                     <option value="REQUEST">REQUEST</option>
                     <option value="ALERT">ALERT</option>
                   </AvInput>
                 </AvGroup>
                 <AvGroup>
-                  <Label id="notificationReferenceLabel" for="notificationReference">
-                    <Translate contentKey="riverApp.notification.notificationReference">Notification Reference</Translate>
+                  <Label id="notificationSenderLabel" for="notificationSender">
+                    <Translate contentKey="riverApp.notification.notificationSender">Notification Sender</Translate>
                   </Label>
-                  <AvField id="notification-notificationReference" type="text" name="notificationReference" />
-                </AvGroup>
-                <AvGroup>
-                  <Label for="user.login">
-                    <Translate contentKey="riverApp.notification.user">User</Translate>
-                  </Label>
-                  <AvInput id="notification-user" type="select" className="form-control" name="userId" onChange={this.userUpdate}>
-                    <option value="" key="0" />
-                    {users
-                      ? users.map(otherEntity => (
-                          <option value={otherEntity.id} key={otherEntity.id}>
-                            {otherEntity.login}
-                          </option>
-                        ))
-                      : null}
-                  </AvInput>
+                  <AvField id="notification-notificationSender" type="number" className="form-control" name="notificationSender" />
                 </AvGroup>
                 <Button tag={Link} id="cancel-save" to="/entity/notification" replace color="info">
                   <FontAwesomeIcon icon="arrow-left" />&nbsp;
@@ -215,14 +178,12 @@ export class NotificationUpdate extends React.Component<INotificationUpdateProps
 }
 
 const mapStateToProps = (storeState: IRootState) => ({
-  users: storeState.userManagement.users,
   notificationEntity: storeState.notification.entity,
   loading: storeState.notification.loading,
   updating: storeState.notification.updating
 });
 
 const mapDispatchToProps = {
-  getUsers,
   getEntity,
   updateEntity,
   setBlob,

@@ -1,5 +1,13 @@
+import isEqual from 'lodash/isEqual';
 import axios from 'axios';
-import { ICrudGetAction, ICrudGetAllAction, ICrudPutAction, ICrudDeleteAction } from 'react-jhipster';
+import {
+  parseHeaderForLinks,
+  loadMoreDataWhenScrolled,
+  ICrudGetAction,
+  ICrudGetAllAction,
+  ICrudPutAction,
+  ICrudDeleteAction
+} from 'react-jhipster';
 
 import { cleanEntity } from 'app/shared/util/entity-utils';
 import { REQUEST, SUCCESS, FAILURE } from 'app/shared/reducers/action-type.util';
@@ -22,7 +30,11 @@ const initialState = {
   errorMessage: null,
   entities: [] as ReadonlyArray<IArticle>,
   entity: defaultValue,
+  links: {
+    last: 0
+  },
   updating: false,
+  totalItems: 0,
   updateSuccess: false
 };
 
@@ -62,10 +74,13 @@ export default (state: ArticleState = initialState, action): ArticleState => {
         errorMessage: action.payload
       };
     case SUCCESS(ACTION_TYPES.FETCH_ARTICLE_LIST):
+      const links = parseHeaderForLinks(action.payload.headers.link);
       return {
         ...state,
+        links: { last: links.last },
         loading: false,
-        entities: action.payload.data
+        totalItems: action.payload.headers['x-total-count'],
+        entities: loadMoreDataWhenScrolled(state.entities, action.payload.data, links)
       };
     case SUCCESS(ACTION_TYPES.FETCH_ARTICLE):
       return {
@@ -111,10 +126,13 @@ const apiUrl = SERVER_API_URL + '/api/articles';
 
 // Actions
 
-export const getEntities: ICrudGetAllAction<IArticle> = (page, size, sort) => ({
-  type: ACTION_TYPES.FETCH_ARTICLE_LIST,
-  payload: axios.get<IArticle>(`${apiUrl}?cacheBuster=${new Date().getTime()}`)
-});
+export const getEntities: ICrudGetAllAction<IArticle> = (page, size, sort) => {
+  const requestUrl = `${apiUrl}${sort ? `?page=${page}&size=${size}&sort=${sort}` : ''}`;
+  return {
+    type: ACTION_TYPES.FETCH_ARTICLE_LIST,
+    payload: axios.get<IArticle>(`${requestUrl}${sort ? '&' : '?'}cacheBuster=${new Date().getTime()}`)
+  };
+};
 
 export const getEntity: ICrudGetAction<IArticle> = id => {
   const requestUrl = `${apiUrl}/${id}`;

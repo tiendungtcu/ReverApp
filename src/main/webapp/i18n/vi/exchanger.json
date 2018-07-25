@@ -19,7 +19,7 @@
             "exchangerName": "Exchanger Name",
             "exchangerAddress": "Exchanger Address",
             "exchangerPhone": "Exchanger Phone",
-            "exchangerPhoto": "Exchanger Photo"
+            "exchangerAvatarUrl": "Exchanger Avatar Url"
         }
     }
 }

@@ -4,15 +4,10 @@ import com.codahale.metrics.annotation.Timed;
 import com.tcutma.realstate.service.DocumentService;
 import com.tcutma.realstate.web.rest.errors.BadRequestAlertException;
 import com.tcutma.realstate.web.rest.util.HeaderUtil;
-import com.tcutma.realstate.web.rest.util.PaginationUtil;
 import com.tcutma.realstate.service.dto.DocumentDTO;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +17,6 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.StreamSupport;
 
 /**
  * REST controller for managing Document.
@@ -86,22 +80,13 @@ public class DocumentResource {
     /**
      * GET  /documents : get all the documents.
      *
-     * @param pageable the pagination information
-     * @param filter the filter of the request
      * @return the ResponseEntity with status 200 (OK) and the list of documents in body
      */
     @GetMapping("/documents")
     @Timed
-    public ResponseEntity<List<DocumentDTO>> getAllDocuments(Pageable pageable, @RequestParam(required = false) String filter) {
-        if ("project-is-null".equals(filter)) {
-            log.debug("REST request to get all Documents where project is null");
-            return new ResponseEntity<>(documentService.findAllWhereProjectIsNull(),
-                    HttpStatus.OK);
-        }
-        log.debug("REST request to get a page of Documents");
-        Page<DocumentDTO> page = documentService.findAll(pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/documents");
-        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    public List<DocumentDTO> getAllDocuments() {
+        log.debug("REST request to get all Documents");
+        return documentService.findAll();
     }
 
     /**

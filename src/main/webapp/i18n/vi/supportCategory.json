@@ -17,7 +17,8 @@
                 "title": "Support Category"
             },
             "categoryName": "Category Name",
-            "categoryDescription": "Category Description"
+            "categoryDescription": "Category Description",
+            "categorySupportType": "Category Support Type"
         }
     }
 }

@@ -8,10 +8,6 @@ import { Translate, translate, ICrudGetAction, ICrudGetAllAction, ICrudPutAction
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IRootState } from 'app/shared/reducers';
 
-import { IProject } from 'app/shared/model/project.model';
-import { getEntities as getProjects } from 'app/entities/project/project.reducer';
-import { IProperty } from 'app/shared/model/property.model';
-import { getEntities as getProperties } from 'app/entities/property/property.reducer';
 import { getEntity, updateEntity, createEntity, reset } from './building-type.reducer';
 import { IBuildingType } from 'app/shared/model/building-type.model';
 // tslint:disable-next-line:no-unused-variable
@@ -22,16 +18,12 @@ export interface IBuildingTypeUpdateProps extends StateProps, DispatchProps, Rou
 
 export interface IBuildingTypeUpdateState {
   isNew: boolean;
-  projectId: number;
-  propertyId: number;
 }
 
 export class BuildingTypeUpdate extends React.Component<IBuildingTypeUpdateProps, IBuildingTypeUpdateState> {
   constructor(props) {
     super(props);
     this.state = {
-      projectId: 0,
-      propertyId: 0,
       isNew: !this.props.match.params || !this.props.match.params.id
     };
   }
@@ -42,9 +34,6 @@ export class BuildingTypeUpdate extends React.Component<IBuildingTypeUpdateProps
     } else {
       this.props.getEntity(this.props.match.params.id);
     }
-
-    this.props.getProjects();
-    this.props.getProperties();
   }
 
   saveEntity = (event, errors, values) => {
@@ -70,7 +59,7 @@ export class BuildingTypeUpdate extends React.Component<IBuildingTypeUpdateProps
 
   render() {
     const isInvalid = false;
-    const { buildingTypeEntity, projects, properties, loading, updating } = this.props;
+    const { buildingTypeEntity, loading, updating } = this.props;
     const { isNew } = this.state;
 
     return (
@@ -105,25 +94,10 @@ export class BuildingTypeUpdate extends React.Component<IBuildingTypeUpdateProps
                     type="text"
                     name="typeName"
                     validate={{
-                      required: { value: true, errorMessage: translate('entity.validation.required') }
+                      required: { value: true, errorMessage: translate('entity.validation.required') },
+                      maxLength: { value: 128, errorMessage: translate('entity.validation.maxlength', { max: 128 }) }
                     }}
                   />
-                </AvGroup>
-                <AvGroup>
-                  <Label id="typeSelectLabel">
-                    <Translate contentKey="riverApp.buildingType.typeSelect">Type Select</Translate>
-                  </Label>
-                  <AvInput
-                    id="building-type-typeSelect"
-                    type="select"
-                    className="form-control"
-                    name="typeSelect"
-                    value={(!isNew && buildingTypeEntity.typeSelect) || 'PROJECT'}
-                  >
-                    <option value="PROJECT">PROJECT</option>
-                    <option value="PROPERTY">PROPERTY</option>
-                    <option value="LAND">LAND</option>
-                  </AvInput>
                 </AvGroup>
                 <Button tag={Link} id="cancel-save" to="/entity/building-type" replace color="info">
                   <FontAwesomeIcon icon="arrow-left" />&nbsp;
@@ -146,16 +120,12 @@ export class BuildingTypeUpdate extends React.Component<IBuildingTypeUpdateProps
 }
 
 const mapStateToProps = (storeState: IRootState) => ({
-  projects: storeState.project.entities,
-  properties: storeState.property.entities,
   buildingTypeEntity: storeState.buildingType.entity,
   loading: storeState.buildingType.loading,
   updating: storeState.buildingType.updating
 });
 
 const mapDispatchToProps = {
-  getProjects,
-  getProperties,
   getEntity,
   updateEntity,
   createEntity,

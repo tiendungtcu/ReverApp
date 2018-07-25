@@ -4,7 +4,6 @@ import { browser } from 'protractor';
 import NavBarPage from './../../page-objects/navbar-page';
 import ResidentialAreaComponentsPage from './residential-area.page-object';
 import ResidentialAreaUpdatePage from './residential-area-update.page-object';
-import path from 'path';
 
 const expect = chai.expect;
 
@@ -12,8 +11,6 @@ describe('ResidentialArea e2e test', () => {
   let navBarPage: NavBarPage;
   let residentialAreaUpdatePage: ResidentialAreaUpdatePage;
   let residentialAreaComponentsPage: ResidentialAreaComponentsPage;
-  const fileToUpload = '../../../../../main/webapp/static/images/logo-jhipster.png';
-  const absolutePath = path.resolve(__dirname, fileToUpload);
 
   before(() => {
     browser.get('/');
@@ -48,8 +45,8 @@ describe('ResidentialArea e2e test', () => {
     expect(await residentialAreaUpdatePage.getResidentialDistrictInput()).to.match(/residentialDistrict/);
     residentialAreaUpdatePage.setResidentialBoundaryInput('residentialBoundary');
     expect(await residentialAreaUpdatePage.getResidentialBoundaryInput()).to.match(/residentialBoundary/);
-    residentialAreaUpdatePage.setResidentialImageInput(absolutePath);
-    residentialAreaUpdatePage.photoSelectLastOption();
+    residentialAreaUpdatePage.setResidentialAvatarInput('residentialAvatar');
+    expect(await residentialAreaUpdatePage.getResidentialAvatarInput()).to.match(/residentialAvatar/);
     // residentialAreaUpdatePage.tagSelectLastOption();
     await residentialAreaUpdatePage.save();
     expect(await residentialAreaUpdatePage.getSaveButton().isPresent()).to.be.false;

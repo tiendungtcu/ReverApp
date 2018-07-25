@@ -8,14 +8,10 @@ import org.mapstruct.*;
 /**
  * Mapper for the entity ResidentialArea and its DTO ResidentialAreaDTO.
  */
-@Mapper(componentModel = "spring", uses = {PhotoMapper.class, TagMapper.class})
+@Mapper(componentModel = "spring", uses = {TagMapper.class})
 public interface ResidentialAreaMapper extends EntityMapper<ResidentialAreaDTO, ResidentialArea> {
 
-    @Mapping(source = "photo.id", target = "photoId")
-    ResidentialAreaDTO toDto(ResidentialArea residentialArea);
 
-    @Mapping(source = "photoId", target = "photo")
-    ResidentialArea toEntity(ResidentialAreaDTO residentialAreaDTO);
 
     default ResidentialArea fromId(Long id) {
         if (id == null) {

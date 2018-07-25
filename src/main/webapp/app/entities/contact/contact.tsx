@@ -3,16 +3,7 @@ import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Col, Row, Table } from 'reactstrap';
 // tslint:disable-next-line:no-unused-variable
-import {
-  openFile,
-  byteSize,
-  Translate,
-  ICrudGetAllAction,
-  getSortState,
-  IPaginationBaseState,
-  getPaginationItemsNumber,
-  JhiPagination
-} from 'react-jhipster';
+import { Translate, ICrudGetAllAction, getSortState, IPaginationBaseState, getPaginationItemsNumber, JhiPagination } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IRootState } from 'app/shared/reducers';
@@ -84,14 +75,11 @@ export class Contact extends React.Component<IContactProps, IContactState> {
                 <th className="hand" onClick={this.sort('contactAddress')}>
                   <Translate contentKey="riverApp.contact.contactAddress">Contact Address</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
-                <th className="hand" onClick={this.sort('contactEmail')}>
-                  <Translate contentKey="riverApp.contact.contactEmail">Contact Email</Translate> <FontAwesomeIcon icon="sort" />
-                </th>
                 <th className="hand" onClick={this.sort('contactWebsite')}>
                   <Translate contentKey="riverApp.contact.contactWebsite">Contact Website</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
-                <th className="hand" onClick={this.sort('contactPhoto')}>
-                  <Translate contentKey="riverApp.contact.contactPhoto">Contact Photo</Translate> <FontAwesomeIcon icon="sort" />
+                <th className="hand" onClick={this.sort('contactAvatarUrl')}>
+                  <Translate contentKey="riverApp.contact.contactAvatarUrl">Contact Avatar Url</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
                 <th className="hand" onClick={this.sort('contactFacebook')}>
                   <Translate contentKey="riverApp.contact.contactFacebook">Contact Facebook</Translate> <FontAwesomeIcon icon="sort" />
@@ -114,6 +102,9 @@ export class Contact extends React.Component<IContactProps, IContactState> {
                 <th className="hand" onClick={this.sort('contactStatus')}>
                   <Translate contentKey="riverApp.contact.contactStatus">Contact Status</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
+                <th>
+                  <Translate contentKey="riverApp.contact.user">User</Translate> <FontAwesomeIcon icon="sort" />
+                </th>
                 <th />
               </tr>
             </thead>
@@ -128,24 +119,8 @@ export class Contact extends React.Component<IContactProps, IContactState> {
                   <td>{contact.contactName}</td>
                   <td>{contact.contactPhone}</td>
                   <td>{contact.contactAddress}</td>
-                  <td>{contact.contactEmail}</td>
                   <td>{contact.contactWebsite}</td>
-                  <td>
-                    {contact.contactPhoto ? (
-                      <div>
-                        <a onClick={openFile(contact.contactPhotoContentType, contact.contactPhoto)}>
-                          <img
-                            src={`data:${contact.contactPhotoContentType};base64,${contact.contactPhoto}`}
-                            style={{ maxHeight: '30px' }}
-                          />
-                          &nbsp;
-                        </a>
-                        <span>
-                          {contact.contactPhotoContentType}, {byteSize(contact.contactPhoto)}
-                        </span>
-                      </div>
-                    ) : null}
-                  </td>
+                  <td>{contact.contactAvatarUrl}</td>
                   <td>{contact.contactFacebook}</td>
                   <td>{contact.contactTwitter}</td>
                   <td>{contact.contactInstagram}</td>
@@ -153,6 +128,7 @@ export class Contact extends React.Component<IContactProps, IContactState> {
                   <td>{contact.contactGooglePlus}</td>
                   <td>{contact.contactYoutube}</td>
                   <td>{contact.contactStatus ? 'true' : 'false'}</td>
+                  <td>{contact.userId ? contact.userId : ''}</td>
                   <td className="text-right">
                     <div className="btn-group flex-btn-group-container">
                       <Button tag={Link} to={`${match.url}/${contact.id}`} color="info" size="sm">

@@ -4,13 +4,11 @@ import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Row, Col, Label } from 'reactstrap';
 import { AvForm, AvGroup, AvInput, AvField } from 'availity-reactstrap-validation';
 // tslint:disable-next-line:no-unused-variable
-import { Translate, translate, ICrudGetAction, ICrudGetAllAction, setFileData, openFile, byteSize, ICrudPutAction } from 'react-jhipster';
+import { Translate, translate, ICrudGetAction, ICrudGetAllAction, ICrudPutAction } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IRootState } from 'app/shared/reducers';
 
-import { IProject } from 'app/shared/model/project.model';
-import { getEntities as getProjects } from 'app/entities/project/project.reducer';
-import { getEntity, updateEntity, createEntity, setBlob, reset } from './investor.reducer';
+import { getEntity, updateEntity, createEntity, reset } from './investor.reducer';
 import { IInvestor } from 'app/shared/model/investor.model';
 // tslint:disable-next-line:no-unused-variable
 import { convertDateTimeFromServer } from 'app/shared/util/date-utils';
@@ -20,14 +18,12 @@ export interface IInvestorUpdateProps extends StateProps, DispatchProps, RouteCo
 
 export interface IInvestorUpdateState {
   isNew: boolean;
-  projectId: number;
 }
 
 export class InvestorUpdate extends React.Component<IInvestorUpdateProps, IInvestorUpdateState> {
   constructor(props) {
     super(props);
     this.state = {
-      projectId: 0,
       isNew: !this.props.match.params || !this.props.match.params.id
     };
   }
@@ -38,21 +34,9 @@ export class InvestorUpdate extends React.Component<IInvestorUpdateProps, IInves
     } else {
       this.props.getEntity(this.props.match.params.id);
     }
-
-    this.props.getProjects();
   }
 
-  onBlobChange = (isAnImage, name) => event => {
-    setFileData(event, (contentType, data) => this.props.setBlob(name, data, contentType), isAnImage);
-  };
-
-  clearBlob = name => () => {
-    this.props.setBlob(name, undefined, undefined);
-  };
-
   saveEntity = (event, errors, values) => {
-    values.investorDate = new Date(values.investorDate);
-
     if (errors.length === 0) {
       const { investorEntity } = this.props;
       const entity = {
@@ -75,10 +59,8 @@ export class InvestorUpdate extends React.Component<IInvestorUpdateProps, IInves
 
   render() {
     const isInvalid = false;
-    const { investorEntity, projects, loading, updating } = this.props;
+    const { investorEntity, loading, updating } = this.props;
     const { isNew } = this.state;
-
-    const { investorPhoto, investorPhotoContentType } = investorEntity;
 
     return (
       <div>
@@ -112,7 +94,8 @@ export class InvestorUpdate extends React.Component<IInvestorUpdateProps, IInves
                     type="text"
                     name="investorName"
                     validate={{
-                      required: { value: true, errorMessage: translate('entity.validation.required') }
+                      required: { value: true, errorMessage: translate('entity.validation.required') },
+                      maxLength: { value: 128, errorMessage: translate('entity.validation.maxlength', { max: 128 }) }
                     }}
                   />
                 </AvGroup>
@@ -120,31 +103,46 @@ export class InvestorUpdate extends React.Component<IInvestorUpdateProps, IInves
                   <Label id="investorTitleLabel" for="investorTitle">
                     <Translate contentKey="riverApp.investor.investorTitle">Investor Title</Translate>
                   </Label>
-                  <AvField id="investor-investorTitle" type="text" name="investorTitle" />
+                  <AvField
+                    id="investor-investorTitle"
+                    type="text"
+                    name="investorTitle"
+                    validate={{
+                      maxLength: { value: 256, errorMessage: translate('entity.validation.maxlength', { max: 256 }) }
+                    }}
+                  />
                 </AvGroup>
                 <AvGroup>
                   <Label id="investorDateLabel" for="investorDate">
                     <Translate contentKey="riverApp.investor.investorDate">Investor Date</Translate>
                   </Label>
-                  <AvInput
-                    id="investor-investorDate"
-                    type="datetime-local"
-                    className="form-control"
-                    name="investorDate"
-                    value={isNew ? null : convertDateTimeFromServer(this.props.investorEntity.investorDate)}
-                  />
+                  <AvField id="investor-investorDate" type="date" className="form-control" name="investorDate" />
                 </AvGroup>
                 <AvGroup>
                   <Label id="investorDescriptionLabel" for="investorDescription">
                     <Translate contentKey="riverApp.investor.investorDescription">Investor Description</Translate>
                   </Label>
-                  <AvField id="investor-investorDescription" type="text" name="investorDescription" />
+                  <AvField
+                    id="investor-investorDescription"
+                    type="text"
+                    name="investorDescription"
+                    validate={{
+                      maxLength: { value: 256, errorMessage: translate('entity.validation.maxlength', { max: 256 }) }
+                    }}
+                  />
                 </AvGroup>
                 <AvGroup>
                   <Label id="investorAddressLabel" for="investorAddress">
                     <Translate contentKey="riverApp.investor.investorAddress">Investor Address</Translate>
                   </Label>
-                  <AvField id="investor-investorAddress" type="text" name="investorAddress" />
+                  <AvField
+                    id="investor-investorAddress"
+                    type="text"
+                    name="investorAddress"
+                    validate={{
+                      maxLength: { value: 256, errorMessage: translate('entity.validation.maxlength', { max: 256 }) }
+                    }}
+                  />
                 </AvGroup>
                 <AvGroup>
                   <Label id="investorWebsiteLabel" for="investorWebsite">
@@ -156,36 +154,20 @@ export class InvestorUpdate extends React.Component<IInvestorUpdateProps, IInves
                   <Label id="investorPhoneLabel" for="investorPhone">
                     <Translate contentKey="riverApp.investor.investorPhone">Investor Phone</Translate>
                   </Label>
-                  <AvField id="investor-investorPhone" type="text" name="investorPhone" />
+                  <AvField
+                    id="investor-investorPhone"
+                    type="text"
+                    name="investorPhone"
+                    validate={{
+                      maxLength: { value: 16, errorMessage: translate('entity.validation.maxlength', { max: 16 }) }
+                    }}
+                  />
                 </AvGroup>
                 <AvGroup>
-                  <AvGroup>
-                    <Label id="investorPhotoLabel" for="investorPhoto">
-                      <Translate contentKey="riverApp.investor.investorPhoto">Investor Photo</Translate>
-                    </Label>
-                    <br />
-                    {investorPhoto ? (
-                      <div>
-                        <a onClick={openFile(investorPhotoContentType, investorPhoto)}>
-                          <img src={`data:${investorPhotoContentType};base64,${investorPhoto}`} style={{ maxHeight: '100px' }} />
-                        </a>
-                        <br />
-                        <Row>
-                          <Col md="11">
-                            <span>
-                              {investorPhotoContentType}, {byteSize(investorPhoto)}
-                            </span>
-                          </Col>
-                          <Col md="1">
-                            <Button color="danger" onClick={this.clearBlob('investorPhoto')}>
-                              <FontAwesomeIcon icon="times-circle" />
-                            </Button>
-                          </Col>
-                        </Row>
-                      </div>
-                    ) : null}
-                    <input id="file_investorPhoto" type="file" onChange={this.onBlobChange(true, 'investorPhoto')} accept="image/*" />
-                  </AvGroup>
+                  <Label id="investorAvatarUrlLabel" for="investorAvatarUrl">
+                    <Translate contentKey="riverApp.investor.investorAvatarUrl">Investor Avatar Url</Translate>
+                  </Label>
+                  <AvField id="investor-investorAvatarUrl" type="text" name="investorAvatarUrl" />
                 </AvGroup>
                 <Button tag={Link} id="cancel-save" to="/entity/investor" replace color="info">
                   <FontAwesomeIcon icon="arrow-left" />&nbsp;
@@ -208,17 +190,14 @@ export class InvestorUpdate extends React.Component<IInvestorUpdateProps, IInves
 }
 
 const mapStateToProps = (storeState: IRootState) => ({
-  projects: storeState.project.entities,
   investorEntity: storeState.investor.entity,
   loading: storeState.investor.loading,
   updating: storeState.investor.updating
 });
 
 const mapDispatchToProps = {
-  getProjects,
   getEntity,
   updateEntity,
-  setBlob,
   createEntity,
   reset
 };

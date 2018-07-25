@@ -23,11 +23,10 @@
             "locationWard": "Location Ward",
             "locationDistrict": "Location District",
             "locationProvince": "Location Province",
-            "locationCountry": "Location Country",
             "locationGmapUrl": "Location Gmap Url",
             "longitude": "Longitude",
             "latitude": "Latitude",
-            "locationHide": "Location Hide"
+            "locationZipCode": "Location Zip Code"
         }
     }
 }

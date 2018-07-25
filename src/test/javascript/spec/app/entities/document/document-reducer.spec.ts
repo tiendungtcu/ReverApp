@@ -4,7 +4,6 @@ import configureStore from 'redux-mock-store';
 import promiseMiddleware from 'redux-promise-middleware';
 import thunk from 'redux-thunk';
 import sinon from 'sinon';
-import { parseHeaderForLinks } from 'react-jhipster';
 
 import reducer, {
   ACTION_TYPES,
@@ -12,8 +11,7 @@ import reducer, {
   deleteEntity,
   getEntities,
   getEntity,
-  updateEntity,
-  reset
+  updateEntity
 } from 'app/entities/document/document.reducer';
 import { REQUEST, SUCCESS, FAILURE } from 'app/shared/reducers/action-type.util';
 import { IDocument, defaultValue } from 'app/shared/model/document.model';
@@ -33,10 +31,6 @@ describe('Entities reducer tests', () => {
     errorMessage: null,
     entities: [] as ReadonlyArray<IDocument>,
     entity: defaultValue,
-    links: {
-      last: 0
-    },
-    totalItems: 0,
     updating: false,
     updateSuccess: false
   };
@@ -114,8 +108,7 @@ describe('Entities reducer tests', () => {
 
   describe('Successes', () => {
     it('should fetch all entities', () => {
-      const payload = { data: { 1: 'fake1', 2: 'fake2' }, headers: { 'x-total-count': 123, link: ';' } };
-      const link = parseHeaderForLinks(payload.headers.link);
+      const payload = { data: { 1: 'fake1', 2: 'fake2' } };
       expect(
         reducer(undefined, {
           type: SUCCESS(ACTION_TYPES.FETCH_DOCUMENT_LIST),
@@ -123,10 +116,8 @@ describe('Entities reducer tests', () => {
         })
       ).toEqual({
         ...initialState,
-        links: { last: link.last },
         loading: false,
-        totalItems: payload.headers['x-total-count'],
-        entities: [payload.data]
+        entities: payload.data
       });
     });
 
@@ -255,25 +246,6 @@ describe('Entities reducer tests', () => {
         }
       ];
       await store.dispatch(deleteEntity(42666)).then(() => expect(store.getActions()).toEqual(expectedActions));
-    });
-  });
-
-  describe('blobFields', () => {
-    it('should properly set a blob in state.', () => {
-      const payload = { name: 'fancyBlobName', data: 'fake data', contentType: 'fake dataType' };
-      expect(
-        reducer(undefined, {
-          type: ACTION_TYPES.SET_BLOB,
-          payload
-        })
-      ).toEqual({
-        ...initialState,
-        entity: {
-          ...initialState.entity,
-          fancyBlobName: payload.data,
-          fancyBlobNameContentType: payload.contentType
-        }
-      });
     });
   });
 });

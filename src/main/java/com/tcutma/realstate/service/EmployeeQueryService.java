@@ -76,9 +76,6 @@ public class EmployeeQueryService extends QueryService<Employee> {
             if (criteria.getId() != null) {
                 specification = specification.and(buildSpecification(criteria.getId(), Employee_.id));
             }
-            if (criteria.getEmployeeName() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getEmployeeName(), Employee_.employeeName));
-            }
             if (criteria.getEmployeeFirstName() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getEmployeeFirstName(), Employee_.employeeFirstName));
             }
@@ -100,41 +97,14 @@ public class EmployeeQueryService extends QueryService<Employee> {
             if (criteria.getEmployeeEmail() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getEmployeeEmail(), Employee_.employeeEmail));
             }
-            if (criteria.getEmployeeFacebook() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getEmployeeFacebook(), Employee_.employeeFacebook));
-            }
-            if (criteria.getEmployeeLinkedin() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getEmployeeLinkedin(), Employee_.employeeLinkedin));
-            }
-            if (criteria.getEmployeeInstagram() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getEmployeeInstagram(), Employee_.employeeInstagram));
-            }
-            if (criteria.getEmployeeGooglePlus() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getEmployeeGooglePlus(), Employee_.employeeGooglePlus));
-            }
-            if (criteria.getEmployeeZalo() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getEmployeeZalo(), Employee_.employeeZalo));
-            }
-            if (criteria.getEmployeeTwitter() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getEmployeeTwitter(), Employee_.employeeTwitter));
-            }
-            if (criteria.getEmployeeYoutube() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getEmployeeYoutube(), Employee_.employeeYoutube));
-            }
-            if (criteria.getContactId() != null) {
-                specification = specification.and(buildReferringEntitySpecification(criteria.getContactId(), Employee_.contact, Contact_.id));
-            }
-            if (criteria.getPhotoId() != null) {
-                specification = specification.and(buildReferringEntitySpecification(criteria.getPhotoId(), Employee_.photo, Photo_.id));
-            }
-            if (criteria.getJobtitleId() != null) {
-                specification = specification.and(buildReferringEntitySpecification(criteria.getJobtitleId(), Employee_.jobtitle, JobTitle_.id));
+            if (criteria.getAccountId() != null) {
+                specification = specification.and(buildReferringEntitySpecification(criteria.getAccountId(), Employee_.account, User_.id));
             }
             if (criteria.getDepartmentId() != null) {
                 specification = specification.and(buildReferringEntitySpecification(criteria.getDepartmentId(), Employee_.department, Department_.id));
             }
-            if (criteria.getManagerId() != null) {
-                specification = specification.and(buildReferringEntitySpecification(criteria.getManagerId(), Employee_.manager, Employee_.id));
+            if (criteria.getJobtitleId() != null) {
+                specification = specification.and(buildReferringEntitySpecification(criteria.getJobtitleId(), Employee_.jobtitle, JobTitle_.id));
             }
         }
         return specification;

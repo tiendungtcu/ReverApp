@@ -11,9 +11,6 @@ export const EntitiesMenu = props => (
     <DropdownItem tag={Link} to="/entity/company">
       <FontAwesomeIcon icon="asterisk" />&nbsp; Company
     </DropdownItem>
-    <DropdownItem tag={Link} to="/entity/contact">
-      <FontAwesomeIcon icon="asterisk" />&nbsp; Contact
-    </DropdownItem>
     <DropdownItem tag={Link} to="/entity/job-title">
       <FontAwesomeIcon icon="asterisk" />&nbsp; Job Title
     </DropdownItem>
@@ -26,8 +23,8 @@ export const EntitiesMenu = props => (
     <DropdownItem tag={Link} to="/entity/investor">
       <FontAwesomeIcon icon="asterisk" />&nbsp; Investor
     </DropdownItem>
-    <DropdownItem tag={Link} to="/entity/project-builder">
-      <FontAwesomeIcon icon="asterisk" />&nbsp; Project Builder
+    <DropdownItem tag={Link} to="/entity/contractor">
+      <FontAwesomeIcon icon="asterisk" />&nbsp; Contractor
     </DropdownItem>
     <DropdownItem tag={Link} to="/entity/document">
       <FontAwesomeIcon icon="asterisk" />&nbsp; Document
@@ -53,6 +50,12 @@ export const EntitiesMenu = props => (
     <DropdownItem tag={Link} to="/entity/support-category">
       <FontAwesomeIcon icon="asterisk" />&nbsp; Support Category
     </DropdownItem>
+    <DropdownItem tag={Link} to="/entity/contact">
+      <FontAwesomeIcon icon="asterisk" />&nbsp; Contact
+    </DropdownItem>
+    <DropdownItem tag={Link} to="/entity/user-notification">
+      <FontAwesomeIcon icon="asterisk" />&nbsp; User Notification
+    </DropdownItem>
     <DropdownItem tag={Link} to="/entity/article">
       <FontAwesomeIcon icon="asterisk" />&nbsp; Article
     </DropdownItem>
@@ -68,6 +71,9 @@ export const EntitiesMenu = props => (
     <DropdownItem tag={Link} to="/entity/property">
       <FontAwesomeIcon icon="asterisk" />&nbsp; Property
     </DropdownItem>
+    <DropdownItem tag={Link} to="/entity/favourite-item">
+      <FontAwesomeIcon icon="asterisk" />&nbsp; Favourite Item
+    </DropdownItem>
     <DropdownItem tag={Link} to="/entity/blog-post">
       <FontAwesomeIcon icon="asterisk" />&nbsp; Blog Post
     </DropdownItem>
@@ -79,12 +85,6 @@ export const EntitiesMenu = props => (
     </DropdownItem>
     <DropdownItem tag={Link} to="/entity/comment">
       <FontAwesomeIcon icon="asterisk" />&nbsp; Comment
-    </DropdownItem>
-    <DropdownItem tag={Link} to="/entity/project-user">
-      <FontAwesomeIcon icon="asterisk" />&nbsp; Project User
-    </DropdownItem>
-    <DropdownItem tag={Link} to="/entity/property-user">
-      <FontAwesomeIcon icon="asterisk" />&nbsp; Property User
     </DropdownItem>
     {/* jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here */}
   </NavDropdown>

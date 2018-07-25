@@ -16,10 +16,7 @@
             "detail": {
                 "title": "Tag"
             },
-            "tagName": "Tag Name",
-            "property": "Property",
-            "project": "Project",
-            "residentialArea": "Residential Area"
+            "tagName": "Tag Name"
         }
     }
 }

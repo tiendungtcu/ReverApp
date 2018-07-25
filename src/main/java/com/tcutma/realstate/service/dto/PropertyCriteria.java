@@ -14,8 +14,8 @@ import io.github.jhipster.service.filter.LongFilter;
 import io.github.jhipster.service.filter.StringFilter;
 
 
+import io.github.jhipster.service.filter.LocalDateFilter;
 
-import io.github.jhipster.service.filter.ZonedDateTimeFilter;
 
 
 /**
@@ -84,13 +84,13 @@ public class PropertyCriteria implements Serializable {
 
     private PriceUnitFilter propertyRentUnit;
 
-    private ZonedDateTimeFilter propertyRentStartedDate;
+    private LocalDateFilter propertyRentStartedDate;
 
     private DoubleFilter propertySellPrice;
 
     private PriceUnitFilter propertySellUnit;
 
-    private ZonedDateTimeFilter propertySellStartedDate;
+    private LocalDateFilter propertySellStartedDate;
 
     private BooleanFilter propertySofa;
 
@@ -160,6 +160,8 @@ public class PropertyCriteria implements Serializable {
 
     private StringFilter propertyExtraInfo;
 
+    private StringFilter propertyDraftUrl;
+
     private DoubleFilter longitude;
 
     private DoubleFilter latitude;
@@ -180,13 +182,9 @@ public class PropertyCriteria implements Serializable {
 
     private LongFilter locationId;
 
-    private LongFilter residentialAreaId;
+    private LongFilter consultantId;
 
     private LongFilter tagId;
-
-    private LongFilter buildingtypeId;
-
-    private LongFilter photoId;
 
     public PropertyCriteria() {
     }
@@ -335,11 +333,11 @@ public class PropertyCriteria implements Serializable {
         this.propertyRentUnit = propertyRentUnit;
     }
 
-    public ZonedDateTimeFilter getPropertyRentStartedDate() {
+    public LocalDateFilter getPropertyRentStartedDate() {
         return propertyRentStartedDate;
     }
 
-    public void setPropertyRentStartedDate(ZonedDateTimeFilter propertyRentStartedDate) {
+    public void setPropertyRentStartedDate(LocalDateFilter propertyRentStartedDate) {
         this.propertyRentStartedDate = propertyRentStartedDate;
     }
 
@@ -359,11 +357,11 @@ public class PropertyCriteria implements Serializable {
         this.propertySellUnit = propertySellUnit;
     }
 
-    public ZonedDateTimeFilter getPropertySellStartedDate() {
+    public LocalDateFilter getPropertySellStartedDate() {
         return propertySellStartedDate;
     }
 
-    public void setPropertySellStartedDate(ZonedDateTimeFilter propertySellStartedDate) {
+    public void setPropertySellStartedDate(LocalDateFilter propertySellStartedDate) {
         this.propertySellStartedDate = propertySellStartedDate;
     }
 
@@ -639,6 +637,14 @@ public class PropertyCriteria implements Serializable {
         this.propertyExtraInfo = propertyExtraInfo;
     }
 
+    public StringFilter getPropertyDraftUrl() {
+        return propertyDraftUrl;
+    }
+
+    public void setPropertyDraftUrl(StringFilter propertyDraftUrl) {
+        this.propertyDraftUrl = propertyDraftUrl;
+    }
+
     public DoubleFilter getLongitude() {
         return longitude;
     }
@@ -719,12 +725,12 @@ public class PropertyCriteria implements Serializable {
         this.locationId = locationId;
     }
 
-    public LongFilter getResidentialAreaId() {
-        return residentialAreaId;
+    public LongFilter getConsultantId() {
+        return consultantId;
     }
 
-    public void setResidentialAreaId(LongFilter residentialAreaId) {
-        this.residentialAreaId = residentialAreaId;
+    public void setConsultantId(LongFilter consultantId) {
+        this.consultantId = consultantId;
     }
 
     public LongFilter getTagId() {
@@ -733,22 +739,6 @@ public class PropertyCriteria implements Serializable {
 
     public void setTagId(LongFilter tagId) {
         this.tagId = tagId;
-    }
-
-    public LongFilter getBuildingtypeId() {
-        return buildingtypeId;
-    }
-
-    public void setBuildingtypeId(LongFilter buildingtypeId) {
-        this.buildingtypeId = buildingtypeId;
-    }
-
-    public LongFilter getPhotoId() {
-        return photoId;
-    }
-
-    public void setPhotoId(LongFilter photoId) {
-        this.photoId = photoId;
     }
 
     @Override
@@ -810,6 +800,7 @@ public class PropertyCriteria implements Serializable {
                 (propertyResidentialCommunity != null ? "propertyResidentialCommunity=" + propertyResidentialCommunity + ", " : "") +
                 (propertyEducationalAspect != null ? "propertyEducationalAspect=" + propertyEducationalAspect + ", " : "") +
                 (propertyExtraInfo != null ? "propertyExtraInfo=" + propertyExtraInfo + ", " : "") +
+                (propertyDraftUrl != null ? "propertyDraftUrl=" + propertyDraftUrl + ", " : "") +
                 (longitude != null ? "longitude=" + longitude + ", " : "") +
                 (latitude != null ? "latitude=" + latitude + ", " : "") +
                 (propertyGoodPrice != null ? "propertyGoodPrice=" + propertyGoodPrice + ", " : "") +
@@ -820,10 +811,8 @@ public class PropertyCriteria implements Serializable {
                 (propertyRefrigerator != null ? "propertyRefrigerator=" + propertyRefrigerator + ", " : "") +
                 (propertyAirconditioner != null ? "propertyAirconditioner=" + propertyAirconditioner + ", " : "") +
                 (locationId != null ? "locationId=" + locationId + ", " : "") +
-                (residentialAreaId != null ? "residentialAreaId=" + residentialAreaId + ", " : "") +
+                (consultantId != null ? "consultantId=" + consultantId + ", " : "") +
                 (tagId != null ? "tagId=" + tagId + ", " : "") +
-                (buildingtypeId != null ? "buildingtypeId=" + buildingtypeId + ", " : "") +
-                (photoId != null ? "photoId=" + photoId + ", " : "") +
             "}";
     }
 

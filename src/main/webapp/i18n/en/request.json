@@ -23,18 +23,14 @@
             "requestGetAnalysis": "Request Get Analysis",
             "requestGetPrice": "Request Get Price",
             "requestPageUrl": "Request Page Url",
-            "requestPageName": "Request Page Name",
-            "requestPropertyId": "Request Property Id",
-            "requestPropertyType": "Request Property Type",
+            "resourceId": "Resource Id",
+            "resourceType": "Resource Type",
             "requestType": "Request Type",
             "requestMeetingDate": "Request Meeting Date",
             "requestQuestion": "Request Question",
             "requestPrice": "Request Price",
-            "requestCreatedDate": "Request Created Date",
-            "requestConsultantId": "Request Consultant Id",
-            "user": "User",
-            "property": "Property",
-            "project": "Project"
+            "sender": "Sender",
+            "receiver": "Receiver"
         }
     }
 }

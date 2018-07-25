@@ -8,8 +8,6 @@ import { Translate, translate, ICrudGetAction, ICrudGetAllAction, setFileData, b
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IRootState } from 'app/shared/reducers';
 
-import { IPhoto } from 'app/shared/model/photo.model';
-import { getEntities as getPhotos } from 'app/entities/photo/photo.reducer';
 import { ITag } from 'app/shared/model/tag.model';
 import { getEntities as getTags } from 'app/entities/tag/tag.reducer';
 import { getEntity, updateEntity, createEntity, setBlob, reset } from './residential-area.reducer';
@@ -23,7 +21,6 @@ export interface IResidentialAreaUpdateProps extends StateProps, DispatchProps, 
 export interface IResidentialAreaUpdateState {
   isNew: boolean;
   idstag: any[];
-  photoId: number;
 }
 
 export class ResidentialAreaUpdate extends React.Component<IResidentialAreaUpdateProps, IResidentialAreaUpdateState> {
@@ -31,7 +28,6 @@ export class ResidentialAreaUpdate extends React.Component<IResidentialAreaUpdat
     super(props);
     this.state = {
       idstag: [],
-      photoId: 0,
       isNew: !this.props.match.params || !this.props.match.params.id
     };
   }
@@ -43,7 +39,6 @@ export class ResidentialAreaUpdate extends React.Component<IResidentialAreaUpdat
       this.props.getEntity(this.props.match.params.id);
     }
 
-    this.props.getPhotos();
     this.props.getTags();
   }
 
@@ -74,23 +69,6 @@ export class ResidentialAreaUpdate extends React.Component<IResidentialAreaUpdat
 
   handleClose = () => {
     this.props.history.push('/entity/residential-area');
-  };
-
-  photoUpdate = element => {
-    const id = element.target.value.toString();
-    if (id === '') {
-      this.setState({
-        photoId: -1
-      });
-    } else {
-      for (const i in this.props.photos) {
-        if (id === this.props.photos[i].id.toString()) {
-          this.setState({
-            photoId: this.props.photos[i].id
-          });
-        }
-      }
-    }
   };
 
   tagUpdate = element => {
@@ -127,7 +105,7 @@ export class ResidentialAreaUpdate extends React.Component<IResidentialAreaUpdat
 
   render() {
     const isInvalid = false;
-    const { residentialAreaEntity, photos, tags, loading, updating } = this.props;
+    const { residentialAreaEntity, tags, loading, updating } = this.props;
     const { isNew } = this.state;
 
     const { residentialDescription, residentialDetail, residentialBoundary } = residentialAreaEntity;
@@ -164,7 +142,8 @@ export class ResidentialAreaUpdate extends React.Component<IResidentialAreaUpdat
                     type="text"
                     name="residentialName"
                     validate={{
-                      required: { value: true, errorMessage: translate('entity.validation.required') }
+                      required: { value: true, errorMessage: translate('entity.validation.required') },
+                      maxLength: { value: 128, errorMessage: translate('entity.validation.maxlength', { max: 128 }) }
                     }}
                   />
                 </AvGroup>
@@ -218,21 +197,6 @@ export class ResidentialAreaUpdate extends React.Component<IResidentialAreaUpdat
                   <AvField id="residential-area-residentialAvatar" type="text" name="residentialAvatar" />
                 </AvGroup>
                 <AvGroup>
-                  <Label for="photo.id">
-                    <Translate contentKey="riverApp.residentialArea.photo">Photo</Translate>
-                  </Label>
-                  <AvInput id="residential-area-photo" type="select" className="form-control" name="photoId" onChange={this.photoUpdate}>
-                    <option value="" key="0" />
-                    {photos
-                      ? photos.map(otherEntity => (
-                          <option value={otherEntity.id} key={otherEntity.id}>
-                            {otherEntity.id}
-                          </option>
-                        ))
-                      : null}
-                  </AvInput>
-                </AvGroup>
-                <AvGroup>
                   <Label for="tags">
                     <Translate contentKey="riverApp.residentialArea.tag">Tag</Translate>
                   </Label>
@@ -277,7 +241,6 @@ export class ResidentialAreaUpdate extends React.Component<IResidentialAreaUpdat
 }
 
 const mapStateToProps = (storeState: IRootState) => ({
-  photos: storeState.photo.entities,
   tags: storeState.tag.entities,
   residentialAreaEntity: storeState.residentialArea.entity,
   loading: storeState.residentialArea.loading,
@@ -285,7 +248,6 @@ const mapStateToProps = (storeState: IRootState) => ({
 });
 
 const mapDispatchToProps = {
-  getPhotos,
   getTags,
   getEntity,
   updateEntity,

@@ -2,7 +2,7 @@
     "riverApp": {
         "NotificationType" : {
             "null": "",
-            "NOTIFICATION": "NOTIFICATION",
+            "SYSTEM": "SYSTEM",
             "REQUEST": "REQUEST",
             "ALERT": "ALERT"
         }

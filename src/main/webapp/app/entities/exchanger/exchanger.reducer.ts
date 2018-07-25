@@ -13,7 +13,6 @@ export const ACTION_TYPES = {
   CREATE_EXCHANGER: 'exchanger/CREATE_EXCHANGER',
   UPDATE_EXCHANGER: 'exchanger/UPDATE_EXCHANGER',
   DELETE_EXCHANGER: 'exchanger/DELETE_EXCHANGER',
-  SET_BLOB: 'exchanger/SET_BLOB',
   RESET: 'exchanger/RESET'
 };
 
@@ -88,16 +87,6 @@ export default (state: ExchangerState = initialState, action): ExchangerState =>
         updateSuccess: true,
         entity: {}
       };
-    case ACTION_TYPES.SET_BLOB:
-      const { name, data, contentType } = action.payload;
-      return {
-        ...state,
-        entity: {
-          ...state.entity,
-          [name]: data,
-          [name + 'ContentType']: contentType
-        }
-      };
     case ACTION_TYPES.RESET:
       return {
         ...initialState
@@ -151,15 +140,6 @@ export const deleteEntity: ICrudDeleteAction<IExchanger> = id => async dispatch 
   dispatch(getEntities());
   return result;
 };
-
-export const setBlob = (name, data, contentType?) => ({
-  type: ACTION_TYPES.SET_BLOB,
-  payload: {
-    name,
-    data,
-    contentType
-  }
-});
 
 export const reset = () => ({
   type: ACTION_TYPES.RESET

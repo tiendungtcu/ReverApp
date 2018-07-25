@@ -15,15 +15,12 @@ public class BlogPostDTO implements Serializable {
     private Long id;
 
     @NotNull
+    @Size(max = 256)
     private String postTitle;
 
     private BlogStatus postStatus;
 
     private Instant postCreatedDate;
-
-    private Instant postPublishDate;
-
-    private Instant postUpdateDate;
 
     private Long postSeenCount;
 
@@ -32,13 +29,11 @@ public class BlogPostDTO implements Serializable {
 
     private Long categoryId;
 
+    private String categoryCategoryName;
+
     private Long userId;
 
     private String userLogin;
-
-    private Long projectId;
-
-    private String projectProjectName;
 
     public Long getId() {
         return id;
@@ -72,22 +67,6 @@ public class BlogPostDTO implements Serializable {
         this.postCreatedDate = postCreatedDate;
     }
 
-    public Instant getPostPublishDate() {
-        return postPublishDate;
-    }
-
-    public void setPostPublishDate(Instant postPublishDate) {
-        this.postPublishDate = postPublishDate;
-    }
-
-    public Instant getPostUpdateDate() {
-        return postUpdateDate;
-    }
-
-    public void setPostUpdateDate(Instant postUpdateDate) {
-        this.postUpdateDate = postUpdateDate;
-    }
-
     public Long getPostSeenCount() {
         return postSeenCount;
     }
@@ -112,6 +91,14 @@ public class BlogPostDTO implements Serializable {
         this.categoryId = categoryId;
     }
 
+    public String getCategoryCategoryName() {
+        return categoryCategoryName;
+    }
+
+    public void setCategoryCategoryName(String categoryCategoryName) {
+        this.categoryCategoryName = categoryCategoryName;
+    }
+
     public Long getUserId() {
         return userId;
     }
@@ -126,22 +113,6 @@ public class BlogPostDTO implements Serializable {
 
     public void setUserLogin(String userLogin) {
         this.userLogin = userLogin;
-    }
-
-    public Long getProjectId() {
-        return projectId;
-    }
-
-    public void setProjectId(Long projectId) {
-        this.projectId = projectId;
-    }
-
-    public String getProjectProjectName() {
-        return projectProjectName;
-    }
-
-    public void setProjectProjectName(String projectProjectName) {
-        this.projectProjectName = projectProjectName;
     }
 
     @Override
@@ -172,15 +143,12 @@ public class BlogPostDTO implements Serializable {
             ", postTitle='" + getPostTitle() + "'" +
             ", postStatus='" + getPostStatus() + "'" +
             ", postCreatedDate='" + getPostCreatedDate() + "'" +
-            ", postPublishDate='" + getPostPublishDate() + "'" +
-            ", postUpdateDate='" + getPostUpdateDate() + "'" +
             ", postSeenCount=" + getPostSeenCount() +
             ", postContent='" + getPostContent() + "'" +
             ", category=" + getCategoryId() +
+            ", category='" + getCategoryCategoryName() + "'" +
             ", user=" + getUserId() +
             ", user='" + getUserLogin() + "'" +
-            ", project=" + getProjectId() +
-            ", project='" + getProjectProjectName() + "'" +
             "}";
     }
 }

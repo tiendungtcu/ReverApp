@@ -6,7 +6,7 @@ export default class CategoryUpdatePage {
   cancelButton: ElementFinder = element(by.id('cancel-save'));
   categoryNameInput: ElementFinder = element(by.css('input#category-categoryName'));
   categoryAliasInput: ElementFinder = element(by.css('input#category-categoryAlias'));
-  categoryDescriptionInput: ElementFinder = element(by.css('input#category-categoryDescription'));
+  categoryDateInput: ElementFinder = element(by.css('input#category-categoryDate'));
 
   getPageTitle() {
     return this.pageTitle;
@@ -28,12 +28,12 @@ export default class CategoryUpdatePage {
     return this.categoryAliasInput.getAttribute('value');
   }
 
-  setCategoryDescriptionInput(categoryDescription) {
-    this.categoryDescriptionInput.sendKeys(categoryDescription);
+  setCategoryDateInput(categoryDate) {
+    this.categoryDateInput.sendKeys(categoryDate);
   }
 
-  getCategoryDescriptionInput() {
-    return this.categoryDescriptionInput.getAttribute('value');
+  getCategoryDateInput() {
+    return this.categoryDateInput.getAttribute('value');
   }
 
   save() {

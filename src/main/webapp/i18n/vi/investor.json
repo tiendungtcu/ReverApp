@@ -23,8 +23,7 @@
             "investorAddress": "Investor Address",
             "investorWebsite": "Investor Website",
             "investorPhone": "Investor Phone",
-            "investorPhoto": "Investor Photo",
-            "project": "Project"
+            "investorAvatarUrl": "Investor Avatar Url"
         }
     }
 }

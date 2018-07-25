@@ -106,9 +106,6 @@ export class ResidentialArea extends React.Component<IResidentialAreaProps, IRes
                   <Translate contentKey="riverApp.residentialArea.residentialAvatar">Residential Avatar</Translate>{' '}
                   <FontAwesomeIcon icon="sort" />
                 </th>
-                <th>
-                  <Translate contentKey="riverApp.residentialArea.photo">Photo</Translate> <FontAwesomeIcon icon="sort" />
-                </th>
                 <th />
               </tr>
             </thead>
@@ -128,7 +125,6 @@ export class ResidentialArea extends React.Component<IResidentialAreaProps, IRes
                   <td>{residentialArea.residentialDistrict}</td>
                   <td>{residentialArea.residentialBoundary}</td>
                   <td>{residentialArea.residentialAvatar}</td>
-                  <td>{residentialArea.photoId ? <Link to={`photo/${residentialArea.photoId}`}>{residentialArea.photoId}</Link> : ''}</td>
                   <td className="text-right">
                     <div className="btn-group flex-btn-group-container">
                       <Button tag={Link} to={`${match.url}/${residentialArea.id}`} color="info" size="sm">

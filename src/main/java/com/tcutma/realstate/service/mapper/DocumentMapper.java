@@ -8,15 +8,10 @@ import org.mapstruct.*;
 /**
  * Mapper for the entity Document and its DTO DocumentDTO.
  */
-@Mapper(componentModel = "spring", uses = {PhotoMapper.class})
+@Mapper(componentModel = "spring", uses = {})
 public interface DocumentMapper extends EntityMapper<DocumentDTO, Document> {
 
-    @Mapping(source = "photo.id", target = "photoId")
-    DocumentDTO toDto(Document document);
 
-    @Mapping(source = "photoId", target = "photo")
-    @Mapping(target = "project", ignore = true)
-    Document toEntity(DocumentDTO documentDTO);
 
     default Document fromId(Long id) {
         if (id == null) {

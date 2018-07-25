@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Col, Row, Table } from 'reactstrap';
 // tslint:disable-next-line:no-unused-variable
-import { openFile, byteSize, Translate, ICrudGetAllAction, TextFormat, getSortState, IPaginationBaseState } from 'react-jhipster';
+import { byteSize, Translate, ICrudGetAllAction, TextFormat, getSortState, IPaginationBaseState } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IRootState } from 'app/shared/reducers';
@@ -83,12 +83,6 @@ export class Project extends React.Component<IProjectProps, IProjectState> {
                   <th className="hand" onClick={this.sort('projectAlias')}>
                     <Translate contentKey="riverApp.project.projectAlias">Project Alias</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
-                  <th className="hand" onClick={this.sort('projectAvatar')}>
-                    <Translate contentKey="riverApp.project.projectAvatar">Project Avatar</Translate> <FontAwesomeIcon icon="sort" />
-                  </th>
-                  <th className="hand" onClick={this.sort('projectAvatarId')}>
-                    <Translate contentKey="riverApp.project.projectAvatarId">Project Avatar Id</Translate> <FontAwesomeIcon icon="sort" />
-                  </th>
                   <th className="hand" onClick={this.sort('projectAvatarUrl')}>
                     <Translate contentKey="riverApp.project.projectAvatarUrl">Project Avatar Url</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
@@ -98,8 +92,8 @@ export class Project extends React.Component<IProjectProps, IProjectState> {
                   <th className="hand" onClick={this.sort('projectProvince')}>
                     <Translate contentKey="riverApp.project.projectProvince">Project Province</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
-                  <th className="hand" onClick={this.sort('projectResidentialArea')}>
-                    <Translate contentKey="riverApp.project.projectResidentialArea">Project Residential Area</Translate>{' '}
+                  <th className="hand" onClick={this.sort('residentialAreaId')}>
+                    <Translate contentKey="riverApp.project.residentialAreaId">Residential Area Id</Translate>{' '}
                     <FontAwesomeIcon icon="sort" />
                   </th>
                   <th className="hand" onClick={this.sort('projectRoad')}>
@@ -110,9 +104,6 @@ export class Project extends React.Component<IProjectProps, IProjectState> {
                   </th>
                   <th className="hand" onClick={this.sort('projectStatus')}>
                     <Translate contentKey="riverApp.project.projectStatus">Project Status</Translate> <FontAwesomeIcon icon="sort" />
-                  </th>
-                  <th className="hand" onClick={this.sort('projectType')}>
-                    <Translate contentKey="riverApp.project.projectType">Project Type</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th className="hand" onClick={this.sort('projectNoBlocks')}>
                     <Translate contentKey="riverApp.project.projectNoBlocks">Project No Blocks</Translate> <FontAwesomeIcon icon="sort" />
@@ -140,10 +131,6 @@ export class Project extends React.Component<IProjectProps, IProjectState> {
                     <Translate contentKey="riverApp.project.projectMaxSellPrice">Project Max Sell Price</Translate>{' '}
                     <FontAwesomeIcon icon="sort" />
                   </th>
-                  <th className="hand" onClick={this.sort('projectSellAreaUnit')}>
-                    <Translate contentKey="riverApp.project.projectSellAreaUnit">Project Sell Area Unit</Translate>{' '}
-                    <FontAwesomeIcon icon="sort" />
-                  </th>
                   <th className="hand" onClick={this.sort('projectSellPriceUnit')}>
                     <Translate contentKey="riverApp.project.projectSellPriceUnit">Project Sell Price Unit</Translate>{' '}
                     <FontAwesomeIcon icon="sort" />
@@ -154,10 +141,6 @@ export class Project extends React.Component<IProjectProps, IProjectState> {
                   </th>
                   <th className="hand" onClick={this.sort('projectMaxRentPrice')}>
                     <Translate contentKey="riverApp.project.projectMaxRentPrice">Project Max Rent Price</Translate>{' '}
-                    <FontAwesomeIcon icon="sort" />
-                  </th>
-                  <th className="hand" onClick={this.sort('projectRentAreaUnit')}>
-                    <Translate contentKey="riverApp.project.projectRentAreaUnit">Project Rent Area Unit</Translate>{' '}
                     <FontAwesomeIcon icon="sort" />
                   </th>
                   <th className="hand" onClick={this.sort('projectRentPriceUnit')}>
@@ -239,10 +222,10 @@ export class Project extends React.Component<IProjectProps, IProjectState> {
                     <Translate contentKey="riverApp.project.projectAvailable">Project Available</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th>
-                    <Translate contentKey="riverApp.project.document">Document</Translate> <FontAwesomeIcon icon="sort" />
+                    <Translate contentKey="riverApp.project.location">Location</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th>
-                    <Translate contentKey="riverApp.project.location">Location</Translate> <FontAwesomeIcon icon="sort" />
+                    <Translate contentKey="riverApp.project.consultant">Consultant</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th />
                 </tr>
@@ -257,31 +240,13 @@ export class Project extends React.Component<IProjectProps, IProjectState> {
                     </td>
                     <td>{project.projectName}</td>
                     <td>{project.projectAlias}</td>
-                    <td>
-                      {project.projectAvatar ? (
-                        <div>
-                          <a onClick={openFile(project.projectAvatarContentType, project.projectAvatar)}>
-                            <img
-                              src={`data:${project.projectAvatarContentType};base64,${project.projectAvatar}`}
-                              style={{ maxHeight: '30px' }}
-                            />
-                            &nbsp;
-                          </a>
-                          <span>
-                            {project.projectAvatarContentType}, {byteSize(project.projectAvatar)}
-                          </span>
-                        </div>
-                      ) : null}
-                    </td>
-                    <td>{project.projectAvatarId}</td>
                     <td>{project.projectAvatarUrl}</td>
                     <td>{project.projectDistrict}</td>
                     <td>{project.projectProvince}</td>
-                    <td>{project.projectResidentialArea}</td>
+                    <td>{project.residentialAreaId}</td>
                     <td>{project.projectRoad}</td>
                     <td>{project.projectWard}</td>
                     <td>{project.projectStatus}</td>
-                    <td>{project.projectType}</td>
                     <td>{project.projectNoBlocks}</td>
                     <td>{project.projectNoFloors}</td>
                     <td>{project.projectNoApartments}</td>
@@ -289,17 +254,15 @@ export class Project extends React.Component<IProjectProps, IProjectState> {
                     <td>{project.projectDescription}</td>
                     <td>{project.projectMinSellPrice}</td>
                     <td>{project.projectMaxSellPrice}</td>
-                    <td>{project.projectSellAreaUnit}</td>
                     <td>{project.projectSellPriceUnit}</td>
                     <td>{project.projectMinRentPrice}</td>
                     <td>{project.projectMaxRentPrice}</td>
-                    <td>{project.projectRentAreaUnit}</td>
                     <td>{project.projectRentPriceUnit}</td>
                     <td>
-                      <TextFormat type="date" value={project.projectStartedDate} format={APP_DATE_FORMAT} />
+                      <TextFormat type="date" value={project.projectStartedDate} format={APP_LOCAL_DATE_FORMAT} />
                     </td>
                     <td>
-                      <TextFormat type="date" value={project.projectFinishingDate} format={APP_DATE_FORMAT} />
+                      <TextFormat type="date" value={project.projectFinishingDate} format={APP_LOCAL_DATE_FORMAT} />
                     </td>
                     <td>{project.projectMinApartmentSquare}</td>
                     <td>{project.projectMaxApartmentSquare}</td>
@@ -320,8 +283,8 @@ export class Project extends React.Component<IProjectProps, IProjectState> {
                     <td>{project.latitude}</td>
                     <td>{project.projectSeenCount}</td>
                     <td>{project.projectAvailable ? 'true' : 'false'}</td>
-                    <td>{project.documentId ? <Link to={`document/${project.documentId}`}>{project.documentId}</Link> : ''}</td>
                     <td>{project.locationId ? <Link to={`location/${project.locationId}`}>{project.locationId}</Link> : ''}</td>
+                    <td>{project.consultantLogin ? project.consultantLogin : ''}</td>
                     <td className="text-right">
                       <div className="btn-group flex-btn-group-container">
                         <Button tag={Link} to={`${match.url}/${project.id}`} color="info" size="sm">

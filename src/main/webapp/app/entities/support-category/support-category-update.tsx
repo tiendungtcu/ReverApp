@@ -94,7 +94,8 @@ export class SupportCategoryUpdate extends React.Component<ISupportCategoryUpdat
                     type="text"
                     name="categoryName"
                     validate={{
-                      required: { value: true, errorMessage: translate('entity.validation.required') }
+                      required: { value: true, errorMessage: translate('entity.validation.required') },
+                      maxLength: { value: 128, errorMessage: translate('entity.validation.maxlength', { max: 128 }) }
                     }}
                   />
                 </AvGroup>
@@ -103,6 +104,25 @@ export class SupportCategoryUpdate extends React.Component<ISupportCategoryUpdat
                     <Translate contentKey="riverApp.supportCategory.categoryDescription">Category Description</Translate>
                   </Label>
                   <AvField id="support-category-categoryDescription" type="text" name="categoryDescription" />
+                </AvGroup>
+                <AvGroup>
+                  <Label id="categorySupportTypeLabel">
+                    <Translate contentKey="riverApp.supportCategory.categorySupportType">Category Support Type</Translate>
+                  </Label>
+                  <AvInput
+                    id="support-category-categorySupportType"
+                    type="select"
+                    className="form-control"
+                    name="categorySupportType"
+                    value={(!isNew && supportCategoryEntity.categorySupportType) || 'ACCOUNT'}
+                  >
+                    <option value="ACCOUNT">ACCOUNT</option>
+                    <option value="SELL">SELL</option>
+                    <option value="RENT">RENT</option>
+                    <option value="BUY">BUY</option>
+                    <option value="HOUSE">HOUSE</option>
+                    <option value="PROJECT">PROJECT</option>
+                  </AvInput>
                 </AvGroup>
                 <Button tag={Link} id="cancel-save" to="/entity/support-category" replace color="info">
                   <FontAwesomeIcon icon="arrow-left" />&nbsp;

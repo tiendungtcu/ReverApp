@@ -1,8 +1,7 @@
 export interface IDepartment {
   id?: number;
   departmentName?: string;
-  departmentPhotoContentType?: string;
-  departmentPhoto?: any;
+  departmentAvatarUrl?: string;
   departmentPhone?: string;
 }
 

@@ -99,16 +99,11 @@ export class Request extends React.Component<IRequestProps, IRequestState> {
                   <th className="hand" onClick={this.sort('requestPageUrl')}>
                     <Translate contentKey="riverApp.request.requestPageUrl">Request Page Url</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
-                  <th className="hand" onClick={this.sort('requestPageName')}>
-                    <Translate contentKey="riverApp.request.requestPageName">Request Page Name</Translate> <FontAwesomeIcon icon="sort" />
+                  <th className="hand" onClick={this.sort('resourceId')}>
+                    <Translate contentKey="riverApp.request.resourceId">Resource Id</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
-                  <th className="hand" onClick={this.sort('requestPropertyId')}>
-                    <Translate contentKey="riverApp.request.requestPropertyId">Request Property Id</Translate>{' '}
-                    <FontAwesomeIcon icon="sort" />
-                  </th>
-                  <th className="hand" onClick={this.sort('requestPropertyType')}>
-                    <Translate contentKey="riverApp.request.requestPropertyType">Request Property Type</Translate>{' '}
-                    <FontAwesomeIcon icon="sort" />
+                  <th className="hand" onClick={this.sort('resourceType')}>
+                    <Translate contentKey="riverApp.request.resourceType">Resource Type</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th className="hand" onClick={this.sort('requestType')}>
                     <Translate contentKey="riverApp.request.requestType">Request Type</Translate> <FontAwesomeIcon icon="sort" />
@@ -123,22 +118,11 @@ export class Request extends React.Component<IRequestProps, IRequestState> {
                   <th className="hand" onClick={this.sort('requestPrice')}>
                     <Translate contentKey="riverApp.request.requestPrice">Request Price</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
-                  <th className="hand" onClick={this.sort('requestCreatedDate')}>
-                    <Translate contentKey="riverApp.request.requestCreatedDate">Request Created Date</Translate>{' '}
-                    <FontAwesomeIcon icon="sort" />
-                  </th>
-                  <th className="hand" onClick={this.sort('requestConsultantId')}>
-                    <Translate contentKey="riverApp.request.requestConsultantId">Request Consultant Id</Translate>{' '}
-                    <FontAwesomeIcon icon="sort" />
+                  <th>
+                    <Translate contentKey="riverApp.request.sender">Sender</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th>
-                    <Translate contentKey="riverApp.request.user">User</Translate> <FontAwesomeIcon icon="sort" />
-                  </th>
-                  <th>
-                    <Translate contentKey="riverApp.request.property">Property</Translate> <FontAwesomeIcon icon="sort" />
-                  </th>
-                  <th>
-                    <Translate contentKey="riverApp.request.project">Project</Translate> <FontAwesomeIcon icon="sort" />
+                    <Translate contentKey="riverApp.request.receiver">Receiver</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th />
                 </tr>
@@ -158,30 +142,16 @@ export class Request extends React.Component<IRequestProps, IRequestState> {
                     <td>{request.requestGetAnalysis ? 'true' : 'false'}</td>
                     <td>{request.requestGetPrice ? 'true' : 'false'}</td>
                     <td>{request.requestPageUrl}</td>
-                    <td>{request.requestPageName}</td>
-                    <td>{request.requestPropertyId}</td>
-                    <td>{request.requestPropertyType}</td>
+                    <td>{request.resourceId}</td>
+                    <td>{request.resourceType}</td>
                     <td>{request.requestType}</td>
                     <td>
-                      <TextFormat type="date" value={request.requestMeetingDate} format={APP_DATE_FORMAT} />
+                      <TextFormat type="date" value={request.requestMeetingDate} format={APP_LOCAL_DATE_FORMAT} />
                     </td>
                     <td>{request.requestQuestion}</td>
                     <td>{request.requestPrice}</td>
-                    <td>
-                      <TextFormat type="date" value={request.requestCreatedDate} format={APP_DATE_FORMAT} />
-                    </td>
-                    <td>{request.requestConsultantId}</td>
-                    <td>{request.userLogin ? request.userLogin : ''}</td>
-                    <td>
-                      {request.propertyPropertyName ? (
-                        <Link to={`property/${request.propertyId}`}>{request.propertyPropertyName}</Link>
-                      ) : (
-                        ''
-                      )}
-                    </td>
-                    <td>
-                      {request.projectProjectName ? <Link to={`project/${request.projectId}`}>{request.projectProjectName}</Link> : ''}
-                    </td>
+                    <td>{request.senderLogin ? request.senderLogin : ''}</td>
+                    <td>{request.receiverLogin ? request.receiverLogin : ''}</td>
                     <td className="text-right">
                       <div className="btn-group flex-btn-group-container">
                         <Button tag={Link} to={`${match.url}/${request.id}`} color="info" size="sm">

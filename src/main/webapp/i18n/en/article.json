@@ -21,8 +21,8 @@
             "articleDate": "Article Date",
             "articleSeenCount": "Article Seen Count",
             "articleContent": "Article Content",
-            "category": "Category",
-            "user": "User"
+            "author": "Author",
+            "category": "Category"
         }
     }
 }

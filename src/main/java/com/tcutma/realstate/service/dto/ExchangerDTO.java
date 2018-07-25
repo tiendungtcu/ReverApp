@@ -3,7 +3,6 @@ package com.tcutma.realstate.service.dto;
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
-import javax.persistence.Lob;
 
 /**
  * A DTO for the Exchanger entity.
@@ -13,16 +12,17 @@ public class ExchangerDTO implements Serializable {
     private Long id;
 
     @NotNull
+    @Size(max = 128)
     private String exchangerName;
 
+    @Size(max = 256)
     private String exchangerAddress;
 
     @NotNull
+    @Size(max = 16)
     private String exchangerPhone;
 
-    @Lob
-    private byte[] exchangerPhoto;
-    private String exchangerPhotoContentType;
+    private String exchangerAvatarUrl;
 
     public Long getId() {
         return id;
@@ -56,20 +56,12 @@ public class ExchangerDTO implements Serializable {
         this.exchangerPhone = exchangerPhone;
     }
 
-    public byte[] getExchangerPhoto() {
-        return exchangerPhoto;
+    public String getExchangerAvatarUrl() {
+        return exchangerAvatarUrl;
     }
 
-    public void setExchangerPhoto(byte[] exchangerPhoto) {
-        this.exchangerPhoto = exchangerPhoto;
-    }
-
-    public String getExchangerPhotoContentType() {
-        return exchangerPhotoContentType;
-    }
-
-    public void setExchangerPhotoContentType(String exchangerPhotoContentType) {
-        this.exchangerPhotoContentType = exchangerPhotoContentType;
+    public void setExchangerAvatarUrl(String exchangerAvatarUrl) {
+        this.exchangerAvatarUrl = exchangerAvatarUrl;
     }
 
     @Override
@@ -100,7 +92,7 @@ public class ExchangerDTO implements Serializable {
             ", exchangerName='" + getExchangerName() + "'" +
             ", exchangerAddress='" + getExchangerAddress() + "'" +
             ", exchangerPhone='" + getExchangerPhone() + "'" +
-            ", exchangerPhoto='" + getExchangerPhoto() + "'" +
+            ", exchangerAvatarUrl='" + getExchangerAvatarUrl() + "'" +
             "}";
     }
 }

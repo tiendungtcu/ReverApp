@@ -1,5 +1,4 @@
 import { Moment } from 'moment';
-import { IComment } from './comment.model';
 
 export const enum BlogStatus {
   PUBLISHED = 'PUBLISHED',
@@ -12,16 +11,12 @@ export interface IBlogPost {
   postTitle?: string;
   postStatus?: BlogStatus;
   postCreatedDate?: Moment;
-  postPublishDate?: Moment;
-  postUpdateDate?: Moment;
   postSeenCount?: number;
   postContent?: any;
-  comments?: IComment[];
+  categoryCategoryName?: string;
   categoryId?: number;
   userLogin?: string;
   userId?: number;
-  projectProjectName?: string;
-  projectId?: number;
 }
 
 export const defaultValue: Readonly<IBlogPost> = {};

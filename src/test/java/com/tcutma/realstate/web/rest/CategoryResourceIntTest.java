@@ -24,6 +24,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 
@@ -48,8 +50,8 @@ public class CategoryResourceIntTest {
     private static final String DEFAULT_CATEGORY_ALIAS = "AAAAAAAAAA";
     private static final String UPDATED_CATEGORY_ALIAS = "BBBBBBBBBB";
 
-    private static final String DEFAULT_CATEGORY_DESCRIPTION = "AAAAAAAAAA";
-    private static final String UPDATED_CATEGORY_DESCRIPTION = "BBBBBBBBBB";
+    private static final Instant DEFAULT_CATEGORY_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_CATEGORY_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
     @Autowired
     private CategoryRepository categoryRepository;
@@ -99,7 +101,7 @@ public class CategoryResourceIntTest {
         Category category = new Category()
             .categoryName(DEFAULT_CATEGORY_NAME)
             .categoryAlias(DEFAULT_CATEGORY_ALIAS)
-            .categoryDescription(DEFAULT_CATEGORY_DESCRIPTION);
+            .categoryDate(DEFAULT_CATEGORY_DATE);
         return category;
     }
 
@@ -126,7 +128,7 @@ public class CategoryResourceIntTest {
         Category testCategory = categoryList.get(categoryList.size() - 1);
         assertThat(testCategory.getCategoryName()).isEqualTo(DEFAULT_CATEGORY_NAME);
         assertThat(testCategory.getCategoryAlias()).isEqualTo(DEFAULT_CATEGORY_ALIAS);
-        assertThat(testCategory.getCategoryDescription()).isEqualTo(DEFAULT_CATEGORY_DESCRIPTION);
+        assertThat(testCategory.getCategoryDate()).isEqualTo(DEFAULT_CATEGORY_DATE);
     }
 
     @Test
@@ -181,7 +183,7 @@ public class CategoryResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(category.getId().intValue())))
             .andExpect(jsonPath("$.[*].categoryName").value(hasItem(DEFAULT_CATEGORY_NAME.toString())))
             .andExpect(jsonPath("$.[*].categoryAlias").value(hasItem(DEFAULT_CATEGORY_ALIAS.toString())))
-            .andExpect(jsonPath("$.[*].categoryDescription").value(hasItem(DEFAULT_CATEGORY_DESCRIPTION.toString())));
+            .andExpect(jsonPath("$.[*].categoryDate").value(hasItem(DEFAULT_CATEGORY_DATE.toString())));
     }
     
 
@@ -198,7 +200,7 @@ public class CategoryResourceIntTest {
             .andExpect(jsonPath("$.id").value(category.getId().intValue()))
             .andExpect(jsonPath("$.categoryName").value(DEFAULT_CATEGORY_NAME.toString()))
             .andExpect(jsonPath("$.categoryAlias").value(DEFAULT_CATEGORY_ALIAS.toString()))
-            .andExpect(jsonPath("$.categoryDescription").value(DEFAULT_CATEGORY_DESCRIPTION.toString()));
+            .andExpect(jsonPath("$.categoryDate").value(DEFAULT_CATEGORY_DATE.toString()));
     }
     @Test
     @Transactional
@@ -223,7 +225,7 @@ public class CategoryResourceIntTest {
         updatedCategory
             .categoryName(UPDATED_CATEGORY_NAME)
             .categoryAlias(UPDATED_CATEGORY_ALIAS)
-            .categoryDescription(UPDATED_CATEGORY_DESCRIPTION);
+            .categoryDate(UPDATED_CATEGORY_DATE);
         CategoryDTO categoryDTO = categoryMapper.toDto(updatedCategory);
 
         restCategoryMockMvc.perform(put("/api/categories")
@@ -237,7 +239,7 @@ public class CategoryResourceIntTest {
         Category testCategory = categoryList.get(categoryList.size() - 1);
         assertThat(testCategory.getCategoryName()).isEqualTo(UPDATED_CATEGORY_NAME);
         assertThat(testCategory.getCategoryAlias()).isEqualTo(UPDATED_CATEGORY_ALIAS);
-        assertThat(testCategory.getCategoryDescription()).isEqualTo(UPDATED_CATEGORY_DESCRIPTION);
+        assertThat(testCategory.getCategoryDate()).isEqualTo(UPDATED_CATEGORY_DATE);
     }
 
     @Test

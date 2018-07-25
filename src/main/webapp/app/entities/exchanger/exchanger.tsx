@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Col, Row, Table } from 'reactstrap';
 // tslint:disable-next-line:no-unused-variable
-import { openFile, byteSize, Translate, ICrudGetAllAction } from 'react-jhipster';
+import { Translate, ICrudGetAllAction } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IRootState } from 'app/shared/reducers';
@@ -47,7 +47,7 @@ export class Exchanger extends React.Component<IExchangerProps> {
                   <Translate contentKey="riverApp.exchanger.exchangerPhone">Exchanger Phone</Translate>
                 </th>
                 <th>
-                  <Translate contentKey="riverApp.exchanger.exchangerPhoto">Exchanger Photo</Translate>
+                  <Translate contentKey="riverApp.exchanger.exchangerAvatarUrl">Exchanger Avatar Url</Translate>
                 </th>
                 <th />
               </tr>
@@ -63,22 +63,7 @@ export class Exchanger extends React.Component<IExchangerProps> {
                   <td>{exchanger.exchangerName}</td>
                   <td>{exchanger.exchangerAddress}</td>
                   <td>{exchanger.exchangerPhone}</td>
-                  <td>
-                    {exchanger.exchangerPhoto ? (
-                      <div>
-                        <a onClick={openFile(exchanger.exchangerPhotoContentType, exchanger.exchangerPhoto)}>
-                          <img
-                            src={`data:${exchanger.exchangerPhotoContentType};base64,${exchanger.exchangerPhoto}`}
-                            style={{ maxHeight: '30px' }}
-                          />
-                          &nbsp;
-                        </a>
-                        <span>
-                          {exchanger.exchangerPhotoContentType}, {byteSize(exchanger.exchangerPhoto)}
-                        </span>
-                      </div>
-                    ) : null}
-                  </td>
+                  <td>{exchanger.exchangerAvatarUrl}</td>
                   <td className="text-right">
                     <div className="btn-group flex-btn-group-container">
                       <Button tag={Link} to={`${match.url}/${exchanger.id}`} color="info" size="sm">

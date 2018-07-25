@@ -95,7 +95,14 @@ export class LocationUpdate extends React.Component<ILocationUpdateProps, ILocat
                   <Label id="locationFullAddressLabel" for="locationFullAddress">
                     <Translate contentKey="riverApp.location.locationFullAddress">Location Full Address</Translate>
                   </Label>
-                  <AvField id="location-locationFullAddress" type="text" name="locationFullAddress" />
+                  <AvField
+                    id="location-locationFullAddress"
+                    type="text"
+                    name="locationFullAddress"
+                    validate={{
+                      maxLength: { value: 256, errorMessage: translate('entity.validation.maxlength', { max: 256 }) }
+                    }}
+                  />
                 </AvGroup>
                 <AvGroup>
                   <Label id="locationNumberLabel" for="locationNumber">
@@ -126,12 +133,6 @@ export class LocationUpdate extends React.Component<ILocationUpdateProps, ILocat
                     <Translate contentKey="riverApp.location.locationProvince">Location Province</Translate>
                   </Label>
                   <AvField id="location-locationProvince" type="text" name="locationProvince" />
-                </AvGroup>
-                <AvGroup>
-                  <Label id="locationCountryLabel" for="locationCountry">
-                    <Translate contentKey="riverApp.location.locationCountry">Location Country</Translate>
-                  </Label>
-                  <AvField id="location-locationCountry" type="text" name="locationCountry" />
                 </AvGroup>
                 <AvGroup>
                   <Label id="locationGmapUrlLabel" for="locationGmapUrl">
@@ -170,10 +171,17 @@ export class LocationUpdate extends React.Component<ILocationUpdateProps, ILocat
                   />
                 </AvGroup>
                 <AvGroup>
-                  <Label id="locationHideLabel" check>
-                    <AvInput id="location-locationHide" type="checkbox" className="form-control" name="locationHide" />
-                    <Translate contentKey="riverApp.location.locationHide">Location Hide</Translate>
+                  <Label id="locationZipCodeLabel" for="locationZipCode">
+                    <Translate contentKey="riverApp.location.locationZipCode">Location Zip Code</Translate>
                   </Label>
+                  <AvField
+                    id="location-locationZipCode"
+                    type="text"
+                    name="locationZipCode"
+                    validate={{
+                      maxLength: { value: 16, errorMessage: translate('entity.validation.maxlength', { max: 16 }) }
+                    }}
+                  />
                 </AvGroup>
                 <Button tag={Link} id="cancel-save" to="/entity/location" replace color="info">
                   <FontAwesomeIcon icon="arrow-left" />&nbsp;

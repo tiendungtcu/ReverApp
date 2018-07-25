@@ -161,6 +161,7 @@ public class FileStorageServiceImpl implements FileStorageService {
     @Override
     public Stream<Path> loadAllFiles(UploadType type) {
         Path rootLocation = type==UploadType.FILE?fileLocation:type==UploadType.PHOTO?photoLocation:documentLocation;
+        log.debug("View all uploaded {} from: {}",type,rootLocation);
         try{
             return Files.walk(rootLocation,1)
                 .filter(path->!path.equals(rootLocation))

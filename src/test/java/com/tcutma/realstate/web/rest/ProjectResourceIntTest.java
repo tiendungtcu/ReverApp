@@ -3,14 +3,12 @@ package com.tcutma.realstate.web.rest;
 import com.tcutma.realstate.RiverApp;
 
 import com.tcutma.realstate.domain.Project;
-import com.tcutma.realstate.domain.Document;
 import com.tcutma.realstate.domain.Location;
-import com.tcutma.realstate.domain.BlogPost;
+import com.tcutma.realstate.domain.User;
 import com.tcutma.realstate.domain.Tag;
 import com.tcutma.realstate.domain.BuildingType;
 import com.tcutma.realstate.domain.Investor;
-import com.tcutma.realstate.domain.ProjectBuilder;
-import com.tcutma.realstate.domain.Photo;
+import com.tcutma.realstate.domain.Contractor;
 import com.tcutma.realstate.repository.ProjectRepository;
 import com.tcutma.realstate.service.ProjectService;
 import com.tcutma.realstate.service.dto.ProjectDTO;
@@ -38,8 +36,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Base64Utils;
 
 import javax.persistence.EntityManager;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,9 +50,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.tcutma.realstate.domain.enumeration.TransactionStatus;
-import com.tcutma.realstate.domain.enumeration.AreaUnit;
 import com.tcutma.realstate.domain.enumeration.PriceUnit;
-import com.tcutma.realstate.domain.enumeration.AreaUnit;
 import com.tcutma.realstate.domain.enumeration.PriceUnit;
 /**
  * Test class for the ProjectResource REST controller.
@@ -71,14 +67,6 @@ public class ProjectResourceIntTest {
     private static final String DEFAULT_PROJECT_ALIAS = "AAAAAAAAAA";
     private static final String UPDATED_PROJECT_ALIAS = "BBBBBBBBBB";
 
-    private static final byte[] DEFAULT_PROJECT_AVATAR = TestUtil.createByteArray(1, "0");
-    private static final byte[] UPDATED_PROJECT_AVATAR = TestUtil.createByteArray(2, "1");
-    private static final String DEFAULT_PROJECT_AVATAR_CONTENT_TYPE = "image/jpg";
-    private static final String UPDATED_PROJECT_AVATAR_CONTENT_TYPE = "image/png";
-
-    private static final Integer DEFAULT_PROJECT_AVATAR_ID = 1;
-    private static final Integer UPDATED_PROJECT_AVATAR_ID = 2;
-
     private static final String DEFAULT_PROJECT_AVATAR_URL = "AAAAAAAAAA";
     private static final String UPDATED_PROJECT_AVATAR_URL = "BBBBBBBBBB";
 
@@ -88,8 +76,8 @@ public class ProjectResourceIntTest {
     private static final String DEFAULT_PROJECT_PROVINCE = "AAAAAAAAAA";
     private static final String UPDATED_PROJECT_PROVINCE = "BBBBBBBBBB";
 
-    private static final String DEFAULT_PROJECT_RESIDENTIAL_AREA = "AAAAAAAAAA";
-    private static final String UPDATED_PROJECT_RESIDENTIAL_AREA = "BBBBBBBBBB";
+    private static final Long DEFAULT_RESIDENTIAL_AREA_ID = 1L;
+    private static final Long UPDATED_RESIDENTIAL_AREA_ID = 2L;
 
     private static final String DEFAULT_PROJECT_ROAD = "AAAAAAAAAA";
     private static final String UPDATED_PROJECT_ROAD = "BBBBBBBBBB";
@@ -99,9 +87,6 @@ public class ProjectResourceIntTest {
 
     private static final TransactionStatus DEFAULT_PROJECT_STATUS = TransactionStatus.SELLING;
     private static final TransactionStatus UPDATED_PROJECT_STATUS = TransactionStatus.PRESELL;
-
-    private static final String DEFAULT_PROJECT_TYPE = "AAAAAAAAAA";
-    private static final String UPDATED_PROJECT_TYPE = "BBBBBBBBBB";
 
     private static final Integer DEFAULT_PROJECT_NO_BLOCKS = 1;
     private static final Integer UPDATED_PROJECT_NO_BLOCKS = 2;
@@ -118,35 +103,29 @@ public class ProjectResourceIntTest {
     private static final String DEFAULT_PROJECT_DESCRIPTION = "AAAAAAAAAA";
     private static final String UPDATED_PROJECT_DESCRIPTION = "BBBBBBBBBB";
 
-    private static final Double DEFAULT_PROJECT_MIN_SELL_PRICE = 1D;
-    private static final Double UPDATED_PROJECT_MIN_SELL_PRICE = 2D;
+    private static final Double DEFAULT_PROJECT_MIN_SELL_PRICE = 0D;
+    private static final Double UPDATED_PROJECT_MIN_SELL_PRICE = 1D;
 
     private static final Double DEFAULT_PROJECT_MAX_SELL_PRICE = 1D;
     private static final Double UPDATED_PROJECT_MAX_SELL_PRICE = 2D;
 
-    private static final AreaUnit DEFAULT_PROJECT_SELL_AREA_UNIT = AreaUnit.M2;
-    private static final AreaUnit UPDATED_PROJECT_SELL_AREA_UNIT = AreaUnit.CAN;
-
     private static final PriceUnit DEFAULT_PROJECT_SELL_PRICE_UNIT = PriceUnit.THOUSAND;
     private static final PriceUnit UPDATED_PROJECT_SELL_PRICE_UNIT = PriceUnit.MILLION;
 
-    private static final Double DEFAULT_PROJECT_MIN_RENT_PRICE = 1D;
-    private static final Double UPDATED_PROJECT_MIN_RENT_PRICE = 2D;
+    private static final Double DEFAULT_PROJECT_MIN_RENT_PRICE = 0D;
+    private static final Double UPDATED_PROJECT_MIN_RENT_PRICE = 1D;
 
     private static final Double DEFAULT_PROJECT_MAX_RENT_PRICE = 1D;
     private static final Double UPDATED_PROJECT_MAX_RENT_PRICE = 2D;
 
-    private static final AreaUnit DEFAULT_PROJECT_RENT_AREA_UNIT = AreaUnit.M2;
-    private static final AreaUnit UPDATED_PROJECT_RENT_AREA_UNIT = AreaUnit.CAN;
-
     private static final PriceUnit DEFAULT_PROJECT_RENT_PRICE_UNIT = PriceUnit.THOUSAND;
     private static final PriceUnit UPDATED_PROJECT_RENT_PRICE_UNIT = PriceUnit.MILLION;
 
-    private static final Instant DEFAULT_PROJECT_STARTED_DATE = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_PROJECT_STARTED_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    private static final LocalDate DEFAULT_PROJECT_STARTED_DATE = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_PROJECT_STARTED_DATE = LocalDate.now(ZoneId.systemDefault());
 
-    private static final Instant DEFAULT_PROJECT_FINISHING_DATE = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_PROJECT_FINISHING_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    private static final LocalDate DEFAULT_PROJECT_FINISHING_DATE = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_PROJECT_FINISHING_DATE = LocalDate.now(ZoneId.systemDefault());
 
     private static final Integer DEFAULT_PROJECT_MIN_APARTMENT_SQUARE = 1;
     private static final Integer UPDATED_PROJECT_MIN_APARTMENT_SQUARE = 2;
@@ -154,11 +133,11 @@ public class ProjectResourceIntTest {
     private static final Integer DEFAULT_PROJECT_MAX_APARTMENT_SQUARE = 1;
     private static final Integer UPDATED_PROJECT_MAX_APARTMENT_SQUARE = 2;
 
-    private static final Integer DEFAULT_PROJECT_GREEN_SPACE = 1;
-    private static final Integer UPDATED_PROJECT_GREEN_SPACE = 2;
+    private static final Integer DEFAULT_PROJECT_GREEN_SPACE = 0;
+    private static final Integer UPDATED_PROJECT_GREEN_SPACE = 1;
 
-    private static final Integer DEFAULT_PROJECT_BUILDING_DENSITY = 1;
-    private static final Integer UPDATED_PROJECT_BUILDING_DENSITY = 2;
+    private static final Integer DEFAULT_PROJECT_BUILDING_DENSITY = 0;
+    private static final Integer UPDATED_PROJECT_BUILDING_DENSITY = 1;
 
     private static final String DEFAULT_PROJECT_DESIGN_COMPANY = "AAAAAAAAAA";
     private static final String UPDATED_PROJECT_DESIGN_COMPANY = "BBBBBBBBBB";
@@ -259,17 +238,13 @@ public class ProjectResourceIntTest {
         Project project = new Project()
             .projectName(DEFAULT_PROJECT_NAME)
             .projectAlias(DEFAULT_PROJECT_ALIAS)
-            .projectAvatar(DEFAULT_PROJECT_AVATAR)
-            .projectAvatarContentType(DEFAULT_PROJECT_AVATAR_CONTENT_TYPE)
-            .projectAvatarId(DEFAULT_PROJECT_AVATAR_ID)
             .projectAvatarUrl(DEFAULT_PROJECT_AVATAR_URL)
             .projectDistrict(DEFAULT_PROJECT_DISTRICT)
             .projectProvince(DEFAULT_PROJECT_PROVINCE)
-            .projectResidentialArea(DEFAULT_PROJECT_RESIDENTIAL_AREA)
+            .residentialAreaId(DEFAULT_RESIDENTIAL_AREA_ID)
             .projectRoad(DEFAULT_PROJECT_ROAD)
             .projectWard(DEFAULT_PROJECT_WARD)
             .projectStatus(DEFAULT_PROJECT_STATUS)
-            .projectType(DEFAULT_PROJECT_TYPE)
             .projectNoBlocks(DEFAULT_PROJECT_NO_BLOCKS)
             .projectNoFloors(DEFAULT_PROJECT_NO_FLOORS)
             .projectNoApartments(DEFAULT_PROJECT_NO_APARTMENTS)
@@ -277,11 +252,9 @@ public class ProjectResourceIntTest {
             .projectDescription(DEFAULT_PROJECT_DESCRIPTION)
             .projectMinSellPrice(DEFAULT_PROJECT_MIN_SELL_PRICE)
             .projectMaxSellPrice(DEFAULT_PROJECT_MAX_SELL_PRICE)
-            .projectSellAreaUnit(DEFAULT_PROJECT_SELL_AREA_UNIT)
             .projectSellPriceUnit(DEFAULT_PROJECT_SELL_PRICE_UNIT)
             .projectMinRentPrice(DEFAULT_PROJECT_MIN_RENT_PRICE)
             .projectMaxRentPrice(DEFAULT_PROJECT_MAX_RENT_PRICE)
-            .projectRentAreaUnit(DEFAULT_PROJECT_RENT_AREA_UNIT)
             .projectRentPriceUnit(DEFAULT_PROJECT_RENT_PRICE_UNIT)
             .projectStartedDate(DEFAULT_PROJECT_STARTED_DATE)
             .projectFinishingDate(DEFAULT_PROJECT_FINISHING_DATE)
@@ -330,17 +303,13 @@ public class ProjectResourceIntTest {
         Project testProject = projectList.get(projectList.size() - 1);
         assertThat(testProject.getProjectName()).isEqualTo(DEFAULT_PROJECT_NAME);
         assertThat(testProject.getProjectAlias()).isEqualTo(DEFAULT_PROJECT_ALIAS);
-        assertThat(testProject.getProjectAvatar()).isEqualTo(DEFAULT_PROJECT_AVATAR);
-        assertThat(testProject.getProjectAvatarContentType()).isEqualTo(DEFAULT_PROJECT_AVATAR_CONTENT_TYPE);
-        assertThat(testProject.getProjectAvatarId()).isEqualTo(DEFAULT_PROJECT_AVATAR_ID);
         assertThat(testProject.getProjectAvatarUrl()).isEqualTo(DEFAULT_PROJECT_AVATAR_URL);
         assertThat(testProject.getProjectDistrict()).isEqualTo(DEFAULT_PROJECT_DISTRICT);
         assertThat(testProject.getProjectProvince()).isEqualTo(DEFAULT_PROJECT_PROVINCE);
-        assertThat(testProject.getProjectResidentialArea()).isEqualTo(DEFAULT_PROJECT_RESIDENTIAL_AREA);
+        assertThat(testProject.getResidentialAreaId()).isEqualTo(DEFAULT_RESIDENTIAL_AREA_ID);
         assertThat(testProject.getProjectRoad()).isEqualTo(DEFAULT_PROJECT_ROAD);
         assertThat(testProject.getProjectWard()).isEqualTo(DEFAULT_PROJECT_WARD);
         assertThat(testProject.getProjectStatus()).isEqualTo(DEFAULT_PROJECT_STATUS);
-        assertThat(testProject.getProjectType()).isEqualTo(DEFAULT_PROJECT_TYPE);
         assertThat(testProject.getProjectNoBlocks()).isEqualTo(DEFAULT_PROJECT_NO_BLOCKS);
         assertThat(testProject.getProjectNoFloors()).isEqualTo(DEFAULT_PROJECT_NO_FLOORS);
         assertThat(testProject.getProjectNoApartments()).isEqualTo(DEFAULT_PROJECT_NO_APARTMENTS);
@@ -348,11 +317,9 @@ public class ProjectResourceIntTest {
         assertThat(testProject.getProjectDescription()).isEqualTo(DEFAULT_PROJECT_DESCRIPTION);
         assertThat(testProject.getProjectMinSellPrice()).isEqualTo(DEFAULT_PROJECT_MIN_SELL_PRICE);
         assertThat(testProject.getProjectMaxSellPrice()).isEqualTo(DEFAULT_PROJECT_MAX_SELL_PRICE);
-        assertThat(testProject.getProjectSellAreaUnit()).isEqualTo(DEFAULT_PROJECT_SELL_AREA_UNIT);
         assertThat(testProject.getProjectSellPriceUnit()).isEqualTo(DEFAULT_PROJECT_SELL_PRICE_UNIT);
         assertThat(testProject.getProjectMinRentPrice()).isEqualTo(DEFAULT_PROJECT_MIN_RENT_PRICE);
         assertThat(testProject.getProjectMaxRentPrice()).isEqualTo(DEFAULT_PROJECT_MAX_RENT_PRICE);
-        assertThat(testProject.getProjectRentAreaUnit()).isEqualTo(DEFAULT_PROJECT_RENT_AREA_UNIT);
         assertThat(testProject.getProjectRentPriceUnit()).isEqualTo(DEFAULT_PROJECT_RENT_PRICE_UNIT);
         assertThat(testProject.getProjectStartedDate()).isEqualTo(DEFAULT_PROJECT_STARTED_DATE);
         assertThat(testProject.getProjectFinishingDate()).isEqualTo(DEFAULT_PROJECT_FINISHING_DATE);
@@ -403,25 +370,6 @@ public class ProjectResourceIntTest {
         int databaseSizeBeforeTest = projectRepository.findAll().size();
         // set the field null
         project.setProjectName(null);
-
-        // Create the Project, which fails.
-        ProjectDTO projectDTO = projectMapper.toDto(project);
-
-        restProjectMockMvc.perform(post("/api/projects")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(projectDTO)))
-            .andExpect(status().isBadRequest());
-
-        List<Project> projectList = projectRepository.findAll();
-        assertThat(projectList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
-    public void checkProjectAliasIsRequired() throws Exception {
-        int databaseSizeBeforeTest = projectRepository.findAll().size();
-        // set the field null
-        project.setProjectAlias(null);
 
         // Create the Project, which fails.
         ProjectDTO projectDTO = projectMapper.toDto(project);
@@ -505,17 +453,13 @@ public class ProjectResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(project.getId().intValue())))
             .andExpect(jsonPath("$.[*].projectName").value(hasItem(DEFAULT_PROJECT_NAME.toString())))
             .andExpect(jsonPath("$.[*].projectAlias").value(hasItem(DEFAULT_PROJECT_ALIAS.toString())))
-            .andExpect(jsonPath("$.[*].projectAvatarContentType").value(hasItem(DEFAULT_PROJECT_AVATAR_CONTENT_TYPE)))
-            .andExpect(jsonPath("$.[*].projectAvatar").value(hasItem(Base64Utils.encodeToString(DEFAULT_PROJECT_AVATAR))))
-            .andExpect(jsonPath("$.[*].projectAvatarId").value(hasItem(DEFAULT_PROJECT_AVATAR_ID)))
             .andExpect(jsonPath("$.[*].projectAvatarUrl").value(hasItem(DEFAULT_PROJECT_AVATAR_URL.toString())))
             .andExpect(jsonPath("$.[*].projectDistrict").value(hasItem(DEFAULT_PROJECT_DISTRICT.toString())))
             .andExpect(jsonPath("$.[*].projectProvince").value(hasItem(DEFAULT_PROJECT_PROVINCE.toString())))
-            .andExpect(jsonPath("$.[*].projectResidentialArea").value(hasItem(DEFAULT_PROJECT_RESIDENTIAL_AREA.toString())))
+            .andExpect(jsonPath("$.[*].residentialAreaId").value(hasItem(DEFAULT_RESIDENTIAL_AREA_ID.intValue())))
             .andExpect(jsonPath("$.[*].projectRoad").value(hasItem(DEFAULT_PROJECT_ROAD.toString())))
             .andExpect(jsonPath("$.[*].projectWard").value(hasItem(DEFAULT_PROJECT_WARD.toString())))
             .andExpect(jsonPath("$.[*].projectStatus").value(hasItem(DEFAULT_PROJECT_STATUS.toString())))
-            .andExpect(jsonPath("$.[*].projectType").value(hasItem(DEFAULT_PROJECT_TYPE.toString())))
             .andExpect(jsonPath("$.[*].projectNoBlocks").value(hasItem(DEFAULT_PROJECT_NO_BLOCKS)))
             .andExpect(jsonPath("$.[*].projectNoFloors").value(hasItem(DEFAULT_PROJECT_NO_FLOORS)))
             .andExpect(jsonPath("$.[*].projectNoApartments").value(hasItem(DEFAULT_PROJECT_NO_APARTMENTS)))
@@ -523,11 +467,9 @@ public class ProjectResourceIntTest {
             .andExpect(jsonPath("$.[*].projectDescription").value(hasItem(DEFAULT_PROJECT_DESCRIPTION.toString())))
             .andExpect(jsonPath("$.[*].projectMinSellPrice").value(hasItem(DEFAULT_PROJECT_MIN_SELL_PRICE.doubleValue())))
             .andExpect(jsonPath("$.[*].projectMaxSellPrice").value(hasItem(DEFAULT_PROJECT_MAX_SELL_PRICE.doubleValue())))
-            .andExpect(jsonPath("$.[*].projectSellAreaUnit").value(hasItem(DEFAULT_PROJECT_SELL_AREA_UNIT.toString())))
             .andExpect(jsonPath("$.[*].projectSellPriceUnit").value(hasItem(DEFAULT_PROJECT_SELL_PRICE_UNIT.toString())))
             .andExpect(jsonPath("$.[*].projectMinRentPrice").value(hasItem(DEFAULT_PROJECT_MIN_RENT_PRICE.doubleValue())))
             .andExpect(jsonPath("$.[*].projectMaxRentPrice").value(hasItem(DEFAULT_PROJECT_MAX_RENT_PRICE.doubleValue())))
-            .andExpect(jsonPath("$.[*].projectRentAreaUnit").value(hasItem(DEFAULT_PROJECT_RENT_AREA_UNIT.toString())))
             .andExpect(jsonPath("$.[*].projectRentPriceUnit").value(hasItem(DEFAULT_PROJECT_RENT_PRICE_UNIT.toString())))
             .andExpect(jsonPath("$.[*].projectStartedDate").value(hasItem(DEFAULT_PROJECT_STARTED_DATE.toString())))
             .andExpect(jsonPath("$.[*].projectFinishingDate").value(hasItem(DEFAULT_PROJECT_FINISHING_DATE.toString())))
@@ -596,17 +538,13 @@ public class ProjectResourceIntTest {
             .andExpect(jsonPath("$.id").value(project.getId().intValue()))
             .andExpect(jsonPath("$.projectName").value(DEFAULT_PROJECT_NAME.toString()))
             .andExpect(jsonPath("$.projectAlias").value(DEFAULT_PROJECT_ALIAS.toString()))
-            .andExpect(jsonPath("$.projectAvatarContentType").value(DEFAULT_PROJECT_AVATAR_CONTENT_TYPE))
-            .andExpect(jsonPath("$.projectAvatar").value(Base64Utils.encodeToString(DEFAULT_PROJECT_AVATAR)))
-            .andExpect(jsonPath("$.projectAvatarId").value(DEFAULT_PROJECT_AVATAR_ID))
             .andExpect(jsonPath("$.projectAvatarUrl").value(DEFAULT_PROJECT_AVATAR_URL.toString()))
             .andExpect(jsonPath("$.projectDistrict").value(DEFAULT_PROJECT_DISTRICT.toString()))
             .andExpect(jsonPath("$.projectProvince").value(DEFAULT_PROJECT_PROVINCE.toString()))
-            .andExpect(jsonPath("$.projectResidentialArea").value(DEFAULT_PROJECT_RESIDENTIAL_AREA.toString()))
+            .andExpect(jsonPath("$.residentialAreaId").value(DEFAULT_RESIDENTIAL_AREA_ID.intValue()))
             .andExpect(jsonPath("$.projectRoad").value(DEFAULT_PROJECT_ROAD.toString()))
             .andExpect(jsonPath("$.projectWard").value(DEFAULT_PROJECT_WARD.toString()))
             .andExpect(jsonPath("$.projectStatus").value(DEFAULT_PROJECT_STATUS.toString()))
-            .andExpect(jsonPath("$.projectType").value(DEFAULT_PROJECT_TYPE.toString()))
             .andExpect(jsonPath("$.projectNoBlocks").value(DEFAULT_PROJECT_NO_BLOCKS))
             .andExpect(jsonPath("$.projectNoFloors").value(DEFAULT_PROJECT_NO_FLOORS))
             .andExpect(jsonPath("$.projectNoApartments").value(DEFAULT_PROJECT_NO_APARTMENTS))
@@ -614,11 +552,9 @@ public class ProjectResourceIntTest {
             .andExpect(jsonPath("$.projectDescription").value(DEFAULT_PROJECT_DESCRIPTION.toString()))
             .andExpect(jsonPath("$.projectMinSellPrice").value(DEFAULT_PROJECT_MIN_SELL_PRICE.doubleValue()))
             .andExpect(jsonPath("$.projectMaxSellPrice").value(DEFAULT_PROJECT_MAX_SELL_PRICE.doubleValue()))
-            .andExpect(jsonPath("$.projectSellAreaUnit").value(DEFAULT_PROJECT_SELL_AREA_UNIT.toString()))
             .andExpect(jsonPath("$.projectSellPriceUnit").value(DEFAULT_PROJECT_SELL_PRICE_UNIT.toString()))
             .andExpect(jsonPath("$.projectMinRentPrice").value(DEFAULT_PROJECT_MIN_RENT_PRICE.doubleValue()))
             .andExpect(jsonPath("$.projectMaxRentPrice").value(DEFAULT_PROJECT_MAX_RENT_PRICE.doubleValue()))
-            .andExpect(jsonPath("$.projectRentAreaUnit").value(DEFAULT_PROJECT_RENT_AREA_UNIT.toString()))
             .andExpect(jsonPath("$.projectRentPriceUnit").value(DEFAULT_PROJECT_RENT_PRICE_UNIT.toString()))
             .andExpect(jsonPath("$.projectStartedDate").value(DEFAULT_PROJECT_STARTED_DATE.toString()))
             .andExpect(jsonPath("$.projectFinishingDate").value(DEFAULT_PROJECT_FINISHING_DATE.toString()))
@@ -720,72 +656,6 @@ public class ProjectResourceIntTest {
         // Get all the projectList where projectAlias is null
         defaultProjectShouldNotBeFound("projectAlias.specified=false");
     }
-
-    @Test
-    @Transactional
-    public void getAllProjectsByProjectAvatarIdIsEqualToSomething() throws Exception {
-        // Initialize the database
-        projectRepository.saveAndFlush(project);
-
-        // Get all the projectList where projectAvatarId equals to DEFAULT_PROJECT_AVATAR_ID
-        defaultProjectShouldBeFound("projectAvatarId.equals=" + DEFAULT_PROJECT_AVATAR_ID);
-
-        // Get all the projectList where projectAvatarId equals to UPDATED_PROJECT_AVATAR_ID
-        defaultProjectShouldNotBeFound("projectAvatarId.equals=" + UPDATED_PROJECT_AVATAR_ID);
-    }
-
-    @Test
-    @Transactional
-    public void getAllProjectsByProjectAvatarIdIsInShouldWork() throws Exception {
-        // Initialize the database
-        projectRepository.saveAndFlush(project);
-
-        // Get all the projectList where projectAvatarId in DEFAULT_PROJECT_AVATAR_ID or UPDATED_PROJECT_AVATAR_ID
-        defaultProjectShouldBeFound("projectAvatarId.in=" + DEFAULT_PROJECT_AVATAR_ID + "," + UPDATED_PROJECT_AVATAR_ID);
-
-        // Get all the projectList where projectAvatarId equals to UPDATED_PROJECT_AVATAR_ID
-        defaultProjectShouldNotBeFound("projectAvatarId.in=" + UPDATED_PROJECT_AVATAR_ID);
-    }
-
-    @Test
-    @Transactional
-    public void getAllProjectsByProjectAvatarIdIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        projectRepository.saveAndFlush(project);
-
-        // Get all the projectList where projectAvatarId is not null
-        defaultProjectShouldBeFound("projectAvatarId.specified=true");
-
-        // Get all the projectList where projectAvatarId is null
-        defaultProjectShouldNotBeFound("projectAvatarId.specified=false");
-    }
-
-    @Test
-    @Transactional
-    public void getAllProjectsByProjectAvatarIdIsGreaterThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        projectRepository.saveAndFlush(project);
-
-        // Get all the projectList where projectAvatarId greater than or equals to DEFAULT_PROJECT_AVATAR_ID
-        defaultProjectShouldBeFound("projectAvatarId.greaterOrEqualThan=" + DEFAULT_PROJECT_AVATAR_ID);
-
-        // Get all the projectList where projectAvatarId greater than or equals to UPDATED_PROJECT_AVATAR_ID
-        defaultProjectShouldNotBeFound("projectAvatarId.greaterOrEqualThan=" + UPDATED_PROJECT_AVATAR_ID);
-    }
-
-    @Test
-    @Transactional
-    public void getAllProjectsByProjectAvatarIdIsLessThanSomething() throws Exception {
-        // Initialize the database
-        projectRepository.saveAndFlush(project);
-
-        // Get all the projectList where projectAvatarId less than or equals to DEFAULT_PROJECT_AVATAR_ID
-        defaultProjectShouldNotBeFound("projectAvatarId.lessThan=" + DEFAULT_PROJECT_AVATAR_ID);
-
-        // Get all the projectList where projectAvatarId less than or equals to UPDATED_PROJECT_AVATAR_ID
-        defaultProjectShouldBeFound("projectAvatarId.lessThan=" + UPDATED_PROJECT_AVATAR_ID);
-    }
-
 
     @Test
     @Transactional
@@ -906,42 +776,69 @@ public class ProjectResourceIntTest {
 
     @Test
     @Transactional
-    public void getAllProjectsByProjectResidentialAreaIsEqualToSomething() throws Exception {
+    public void getAllProjectsByResidentialAreaIdIsEqualToSomething() throws Exception {
         // Initialize the database
         projectRepository.saveAndFlush(project);
 
-        // Get all the projectList where projectResidentialArea equals to DEFAULT_PROJECT_RESIDENTIAL_AREA
-        defaultProjectShouldBeFound("projectResidentialArea.equals=" + DEFAULT_PROJECT_RESIDENTIAL_AREA);
+        // Get all the projectList where residentialAreaId equals to DEFAULT_RESIDENTIAL_AREA_ID
+        defaultProjectShouldBeFound("residentialAreaId.equals=" + DEFAULT_RESIDENTIAL_AREA_ID);
 
-        // Get all the projectList where projectResidentialArea equals to UPDATED_PROJECT_RESIDENTIAL_AREA
-        defaultProjectShouldNotBeFound("projectResidentialArea.equals=" + UPDATED_PROJECT_RESIDENTIAL_AREA);
+        // Get all the projectList where residentialAreaId equals to UPDATED_RESIDENTIAL_AREA_ID
+        defaultProjectShouldNotBeFound("residentialAreaId.equals=" + UPDATED_RESIDENTIAL_AREA_ID);
     }
 
     @Test
     @Transactional
-    public void getAllProjectsByProjectResidentialAreaIsInShouldWork() throws Exception {
+    public void getAllProjectsByResidentialAreaIdIsInShouldWork() throws Exception {
         // Initialize the database
         projectRepository.saveAndFlush(project);
 
-        // Get all the projectList where projectResidentialArea in DEFAULT_PROJECT_RESIDENTIAL_AREA or UPDATED_PROJECT_RESIDENTIAL_AREA
-        defaultProjectShouldBeFound("projectResidentialArea.in=" + DEFAULT_PROJECT_RESIDENTIAL_AREA + "," + UPDATED_PROJECT_RESIDENTIAL_AREA);
+        // Get all the projectList where residentialAreaId in DEFAULT_RESIDENTIAL_AREA_ID or UPDATED_RESIDENTIAL_AREA_ID
+        defaultProjectShouldBeFound("residentialAreaId.in=" + DEFAULT_RESIDENTIAL_AREA_ID + "," + UPDATED_RESIDENTIAL_AREA_ID);
 
-        // Get all the projectList where projectResidentialArea equals to UPDATED_PROJECT_RESIDENTIAL_AREA
-        defaultProjectShouldNotBeFound("projectResidentialArea.in=" + UPDATED_PROJECT_RESIDENTIAL_AREA);
+        // Get all the projectList where residentialAreaId equals to UPDATED_RESIDENTIAL_AREA_ID
+        defaultProjectShouldNotBeFound("residentialAreaId.in=" + UPDATED_RESIDENTIAL_AREA_ID);
     }
 
     @Test
     @Transactional
-    public void getAllProjectsByProjectResidentialAreaIsNullOrNotNull() throws Exception {
+    public void getAllProjectsByResidentialAreaIdIsNullOrNotNull() throws Exception {
         // Initialize the database
         projectRepository.saveAndFlush(project);
 
-        // Get all the projectList where projectResidentialArea is not null
-        defaultProjectShouldBeFound("projectResidentialArea.specified=true");
+        // Get all the projectList where residentialAreaId is not null
+        defaultProjectShouldBeFound("residentialAreaId.specified=true");
 
-        // Get all the projectList where projectResidentialArea is null
-        defaultProjectShouldNotBeFound("projectResidentialArea.specified=false");
+        // Get all the projectList where residentialAreaId is null
+        defaultProjectShouldNotBeFound("residentialAreaId.specified=false");
     }
+
+    @Test
+    @Transactional
+    public void getAllProjectsByResidentialAreaIdIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        projectRepository.saveAndFlush(project);
+
+        // Get all the projectList where residentialAreaId greater than or equals to DEFAULT_RESIDENTIAL_AREA_ID
+        defaultProjectShouldBeFound("residentialAreaId.greaterOrEqualThan=" + DEFAULT_RESIDENTIAL_AREA_ID);
+
+        // Get all the projectList where residentialAreaId greater than or equals to UPDATED_RESIDENTIAL_AREA_ID
+        defaultProjectShouldNotBeFound("residentialAreaId.greaterOrEqualThan=" + UPDATED_RESIDENTIAL_AREA_ID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllProjectsByResidentialAreaIdIsLessThanSomething() throws Exception {
+        // Initialize the database
+        projectRepository.saveAndFlush(project);
+
+        // Get all the projectList where residentialAreaId less than or equals to DEFAULT_RESIDENTIAL_AREA_ID
+        defaultProjectShouldNotBeFound("residentialAreaId.lessThan=" + DEFAULT_RESIDENTIAL_AREA_ID);
+
+        // Get all the projectList where residentialAreaId less than or equals to UPDATED_RESIDENTIAL_AREA_ID
+        defaultProjectShouldBeFound("residentialAreaId.lessThan=" + UPDATED_RESIDENTIAL_AREA_ID);
+    }
+
 
     @Test
     @Transactional
@@ -1058,45 +955,6 @@ public class ProjectResourceIntTest {
 
         // Get all the projectList where projectStatus is null
         defaultProjectShouldNotBeFound("projectStatus.specified=false");
-    }
-
-    @Test
-    @Transactional
-    public void getAllProjectsByProjectTypeIsEqualToSomething() throws Exception {
-        // Initialize the database
-        projectRepository.saveAndFlush(project);
-
-        // Get all the projectList where projectType equals to DEFAULT_PROJECT_TYPE
-        defaultProjectShouldBeFound("projectType.equals=" + DEFAULT_PROJECT_TYPE);
-
-        // Get all the projectList where projectType equals to UPDATED_PROJECT_TYPE
-        defaultProjectShouldNotBeFound("projectType.equals=" + UPDATED_PROJECT_TYPE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllProjectsByProjectTypeIsInShouldWork() throws Exception {
-        // Initialize the database
-        projectRepository.saveAndFlush(project);
-
-        // Get all the projectList where projectType in DEFAULT_PROJECT_TYPE or UPDATED_PROJECT_TYPE
-        defaultProjectShouldBeFound("projectType.in=" + DEFAULT_PROJECT_TYPE + "," + UPDATED_PROJECT_TYPE);
-
-        // Get all the projectList where projectType equals to UPDATED_PROJECT_TYPE
-        defaultProjectShouldNotBeFound("projectType.in=" + UPDATED_PROJECT_TYPE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllProjectsByProjectTypeIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        projectRepository.saveAndFlush(project);
-
-        // Get all the projectList where projectType is not null
-        defaultProjectShouldBeFound("projectType.specified=true");
-
-        // Get all the projectList where projectType is null
-        defaultProjectShouldNotBeFound("projectType.specified=false");
     }
 
     @Test
@@ -1443,45 +1301,6 @@ public class ProjectResourceIntTest {
 
     @Test
     @Transactional
-    public void getAllProjectsByProjectSellAreaUnitIsEqualToSomething() throws Exception {
-        // Initialize the database
-        projectRepository.saveAndFlush(project);
-
-        // Get all the projectList where projectSellAreaUnit equals to DEFAULT_PROJECT_SELL_AREA_UNIT
-        defaultProjectShouldBeFound("projectSellAreaUnit.equals=" + DEFAULT_PROJECT_SELL_AREA_UNIT);
-
-        // Get all the projectList where projectSellAreaUnit equals to UPDATED_PROJECT_SELL_AREA_UNIT
-        defaultProjectShouldNotBeFound("projectSellAreaUnit.equals=" + UPDATED_PROJECT_SELL_AREA_UNIT);
-    }
-
-    @Test
-    @Transactional
-    public void getAllProjectsByProjectSellAreaUnitIsInShouldWork() throws Exception {
-        // Initialize the database
-        projectRepository.saveAndFlush(project);
-
-        // Get all the projectList where projectSellAreaUnit in DEFAULT_PROJECT_SELL_AREA_UNIT or UPDATED_PROJECT_SELL_AREA_UNIT
-        defaultProjectShouldBeFound("projectSellAreaUnit.in=" + DEFAULT_PROJECT_SELL_AREA_UNIT + "," + UPDATED_PROJECT_SELL_AREA_UNIT);
-
-        // Get all the projectList where projectSellAreaUnit equals to UPDATED_PROJECT_SELL_AREA_UNIT
-        defaultProjectShouldNotBeFound("projectSellAreaUnit.in=" + UPDATED_PROJECT_SELL_AREA_UNIT);
-    }
-
-    @Test
-    @Transactional
-    public void getAllProjectsByProjectSellAreaUnitIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        projectRepository.saveAndFlush(project);
-
-        // Get all the projectList where projectSellAreaUnit is not null
-        defaultProjectShouldBeFound("projectSellAreaUnit.specified=true");
-
-        // Get all the projectList where projectSellAreaUnit is null
-        defaultProjectShouldNotBeFound("projectSellAreaUnit.specified=false");
-    }
-
-    @Test
-    @Transactional
     public void getAllProjectsByProjectSellPriceUnitIsEqualToSomething() throws Exception {
         // Initialize the database
         projectRepository.saveAndFlush(project);
@@ -1599,45 +1418,6 @@ public class ProjectResourceIntTest {
 
     @Test
     @Transactional
-    public void getAllProjectsByProjectRentAreaUnitIsEqualToSomething() throws Exception {
-        // Initialize the database
-        projectRepository.saveAndFlush(project);
-
-        // Get all the projectList where projectRentAreaUnit equals to DEFAULT_PROJECT_RENT_AREA_UNIT
-        defaultProjectShouldBeFound("projectRentAreaUnit.equals=" + DEFAULT_PROJECT_RENT_AREA_UNIT);
-
-        // Get all the projectList where projectRentAreaUnit equals to UPDATED_PROJECT_RENT_AREA_UNIT
-        defaultProjectShouldNotBeFound("projectRentAreaUnit.equals=" + UPDATED_PROJECT_RENT_AREA_UNIT);
-    }
-
-    @Test
-    @Transactional
-    public void getAllProjectsByProjectRentAreaUnitIsInShouldWork() throws Exception {
-        // Initialize the database
-        projectRepository.saveAndFlush(project);
-
-        // Get all the projectList where projectRentAreaUnit in DEFAULT_PROJECT_RENT_AREA_UNIT or UPDATED_PROJECT_RENT_AREA_UNIT
-        defaultProjectShouldBeFound("projectRentAreaUnit.in=" + DEFAULT_PROJECT_RENT_AREA_UNIT + "," + UPDATED_PROJECT_RENT_AREA_UNIT);
-
-        // Get all the projectList where projectRentAreaUnit equals to UPDATED_PROJECT_RENT_AREA_UNIT
-        defaultProjectShouldNotBeFound("projectRentAreaUnit.in=" + UPDATED_PROJECT_RENT_AREA_UNIT);
-    }
-
-    @Test
-    @Transactional
-    public void getAllProjectsByProjectRentAreaUnitIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        projectRepository.saveAndFlush(project);
-
-        // Get all the projectList where projectRentAreaUnit is not null
-        defaultProjectShouldBeFound("projectRentAreaUnit.specified=true");
-
-        // Get all the projectList where projectRentAreaUnit is null
-        defaultProjectShouldNotBeFound("projectRentAreaUnit.specified=false");
-    }
-
-    @Test
-    @Transactional
     public void getAllProjectsByProjectRentPriceUnitIsEqualToSomething() throws Exception {
         // Initialize the database
         projectRepository.saveAndFlush(project);
@@ -1716,6 +1496,33 @@ public class ProjectResourceIntTest {
 
     @Test
     @Transactional
+    public void getAllProjectsByProjectStartedDateIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        projectRepository.saveAndFlush(project);
+
+        // Get all the projectList where projectStartedDate greater than or equals to DEFAULT_PROJECT_STARTED_DATE
+        defaultProjectShouldBeFound("projectStartedDate.greaterOrEqualThan=" + DEFAULT_PROJECT_STARTED_DATE);
+
+        // Get all the projectList where projectStartedDate greater than or equals to UPDATED_PROJECT_STARTED_DATE
+        defaultProjectShouldNotBeFound("projectStartedDate.greaterOrEqualThan=" + UPDATED_PROJECT_STARTED_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllProjectsByProjectStartedDateIsLessThanSomething() throws Exception {
+        // Initialize the database
+        projectRepository.saveAndFlush(project);
+
+        // Get all the projectList where projectStartedDate less than or equals to DEFAULT_PROJECT_STARTED_DATE
+        defaultProjectShouldNotBeFound("projectStartedDate.lessThan=" + DEFAULT_PROJECT_STARTED_DATE);
+
+        // Get all the projectList where projectStartedDate less than or equals to UPDATED_PROJECT_STARTED_DATE
+        defaultProjectShouldBeFound("projectStartedDate.lessThan=" + UPDATED_PROJECT_STARTED_DATE);
+    }
+
+
+    @Test
+    @Transactional
     public void getAllProjectsByProjectFinishingDateIsEqualToSomething() throws Exception {
         // Initialize the database
         projectRepository.saveAndFlush(project);
@@ -1752,6 +1559,33 @@ public class ProjectResourceIntTest {
         // Get all the projectList where projectFinishingDate is null
         defaultProjectShouldNotBeFound("projectFinishingDate.specified=false");
     }
+
+    @Test
+    @Transactional
+    public void getAllProjectsByProjectFinishingDateIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        projectRepository.saveAndFlush(project);
+
+        // Get all the projectList where projectFinishingDate greater than or equals to DEFAULT_PROJECT_FINISHING_DATE
+        defaultProjectShouldBeFound("projectFinishingDate.greaterOrEqualThan=" + DEFAULT_PROJECT_FINISHING_DATE);
+
+        // Get all the projectList where projectFinishingDate greater than or equals to UPDATED_PROJECT_FINISHING_DATE
+        defaultProjectShouldNotBeFound("projectFinishingDate.greaterOrEqualThan=" + UPDATED_PROJECT_FINISHING_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllProjectsByProjectFinishingDateIsLessThanSomething() throws Exception {
+        // Initialize the database
+        projectRepository.saveAndFlush(project);
+
+        // Get all the projectList where projectFinishingDate less than or equals to DEFAULT_PROJECT_FINISHING_DATE
+        defaultProjectShouldNotBeFound("projectFinishingDate.lessThan=" + DEFAULT_PROJECT_FINISHING_DATE);
+
+        // Get all the projectList where projectFinishingDate less than or equals to UPDATED_PROJECT_FINISHING_DATE
+        defaultProjectShouldBeFound("projectFinishingDate.lessThan=" + UPDATED_PROJECT_FINISHING_DATE);
+    }
+
 
     @Test
     @Transactional
@@ -1933,8 +1767,8 @@ public class ProjectResourceIntTest {
         // Get all the projectList where projectGreenSpace greater than or equals to DEFAULT_PROJECT_GREEN_SPACE
         defaultProjectShouldBeFound("projectGreenSpace.greaterOrEqualThan=" + DEFAULT_PROJECT_GREEN_SPACE);
 
-        // Get all the projectList where projectGreenSpace greater than or equals to UPDATED_PROJECT_GREEN_SPACE
-        defaultProjectShouldNotBeFound("projectGreenSpace.greaterOrEqualThan=" + UPDATED_PROJECT_GREEN_SPACE);
+        // Get all the projectList where projectGreenSpace greater than or equals to (DEFAULT_PROJECT_GREEN_SPACE + 1)
+        defaultProjectShouldNotBeFound("projectGreenSpace.greaterOrEqualThan=" + (DEFAULT_PROJECT_GREEN_SPACE + 1));
     }
 
     @Test
@@ -1946,8 +1780,8 @@ public class ProjectResourceIntTest {
         // Get all the projectList where projectGreenSpace less than or equals to DEFAULT_PROJECT_GREEN_SPACE
         defaultProjectShouldNotBeFound("projectGreenSpace.lessThan=" + DEFAULT_PROJECT_GREEN_SPACE);
 
-        // Get all the projectList where projectGreenSpace less than or equals to UPDATED_PROJECT_GREEN_SPACE
-        defaultProjectShouldBeFound("projectGreenSpace.lessThan=" + UPDATED_PROJECT_GREEN_SPACE);
+        // Get all the projectList where projectGreenSpace less than or equals to (DEFAULT_PROJECT_GREEN_SPACE + 1)
+        defaultProjectShouldBeFound("projectGreenSpace.lessThan=" + (DEFAULT_PROJECT_GREEN_SPACE + 1));
     }
 
 
@@ -1999,8 +1833,8 @@ public class ProjectResourceIntTest {
         // Get all the projectList where projectBuildingDensity greater than or equals to DEFAULT_PROJECT_BUILDING_DENSITY
         defaultProjectShouldBeFound("projectBuildingDensity.greaterOrEqualThan=" + DEFAULT_PROJECT_BUILDING_DENSITY);
 
-        // Get all the projectList where projectBuildingDensity greater than or equals to UPDATED_PROJECT_BUILDING_DENSITY
-        defaultProjectShouldNotBeFound("projectBuildingDensity.greaterOrEqualThan=" + UPDATED_PROJECT_BUILDING_DENSITY);
+        // Get all the projectList where projectBuildingDensity greater than or equals to (DEFAULT_PROJECT_BUILDING_DENSITY + 1)
+        defaultProjectShouldNotBeFound("projectBuildingDensity.greaterOrEqualThan=" + (DEFAULT_PROJECT_BUILDING_DENSITY + 1));
     }
 
     @Test
@@ -2012,8 +1846,8 @@ public class ProjectResourceIntTest {
         // Get all the projectList where projectBuildingDensity less than or equals to DEFAULT_PROJECT_BUILDING_DENSITY
         defaultProjectShouldNotBeFound("projectBuildingDensity.lessThan=" + DEFAULT_PROJECT_BUILDING_DENSITY);
 
-        // Get all the projectList where projectBuildingDensity less than or equals to UPDATED_PROJECT_BUILDING_DENSITY
-        defaultProjectShouldBeFound("projectBuildingDensity.lessThan=" + UPDATED_PROJECT_BUILDING_DENSITY);
+        // Get all the projectList where projectBuildingDensity less than or equals to (DEFAULT_PROJECT_BUILDING_DENSITY + 1)
+        defaultProjectShouldBeFound("projectBuildingDensity.lessThan=" + (DEFAULT_PROJECT_BUILDING_DENSITY + 1));
     }
 
 
@@ -2631,25 +2465,6 @@ public class ProjectResourceIntTest {
 
     @Test
     @Transactional
-    public void getAllProjectsByDocumentIsEqualToSomething() throws Exception {
-        // Initialize the database
-        Document document = DocumentResourceIntTest.createEntity(em);
-        em.persist(document);
-        em.flush();
-        project.setDocument(document);
-        projectRepository.saveAndFlush(project);
-        Long documentId = document.getId();
-
-        // Get all the projectList where document equals to documentId
-        defaultProjectShouldBeFound("documentId.equals=" + documentId);
-
-        // Get all the projectList where document equals to documentId + 1
-        defaultProjectShouldNotBeFound("documentId.equals=" + (documentId + 1));
-    }
-
-
-    @Test
-    @Transactional
     public void getAllProjectsByLocationIsEqualToSomething() throws Exception {
         // Initialize the database
         Location location = LocationResourceIntTest.createEntity(em);
@@ -2669,20 +2484,20 @@ public class ProjectResourceIntTest {
 
     @Test
     @Transactional
-    public void getAllProjectsByPostIsEqualToSomething() throws Exception {
+    public void getAllProjectsByConsultantIsEqualToSomething() throws Exception {
         // Initialize the database
-        BlogPost post = BlogPostResourceIntTest.createEntity(em);
-        em.persist(post);
+        User consultant = UserResourceIntTest.createEntity(em);
+        em.persist(consultant);
         em.flush();
-        project.addPost(post);
+        project.setConsultant(consultant);
         projectRepository.saveAndFlush(project);
-        Long postId = post.getId();
+        Long consultantId = consultant.getId();
 
-        // Get all the projectList where post equals to postId
-        defaultProjectShouldBeFound("postId.equals=" + postId);
+        // Get all the projectList where consultant equals to consultantId
+        defaultProjectShouldBeFound("consultantId.equals=" + consultantId);
 
-        // Get all the projectList where post equals to postId + 1
-        defaultProjectShouldNotBeFound("postId.equals=" + (postId + 1));
+        // Get all the projectList where consultant equals to consultantId + 1
+        defaultProjectShouldNotBeFound("consultantId.equals=" + (consultantId + 1));
     }
 
 
@@ -2726,58 +2541,39 @@ public class ProjectResourceIntTest {
 
     @Test
     @Transactional
-    public void getAllProjectsByInvestorIsEqualToSomething() throws Exception {
+    public void getAllProjectsByInverstorIsEqualToSomething() throws Exception {
         // Initialize the database
-        Investor investor = InvestorResourceIntTest.createEntity(em);
-        em.persist(investor);
+        Investor inverstor = InvestorResourceIntTest.createEntity(em);
+        em.persist(inverstor);
         em.flush();
-        project.addInvestor(investor);
+        project.addInverstor(inverstor);
         projectRepository.saveAndFlush(project);
-        Long investorId = investor.getId();
+        Long inverstorId = inverstor.getId();
 
-        // Get all the projectList where investor equals to investorId
-        defaultProjectShouldBeFound("investorId.equals=" + investorId);
+        // Get all the projectList where inverstor equals to inverstorId
+        defaultProjectShouldBeFound("inverstorId.equals=" + inverstorId);
 
-        // Get all the projectList where investor equals to investorId + 1
-        defaultProjectShouldNotBeFound("investorId.equals=" + (investorId + 1));
+        // Get all the projectList where inverstor equals to inverstorId + 1
+        defaultProjectShouldNotBeFound("inverstorId.equals=" + (inverstorId + 1));
     }
 
 
     @Test
     @Transactional
-    public void getAllProjectsByProjectbuilderIsEqualToSomething() throws Exception {
+    public void getAllProjectsByContractorIsEqualToSomething() throws Exception {
         // Initialize the database
-        ProjectBuilder projectbuilder = ProjectBuilderResourceIntTest.createEntity(em);
-        em.persist(projectbuilder);
+        Contractor contractor = ContractorResourceIntTest.createEntity(em);
+        em.persist(contractor);
         em.flush();
-        project.addProjectbuilder(projectbuilder);
+        project.addContractor(contractor);
         projectRepository.saveAndFlush(project);
-        Long projectbuilderId = projectbuilder.getId();
+        Long contractorId = contractor.getId();
 
-        // Get all the projectList where projectbuilder equals to projectbuilderId
-        defaultProjectShouldBeFound("projectbuilderId.equals=" + projectbuilderId);
+        // Get all the projectList where contractor equals to contractorId
+        defaultProjectShouldBeFound("contractorId.equals=" + contractorId);
 
-        // Get all the projectList where projectbuilder equals to projectbuilderId + 1
-        defaultProjectShouldNotBeFound("projectbuilderId.equals=" + (projectbuilderId + 1));
-    }
-
-
-    @Test
-    @Transactional
-    public void getAllProjectsByPhotoIsEqualToSomething() throws Exception {
-        // Initialize the database
-        Photo photo = PhotoResourceIntTest.createEntity(em);
-        em.persist(photo);
-        em.flush();
-        project.addPhoto(photo);
-        projectRepository.saveAndFlush(project);
-        Long photoId = photo.getId();
-
-        // Get all the projectList where photo equals to photoId
-        defaultProjectShouldBeFound("photoId.equals=" + photoId);
-
-        // Get all the projectList where photo equals to photoId + 1
-        defaultProjectShouldNotBeFound("photoId.equals=" + (photoId + 1));
+        // Get all the projectList where contractor equals to contractorId + 1
+        defaultProjectShouldNotBeFound("contractorId.equals=" + (contractorId + 1));
     }
 
     /**
@@ -2790,17 +2586,13 @@ public class ProjectResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(project.getId().intValue())))
             .andExpect(jsonPath("$.[*].projectName").value(hasItem(DEFAULT_PROJECT_NAME.toString())))
             .andExpect(jsonPath("$.[*].projectAlias").value(hasItem(DEFAULT_PROJECT_ALIAS.toString())))
-            .andExpect(jsonPath("$.[*].projectAvatarContentType").value(hasItem(DEFAULT_PROJECT_AVATAR_CONTENT_TYPE)))
-            .andExpect(jsonPath("$.[*].projectAvatar").value(hasItem(Base64Utils.encodeToString(DEFAULT_PROJECT_AVATAR))))
-            .andExpect(jsonPath("$.[*].projectAvatarId").value(hasItem(DEFAULT_PROJECT_AVATAR_ID)))
             .andExpect(jsonPath("$.[*].projectAvatarUrl").value(hasItem(DEFAULT_PROJECT_AVATAR_URL.toString())))
             .andExpect(jsonPath("$.[*].projectDistrict").value(hasItem(DEFAULT_PROJECT_DISTRICT.toString())))
             .andExpect(jsonPath("$.[*].projectProvince").value(hasItem(DEFAULT_PROJECT_PROVINCE.toString())))
-            .andExpect(jsonPath("$.[*].projectResidentialArea").value(hasItem(DEFAULT_PROJECT_RESIDENTIAL_AREA.toString())))
+            .andExpect(jsonPath("$.[*].residentialAreaId").value(hasItem(DEFAULT_RESIDENTIAL_AREA_ID.intValue())))
             .andExpect(jsonPath("$.[*].projectRoad").value(hasItem(DEFAULT_PROJECT_ROAD.toString())))
             .andExpect(jsonPath("$.[*].projectWard").value(hasItem(DEFAULT_PROJECT_WARD.toString())))
             .andExpect(jsonPath("$.[*].projectStatus").value(hasItem(DEFAULT_PROJECT_STATUS.toString())))
-            .andExpect(jsonPath("$.[*].projectType").value(hasItem(DEFAULT_PROJECT_TYPE.toString())))
             .andExpect(jsonPath("$.[*].projectNoBlocks").value(hasItem(DEFAULT_PROJECT_NO_BLOCKS)))
             .andExpect(jsonPath("$.[*].projectNoFloors").value(hasItem(DEFAULT_PROJECT_NO_FLOORS)))
             .andExpect(jsonPath("$.[*].projectNoApartments").value(hasItem(DEFAULT_PROJECT_NO_APARTMENTS)))
@@ -2808,11 +2600,9 @@ public class ProjectResourceIntTest {
             .andExpect(jsonPath("$.[*].projectDescription").value(hasItem(DEFAULT_PROJECT_DESCRIPTION.toString())))
             .andExpect(jsonPath("$.[*].projectMinSellPrice").value(hasItem(DEFAULT_PROJECT_MIN_SELL_PRICE.doubleValue())))
             .andExpect(jsonPath("$.[*].projectMaxSellPrice").value(hasItem(DEFAULT_PROJECT_MAX_SELL_PRICE.doubleValue())))
-            .andExpect(jsonPath("$.[*].projectSellAreaUnit").value(hasItem(DEFAULT_PROJECT_SELL_AREA_UNIT.toString())))
             .andExpect(jsonPath("$.[*].projectSellPriceUnit").value(hasItem(DEFAULT_PROJECT_SELL_PRICE_UNIT.toString())))
             .andExpect(jsonPath("$.[*].projectMinRentPrice").value(hasItem(DEFAULT_PROJECT_MIN_RENT_PRICE.doubleValue())))
             .andExpect(jsonPath("$.[*].projectMaxRentPrice").value(hasItem(DEFAULT_PROJECT_MAX_RENT_PRICE.doubleValue())))
-            .andExpect(jsonPath("$.[*].projectRentAreaUnit").value(hasItem(DEFAULT_PROJECT_RENT_AREA_UNIT.toString())))
             .andExpect(jsonPath("$.[*].projectRentPriceUnit").value(hasItem(DEFAULT_PROJECT_RENT_PRICE_UNIT.toString())))
             .andExpect(jsonPath("$.[*].projectStartedDate").value(hasItem(DEFAULT_PROJECT_STARTED_DATE.toString())))
             .andExpect(jsonPath("$.[*].projectFinishingDate").value(hasItem(DEFAULT_PROJECT_FINISHING_DATE.toString())))
@@ -2871,17 +2661,13 @@ public class ProjectResourceIntTest {
         updatedProject
             .projectName(UPDATED_PROJECT_NAME)
             .projectAlias(UPDATED_PROJECT_ALIAS)
-            .projectAvatar(UPDATED_PROJECT_AVATAR)
-            .projectAvatarContentType(UPDATED_PROJECT_AVATAR_CONTENT_TYPE)
-            .projectAvatarId(UPDATED_PROJECT_AVATAR_ID)
             .projectAvatarUrl(UPDATED_PROJECT_AVATAR_URL)
             .projectDistrict(UPDATED_PROJECT_DISTRICT)
             .projectProvince(UPDATED_PROJECT_PROVINCE)
-            .projectResidentialArea(UPDATED_PROJECT_RESIDENTIAL_AREA)
+            .residentialAreaId(UPDATED_RESIDENTIAL_AREA_ID)
             .projectRoad(UPDATED_PROJECT_ROAD)
             .projectWard(UPDATED_PROJECT_WARD)
             .projectStatus(UPDATED_PROJECT_STATUS)
-            .projectType(UPDATED_PROJECT_TYPE)
             .projectNoBlocks(UPDATED_PROJECT_NO_BLOCKS)
             .projectNoFloors(UPDATED_PROJECT_NO_FLOORS)
             .projectNoApartments(UPDATED_PROJECT_NO_APARTMENTS)
@@ -2889,11 +2675,9 @@ public class ProjectResourceIntTest {
             .projectDescription(UPDATED_PROJECT_DESCRIPTION)
             .projectMinSellPrice(UPDATED_PROJECT_MIN_SELL_PRICE)
             .projectMaxSellPrice(UPDATED_PROJECT_MAX_SELL_PRICE)
-            .projectSellAreaUnit(UPDATED_PROJECT_SELL_AREA_UNIT)
             .projectSellPriceUnit(UPDATED_PROJECT_SELL_PRICE_UNIT)
             .projectMinRentPrice(UPDATED_PROJECT_MIN_RENT_PRICE)
             .projectMaxRentPrice(UPDATED_PROJECT_MAX_RENT_PRICE)
-            .projectRentAreaUnit(UPDATED_PROJECT_RENT_AREA_UNIT)
             .projectRentPriceUnit(UPDATED_PROJECT_RENT_PRICE_UNIT)
             .projectStartedDate(UPDATED_PROJECT_STARTED_DATE)
             .projectFinishingDate(UPDATED_PROJECT_FINISHING_DATE)
@@ -2929,17 +2713,13 @@ public class ProjectResourceIntTest {
         Project testProject = projectList.get(projectList.size() - 1);
         assertThat(testProject.getProjectName()).isEqualTo(UPDATED_PROJECT_NAME);
         assertThat(testProject.getProjectAlias()).isEqualTo(UPDATED_PROJECT_ALIAS);
-        assertThat(testProject.getProjectAvatar()).isEqualTo(UPDATED_PROJECT_AVATAR);
-        assertThat(testProject.getProjectAvatarContentType()).isEqualTo(UPDATED_PROJECT_AVATAR_CONTENT_TYPE);
-        assertThat(testProject.getProjectAvatarId()).isEqualTo(UPDATED_PROJECT_AVATAR_ID);
         assertThat(testProject.getProjectAvatarUrl()).isEqualTo(UPDATED_PROJECT_AVATAR_URL);
         assertThat(testProject.getProjectDistrict()).isEqualTo(UPDATED_PROJECT_DISTRICT);
         assertThat(testProject.getProjectProvince()).isEqualTo(UPDATED_PROJECT_PROVINCE);
-        assertThat(testProject.getProjectResidentialArea()).isEqualTo(UPDATED_PROJECT_RESIDENTIAL_AREA);
+        assertThat(testProject.getResidentialAreaId()).isEqualTo(UPDATED_RESIDENTIAL_AREA_ID);
         assertThat(testProject.getProjectRoad()).isEqualTo(UPDATED_PROJECT_ROAD);
         assertThat(testProject.getProjectWard()).isEqualTo(UPDATED_PROJECT_WARD);
         assertThat(testProject.getProjectStatus()).isEqualTo(UPDATED_PROJECT_STATUS);
-        assertThat(testProject.getProjectType()).isEqualTo(UPDATED_PROJECT_TYPE);
         assertThat(testProject.getProjectNoBlocks()).isEqualTo(UPDATED_PROJECT_NO_BLOCKS);
         assertThat(testProject.getProjectNoFloors()).isEqualTo(UPDATED_PROJECT_NO_FLOORS);
         assertThat(testProject.getProjectNoApartments()).isEqualTo(UPDATED_PROJECT_NO_APARTMENTS);
@@ -2947,11 +2727,9 @@ public class ProjectResourceIntTest {
         assertThat(testProject.getProjectDescription()).isEqualTo(UPDATED_PROJECT_DESCRIPTION);
         assertThat(testProject.getProjectMinSellPrice()).isEqualTo(UPDATED_PROJECT_MIN_SELL_PRICE);
         assertThat(testProject.getProjectMaxSellPrice()).isEqualTo(UPDATED_PROJECT_MAX_SELL_PRICE);
-        assertThat(testProject.getProjectSellAreaUnit()).isEqualTo(UPDATED_PROJECT_SELL_AREA_UNIT);
         assertThat(testProject.getProjectSellPriceUnit()).isEqualTo(UPDATED_PROJECT_SELL_PRICE_UNIT);
         assertThat(testProject.getProjectMinRentPrice()).isEqualTo(UPDATED_PROJECT_MIN_RENT_PRICE);
         assertThat(testProject.getProjectMaxRentPrice()).isEqualTo(UPDATED_PROJECT_MAX_RENT_PRICE);
-        assertThat(testProject.getProjectRentAreaUnit()).isEqualTo(UPDATED_PROJECT_RENT_AREA_UNIT);
         assertThat(testProject.getProjectRentPriceUnit()).isEqualTo(UPDATED_PROJECT_RENT_PRICE_UNIT);
         assertThat(testProject.getProjectStartedDate()).isEqualTo(UPDATED_PROJECT_STARTED_DATE);
         assertThat(testProject.getProjectFinishingDate()).isEqualTo(UPDATED_PROJECT_FINISHING_DATE);

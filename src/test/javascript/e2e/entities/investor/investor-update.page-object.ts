@@ -11,7 +11,7 @@ export default class InvestorUpdatePage {
   investorAddressInput: ElementFinder = element(by.css('input#investor-investorAddress'));
   investorWebsiteInput: ElementFinder = element(by.css('input#investor-investorWebsite'));
   investorPhoneInput: ElementFinder = element(by.css('input#investor-investorPhone'));
-  investorPhotoInput: ElementFinder = element(by.css('input#file_investorPhoto'));
+  investorAvatarUrlInput: ElementFinder = element(by.css('input#investor-investorAvatarUrl'));
 
   getPageTitle() {
     return this.pageTitle;
@@ -73,12 +73,12 @@ export default class InvestorUpdatePage {
     return this.investorPhoneInput.getAttribute('value');
   }
 
-  setInvestorPhotoInput(investorPhoto) {
-    this.investorPhotoInput.sendKeys(investorPhoto);
+  setInvestorAvatarUrlInput(investorAvatarUrl) {
+    this.investorAvatarUrlInput.sendKeys(investorAvatarUrl);
   }
 
-  getInvestorPhotoInput() {
-    return this.investorPhotoInput.getAttribute('value');
+  getInvestorAvatarUrlInput() {
+    return this.investorAvatarUrlInput.getAttribute('value');
   }
 
   save() {

@@ -11,11 +11,10 @@ export default class LocationUpdatePage {
   locationWardInput: ElementFinder = element(by.css('input#location-locationWard'));
   locationDistrictInput: ElementFinder = element(by.css('input#location-locationDistrict'));
   locationProvinceInput: ElementFinder = element(by.css('input#location-locationProvince'));
-  locationCountryInput: ElementFinder = element(by.css('input#location-locationCountry'));
   locationGmapUrlInput: ElementFinder = element(by.css('input#location-locationGmapUrl'));
   longitudeInput: ElementFinder = element(by.css('input#location-longitude'));
   latitudeInput: ElementFinder = element(by.css('input#location-latitude'));
-  locationHideInput: ElementFinder = element(by.css('input#location-locationHide'));
+  locationZipCodeInput: ElementFinder = element(by.css('input#location-locationZipCode'));
 
   getPageTitle() {
     return this.pageTitle;
@@ -77,14 +76,6 @@ export default class LocationUpdatePage {
     return this.locationProvinceInput.getAttribute('value');
   }
 
-  setLocationCountryInput(locationCountry) {
-    this.locationCountryInput.sendKeys(locationCountry);
-  }
-
-  getLocationCountryInput() {
-    return this.locationCountryInput.getAttribute('value');
-  }
-
   setLocationGmapUrlInput(locationGmapUrl) {
     this.locationGmapUrlInput.sendKeys(locationGmapUrl);
   }
@@ -109,9 +100,14 @@ export default class LocationUpdatePage {
     return this.latitudeInput.getAttribute('value');
   }
 
-  getLocationHideInput() {
-    return this.locationHideInput;
+  setLocationZipCodeInput(locationZipCode) {
+    this.locationZipCodeInput.sendKeys(locationZipCode);
   }
+
+  getLocationZipCodeInput() {
+    return this.locationZipCodeInput.getAttribute('value');
+  }
+
   save() {
     return this.saveButton.click();
   }

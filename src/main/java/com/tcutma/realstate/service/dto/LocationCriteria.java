@@ -42,15 +42,13 @@ public class LocationCriteria implements Serializable {
 
     private StringFilter locationProvince;
 
-    private StringFilter locationCountry;
-
     private StringFilter locationGmapUrl;
 
     private DoubleFilter longitude;
 
     private DoubleFilter latitude;
 
-    private BooleanFilter locationHide;
+    private StringFilter locationZipCode;
 
     public LocationCriteria() {
     }
@@ -119,14 +117,6 @@ public class LocationCriteria implements Serializable {
         this.locationProvince = locationProvince;
     }
 
-    public StringFilter getLocationCountry() {
-        return locationCountry;
-    }
-
-    public void setLocationCountry(StringFilter locationCountry) {
-        this.locationCountry = locationCountry;
-    }
-
     public StringFilter getLocationGmapUrl() {
         return locationGmapUrl;
     }
@@ -151,12 +141,12 @@ public class LocationCriteria implements Serializable {
         this.latitude = latitude;
     }
 
-    public BooleanFilter getLocationHide() {
-        return locationHide;
+    public StringFilter getLocationZipCode() {
+        return locationZipCode;
     }
 
-    public void setLocationHide(BooleanFilter locationHide) {
-        this.locationHide = locationHide;
+    public void setLocationZipCode(StringFilter locationZipCode) {
+        this.locationZipCode = locationZipCode;
     }
 
     @Override
@@ -170,11 +160,10 @@ public class LocationCriteria implements Serializable {
                 (locationWard != null ? "locationWard=" + locationWard + ", " : "") +
                 (locationDistrict != null ? "locationDistrict=" + locationDistrict + ", " : "") +
                 (locationProvince != null ? "locationProvince=" + locationProvince + ", " : "") +
-                (locationCountry != null ? "locationCountry=" + locationCountry + ", " : "") +
                 (locationGmapUrl != null ? "locationGmapUrl=" + locationGmapUrl + ", " : "") +
                 (longitude != null ? "longitude=" + longitude + ", " : "") +
                 (latitude != null ? "latitude=" + latitude + ", " : "") +
-                (locationHide != null ? "locationHide=" + locationHide + ", " : "") +
+                (locationZipCode != null ? "locationZipCode=" + locationZipCode + ", " : "") +
             "}";
     }
 

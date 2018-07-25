@@ -22,7 +22,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Base64Utils;
 
 import javax.persistence.EntityManager;
 import java.time.Instant;
@@ -36,7 +35,7 @@ import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import com.tcutma.realstate.domain.enumeration.DocumentType;
+import com.tcutma.realstate.domain.enumeration.ResourceType;
 /**
  * Test class for the DocumentResource REST controller.
  *
@@ -55,16 +54,17 @@ public class DocumentResourceIntTest {
     private static final Instant DEFAULT_DOCUMENT_DATE = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_DOCUMENT_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
-    private static final String DEFAULT_DOCUMENT_CONTENT = "AAAAAAAAAA";
-    private static final String UPDATED_DOCUMENT_CONTENT = "BBBBBBBBBB";
+    private static final String DEFAULT_DOCUMENT_MIME_TYPE = "AAAAAAAAAA";
+    private static final String UPDATED_DOCUMENT_MIME_TYPE = "BBBBBBBBBB";
 
-    private static final byte[] DEFAULT_DOCUMENT_PHOTO = TestUtil.createByteArray(1, "0");
-    private static final byte[] UPDATED_DOCUMENT_PHOTO = TestUtil.createByteArray(2, "1");
-    private static final String DEFAULT_DOCUMENT_PHOTO_CONTENT_TYPE = "image/jpg";
-    private static final String UPDATED_DOCUMENT_PHOTO_CONTENT_TYPE = "image/png";
+    private static final String DEFAULT_DOCUMENT_SIZE = "AAAAAAAAAA";
+    private static final String UPDATED_DOCUMENT_SIZE = "BBBBBBBBBB";
 
-    private static final DocumentType DEFAULT_DOCUMENT_TYPE = DocumentType.PROJECT;
-    private static final DocumentType UPDATED_DOCUMENT_TYPE = DocumentType.PROPERTY;
+    private static final ResourceType DEFAULT_RESOURCE_TYPE = ResourceType.PROJECT;
+    private static final ResourceType UPDATED_RESOURCE_TYPE = ResourceType.PROPERTY;
+
+    private static final Long DEFAULT_RESOURCE_ID = 1L;
+    private static final Long UPDATED_RESOURCE_ID = 2L;
 
     @Autowired
     private DocumentRepository documentRepository;
@@ -115,10 +115,10 @@ public class DocumentResourceIntTest {
             .documentName(DEFAULT_DOCUMENT_NAME)
             .documentUrl(DEFAULT_DOCUMENT_URL)
             .documentDate(DEFAULT_DOCUMENT_DATE)
-            .documentContent(DEFAULT_DOCUMENT_CONTENT)
-            .documentPhoto(DEFAULT_DOCUMENT_PHOTO)
-            .documentPhotoContentType(DEFAULT_DOCUMENT_PHOTO_CONTENT_TYPE)
-            .documentType(DEFAULT_DOCUMENT_TYPE);
+            .documentMimeType(DEFAULT_DOCUMENT_MIME_TYPE)
+            .documentSize(DEFAULT_DOCUMENT_SIZE)
+            .resourceType(DEFAULT_RESOURCE_TYPE)
+            .resourceId(DEFAULT_RESOURCE_ID);
         return document;
     }
 
@@ -146,10 +146,10 @@ public class DocumentResourceIntTest {
         assertThat(testDocument.getDocumentName()).isEqualTo(DEFAULT_DOCUMENT_NAME);
         assertThat(testDocument.getDocumentUrl()).isEqualTo(DEFAULT_DOCUMENT_URL);
         assertThat(testDocument.getDocumentDate()).isEqualTo(DEFAULT_DOCUMENT_DATE);
-        assertThat(testDocument.getDocumentContent()).isEqualTo(DEFAULT_DOCUMENT_CONTENT);
-        assertThat(testDocument.getDocumentPhoto()).isEqualTo(DEFAULT_DOCUMENT_PHOTO);
-        assertThat(testDocument.getDocumentPhotoContentType()).isEqualTo(DEFAULT_DOCUMENT_PHOTO_CONTENT_TYPE);
-        assertThat(testDocument.getDocumentType()).isEqualTo(DEFAULT_DOCUMENT_TYPE);
+        assertThat(testDocument.getDocumentMimeType()).isEqualTo(DEFAULT_DOCUMENT_MIME_TYPE);
+        assertThat(testDocument.getDocumentSize()).isEqualTo(DEFAULT_DOCUMENT_SIZE);
+        assertThat(testDocument.getResourceType()).isEqualTo(DEFAULT_RESOURCE_TYPE);
+        assertThat(testDocument.getResourceId()).isEqualTo(DEFAULT_RESOURCE_ID);
     }
 
     @Test
@@ -193,6 +193,25 @@ public class DocumentResourceIntTest {
 
     @Test
     @Transactional
+    public void checkDocumentUrlIsRequired() throws Exception {
+        int databaseSizeBeforeTest = documentRepository.findAll().size();
+        // set the field null
+        document.setDocumentUrl(null);
+
+        // Create the Document, which fails.
+        DocumentDTO documentDTO = documentMapper.toDto(document);
+
+        restDocumentMockMvc.perform(post("/api/documents")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(documentDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<Document> documentList = documentRepository.findAll();
+        assertThat(documentList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllDocuments() throws Exception {
         // Initialize the database
         documentRepository.saveAndFlush(document);
@@ -205,10 +224,10 @@ public class DocumentResourceIntTest {
             .andExpect(jsonPath("$.[*].documentName").value(hasItem(DEFAULT_DOCUMENT_NAME.toString())))
             .andExpect(jsonPath("$.[*].documentUrl").value(hasItem(DEFAULT_DOCUMENT_URL.toString())))
             .andExpect(jsonPath("$.[*].documentDate").value(hasItem(DEFAULT_DOCUMENT_DATE.toString())))
-            .andExpect(jsonPath("$.[*].documentContent").value(hasItem(DEFAULT_DOCUMENT_CONTENT.toString())))
-            .andExpect(jsonPath("$.[*].documentPhotoContentType").value(hasItem(DEFAULT_DOCUMENT_PHOTO_CONTENT_TYPE)))
-            .andExpect(jsonPath("$.[*].documentPhoto").value(hasItem(Base64Utils.encodeToString(DEFAULT_DOCUMENT_PHOTO))))
-            .andExpect(jsonPath("$.[*].documentType").value(hasItem(DEFAULT_DOCUMENT_TYPE.toString())));
+            .andExpect(jsonPath("$.[*].documentMimeType").value(hasItem(DEFAULT_DOCUMENT_MIME_TYPE.toString())))
+            .andExpect(jsonPath("$.[*].documentSize").value(hasItem(DEFAULT_DOCUMENT_SIZE.toString())))
+            .andExpect(jsonPath("$.[*].resourceType").value(hasItem(DEFAULT_RESOURCE_TYPE.toString())))
+            .andExpect(jsonPath("$.[*].resourceId").value(hasItem(DEFAULT_RESOURCE_ID.intValue())));
     }
     
 
@@ -226,10 +245,10 @@ public class DocumentResourceIntTest {
             .andExpect(jsonPath("$.documentName").value(DEFAULT_DOCUMENT_NAME.toString()))
             .andExpect(jsonPath("$.documentUrl").value(DEFAULT_DOCUMENT_URL.toString()))
             .andExpect(jsonPath("$.documentDate").value(DEFAULT_DOCUMENT_DATE.toString()))
-            .andExpect(jsonPath("$.documentContent").value(DEFAULT_DOCUMENT_CONTENT.toString()))
-            .andExpect(jsonPath("$.documentPhotoContentType").value(DEFAULT_DOCUMENT_PHOTO_CONTENT_TYPE))
-            .andExpect(jsonPath("$.documentPhoto").value(Base64Utils.encodeToString(DEFAULT_DOCUMENT_PHOTO)))
-            .andExpect(jsonPath("$.documentType").value(DEFAULT_DOCUMENT_TYPE.toString()));
+            .andExpect(jsonPath("$.documentMimeType").value(DEFAULT_DOCUMENT_MIME_TYPE.toString()))
+            .andExpect(jsonPath("$.documentSize").value(DEFAULT_DOCUMENT_SIZE.toString()))
+            .andExpect(jsonPath("$.resourceType").value(DEFAULT_RESOURCE_TYPE.toString()))
+            .andExpect(jsonPath("$.resourceId").value(DEFAULT_RESOURCE_ID.intValue()));
     }
     @Test
     @Transactional
@@ -255,10 +274,10 @@ public class DocumentResourceIntTest {
             .documentName(UPDATED_DOCUMENT_NAME)
             .documentUrl(UPDATED_DOCUMENT_URL)
             .documentDate(UPDATED_DOCUMENT_DATE)
-            .documentContent(UPDATED_DOCUMENT_CONTENT)
-            .documentPhoto(UPDATED_DOCUMENT_PHOTO)
-            .documentPhotoContentType(UPDATED_DOCUMENT_PHOTO_CONTENT_TYPE)
-            .documentType(UPDATED_DOCUMENT_TYPE);
+            .documentMimeType(UPDATED_DOCUMENT_MIME_TYPE)
+            .documentSize(UPDATED_DOCUMENT_SIZE)
+            .resourceType(UPDATED_RESOURCE_TYPE)
+            .resourceId(UPDATED_RESOURCE_ID);
         DocumentDTO documentDTO = documentMapper.toDto(updatedDocument);
 
         restDocumentMockMvc.perform(put("/api/documents")
@@ -273,10 +292,10 @@ public class DocumentResourceIntTest {
         assertThat(testDocument.getDocumentName()).isEqualTo(UPDATED_DOCUMENT_NAME);
         assertThat(testDocument.getDocumentUrl()).isEqualTo(UPDATED_DOCUMENT_URL);
         assertThat(testDocument.getDocumentDate()).isEqualTo(UPDATED_DOCUMENT_DATE);
-        assertThat(testDocument.getDocumentContent()).isEqualTo(UPDATED_DOCUMENT_CONTENT);
-        assertThat(testDocument.getDocumentPhoto()).isEqualTo(UPDATED_DOCUMENT_PHOTO);
-        assertThat(testDocument.getDocumentPhotoContentType()).isEqualTo(UPDATED_DOCUMENT_PHOTO_CONTENT_TYPE);
-        assertThat(testDocument.getDocumentType()).isEqualTo(UPDATED_DOCUMENT_TYPE);
+        assertThat(testDocument.getDocumentMimeType()).isEqualTo(UPDATED_DOCUMENT_MIME_TYPE);
+        assertThat(testDocument.getDocumentSize()).isEqualTo(UPDATED_DOCUMENT_SIZE);
+        assertThat(testDocument.getResourceType()).isEqualTo(UPDATED_RESOURCE_TYPE);
+        assertThat(testDocument.getResourceId()).isEqualTo(UPDATED_RESOURCE_ID);
     }
 
     @Test

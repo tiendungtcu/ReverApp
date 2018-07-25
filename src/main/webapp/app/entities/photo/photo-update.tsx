@@ -4,15 +4,11 @@ import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Row, Col, Label } from 'reactstrap';
 import { AvForm, AvGroup, AvInput, AvField } from 'availity-reactstrap-validation';
 // tslint:disable-next-line:no-unused-variable
-import { Translate, translate, ICrudGetAction, ICrudGetAllAction, setFileData, openFile, byteSize, ICrudPutAction } from 'react-jhipster';
+import { Translate, translate, ICrudGetAction, ICrudGetAllAction, ICrudPutAction } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IRootState } from 'app/shared/reducers';
 
-import { IProperty } from 'app/shared/model/property.model';
-import { getEntities as getProperties } from 'app/entities/property/property.reducer';
-import { IProject } from 'app/shared/model/project.model';
-import { getEntities as getProjects } from 'app/entities/project/project.reducer';
-import { getEntity, updateEntity, createEntity, setBlob, reset } from './photo.reducer';
+import { getEntity, updateEntity, createEntity, reset } from './photo.reducer';
 import { IPhoto } from 'app/shared/model/photo.model';
 // tslint:disable-next-line:no-unused-variable
 import { convertDateTimeFromServer } from 'app/shared/util/date-utils';
@@ -22,16 +18,12 @@ export interface IPhotoUpdateProps extends StateProps, DispatchProps, RouteCompo
 
 export interface IPhotoUpdateState {
   isNew: boolean;
-  propertyId: number;
-  projectId: number;
 }
 
 export class PhotoUpdate extends React.Component<IPhotoUpdateProps, IPhotoUpdateState> {
   constructor(props) {
     super(props);
     this.state = {
-      propertyId: 0,
-      projectId: 0,
       isNew: !this.props.match.params || !this.props.match.params.id
     };
   }
@@ -42,20 +34,11 @@ export class PhotoUpdate extends React.Component<IPhotoUpdateProps, IPhotoUpdate
     } else {
       this.props.getEntity(this.props.match.params.id);
     }
-
-    this.props.getProperties();
-    this.props.getProjects();
   }
 
-  onBlobChange = (isAnImage, name) => event => {
-    setFileData(event, (contentType, data) => this.props.setBlob(name, data, contentType), isAnImage);
-  };
-
-  clearBlob = name => () => {
-    this.props.setBlob(name, undefined, undefined);
-  };
-
   saveEntity = (event, errors, values) => {
+    values.photoDate = new Date(values.photoDate);
+
     if (errors.length === 0) {
       const { photoEntity } = this.props;
       const entity = {
@@ -78,10 +61,8 @@ export class PhotoUpdate extends React.Component<IPhotoUpdateProps, IPhotoUpdate
 
   render() {
     const isInvalid = false;
-    const { photoEntity, properties, projects, loading, updating } = this.props;
+    const { photoEntity, loading, updating } = this.props;
     const { isNew } = this.state;
-
-    const { photoImage, photoImageContentType } = photoEntity;
 
     return (
       <div>
@@ -115,50 +96,69 @@ export class PhotoUpdate extends React.Component<IPhotoUpdateProps, IPhotoUpdate
                     type="text"
                     name="photoName"
                     validate={{
-                      required: { value: true, errorMessage: translate('entity.validation.required') }
+                      required: { value: true, errorMessage: translate('entity.validation.required') },
+                      maxLength: { value: 256, errorMessage: translate('entity.validation.maxlength', { max: 256 }) }
                     }}
                   />
                 </AvGroup>
                 <AvGroup>
-                  <AvGroup>
-                    <Label id="photoImageLabel" for="photoImage">
-                      <Translate contentKey="riverApp.photo.photoImage">Photo Image</Translate>
-                    </Label>
-                    <br />
-                    {photoImage ? (
-                      <div>
-                        <a onClick={openFile(photoImageContentType, photoImage)}>
-                          <img src={`data:${photoImageContentType};base64,${photoImage}`} style={{ maxHeight: '100px' }} />
-                        </a>
-                        <br />
-                        <Row>
-                          <Col md="11">
-                            <span>
-                              {photoImageContentType}, {byteSize(photoImage)}
-                            </span>
-                          </Col>
-                          <Col md="1">
-                            <Button color="danger" onClick={this.clearBlob('photoImage')}>
-                              <FontAwesomeIcon icon="times-circle" />
-                            </Button>
-                          </Col>
-                        </Row>
-                      </div>
-                    ) : null}
-                    <input id="file_photoImage" type="file" onChange={this.onBlobChange(true, 'photoImage')} accept="image/*" />
-                  </AvGroup>
-                </AvGroup>
-                <AvGroup>
-                  <Label id="photoExtensionLabel" for="photoExtension">
-                    <Translate contentKey="riverApp.photo.photoExtension">Photo Extension</Translate>
+                  <Label id="photoDateLabel" for="photoDate">
+                    <Translate contentKey="riverApp.photo.photoDate">Photo Date</Translate>
                   </Label>
-                  <AvField id="photo-photoExtension" type="text" name="photoExtension" />
+                  <AvInput
+                    id="photo-photoDate"
+                    type="datetime-local"
+                    className="form-control"
+                    name="photoDate"
+                    value={isNew ? null : convertDateTimeFromServer(this.props.photoEntity.photoDate)}
+                  />
                 </AvGroup>
                 <AvGroup>
                   <Label id="photoUrlLabel" for="photoUrl">
                     <Translate contentKey="riverApp.photo.photoUrl">Photo Url</Translate>
                   </Label>
                   <AvField id="photo-photoUrl" type="text" name="photoUrl" />
+                </AvGroup>
+                <AvGroup>
+                  <Label id="photoMimeTypeLabel" for="photoMimeType">
+                    <Translate contentKey="riverApp.photo.photoMimeType">Photo Mime Type</Translate>
+                  </Label>
+                  <AvField id="photo-photoMimeType" type="text" name="photoMimeType" />
+                </AvGroup>
+                <AvGroup>
+                  <Label id="resourceIdLabel" for="resourceId">
+                    <Translate contentKey="riverApp.photo.resourceId">Resource Id</Translate>
+                  </Label>
+                  <AvField id="photo-resourceId" type="number" className="form-control" name="resourceId" />
+                </AvGroup>
+                <AvGroup>
+                  <Label id="resourceTypeLabel">
+                    <Translate contentKey="riverApp.photo.resourceType">Resource Type</Translate>
+                  </Label>
+                  <AvInput
+                    id="photo-resourceType"
+                    type="select"
+                    className="form-control"
+                    name="resourceType"
+                    value={(!isNew && photoEntity.resourceType) || 'PROJECT'}
+                  >
+                    <option value="PROJECT">PROJECT</option>
+                    <option value="PROPERTY">PROPERTY</option>
+                    <option value="EMPLOYEE">EMPLOYEE</option>
+                    <option value="RESIDENTIAL_AREA">RESIDENTIAL_AREA</option>
+                  </AvInput>
+                </AvGroup>
+                <AvGroup>
+                  <Label id="photoSizeLabel" for="photoSize">
+                    <Translate contentKey="riverApp.photo.photoSize">Photo Size</Translate>
+                  </Label>
+                  <AvField id="photo-photoSize" type="number" className="form-control" name="photoSize" />
+                </AvGroup>
+                <AvGroup>
+                  <Label id="photoAltTextLabel" for="photoAltText">
+                    <Translate contentKey="riverApp.photo.photoAltText">Photo Alt Text</Translate>
+                  </Label>
+                  <AvField id="photo-photoAltText" type="text" name="photoAltText" />
                 </AvGroup>
                 <AvGroup>
                   <Label id="photoThumbnailUrlLabel" for="photoThumbnailUrl">
@@ -187,19 +187,14 @@ export class PhotoUpdate extends React.Component<IPhotoUpdateProps, IPhotoUpdate
 }
 
 const mapStateToProps = (storeState: IRootState) => ({
-  properties: storeState.property.entities,
-  projects: storeState.project.entities,
   photoEntity: storeState.photo.entity,
   loading: storeState.photo.loading,
   updating: storeState.photo.updating
 });
 
 const mapDispatchToProps = {
-  getProperties,
-  getProjects,
   getEntity,
   updateEntity,
-  setBlob,
   createEntity,
   reset
 };

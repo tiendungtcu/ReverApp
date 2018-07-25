@@ -12,6 +12,7 @@ public class TagDTO implements Serializable {
     private Long id;
 
     @NotNull
+    @Size(max = 128)
     private String tagName;
 
     public Long getId() {

@@ -43,6 +43,9 @@ export class SupportCategory extends React.Component<ISupportCategoryProps> {
                 <th>
                   <Translate contentKey="riverApp.supportCategory.categoryDescription">Category Description</Translate>
                 </th>
+                <th>
+                  <Translate contentKey="riverApp.supportCategory.categorySupportType">Category Support Type</Translate>
+                </th>
                 <th />
               </tr>
             </thead>
@@ -56,6 +59,7 @@ export class SupportCategory extends React.Component<ISupportCategoryProps> {
                   </td>
                   <td>{supportCategory.categoryName}</td>
                   <td>{supportCategory.categoryDescription}</td>
+                  <td>{supportCategory.categorySupportType}</td>
                   <td className="text-right">
                     <div className="btn-group flex-btn-group-container">
                       <Button tag={Link} to={`${match.url}/${supportCategory.id}`} color="info" size="sm">

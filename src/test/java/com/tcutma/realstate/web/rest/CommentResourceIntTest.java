@@ -22,7 +22,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Base64Utils;
 
 import javax.persistence.EntityManager;
 import java.time.Instant;
@@ -45,17 +44,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = RiverApp.class)
 public class CommentResourceIntTest {
 
-    private static final String DEFAULT_COMMENT_TITLE = "AAAAAAAAAA";
-    private static final String UPDATED_COMMENT_TITLE = "BBBBBBBBBB";
-
     private static final String DEFAULT_COMMENT_CONTENT = "AAAAAAAAAA";
     private static final String UPDATED_COMMENT_CONTENT = "BBBBBBBBBB";
 
-    private static final Instant DEFAULT_COMMENT_CREATED_DATE = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_COMMENT_CREATED_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
-
-    private static final Instant DEFAULT_COMMENT_UPDATE_DATE = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_COMMENT_UPDATE_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    private static final Instant DEFAULT_COMMENT_TIME_STAMP = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_COMMENT_TIME_STAMP = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
     @Autowired
     private CommentRepository commentRepository;
@@ -103,10 +96,8 @@ public class CommentResourceIntTest {
      */
     public static Comment createEntity(EntityManager em) {
         Comment comment = new Comment()
-            .commentTitle(DEFAULT_COMMENT_TITLE)
             .commentContent(DEFAULT_COMMENT_CONTENT)
-            .commentCreatedDate(DEFAULT_COMMENT_CREATED_DATE)
-            .commentUpdateDate(DEFAULT_COMMENT_UPDATE_DATE);
+            .commentTimeStamp(DEFAULT_COMMENT_TIME_STAMP);
         return comment;
     }
 
@@ -131,10 +122,8 @@ public class CommentResourceIntTest {
         List<Comment> commentList = commentRepository.findAll();
         assertThat(commentList).hasSize(databaseSizeBeforeCreate + 1);
         Comment testComment = commentList.get(commentList.size() - 1);
-        assertThat(testComment.getCommentTitle()).isEqualTo(DEFAULT_COMMENT_TITLE);
         assertThat(testComment.getCommentContent()).isEqualTo(DEFAULT_COMMENT_CONTENT);
-        assertThat(testComment.getCommentCreatedDate()).isEqualTo(DEFAULT_COMMENT_CREATED_DATE);
-        assertThat(testComment.getCommentUpdateDate()).isEqualTo(DEFAULT_COMMENT_UPDATE_DATE);
+        assertThat(testComment.getCommentTimeStamp()).isEqualTo(DEFAULT_COMMENT_TIME_STAMP);
     }
 
     @Test
@@ -159,25 +148,6 @@ public class CommentResourceIntTest {
 
     @Test
     @Transactional
-    public void checkCommentTitleIsRequired() throws Exception {
-        int databaseSizeBeforeTest = commentRepository.findAll().size();
-        // set the field null
-        comment.setCommentTitle(null);
-
-        // Create the Comment, which fails.
-        CommentDTO commentDTO = commentMapper.toDto(comment);
-
-        restCommentMockMvc.perform(post("/api/comments")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(commentDTO)))
-            .andExpect(status().isBadRequest());
-
-        List<Comment> commentList = commentRepository.findAll();
-        assertThat(commentList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
     public void getAllComments() throws Exception {
         // Initialize the database
         commentRepository.saveAndFlush(comment);
@@ -187,10 +157,8 @@ public class CommentResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(comment.getId().intValue())))
-            .andExpect(jsonPath("$.[*].commentTitle").value(hasItem(DEFAULT_COMMENT_TITLE.toString())))
             .andExpect(jsonPath("$.[*].commentContent").value(hasItem(DEFAULT_COMMENT_CONTENT.toString())))
-            .andExpect(jsonPath("$.[*].commentCreatedDate").value(hasItem(DEFAULT_COMMENT_CREATED_DATE.toString())))
-            .andExpect(jsonPath("$.[*].commentUpdateDate").value(hasItem(DEFAULT_COMMENT_UPDATE_DATE.toString())));
+            .andExpect(jsonPath("$.[*].commentTimeStamp").value(hasItem(DEFAULT_COMMENT_TIME_STAMP.toString())));
     }
     
 
@@ -205,10 +173,8 @@ public class CommentResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(comment.getId().intValue()))
-            .andExpect(jsonPath("$.commentTitle").value(DEFAULT_COMMENT_TITLE.toString()))
             .andExpect(jsonPath("$.commentContent").value(DEFAULT_COMMENT_CONTENT.toString()))
-            .andExpect(jsonPath("$.commentCreatedDate").value(DEFAULT_COMMENT_CREATED_DATE.toString()))
-            .andExpect(jsonPath("$.commentUpdateDate").value(DEFAULT_COMMENT_UPDATE_DATE.toString()));
+            .andExpect(jsonPath("$.commentTimeStamp").value(DEFAULT_COMMENT_TIME_STAMP.toString()));
     }
     @Test
     @Transactional
@@ -231,10 +197,8 @@ public class CommentResourceIntTest {
         // Disconnect from session so that the updates on updatedComment are not directly saved in db
         em.detach(updatedComment);
         updatedComment
-            .commentTitle(UPDATED_COMMENT_TITLE)
             .commentContent(UPDATED_COMMENT_CONTENT)
-            .commentCreatedDate(UPDATED_COMMENT_CREATED_DATE)
-            .commentUpdateDate(UPDATED_COMMENT_UPDATE_DATE);
+            .commentTimeStamp(UPDATED_COMMENT_TIME_STAMP);
         CommentDTO commentDTO = commentMapper.toDto(updatedComment);
 
         restCommentMockMvc.perform(put("/api/comments")
@@ -246,10 +210,8 @@ public class CommentResourceIntTest {
         List<Comment> commentList = commentRepository.findAll();
         assertThat(commentList).hasSize(databaseSizeBeforeUpdate);
         Comment testComment = commentList.get(commentList.size() - 1);
-        assertThat(testComment.getCommentTitle()).isEqualTo(UPDATED_COMMENT_TITLE);
         assertThat(testComment.getCommentContent()).isEqualTo(UPDATED_COMMENT_CONTENT);
-        assertThat(testComment.getCommentCreatedDate()).isEqualTo(UPDATED_COMMENT_CREATED_DATE);
-        assertThat(testComment.getCommentUpdateDate()).isEqualTo(UPDATED_COMMENT_UPDATE_DATE);
+        assertThat(testComment.getCommentTimeStamp()).isEqualTo(UPDATED_COMMENT_TIME_STAMP);
     }
 
     @Test

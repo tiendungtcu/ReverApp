@@ -4,6 +4,7 @@ import configureStore from 'redux-mock-store';
 import promiseMiddleware from 'redux-promise-middleware';
 import thunk from 'redux-thunk';
 import sinon from 'sinon';
+import { parseHeaderForLinks } from 'react-jhipster';
 
 import reducer, {
   ACTION_TYPES,
@@ -11,7 +12,8 @@ import reducer, {
   deleteEntity,
   getEntities,
   getEntity,
-  updateEntity
+  updateEntity,
+  reset
 } from 'app/entities/article/article.reducer';
 import { REQUEST, SUCCESS, FAILURE } from 'app/shared/reducers/action-type.util';
 import { IArticle, defaultValue } from 'app/shared/model/article.model';
@@ -31,6 +33,10 @@ describe('Entities reducer tests', () => {
     errorMessage: null,
     entities: [] as ReadonlyArray<IArticle>,
     entity: defaultValue,
+    links: {
+      last: 0
+    },
+    totalItems: 0,
     updating: false,
     updateSuccess: false
   };
@@ -108,7 +114,8 @@ describe('Entities reducer tests', () => {
 
   describe('Successes', () => {
     it('should fetch all entities', () => {
-      const payload = { data: { 1: 'fake1', 2: 'fake2' } };
+      const payload = { data: { 1: 'fake1', 2: 'fake2' }, headers: { 'x-total-count': 123, link: ';' } };
+      const link = parseHeaderForLinks(payload.headers.link);
       expect(
         reducer(undefined, {
           type: SUCCESS(ACTION_TYPES.FETCH_ARTICLE_LIST),
@@ -116,8 +123,10 @@ describe('Entities reducer tests', () => {
         })
       ).toEqual({
         ...initialState,
+        links: { last: link.last },
         loading: false,
-        entities: payload.data
+        totalItems: payload.headers['x-total-count'],
+        entities: [payload.data]
       });
     });
 

@@ -4,6 +4,7 @@ import com.tcutma.realstate.RiverApp;
 
 import com.tcutma.realstate.domain.Contact;
 import com.tcutma.realstate.repository.ContactRepository;
+import com.tcutma.realstate.service.ContactService;
 import com.tcutma.realstate.service.dto.ContactDTO;
 import com.tcutma.realstate.service.mapper.ContactMapper;
 import com.tcutma.realstate.web.rest.errors.ExceptionTranslator;
@@ -21,7 +22,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Base64Utils;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -51,16 +51,11 @@ public class ContactResourceIntTest {
     private static final String DEFAULT_CONTACT_ADDRESS = "AAAAAAAAAA";
     private static final String UPDATED_CONTACT_ADDRESS = "BBBBBBBBBB";
 
-    private static final String DEFAULT_CONTACT_EMAIL = "AAAAAAAAAA";
-    private static final String UPDATED_CONTACT_EMAIL = "BBBBBBBBBB";
-
     private static final String DEFAULT_CONTACT_WEBSITE = "AAAAAAAAAA";
     private static final String UPDATED_CONTACT_WEBSITE = "BBBBBBBBBB";
 
-    private static final byte[] DEFAULT_CONTACT_PHOTO = TestUtil.createByteArray(1, "0");
-    private static final byte[] UPDATED_CONTACT_PHOTO = TestUtil.createByteArray(2, "1");
-    private static final String DEFAULT_CONTACT_PHOTO_CONTENT_TYPE = "image/jpg";
-    private static final String UPDATED_CONTACT_PHOTO_CONTENT_TYPE = "image/png";
+    private static final String DEFAULT_CONTACT_AVATAR_URL = "AAAAAAAAAA";
+    private static final String UPDATED_CONTACT_AVATAR_URL = "BBBBBBBBBB";
 
     private static final String DEFAULT_CONTACT_FACEBOOK = "AAAAAAAAAA";
     private static final String UPDATED_CONTACT_FACEBOOK = "BBBBBBBBBB";
@@ -89,6 +84,10 @@ public class ContactResourceIntTest {
 
     @Autowired
     private ContactMapper contactMapper;
+    
+
+    @Autowired
+    private ContactService contactService;
 
     @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
@@ -109,7 +108,7 @@ public class ContactResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final ContactResource contactResource = new ContactResource(contactRepository, contactMapper);
+        final ContactResource contactResource = new ContactResource(contactService);
         this.restContactMockMvc = MockMvcBuilders.standaloneSetup(contactResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -128,10 +127,8 @@ public class ContactResourceIntTest {
             .contactName(DEFAULT_CONTACT_NAME)
             .contactPhone(DEFAULT_CONTACT_PHONE)
             .contactAddress(DEFAULT_CONTACT_ADDRESS)
-            .contactEmail(DEFAULT_CONTACT_EMAIL)
             .contactWebsite(DEFAULT_CONTACT_WEBSITE)
-            .contactPhoto(DEFAULT_CONTACT_PHOTO)
-            .contactPhotoContentType(DEFAULT_CONTACT_PHOTO_CONTENT_TYPE)
+            .contactAvatarUrl(DEFAULT_CONTACT_AVATAR_URL)
             .contactFacebook(DEFAULT_CONTACT_FACEBOOK)
             .contactTwitter(DEFAULT_CONTACT_TWITTER)
             .contactInstagram(DEFAULT_CONTACT_INSTAGRAM)
@@ -166,10 +163,8 @@ public class ContactResourceIntTest {
         assertThat(testContact.getContactName()).isEqualTo(DEFAULT_CONTACT_NAME);
         assertThat(testContact.getContactPhone()).isEqualTo(DEFAULT_CONTACT_PHONE);
         assertThat(testContact.getContactAddress()).isEqualTo(DEFAULT_CONTACT_ADDRESS);
-        assertThat(testContact.getContactEmail()).isEqualTo(DEFAULT_CONTACT_EMAIL);
         assertThat(testContact.getContactWebsite()).isEqualTo(DEFAULT_CONTACT_WEBSITE);
-        assertThat(testContact.getContactPhoto()).isEqualTo(DEFAULT_CONTACT_PHOTO);
-        assertThat(testContact.getContactPhotoContentType()).isEqualTo(DEFAULT_CONTACT_PHOTO_CONTENT_TYPE);
+        assertThat(testContact.getContactAvatarUrl()).isEqualTo(DEFAULT_CONTACT_AVATAR_URL);
         assertThat(testContact.getContactFacebook()).isEqualTo(DEFAULT_CONTACT_FACEBOOK);
         assertThat(testContact.getContactTwitter()).isEqualTo(DEFAULT_CONTACT_TWITTER);
         assertThat(testContact.getContactInstagram()).isEqualTo(DEFAULT_CONTACT_INSTAGRAM);
@@ -239,25 +234,6 @@ public class ContactResourceIntTest {
 
     @Test
     @Transactional
-    public void checkContactEmailIsRequired() throws Exception {
-        int databaseSizeBeforeTest = contactRepository.findAll().size();
-        // set the field null
-        contact.setContactEmail(null);
-
-        // Create the Contact, which fails.
-        ContactDTO contactDTO = contactMapper.toDto(contact);
-
-        restContactMockMvc.perform(post("/api/contacts")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(contactDTO)))
-            .andExpect(status().isBadRequest());
-
-        List<Contact> contactList = contactRepository.findAll();
-        assertThat(contactList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
     public void getAllContacts() throws Exception {
         // Initialize the database
         contactRepository.saveAndFlush(contact);
@@ -270,10 +246,8 @@ public class ContactResourceIntTest {
             .andExpect(jsonPath("$.[*].contactName").value(hasItem(DEFAULT_CONTACT_NAME.toString())))
             .andExpect(jsonPath("$.[*].contactPhone").value(hasItem(DEFAULT_CONTACT_PHONE.toString())))
             .andExpect(jsonPath("$.[*].contactAddress").value(hasItem(DEFAULT_CONTACT_ADDRESS.toString())))
-            .andExpect(jsonPath("$.[*].contactEmail").value(hasItem(DEFAULT_CONTACT_EMAIL.toString())))
             .andExpect(jsonPath("$.[*].contactWebsite").value(hasItem(DEFAULT_CONTACT_WEBSITE.toString())))
-            .andExpect(jsonPath("$.[*].contactPhotoContentType").value(hasItem(DEFAULT_CONTACT_PHOTO_CONTENT_TYPE)))
-            .andExpect(jsonPath("$.[*].contactPhoto").value(hasItem(Base64Utils.encodeToString(DEFAULT_CONTACT_PHOTO))))
+            .andExpect(jsonPath("$.[*].contactAvatarUrl").value(hasItem(DEFAULT_CONTACT_AVATAR_URL.toString())))
             .andExpect(jsonPath("$.[*].contactFacebook").value(hasItem(DEFAULT_CONTACT_FACEBOOK.toString())))
             .andExpect(jsonPath("$.[*].contactTwitter").value(hasItem(DEFAULT_CONTACT_TWITTER.toString())))
             .andExpect(jsonPath("$.[*].contactInstagram").value(hasItem(DEFAULT_CONTACT_INSTAGRAM.toString())))
@@ -298,10 +272,8 @@ public class ContactResourceIntTest {
             .andExpect(jsonPath("$.contactName").value(DEFAULT_CONTACT_NAME.toString()))
             .andExpect(jsonPath("$.contactPhone").value(DEFAULT_CONTACT_PHONE.toString()))
             .andExpect(jsonPath("$.contactAddress").value(DEFAULT_CONTACT_ADDRESS.toString()))
-            .andExpect(jsonPath("$.contactEmail").value(DEFAULT_CONTACT_EMAIL.toString()))
             .andExpect(jsonPath("$.contactWebsite").value(DEFAULT_CONTACT_WEBSITE.toString()))
-            .andExpect(jsonPath("$.contactPhotoContentType").value(DEFAULT_CONTACT_PHOTO_CONTENT_TYPE))
-            .andExpect(jsonPath("$.contactPhoto").value(Base64Utils.encodeToString(DEFAULT_CONTACT_PHOTO)))
+            .andExpect(jsonPath("$.contactAvatarUrl").value(DEFAULT_CONTACT_AVATAR_URL.toString()))
             .andExpect(jsonPath("$.contactFacebook").value(DEFAULT_CONTACT_FACEBOOK.toString()))
             .andExpect(jsonPath("$.contactTwitter").value(DEFAULT_CONTACT_TWITTER.toString()))
             .andExpect(jsonPath("$.contactInstagram").value(DEFAULT_CONTACT_INSTAGRAM.toString()))
@@ -334,10 +306,8 @@ public class ContactResourceIntTest {
             .contactName(UPDATED_CONTACT_NAME)
             .contactPhone(UPDATED_CONTACT_PHONE)
             .contactAddress(UPDATED_CONTACT_ADDRESS)
-            .contactEmail(UPDATED_CONTACT_EMAIL)
             .contactWebsite(UPDATED_CONTACT_WEBSITE)
-            .contactPhoto(UPDATED_CONTACT_PHOTO)
-            .contactPhotoContentType(UPDATED_CONTACT_PHOTO_CONTENT_TYPE)
+            .contactAvatarUrl(UPDATED_CONTACT_AVATAR_URL)
             .contactFacebook(UPDATED_CONTACT_FACEBOOK)
             .contactTwitter(UPDATED_CONTACT_TWITTER)
             .contactInstagram(UPDATED_CONTACT_INSTAGRAM)
@@ -359,10 +329,8 @@ public class ContactResourceIntTest {
         assertThat(testContact.getContactName()).isEqualTo(UPDATED_CONTACT_NAME);
         assertThat(testContact.getContactPhone()).isEqualTo(UPDATED_CONTACT_PHONE);
         assertThat(testContact.getContactAddress()).isEqualTo(UPDATED_CONTACT_ADDRESS);
-        assertThat(testContact.getContactEmail()).isEqualTo(UPDATED_CONTACT_EMAIL);
         assertThat(testContact.getContactWebsite()).isEqualTo(UPDATED_CONTACT_WEBSITE);
-        assertThat(testContact.getContactPhoto()).isEqualTo(UPDATED_CONTACT_PHOTO);
-        assertThat(testContact.getContactPhotoContentType()).isEqualTo(UPDATED_CONTACT_PHOTO_CONTENT_TYPE);
+        assertThat(testContact.getContactAvatarUrl()).isEqualTo(UPDATED_CONTACT_AVATAR_URL);
         assertThat(testContact.getContactFacebook()).isEqualTo(UPDATED_CONTACT_FACEBOOK);
         assertThat(testContact.getContactTwitter()).isEqualTo(UPDATED_CONTACT_TWITTER);
         assertThat(testContact.getContactInstagram()).isEqualTo(UPDATED_CONTACT_INSTAGRAM);

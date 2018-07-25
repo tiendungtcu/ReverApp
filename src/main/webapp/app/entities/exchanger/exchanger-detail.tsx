@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Row, Col } from 'reactstrap';
 // tslint:disable-next-line:no-unused-variable
-import { Translate, ICrudGetAction, openFile, byteSize } from 'react-jhipster';
+import { Translate, ICrudGetAction } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IRootState } from 'app/shared/reducers';
@@ -47,25 +47,11 @@ export class ExchangerDetail extends React.Component<IExchangerDetailProps> {
             </dt>
             <dd>{exchangerEntity.exchangerPhone}</dd>
             <dt>
-              <span id="exchangerPhoto">
-                <Translate contentKey="riverApp.exchanger.exchangerPhoto">Exchanger Photo</Translate>
+              <span id="exchangerAvatarUrl">
+                <Translate contentKey="riverApp.exchanger.exchangerAvatarUrl">Exchanger Avatar Url</Translate>
               </span>
             </dt>
-            <dd>
-              {exchangerEntity.exchangerPhoto ? (
-                <div>
-                  <a onClick={openFile(exchangerEntity.exchangerPhotoContentType, exchangerEntity.exchangerPhoto)}>
-                    <img
-                      src={`data:${exchangerEntity.exchangerPhotoContentType};base64,${exchangerEntity.exchangerPhoto}`}
-                      style={{ maxHeight: '30px' }}
-                    />
-                  </a>
-                  <span>
-                    {exchangerEntity.exchangerPhotoContentType}, {byteSize(exchangerEntity.exchangerPhoto)}
-                  </span>
-                </div>
-              ) : null}
-            </dd>
+            <dd>{exchangerEntity.exchangerAvatarUrl}</dd>
           </dl>
           <Button tag={Link} to="/entity/exchanger" replace color="info">
             <FontAwesomeIcon icon="arrow-left" />{' '}

@@ -8,13 +8,13 @@ import com.tcutma.realstate.service.mapper.TagMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 /**
  * Service Implementation for managing Tag.
  */
@@ -50,15 +50,15 @@ public class TagServiceImpl implements TagService {
     /**
      * Get all the tags.
      *
-     * @param pageable the pagination information
      * @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
-    public Page<TagDTO> findAll(Pageable pageable) {
+    public List<TagDTO> findAll() {
         log.debug("Request to get all Tags");
-        return tagRepository.findAll(pageable)
-            .map(tagMapper::toDto);
+        return tagRepository.findAll().stream()
+            .map(tagMapper::toDto)
+            .collect(Collectors.toCollection(LinkedList::new));
     }
 
 

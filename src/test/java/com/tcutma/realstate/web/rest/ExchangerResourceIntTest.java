@@ -22,7 +22,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Base64Utils;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -52,10 +51,8 @@ public class ExchangerResourceIntTest {
     private static final String DEFAULT_EXCHANGER_PHONE = "AAAAAAAAAA";
     private static final String UPDATED_EXCHANGER_PHONE = "BBBBBBBBBB";
 
-    private static final byte[] DEFAULT_EXCHANGER_PHOTO = TestUtil.createByteArray(1, "0");
-    private static final byte[] UPDATED_EXCHANGER_PHOTO = TestUtil.createByteArray(2, "1");
-    private static final String DEFAULT_EXCHANGER_PHOTO_CONTENT_TYPE = "image/jpg";
-    private static final String UPDATED_EXCHANGER_PHOTO_CONTENT_TYPE = "image/png";
+    private static final String DEFAULT_EXCHANGER_AVATAR_URL = "AAAAAAAAAA";
+    private static final String UPDATED_EXCHANGER_AVATAR_URL = "BBBBBBBBBB";
 
     @Autowired
     private ExchangerRepository exchangerRepository;
@@ -106,8 +103,7 @@ public class ExchangerResourceIntTest {
             .exchangerName(DEFAULT_EXCHANGER_NAME)
             .exchangerAddress(DEFAULT_EXCHANGER_ADDRESS)
             .exchangerPhone(DEFAULT_EXCHANGER_PHONE)
-            .exchangerPhoto(DEFAULT_EXCHANGER_PHOTO)
-            .exchangerPhotoContentType(DEFAULT_EXCHANGER_PHOTO_CONTENT_TYPE);
+            .exchangerAvatarUrl(DEFAULT_EXCHANGER_AVATAR_URL);
         return exchanger;
     }
 
@@ -135,8 +131,7 @@ public class ExchangerResourceIntTest {
         assertThat(testExchanger.getExchangerName()).isEqualTo(DEFAULT_EXCHANGER_NAME);
         assertThat(testExchanger.getExchangerAddress()).isEqualTo(DEFAULT_EXCHANGER_ADDRESS);
         assertThat(testExchanger.getExchangerPhone()).isEqualTo(DEFAULT_EXCHANGER_PHONE);
-        assertThat(testExchanger.getExchangerPhoto()).isEqualTo(DEFAULT_EXCHANGER_PHOTO);
-        assertThat(testExchanger.getExchangerPhotoContentType()).isEqualTo(DEFAULT_EXCHANGER_PHOTO_CONTENT_TYPE);
+        assertThat(testExchanger.getExchangerAvatarUrl()).isEqualTo(DEFAULT_EXCHANGER_AVATAR_URL);
     }
 
     @Test
@@ -211,8 +206,7 @@ public class ExchangerResourceIntTest {
             .andExpect(jsonPath("$.[*].exchangerName").value(hasItem(DEFAULT_EXCHANGER_NAME.toString())))
             .andExpect(jsonPath("$.[*].exchangerAddress").value(hasItem(DEFAULT_EXCHANGER_ADDRESS.toString())))
             .andExpect(jsonPath("$.[*].exchangerPhone").value(hasItem(DEFAULT_EXCHANGER_PHONE.toString())))
-            .andExpect(jsonPath("$.[*].exchangerPhotoContentType").value(hasItem(DEFAULT_EXCHANGER_PHOTO_CONTENT_TYPE)))
-            .andExpect(jsonPath("$.[*].exchangerPhoto").value(hasItem(Base64Utils.encodeToString(DEFAULT_EXCHANGER_PHOTO))));
+            .andExpect(jsonPath("$.[*].exchangerAvatarUrl").value(hasItem(DEFAULT_EXCHANGER_AVATAR_URL.toString())));
     }
     
 
@@ -230,8 +224,7 @@ public class ExchangerResourceIntTest {
             .andExpect(jsonPath("$.exchangerName").value(DEFAULT_EXCHANGER_NAME.toString()))
             .andExpect(jsonPath("$.exchangerAddress").value(DEFAULT_EXCHANGER_ADDRESS.toString()))
             .andExpect(jsonPath("$.exchangerPhone").value(DEFAULT_EXCHANGER_PHONE.toString()))
-            .andExpect(jsonPath("$.exchangerPhotoContentType").value(DEFAULT_EXCHANGER_PHOTO_CONTENT_TYPE))
-            .andExpect(jsonPath("$.exchangerPhoto").value(Base64Utils.encodeToString(DEFAULT_EXCHANGER_PHOTO)));
+            .andExpect(jsonPath("$.exchangerAvatarUrl").value(DEFAULT_EXCHANGER_AVATAR_URL.toString()));
     }
     @Test
     @Transactional
@@ -257,8 +250,7 @@ public class ExchangerResourceIntTest {
             .exchangerName(UPDATED_EXCHANGER_NAME)
             .exchangerAddress(UPDATED_EXCHANGER_ADDRESS)
             .exchangerPhone(UPDATED_EXCHANGER_PHONE)
-            .exchangerPhoto(UPDATED_EXCHANGER_PHOTO)
-            .exchangerPhotoContentType(UPDATED_EXCHANGER_PHOTO_CONTENT_TYPE);
+            .exchangerAvatarUrl(UPDATED_EXCHANGER_AVATAR_URL);
         ExchangerDTO exchangerDTO = exchangerMapper.toDto(updatedExchanger);
 
         restExchangerMockMvc.perform(put("/api/exchangers")
@@ -273,8 +265,7 @@ public class ExchangerResourceIntTest {
         assertThat(testExchanger.getExchangerName()).isEqualTo(UPDATED_EXCHANGER_NAME);
         assertThat(testExchanger.getExchangerAddress()).isEqualTo(UPDATED_EXCHANGER_ADDRESS);
         assertThat(testExchanger.getExchangerPhone()).isEqualTo(UPDATED_EXCHANGER_PHONE);
-        assertThat(testExchanger.getExchangerPhoto()).isEqualTo(UPDATED_EXCHANGER_PHOTO);
-        assertThat(testExchanger.getExchangerPhotoContentType()).isEqualTo(UPDATED_EXCHANGER_PHOTO_CONTENT_TYPE);
+        assertThat(testExchanger.getExchangerAvatarUrl()).isEqualTo(UPDATED_EXCHANGER_AVATAR_URL);
     }
 
     @Test

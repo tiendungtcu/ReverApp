@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Row, Col } from 'reactstrap';
 // tslint:disable-next-line:no-unused-variable
-import { Translate, ICrudGetAction, openFile, byteSize, TextFormat } from 'react-jhipster';
+import { Translate, ICrudGetAction, byteSize, TextFormat } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IRootState } from 'app/shared/reducers';
@@ -41,32 +41,6 @@ export class ProjectDetail extends React.Component<IProjectDetailProps> {
             </dt>
             <dd>{projectEntity.projectAlias}</dd>
             <dt>
-              <span id="projectAvatar">
-                <Translate contentKey="riverApp.project.projectAvatar">Project Avatar</Translate>
-              </span>
-            </dt>
-            <dd>
-              {projectEntity.projectAvatar ? (
-                <div>
-                  <a onClick={openFile(projectEntity.projectAvatarContentType, projectEntity.projectAvatar)}>
-                    <img
-                      src={`data:${projectEntity.projectAvatarContentType};base64,${projectEntity.projectAvatar}`}
-                      style={{ maxHeight: '30px' }}
-                    />
-                  </a>
-                  <span>
-                    {projectEntity.projectAvatarContentType}, {byteSize(projectEntity.projectAvatar)}
-                  </span>
-                </div>
-              ) : null}
-            </dd>
-            <dt>
-              <span id="projectAvatarId">
-                <Translate contentKey="riverApp.project.projectAvatarId">Project Avatar Id</Translate>
-              </span>
-            </dt>
-            <dd>{projectEntity.projectAvatarId}</dd>
-            <dt>
               <span id="projectAvatarUrl">
                 <Translate contentKey="riverApp.project.projectAvatarUrl">Project Avatar Url</Translate>
               </span>
@@ -85,11 +59,11 @@ export class ProjectDetail extends React.Component<IProjectDetailProps> {
             </dt>
             <dd>{projectEntity.projectProvince}</dd>
             <dt>
-              <span id="projectResidentialArea">
-                <Translate contentKey="riverApp.project.projectResidentialArea">Project Residential Area</Translate>
+              <span id="residentialAreaId">
+                <Translate contentKey="riverApp.project.residentialAreaId">Residential Area Id</Translate>
               </span>
             </dt>
-            <dd>{projectEntity.projectResidentialArea}</dd>
+            <dd>{projectEntity.residentialAreaId}</dd>
             <dt>
               <span id="projectRoad">
                 <Translate contentKey="riverApp.project.projectRoad">Project Road</Translate>
@@ -108,12 +82,6 @@ export class ProjectDetail extends React.Component<IProjectDetailProps> {
               </span>
             </dt>
             <dd>{projectEntity.projectStatus}</dd>
-            <dt>
-              <span id="projectType">
-                <Translate contentKey="riverApp.project.projectType">Project Type</Translate>
-              </span>
-            </dt>
-            <dd>{projectEntity.projectType}</dd>
             <dt>
               <span id="projectNoBlocks">
                 <Translate contentKey="riverApp.project.projectNoBlocks">Project No Blocks</Translate>
@@ -157,12 +125,6 @@ export class ProjectDetail extends React.Component<IProjectDetailProps> {
             </dt>
             <dd>{projectEntity.projectMaxSellPrice}</dd>
             <dt>
-              <span id="projectSellAreaUnit">
-                <Translate contentKey="riverApp.project.projectSellAreaUnit">Project Sell Area Unit</Translate>
-              </span>
-            </dt>
-            <dd>{projectEntity.projectSellAreaUnit}</dd>
-            <dt>
               <span id="projectSellPriceUnit">
                 <Translate contentKey="riverApp.project.projectSellPriceUnit">Project Sell Price Unit</Translate>
               </span>
@@ -181,12 +143,6 @@ export class ProjectDetail extends React.Component<IProjectDetailProps> {
             </dt>
             <dd>{projectEntity.projectMaxRentPrice}</dd>
             <dt>
-              <span id="projectRentAreaUnit">
-                <Translate contentKey="riverApp.project.projectRentAreaUnit">Project Rent Area Unit</Translate>
-              </span>
-            </dt>
-            <dd>{projectEntity.projectRentAreaUnit}</dd>
-            <dt>
               <span id="projectRentPriceUnit">
                 <Translate contentKey="riverApp.project.projectRentPriceUnit">Project Rent Price Unit</Translate>
               </span>
@@ -198,7 +154,7 @@ export class ProjectDetail extends React.Component<IProjectDetailProps> {
               </span>
             </dt>
             <dd>
-              <TextFormat value={projectEntity.projectStartedDate} type="date" format={APP_DATE_FORMAT} />
+              <TextFormat value={projectEntity.projectStartedDate} type="date" format={APP_LOCAL_DATE_FORMAT} />
             </dd>
             <dt>
               <span id="projectFinishingDate">
@@ -206,7 +162,7 @@ export class ProjectDetail extends React.Component<IProjectDetailProps> {
               </span>
             </dt>
             <dd>
-              <TextFormat value={projectEntity.projectFinishingDate} type="date" format={APP_DATE_FORMAT} />
+              <TextFormat value={projectEntity.projectFinishingDate} type="date" format={APP_LOCAL_DATE_FORMAT} />
             </dd>
             <dt>
               <span id="projectMinApartmentSquare">
@@ -323,13 +279,13 @@ export class ProjectDetail extends React.Component<IProjectDetailProps> {
             </dt>
             <dd>{projectEntity.projectAvailable ? 'true' : 'false'}</dd>
             <dt>
-              <Translate contentKey="riverApp.project.document">Document</Translate>
-            </dt>
-            <dd>{projectEntity.documentId ? projectEntity.documentId : ''}</dd>
-            <dt>
               <Translate contentKey="riverApp.project.location">Location</Translate>
             </dt>
             <dd>{projectEntity.locationId ? projectEntity.locationId : ''}</dd>
+            <dt>
+              <Translate contentKey="riverApp.project.consultant">Consultant</Translate>
+            </dt>
+            <dd>{projectEntity.consultantLogin ? projectEntity.consultantLogin : ''}</dd>
             <dt>
               <Translate contentKey="riverApp.project.tag">Tag</Translate>
             </dt>
@@ -357,40 +313,27 @@ export class ProjectDetail extends React.Component<IProjectDetailProps> {
                 : null}
             </dd>
             <dt>
-              <Translate contentKey="riverApp.project.investor">Investor</Translate>
+              <Translate contentKey="riverApp.project.inverstor">Inverstor</Translate>
             </dt>
             <dd>
-              {projectEntity.investors
-                ? projectEntity.investors.map((val, i) => (
+              {projectEntity.inverstors
+                ? projectEntity.inverstors.map((val, i) => (
                     <span key={val.id}>
                       <a>{val.investorName}</a>
-                      {i === projectEntity.investors.length - 1 ? '' : ', '}
+                      {i === projectEntity.inverstors.length - 1 ? '' : ', '}
                     </span>
                   ))
                 : null}
             </dd>
             <dt>
-              <Translate contentKey="riverApp.project.projectbuilder">Projectbuilder</Translate>
+              <Translate contentKey="riverApp.project.contractor">Contractor</Translate>
             </dt>
             <dd>
-              {projectEntity.projectbuilders
-                ? projectEntity.projectbuilders.map((val, i) => (
+              {projectEntity.contractors
+                ? projectEntity.contractors.map((val, i) => (
                     <span key={val.id}>
-                      <a>{val.builderName}</a>
-                      {i === projectEntity.projectbuilders.length - 1 ? '' : ', '}
-                    </span>
-                  ))
-                : null}
-            </dd>
-            <dt>
-              <Translate contentKey="riverApp.project.photo">Photo</Translate>
-            </dt>
-            <dd>
-              {projectEntity.photos
-                ? projectEntity.photos.map((val, i) => (
-                    <span key={val.id}>
-                      <a>{val.id}</a>
-                      {i === projectEntity.photos.length - 1 ? '' : ', '}
+                      <a>{val.contractorName}</a>
+                      {i === projectEntity.contractors.length - 1 ? '' : ', '}
                     </span>
                   ))
                 : null}

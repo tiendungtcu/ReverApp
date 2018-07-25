@@ -3,7 +3,6 @@ package com.tcutma.realstate.service.dto;
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
-import javax.persistence.Lob;
 
 /**
  * A DTO for the Department entity.
@@ -13,12 +12,12 @@ public class DepartmentDTO implements Serializable {
     private Long id;
 
     @NotNull
+    @Size(max = 128)
     private String departmentName;
 
-    @Lob
-    private byte[] departmentPhoto;
-    private String departmentPhotoContentType;
+    private String departmentAvatarUrl;
 
+    @Size(max = 16)
     private String departmentPhone;
 
     public Long getId() {
@@ -37,20 +36,12 @@ public class DepartmentDTO implements Serializable {
         this.departmentName = departmentName;
     }
 
-    public byte[] getDepartmentPhoto() {
-        return departmentPhoto;
+    public String getDepartmentAvatarUrl() {
+        return departmentAvatarUrl;
     }
 
-    public void setDepartmentPhoto(byte[] departmentPhoto) {
-        this.departmentPhoto = departmentPhoto;
-    }
-
-    public String getDepartmentPhotoContentType() {
-        return departmentPhotoContentType;
-    }
-
-    public void setDepartmentPhotoContentType(String departmentPhotoContentType) {
-        this.departmentPhotoContentType = departmentPhotoContentType;
+    public void setDepartmentAvatarUrl(String departmentAvatarUrl) {
+        this.departmentAvatarUrl = departmentAvatarUrl;
     }
 
     public String getDepartmentPhone() {
@@ -87,7 +78,7 @@ public class DepartmentDTO implements Serializable {
         return "DepartmentDTO{" +
             "id=" + getId() +
             ", departmentName='" + getDepartmentName() + "'" +
-            ", departmentPhoto='" + getDepartmentPhoto() + "'" +
+            ", departmentAvatarUrl='" + getDepartmentAvatarUrl() + "'" +
             ", departmentPhone='" + getDepartmentPhone() + "'" +
             "}";
     }

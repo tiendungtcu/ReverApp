@@ -5,35 +5,31 @@
             "fieldName": "contactName",
             "fieldType": "String",
             "fieldValidateRules": [
-                "required"
-            ]
+                "required",
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 128
         },
         {
             "fieldName": "contactPhone",
             "fieldType": "String",
             "fieldValidateRules": [
-                "required"
-            ]
+                "required",
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 16
         },
         {
             "fieldName": "contactAddress",
             "fieldType": "String"
         },
         {
-            "fieldName": "contactEmail",
-            "fieldType": "String",
-            "fieldValidateRules": [
-                "required"
-            ]
-        },
-        {
             "fieldName": "contactWebsite",
             "fieldType": "String"
         },
         {
-            "fieldName": "contactPhoto",
-            "fieldType": "byte[]",
-            "fieldTypeBlobContent": "image"
+            "fieldName": "contactAvatarUrl",
+            "fieldType": "String"
         },
         {
             "fieldName": "contactFacebook",
@@ -64,13 +60,20 @@
             "fieldType": "Boolean"
         }
     ],
-    "relationships": [],
-    "changelogDate": "20180720045219",
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "user",
+            "otherEntityName": "user",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20180724181707",
     "javadoc": "Contact - chi tiet lien he entity",
     "entityTableName": "contact",
     "dto": "mapstruct",
     "pagination": "pagination",
-    "service": "no",
+    "service": "serviceImpl",
     "jpaMetamodelFiltering": false,
     "fluentMethods": true,
     "clientRootFolder": "",

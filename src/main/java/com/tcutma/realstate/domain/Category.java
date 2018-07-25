@@ -8,6 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.Objects;
 
 /**
@@ -26,14 +27,15 @@ public class Category implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "category_name", nullable = false)
+    @Size(max = 128)
+    @Column(name = "category_name", length = 128, nullable = false)
     private String categoryName;
 
     @Column(name = "category_alias")
     private String categoryAlias;
 
-    @Column(name = "category_description")
-    private String categoryDescription;
+    @Column(name = "category_date")
+    private Instant categoryDate;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -70,17 +72,17 @@ public class Category implements Serializable {
         this.categoryAlias = categoryAlias;
     }
 
-    public String getCategoryDescription() {
-        return categoryDescription;
+    public Instant getCategoryDate() {
+        return categoryDate;
     }
 
-    public Category categoryDescription(String categoryDescription) {
-        this.categoryDescription = categoryDescription;
+    public Category categoryDate(Instant categoryDate) {
+        this.categoryDate = categoryDate;
         return this;
     }
 
-    public void setCategoryDescription(String categoryDescription) {
-        this.categoryDescription = categoryDescription;
+    public void setCategoryDate(Instant categoryDate) {
+        this.categoryDate = categoryDate;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -110,7 +112,7 @@ public class Category implements Serializable {
             "id=" + getId() +
             ", categoryName='" + getCategoryName() + "'" +
             ", categoryAlias='" + getCategoryAlias() + "'" +
-            ", categoryDescription='" + getCategoryDescription() + "'" +
+            ", categoryDate='" + getCategoryDate() + "'" +
             "}";
     }
 }

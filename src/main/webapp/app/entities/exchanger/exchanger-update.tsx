@@ -4,11 +4,11 @@ import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Row, Col, Label } from 'reactstrap';
 import { AvForm, AvGroup, AvInput, AvField } from 'availity-reactstrap-validation';
 // tslint:disable-next-line:no-unused-variable
-import { Translate, translate, ICrudGetAction, ICrudGetAllAction, setFileData, openFile, byteSize, ICrudPutAction } from 'react-jhipster';
+import { Translate, translate, ICrudGetAction, ICrudGetAllAction, ICrudPutAction } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IRootState } from 'app/shared/reducers';
 
-import { getEntity, updateEntity, createEntity, setBlob, reset } from './exchanger.reducer';
+import { getEntity, updateEntity, createEntity, reset } from './exchanger.reducer';
 import { IExchanger } from 'app/shared/model/exchanger.model';
 // tslint:disable-next-line:no-unused-variable
 import { convertDateTimeFromServer } from 'app/shared/util/date-utils';
@@ -36,14 +36,6 @@ export class ExchangerUpdate extends React.Component<IExchangerUpdateProps, IExc
     }
   }
 
-  onBlobChange = (isAnImage, name) => event => {
-    setFileData(event, (contentType, data) => this.props.setBlob(name, data, contentType), isAnImage);
-  };
-
-  clearBlob = name => () => {
-    this.props.setBlob(name, undefined, undefined);
-  };
-
   saveEntity = (event, errors, values) => {
     if (errors.length === 0) {
       const { exchangerEntity } = this.props;
@@ -69,8 +61,6 @@ export class ExchangerUpdate extends React.Component<IExchangerUpdateProps, IExc
     const isInvalid = false;
     const { exchangerEntity, loading, updating } = this.props;
     const { isNew } = this.state;
-
-    const { exchangerPhoto, exchangerPhotoContentType } = exchangerEntity;
 
     return (
       <div>
@@ -104,7 +94,8 @@ export class ExchangerUpdate extends React.Component<IExchangerUpdateProps, IExc
                     type="text"
                     name="exchangerName"
                     validate={{
-                      required: { value: true, errorMessage: translate('entity.validation.required') }
+                      required: { value: true, errorMessage: translate('entity.validation.required') },
+                      maxLength: { value: 128, errorMessage: translate('entity.validation.maxlength', { max: 128 }) }
                     }}
                   />
                 </AvGroup>
@@ -112,7 +103,14 @@ export class ExchangerUpdate extends React.Component<IExchangerUpdateProps, IExc
                   <Label id="exchangerAddressLabel" for="exchangerAddress">
                     <Translate contentKey="riverApp.exchanger.exchangerAddress">Exchanger Address</Translate>
                   </Label>
-                  <AvField id="exchanger-exchangerAddress" type="text" name="exchangerAddress" />
+                  <AvField
+                    id="exchanger-exchangerAddress"
+                    type="text"
+                    name="exchangerAddress"
+                    validate={{
+                      maxLength: { value: 256, errorMessage: translate('entity.validation.maxlength', { max: 256 }) }
+                    }}
+                  />
                 </AvGroup>
                 <AvGroup>
                   <Label id="exchangerPhoneLabel" for="exchangerPhone">
@@ -123,38 +121,16 @@ export class ExchangerUpdate extends React.Component<IExchangerUpdateProps, IExc
                     type="text"
                     name="exchangerPhone"
                     validate={{
-                      required: { value: true, errorMessage: translate('entity.validation.required') }
+                      required: { value: true, errorMessage: translate('entity.validation.required') },
+                      maxLength: { value: 16, errorMessage: translate('entity.validation.maxlength', { max: 16 }) }
                     }}
                   />
                 </AvGroup>
                 <AvGroup>
-                  <AvGroup>
-                    <Label id="exchangerPhotoLabel" for="exchangerPhoto">
-                      <Translate contentKey="riverApp.exchanger.exchangerPhoto">Exchanger Photo</Translate>
-                    </Label>
-                    <br />
-                    {exchangerPhoto ? (
-                      <div>
-                        <a onClick={openFile(exchangerPhotoContentType, exchangerPhoto)}>
-                          <img src={`data:${exchangerPhotoContentType};base64,${exchangerPhoto}`} style={{ maxHeight: '100px' }} />
-                        </a>
-                        <br />
-                        <Row>
-                          <Col md="11">
-                            <span>
-                              {exchangerPhotoContentType}, {byteSize(exchangerPhoto)}
-                            </span>
-                          </Col>
-                          <Col md="1">
-                            <Button color="danger" onClick={this.clearBlob('exchangerPhoto')}>
-                              <FontAwesomeIcon icon="times-circle" />
-                            </Button>
-                          </Col>
-                        </Row>
-                      </div>
-                    ) : null}
-                    <input id="file_exchangerPhoto" type="file" onChange={this.onBlobChange(true, 'exchangerPhoto')} accept="image/*" />
-                  </AvGroup>
+                  <Label id="exchangerAvatarUrlLabel" for="exchangerAvatarUrl">
+                    <Translate contentKey="riverApp.exchanger.exchangerAvatarUrl">Exchanger Avatar Url</Translate>
+                  </Label>
+                  <AvField id="exchanger-exchangerAvatarUrl" type="text" name="exchangerAvatarUrl" />
                 </AvGroup>
                 <Button tag={Link} id="cancel-save" to="/entity/exchanger" replace color="info">
                   <FontAwesomeIcon icon="arrow-left" />&nbsp;
@@ -185,7 +161,6 @@ const mapStateToProps = (storeState: IRootState) => ({
 const mapDispatchToProps = {
   getEntity,
   updateEntity,
-  setBlob,
   createEntity,
   reset
 };

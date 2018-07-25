@@ -1,10 +1,9 @@
 /* tslint:disable no-unused-expression */
-import { browser, protractor } from 'protractor';
+import { browser } from 'protractor';
 
 import NavBarPage from './../../page-objects/navbar-page';
 import ProjectComponentsPage from './project.page-object';
 import ProjectUpdatePage from './project-update.page-object';
-import path from 'path';
 
 const expect = chai.expect;
 
@@ -12,8 +11,6 @@ describe('Project e2e test', () => {
   let navBarPage: NavBarPage;
   let projectUpdatePage: ProjectUpdatePage;
   let projectComponentsPage: ProjectComponentsPage;
-  const fileToUpload = '../../../../../main/webapp/static/images/logo-jhipster.png';
-  const absolutePath = path.resolve(__dirname, fileToUpload);
 
   before(() => {
     browser.get('/');
@@ -38,24 +35,19 @@ describe('Project e2e test', () => {
     expect(await projectUpdatePage.getProjectNameInput()).to.match(/projectName/);
     projectUpdatePage.setProjectAliasInput('projectAlias');
     expect(await projectUpdatePage.getProjectAliasInput()).to.match(/projectAlias/);
-    projectUpdatePage.setProjectAvatarInput(absolutePath);
-    projectUpdatePage.setProjectAvatarIdInput('5');
-    expect(await projectUpdatePage.getProjectAvatarIdInput()).to.eq('5');
     projectUpdatePage.setProjectAvatarUrlInput('projectAvatarUrl');
     expect(await projectUpdatePage.getProjectAvatarUrlInput()).to.match(/projectAvatarUrl/);
     projectUpdatePage.setProjectDistrictInput('projectDistrict');
     expect(await projectUpdatePage.getProjectDistrictInput()).to.match(/projectDistrict/);
     projectUpdatePage.setProjectProvinceInput('projectProvince');
     expect(await projectUpdatePage.getProjectProvinceInput()).to.match(/projectProvince/);
-    projectUpdatePage.setProjectResidentialAreaInput('projectResidentialArea');
-    expect(await projectUpdatePage.getProjectResidentialAreaInput()).to.match(/projectResidentialArea/);
+    projectUpdatePage.setResidentialAreaIdInput('5');
+    expect(await projectUpdatePage.getResidentialAreaIdInput()).to.eq('5');
     projectUpdatePage.setProjectRoadInput('projectRoad');
     expect(await projectUpdatePage.getProjectRoadInput()).to.match(/projectRoad/);
     projectUpdatePage.setProjectWardInput('projectWard');
     expect(await projectUpdatePage.getProjectWardInput()).to.match(/projectWard/);
     projectUpdatePage.projectStatusSelectLastOption();
-    projectUpdatePage.setProjectTypeInput('projectType');
-    expect(await projectUpdatePage.getProjectTypeInput()).to.match(/projectType/);
     projectUpdatePage.setProjectNoBlocksInput('5');
     expect(await projectUpdatePage.getProjectNoBlocksInput()).to.eq('5');
     projectUpdatePage.setProjectNoFloorsInput('5');
@@ -70,18 +62,16 @@ describe('Project e2e test', () => {
     expect(await projectUpdatePage.getProjectMinSellPriceInput()).to.eq('5');
     projectUpdatePage.setProjectMaxSellPriceInput('5');
     expect(await projectUpdatePage.getProjectMaxSellPriceInput()).to.eq('5');
-    projectUpdatePage.projectSellAreaUnitSelectLastOption();
     projectUpdatePage.projectSellPriceUnitSelectLastOption();
     projectUpdatePage.setProjectMinRentPriceInput('5');
     expect(await projectUpdatePage.getProjectMinRentPriceInput()).to.eq('5');
     projectUpdatePage.setProjectMaxRentPriceInput('5');
     expect(await projectUpdatePage.getProjectMaxRentPriceInput()).to.eq('5');
-    projectUpdatePage.projectRentAreaUnitSelectLastOption();
     projectUpdatePage.projectRentPriceUnitSelectLastOption();
-    projectUpdatePage.setProjectStartedDateInput('01/01/2001' + protractor.Key.TAB + '02:30AM');
-    expect(await projectUpdatePage.getProjectStartedDateInput()).to.contain('2001-01-01T02:30');
-    projectUpdatePage.setProjectFinishingDateInput('01/01/2001' + protractor.Key.TAB + '02:30AM');
-    expect(await projectUpdatePage.getProjectFinishingDateInput()).to.contain('2001-01-01T02:30');
+    projectUpdatePage.setProjectStartedDateInput('01-01-2001');
+    expect(await projectUpdatePage.getProjectStartedDateInput()).to.eq('2001-01-01');
+    projectUpdatePage.setProjectFinishingDateInput('01-01-2001');
+    expect(await projectUpdatePage.getProjectFinishingDateInput()).to.eq('2001-01-01');
     projectUpdatePage.setProjectMinApartmentSquareInput('5');
     expect(await projectUpdatePage.getProjectMinApartmentSquareInput()).to.eq('5');
     projectUpdatePage.setProjectMaxApartmentSquareInput('5');
@@ -186,13 +176,12 @@ describe('Project e2e test', () => {
       projectUpdatePage.getProjectAvailableInput().click();
       expect(await projectUpdatePage.getProjectAvailableInput().isSelected()).to.be.true;
     }
-    projectUpdatePage.documentSelectLastOption();
     projectUpdatePage.locationSelectLastOption();
+    projectUpdatePage.consultantSelectLastOption();
     // projectUpdatePage.tagSelectLastOption();
     // projectUpdatePage.buildingtypeSelectLastOption();
-    // projectUpdatePage.investorSelectLastOption();
-    // projectUpdatePage.projectbuilderSelectLastOption();
-    // projectUpdatePage.photoSelectLastOption();
+    // projectUpdatePage.inverstorSelectLastOption();
+    // projectUpdatePage.contractorSelectLastOption();
     await projectUpdatePage.save();
     expect(await projectUpdatePage.getSaveButton().isPresent()).to.be.false;
   });

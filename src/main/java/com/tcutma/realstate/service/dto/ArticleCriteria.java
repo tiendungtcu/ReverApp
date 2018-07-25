@@ -43,9 +43,9 @@ public class ArticleCriteria implements Serializable {
 
     private LongFilter articleSeenCount;
 
-    private LongFilter categoryId;
+    private LongFilter authorId;
 
-    private LongFilter userId;
+    private LongFilter categoryId;
 
     public ArticleCriteria() {
     }
@@ -90,20 +90,20 @@ public class ArticleCriteria implements Serializable {
         this.articleSeenCount = articleSeenCount;
     }
 
+    public LongFilter getAuthorId() {
+        return authorId;
+    }
+
+    public void setAuthorId(LongFilter authorId) {
+        this.authorId = authorId;
+    }
+
     public LongFilter getCategoryId() {
         return categoryId;
     }
 
     public void setCategoryId(LongFilter categoryId) {
         this.categoryId = categoryId;
-    }
-
-    public LongFilter getUserId() {
-        return userId;
-    }
-
-    public void setUserId(LongFilter userId) {
-        this.userId = userId;
     }
 
     @Override
@@ -114,8 +114,8 @@ public class ArticleCriteria implements Serializable {
                 (articleStatus != null ? "articleStatus=" + articleStatus + ", " : "") +
                 (articleDate != null ? "articleDate=" + articleDate + ", " : "") +
                 (articleSeenCount != null ? "articleSeenCount=" + articleSeenCount + ", " : "") +
+                (authorId != null ? "authorId=" + authorId + ", " : "") +
                 (categoryId != null ? "categoryId=" + categoryId + ", " : "") +
-                (userId != null ? "userId=" + userId + ", " : "") +
             "}";
     }
 

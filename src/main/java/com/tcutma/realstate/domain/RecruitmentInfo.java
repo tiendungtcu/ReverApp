@@ -9,7 +9,7 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 
 import java.io.Serializable;
-import java.time.ZonedDateTime;
+import java.time.LocalDate;
 import java.util.Objects;
 
 /**
@@ -28,15 +28,12 @@ public class RecruitmentInfo implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "recruitment_title", nullable = false)
+    @Size(max = 128)
+    @Column(name = "recruitment_title", length = 128, nullable = false)
     private String recruitmentTitle;
 
-    @Lob
-    @Column(name = "recruitment_image")
-    private byte[] recruitmentImage;
-
-    @Column(name = "recruitment_image_content_type")
-    private String recruitmentImageContentType;
+    @Column(name = "recruitment_avatar_url")
+    private String recruitmentAvatarUrl;
 
     @Lob
     @Column(name = "recruitment_content")
@@ -46,7 +43,7 @@ public class RecruitmentInfo implements Serializable {
     private String recruitmentNotes;
 
     @Column(name = "recruitment_date")
-    private ZonedDateTime recruitmentDate;
+    private LocalDate recruitmentDate;
 
     @Column(name = "recruitment_seen_count")
     private Long recruitmentSeenCount;
@@ -54,9 +51,9 @@ public class RecruitmentInfo implements Serializable {
     @Column(name = "recruitment_status")
     private Boolean recruitmentStatus;
 
-    @OneToOne
-    @JoinColumn(unique = true)
-    private Photo photo;
+    @ManyToOne
+    @JsonIgnoreProperties("")
+    private User user;
 
     @ManyToOne
     @JsonIgnoreProperties("")
@@ -84,30 +81,17 @@ public class RecruitmentInfo implements Serializable {
         this.recruitmentTitle = recruitmentTitle;
     }
 
-    public byte[] getRecruitmentImage() {
-        return recruitmentImage;
+    public String getRecruitmentAvatarUrl() {
+        return recruitmentAvatarUrl;
     }
 
-    public RecruitmentInfo recruitmentImage(byte[] recruitmentImage) {
-        this.recruitmentImage = recruitmentImage;
+    public RecruitmentInfo recruitmentAvatarUrl(String recruitmentAvatarUrl) {
+        this.recruitmentAvatarUrl = recruitmentAvatarUrl;
         return this;
     }
 
-    public void setRecruitmentImage(byte[] recruitmentImage) {
-        this.recruitmentImage = recruitmentImage;
-    }
-
-    public String getRecruitmentImageContentType() {
-        return recruitmentImageContentType;
-    }
-
-    public RecruitmentInfo recruitmentImageContentType(String recruitmentImageContentType) {
-        this.recruitmentImageContentType = recruitmentImageContentType;
-        return this;
-    }
-
-    public void setRecruitmentImageContentType(String recruitmentImageContentType) {
-        this.recruitmentImageContentType = recruitmentImageContentType;
+    public void setRecruitmentAvatarUrl(String recruitmentAvatarUrl) {
+        this.recruitmentAvatarUrl = recruitmentAvatarUrl;
     }
 
     public String getRecruitmentContent() {
@@ -136,16 +120,16 @@ public class RecruitmentInfo implements Serializable {
         this.recruitmentNotes = recruitmentNotes;
     }
 
-    public ZonedDateTime getRecruitmentDate() {
+    public LocalDate getRecruitmentDate() {
         return recruitmentDate;
     }
 
-    public RecruitmentInfo recruitmentDate(ZonedDateTime recruitmentDate) {
+    public RecruitmentInfo recruitmentDate(LocalDate recruitmentDate) {
         this.recruitmentDate = recruitmentDate;
         return this;
     }
 
-    public void setRecruitmentDate(ZonedDateTime recruitmentDate) {
+    public void setRecruitmentDate(LocalDate recruitmentDate) {
         this.recruitmentDate = recruitmentDate;
     }
 
@@ -175,17 +159,17 @@ public class RecruitmentInfo implements Serializable {
         this.recruitmentStatus = recruitmentStatus;
     }
 
-    public Photo getPhoto() {
-        return photo;
+    public User getUser() {
+        return user;
     }
 
-    public RecruitmentInfo photo(Photo photo) {
-        this.photo = photo;
+    public RecruitmentInfo user(User user) {
+        this.user = user;
         return this;
     }
 
-    public void setPhoto(Photo photo) {
-        this.photo = photo;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public JobTitle getJobtitle() {
@@ -227,8 +211,7 @@ public class RecruitmentInfo implements Serializable {
         return "RecruitmentInfo{" +
             "id=" + getId() +
             ", recruitmentTitle='" + getRecruitmentTitle() + "'" +
-            ", recruitmentImage='" + getRecruitmentImage() + "'" +
-            ", recruitmentImageContentType='" + getRecruitmentImageContentType() + "'" +
+            ", recruitmentAvatarUrl='" + getRecruitmentAvatarUrl() + "'" +
             ", recruitmentContent='" + getRecruitmentContent() + "'" +
             ", recruitmentNotes='" + getRecruitmentNotes() + "'" +
             ", recruitmentDate='" + getRecruitmentDate() + "'" +

@@ -33,7 +33,6 @@ describe('BuildingType e2e test', () => {
   it('should create and save BuildingTypes', async () => {
     buildingTypeUpdatePage.setTypeNameInput('typeName');
     expect(await buildingTypeUpdatePage.getTypeNameInput()).to.match(/typeName/);
-    buildingTypeUpdatePage.typeSelectSelectLastOption();
     await buildingTypeUpdatePage.save();
     expect(await buildingTypeUpdatePage.getSaveButton().isPresent()).to.be.false;
   });

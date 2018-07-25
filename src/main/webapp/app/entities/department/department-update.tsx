@@ -4,11 +4,11 @@ import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Row, Col, Label } from 'reactstrap';
 import { AvForm, AvGroup, AvInput, AvField } from 'availity-reactstrap-validation';
 // tslint:disable-next-line:no-unused-variable
-import { Translate, translate, ICrudGetAction, ICrudGetAllAction, setFileData, openFile, byteSize, ICrudPutAction } from 'react-jhipster';
+import { Translate, translate, ICrudGetAction, ICrudGetAllAction, ICrudPutAction } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IRootState } from 'app/shared/reducers';
 
-import { getEntity, updateEntity, createEntity, setBlob, reset } from './department.reducer';
+import { getEntity, updateEntity, createEntity, reset } from './department.reducer';
 import { IDepartment } from 'app/shared/model/department.model';
 // tslint:disable-next-line:no-unused-variable
 import { convertDateTimeFromServer } from 'app/shared/util/date-utils';
@@ -36,14 +36,6 @@ export class DepartmentUpdate extends React.Component<IDepartmentUpdateProps, ID
     }
   }
 
-  onBlobChange = (isAnImage, name) => event => {
-    setFileData(event, (contentType, data) => this.props.setBlob(name, data, contentType), isAnImage);
-  };
-
-  clearBlob = name => () => {
-    this.props.setBlob(name, undefined, undefined);
-  };
-
   saveEntity = (event, errors, values) => {
     if (errors.length === 0) {
       const { departmentEntity } = this.props;
@@ -69,8 +61,6 @@ export class DepartmentUpdate extends React.Component<IDepartmentUpdateProps, ID
     const isInvalid = false;
     const { departmentEntity, loading, updating } = this.props;
     const { isNew } = this.state;
-
-    const { departmentPhoto, departmentPhotoContentType } = departmentEntity;
 
     return (
       <div>
@@ -104,44 +94,29 @@ export class DepartmentUpdate extends React.Component<IDepartmentUpdateProps, ID
                     type="text"
                     name="departmentName"
                     validate={{
-                      required: { value: true, errorMessage: translate('entity.validation.required') }
+                      required: { value: true, errorMessage: translate('entity.validation.required') },
+                      maxLength: { value: 128, errorMessage: translate('entity.validation.maxlength', { max: 128 }) }
                     }}
                   />
                 </AvGroup>
                 <AvGroup>
-                  <AvGroup>
-                    <Label id="departmentPhotoLabel" for="departmentPhoto">
-                      <Translate contentKey="riverApp.department.departmentPhoto">Department Photo</Translate>
-                    </Label>
-                    <br />
-                    {departmentPhoto ? (
-                      <div>
-                        <a onClick={openFile(departmentPhotoContentType, departmentPhoto)}>
-                          <img src={`data:${departmentPhotoContentType};base64,${departmentPhoto}`} style={{ maxHeight: '100px' }} />
-                        </a>
-                        <br />
-                        <Row>
-                          <Col md="11">
-                            <span>
-                              {departmentPhotoContentType}, {byteSize(departmentPhoto)}
-                            </span>
-                          </Col>
-                          <Col md="1">
-                            <Button color="danger" onClick={this.clearBlob('departmentPhoto')}>
-                              <FontAwesomeIcon icon="times-circle" />
-                            </Button>
-                          </Col>
-                        </Row>
-                      </div>
-                    ) : null}
-                    <input id="file_departmentPhoto" type="file" onChange={this.onBlobChange(true, 'departmentPhoto')} accept="image/*" />
-                  </AvGroup>
+                  <Label id="departmentAvatarUrlLabel" for="departmentAvatarUrl">
+                    <Translate contentKey="riverApp.department.departmentAvatarUrl">Department Avatar Url</Translate>
+                  </Label>
+                  <AvField id="department-departmentAvatarUrl" type="text" name="departmentAvatarUrl" />
                 </AvGroup>
                 <AvGroup>
                   <Label id="departmentPhoneLabel" for="departmentPhone">
                     <Translate contentKey="riverApp.department.departmentPhone">Department Phone</Translate>
                   </Label>
-                  <AvField id="department-departmentPhone" type="text" name="departmentPhone" />
+                  <AvField
+                    id="department-departmentPhone"
+                    type="text"
+                    name="departmentPhone"
+                    validate={{
+                      maxLength: { value: 16, errorMessage: translate('entity.validation.maxlength', { max: 16 }) }
+                    }}
+                  />
                 </AvGroup>
                 <Button tag={Link} id="cancel-save" to="/entity/department" replace color="info">
                   <FontAwesomeIcon icon="arrow-left" />&nbsp;
@@ -172,7 +147,6 @@ const mapStateToProps = (storeState: IRootState) => ({
 const mapDispatchToProps = {
   getEntity,
   updateEntity,
-  setBlob,
   createEntity,
   reset
 };

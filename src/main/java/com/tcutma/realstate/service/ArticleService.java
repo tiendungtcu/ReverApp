@@ -2,7 +2,9 @@ package com.tcutma.realstate.service;
 
 import com.tcutma.realstate.service.dto.ArticleDTO;
 
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import java.util.Optional;
 
 /**
@@ -21,9 +23,10 @@ public interface ArticleService {
     /**
      * Get all the articles.
      *
+     * @param pageable the pagination information
      * @return the list of entities
      */
-    List<ArticleDTO> findAll();
+    Page<ArticleDTO> findAll(Pageable pageable);
 
 
     /**

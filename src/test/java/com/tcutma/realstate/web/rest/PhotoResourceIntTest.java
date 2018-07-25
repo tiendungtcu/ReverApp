@@ -22,9 +22,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Base64Utils;
 
 import javax.persistence.EntityManager;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 
@@ -34,6 +35,7 @@ import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import com.tcutma.realstate.domain.enumeration.ResourceType;
 /**
  * Test class for the PhotoResource REST controller.
  *
@@ -46,16 +48,26 @@ public class PhotoResourceIntTest {
     private static final String DEFAULT_PHOTO_NAME = "AAAAAAAAAA";
     private static final String UPDATED_PHOTO_NAME = "BBBBBBBBBB";
 
-    private static final byte[] DEFAULT_PHOTO_IMAGE = TestUtil.createByteArray(1, "0");
-    private static final byte[] UPDATED_PHOTO_IMAGE = TestUtil.createByteArray(2, "1");
-    private static final String DEFAULT_PHOTO_IMAGE_CONTENT_TYPE = "image/jpg";
-    private static final String UPDATED_PHOTO_IMAGE_CONTENT_TYPE = "image/png";
-
-    private static final String DEFAULT_PHOTO_EXTENSION = "AAAAAAAAAA";
-    private static final String UPDATED_PHOTO_EXTENSION = "BBBBBBBBBB";
+    private static final Instant DEFAULT_PHOTO_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_PHOTO_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
     private static final String DEFAULT_PHOTO_URL = "AAAAAAAAAA";
     private static final String UPDATED_PHOTO_URL = "BBBBBBBBBB";
+
+    private static final String DEFAULT_PHOTO_MIME_TYPE = "AAAAAAAAAA";
+    private static final String UPDATED_PHOTO_MIME_TYPE = "BBBBBBBBBB";
+
+    private static final Long DEFAULT_RESOURCE_ID = 1L;
+    private static final Long UPDATED_RESOURCE_ID = 2L;
+
+    private static final ResourceType DEFAULT_RESOURCE_TYPE = ResourceType.PROJECT;
+    private static final ResourceType UPDATED_RESOURCE_TYPE = ResourceType.PROPERTY;
+
+    private static final Integer DEFAULT_PHOTO_SIZE = 1;
+    private static final Integer UPDATED_PHOTO_SIZE = 2;
+
+    private static final String DEFAULT_PHOTO_ALT_TEXT = "AAAAAAAAAA";
+    private static final String UPDATED_PHOTO_ALT_TEXT = "BBBBBBBBBB";
 
     private static final String DEFAULT_PHOTO_THUMBNAIL_URL = "AAAAAAAAAA";
     private static final String UPDATED_PHOTO_THUMBNAIL_URL = "BBBBBBBBBB";
@@ -107,10 +119,13 @@ public class PhotoResourceIntTest {
     public static Photo createEntity(EntityManager em) {
         Photo photo = new Photo()
             .photoName(DEFAULT_PHOTO_NAME)
-            .photoImage(DEFAULT_PHOTO_IMAGE)
-            .photoImageContentType(DEFAULT_PHOTO_IMAGE_CONTENT_TYPE)
-            .photoExtension(DEFAULT_PHOTO_EXTENSION)
+            .photoDate(DEFAULT_PHOTO_DATE)
             .photoUrl(DEFAULT_PHOTO_URL)
+            .photoMimeType(DEFAULT_PHOTO_MIME_TYPE)
+            .resourceId(DEFAULT_RESOURCE_ID)
+            .resourceType(DEFAULT_RESOURCE_TYPE)
+            .photoSize(DEFAULT_PHOTO_SIZE)
+            .photoAltText(DEFAULT_PHOTO_ALT_TEXT)
             .photoThumbnailUrl(DEFAULT_PHOTO_THUMBNAIL_URL);
         return photo;
     }
@@ -137,10 +152,13 @@ public class PhotoResourceIntTest {
         assertThat(photoList).hasSize(databaseSizeBeforeCreate + 1);
         Photo testPhoto = photoList.get(photoList.size() - 1);
         assertThat(testPhoto.getPhotoName()).isEqualTo(DEFAULT_PHOTO_NAME);
-        assertThat(testPhoto.getPhotoImage()).isEqualTo(DEFAULT_PHOTO_IMAGE);
-        assertThat(testPhoto.getPhotoImageContentType()).isEqualTo(DEFAULT_PHOTO_IMAGE_CONTENT_TYPE);
-        assertThat(testPhoto.getPhotoExtension()).isEqualTo(DEFAULT_PHOTO_EXTENSION);
+        assertThat(testPhoto.getPhotoDate()).isEqualTo(DEFAULT_PHOTO_DATE);
         assertThat(testPhoto.getPhotoUrl()).isEqualTo(DEFAULT_PHOTO_URL);
+        assertThat(testPhoto.getPhotoMimeType()).isEqualTo(DEFAULT_PHOTO_MIME_TYPE);
+        assertThat(testPhoto.getResourceId()).isEqualTo(DEFAULT_RESOURCE_ID);
+        assertThat(testPhoto.getResourceType()).isEqualTo(DEFAULT_RESOURCE_TYPE);
+        assertThat(testPhoto.getPhotoSize()).isEqualTo(DEFAULT_PHOTO_SIZE);
+        assertThat(testPhoto.getPhotoAltText()).isEqualTo(DEFAULT_PHOTO_ALT_TEXT);
         assertThat(testPhoto.getPhotoThumbnailUrl()).isEqualTo(DEFAULT_PHOTO_THUMBNAIL_URL);
     }
 
@@ -195,10 +213,13 @@ public class PhotoResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(photo.getId().intValue())))
             .andExpect(jsonPath("$.[*].photoName").value(hasItem(DEFAULT_PHOTO_NAME.toString())))
-            .andExpect(jsonPath("$.[*].photoImageContentType").value(hasItem(DEFAULT_PHOTO_IMAGE_CONTENT_TYPE)))
-            .andExpect(jsonPath("$.[*].photoImage").value(hasItem(Base64Utils.encodeToString(DEFAULT_PHOTO_IMAGE))))
-            .andExpect(jsonPath("$.[*].photoExtension").value(hasItem(DEFAULT_PHOTO_EXTENSION.toString())))
+            .andExpect(jsonPath("$.[*].photoDate").value(hasItem(DEFAULT_PHOTO_DATE.toString())))
             .andExpect(jsonPath("$.[*].photoUrl").value(hasItem(DEFAULT_PHOTO_URL.toString())))
+            .andExpect(jsonPath("$.[*].photoMimeType").value(hasItem(DEFAULT_PHOTO_MIME_TYPE.toString())))
+            .andExpect(jsonPath("$.[*].resourceId").value(hasItem(DEFAULT_RESOURCE_ID.intValue())))
+            .andExpect(jsonPath("$.[*].resourceType").value(hasItem(DEFAULT_RESOURCE_TYPE.toString())))
+            .andExpect(jsonPath("$.[*].photoSize").value(hasItem(DEFAULT_PHOTO_SIZE)))
+            .andExpect(jsonPath("$.[*].photoAltText").value(hasItem(DEFAULT_PHOTO_ALT_TEXT.toString())))
             .andExpect(jsonPath("$.[*].photoThumbnailUrl").value(hasItem(DEFAULT_PHOTO_THUMBNAIL_URL.toString())));
     }
     
@@ -215,10 +236,13 @@ public class PhotoResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(photo.getId().intValue()))
             .andExpect(jsonPath("$.photoName").value(DEFAULT_PHOTO_NAME.toString()))
-            .andExpect(jsonPath("$.photoImageContentType").value(DEFAULT_PHOTO_IMAGE_CONTENT_TYPE))
-            .andExpect(jsonPath("$.photoImage").value(Base64Utils.encodeToString(DEFAULT_PHOTO_IMAGE)))
-            .andExpect(jsonPath("$.photoExtension").value(DEFAULT_PHOTO_EXTENSION.toString()))
+            .andExpect(jsonPath("$.photoDate").value(DEFAULT_PHOTO_DATE.toString()))
             .andExpect(jsonPath("$.photoUrl").value(DEFAULT_PHOTO_URL.toString()))
+            .andExpect(jsonPath("$.photoMimeType").value(DEFAULT_PHOTO_MIME_TYPE.toString()))
+            .andExpect(jsonPath("$.resourceId").value(DEFAULT_RESOURCE_ID.intValue()))
+            .andExpect(jsonPath("$.resourceType").value(DEFAULT_RESOURCE_TYPE.toString()))
+            .andExpect(jsonPath("$.photoSize").value(DEFAULT_PHOTO_SIZE))
+            .andExpect(jsonPath("$.photoAltText").value(DEFAULT_PHOTO_ALT_TEXT.toString()))
             .andExpect(jsonPath("$.photoThumbnailUrl").value(DEFAULT_PHOTO_THUMBNAIL_URL.toString()));
     }
     @Test
@@ -243,10 +267,13 @@ public class PhotoResourceIntTest {
         em.detach(updatedPhoto);
         updatedPhoto
             .photoName(UPDATED_PHOTO_NAME)
-            .photoImage(UPDATED_PHOTO_IMAGE)
-            .photoImageContentType(UPDATED_PHOTO_IMAGE_CONTENT_TYPE)
-            .photoExtension(UPDATED_PHOTO_EXTENSION)
+            .photoDate(UPDATED_PHOTO_DATE)
             .photoUrl(UPDATED_PHOTO_URL)
+            .photoMimeType(UPDATED_PHOTO_MIME_TYPE)
+            .resourceId(UPDATED_RESOURCE_ID)
+            .resourceType(UPDATED_RESOURCE_TYPE)
+            .photoSize(UPDATED_PHOTO_SIZE)
+            .photoAltText(UPDATED_PHOTO_ALT_TEXT)
             .photoThumbnailUrl(UPDATED_PHOTO_THUMBNAIL_URL);
         PhotoDTO photoDTO = photoMapper.toDto(updatedPhoto);
 
@@ -260,10 +287,13 @@ public class PhotoResourceIntTest {
         assertThat(photoList).hasSize(databaseSizeBeforeUpdate);
         Photo testPhoto = photoList.get(photoList.size() - 1);
         assertThat(testPhoto.getPhotoName()).isEqualTo(UPDATED_PHOTO_NAME);
-        assertThat(testPhoto.getPhotoImage()).isEqualTo(UPDATED_PHOTO_IMAGE);
-        assertThat(testPhoto.getPhotoImageContentType()).isEqualTo(UPDATED_PHOTO_IMAGE_CONTENT_TYPE);
-        assertThat(testPhoto.getPhotoExtension()).isEqualTo(UPDATED_PHOTO_EXTENSION);
+        assertThat(testPhoto.getPhotoDate()).isEqualTo(UPDATED_PHOTO_DATE);
         assertThat(testPhoto.getPhotoUrl()).isEqualTo(UPDATED_PHOTO_URL);
+        assertThat(testPhoto.getPhotoMimeType()).isEqualTo(UPDATED_PHOTO_MIME_TYPE);
+        assertThat(testPhoto.getResourceId()).isEqualTo(UPDATED_RESOURCE_ID);
+        assertThat(testPhoto.getResourceType()).isEqualTo(UPDATED_RESOURCE_TYPE);
+        assertThat(testPhoto.getPhotoSize()).isEqualTo(UPDATED_PHOTO_SIZE);
+        assertThat(testPhoto.getPhotoAltText()).isEqualTo(UPDATED_PHOTO_ALT_TEXT);
         assertThat(testPhoto.getPhotoThumbnailUrl()).isEqualTo(UPDATED_PHOTO_THUMBNAIL_URL);
     }
 

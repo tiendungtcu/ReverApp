@@ -15,6 +15,7 @@ public class ResidentialAreaDTO implements Serializable {
     private Long id;
 
     @NotNull
+    @Size(max = 128)
     private String residentialName;
 
     @NotNull
@@ -34,8 +35,6 @@ public class ResidentialAreaDTO implements Serializable {
     private String residentialBoundary;
 
     private String residentialAvatar;
-
-    private Long photoId;
 
     private Set<TagDTO> tags = new HashSet<>();
 
@@ -111,14 +110,6 @@ public class ResidentialAreaDTO implements Serializable {
         this.residentialAvatar = residentialAvatar;
     }
 
-    public Long getPhotoId() {
-        return photoId;
-    }
-
-    public void setPhotoId(Long photoId) {
-        this.photoId = photoId;
-    }
-
     public Set<TagDTO> getTags() {
         return tags;
     }
@@ -160,7 +151,6 @@ public class ResidentialAreaDTO implements Serializable {
             ", residentialDistrict='" + getResidentialDistrict() + "'" +
             ", residentialBoundary='" + getResidentialBoundary() + "'" +
             ", residentialAvatar='" + getResidentialAvatar() + "'" +
-            ", photo=" + getPhotoId() +
             "}";
     }
 }

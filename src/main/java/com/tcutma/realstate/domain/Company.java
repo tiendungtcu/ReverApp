@@ -26,10 +26,12 @@ public class Company implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "company_name", nullable = false)
+    @Size(max = 128)
+    @Column(name = "company_name", length = 128, nullable = false)
     private String companyName;
 
-    @Column(name = "company_phone")
+    @Size(max = 16)
+    @Column(name = "company_phone", length = 16)
     private String companyPhone;
 
     @Column(name = "company_address")

@@ -1,6 +1,5 @@
 package com.tcutma.realstate.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -9,9 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 
 import java.io.Serializable;
-import java.time.ZonedDateTime;
-import java.util.HashSet;
-import java.util.Set;
+import java.time.LocalDate;
 import java.util.Objects;
 
 /**
@@ -30,38 +27,34 @@ public class Investor implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "investor_name", nullable = false)
+    @Size(max = 128)
+    @Column(name = "investor_name", length = 128, nullable = false)
     private String investorName;
 
-    @Column(name = "investor_title")
+    @Size(max = 256)
+    @Column(name = "investor_title", length = 256)
     private String investorTitle;
 
     @Column(name = "investor_date")
-    private ZonedDateTime investorDate;
+    private LocalDate investorDate;
 
-    @Column(name = "investor_description")
+    @Size(max = 256)
+    @Column(name = "investor_description", length = 256)
     private String investorDescription;
 
-    @Column(name = "investor_address")
+    @Size(max = 256)
+    @Column(name = "investor_address", length = 256)
     private String investorAddress;
 
     @Column(name = "investor_website")
     private String investorWebsite;
 
-    @Column(name = "investor_phone")
+    @Size(max = 16)
+    @Column(name = "investor_phone", length = 16)
     private String investorPhone;
 
-    @Lob
-    @Column(name = "investor_photo")
-    private byte[] investorPhoto;
-
-    @Column(name = "investor_photo_content_type")
-    private String investorPhotoContentType;
-
-    @ManyToMany(mappedBy = "investors")
-    @JsonIgnore
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Project> projects = new HashSet<>();
+    @Column(name = "investor_avatar_url")
+    private String investorAvatarUrl;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -98,16 +91,16 @@ public class Investor implements Serializable {
         this.investorTitle = investorTitle;
     }
 
-    public ZonedDateTime getInvestorDate() {
+    public LocalDate getInvestorDate() {
         return investorDate;
     }
 
-    public Investor investorDate(ZonedDateTime investorDate) {
+    public Investor investorDate(LocalDate investorDate) {
         this.investorDate = investorDate;
         return this;
     }
 
-    public void setInvestorDate(ZonedDateTime investorDate) {
+    public void setInvestorDate(LocalDate investorDate) {
         this.investorDate = investorDate;
     }
 
@@ -163,55 +156,17 @@ public class Investor implements Serializable {
         this.investorPhone = investorPhone;
     }
 
-    public byte[] getInvestorPhoto() {
-        return investorPhoto;
+    public String getInvestorAvatarUrl() {
+        return investorAvatarUrl;
     }
 
-    public Investor investorPhoto(byte[] investorPhoto) {
-        this.investorPhoto = investorPhoto;
+    public Investor investorAvatarUrl(String investorAvatarUrl) {
+        this.investorAvatarUrl = investorAvatarUrl;
         return this;
     }
 
-    public void setInvestorPhoto(byte[] investorPhoto) {
-        this.investorPhoto = investorPhoto;
-    }
-
-    public String getInvestorPhotoContentType() {
-        return investorPhotoContentType;
-    }
-
-    public Investor investorPhotoContentType(String investorPhotoContentType) {
-        this.investorPhotoContentType = investorPhotoContentType;
-        return this;
-    }
-
-    public void setInvestorPhotoContentType(String investorPhotoContentType) {
-        this.investorPhotoContentType = investorPhotoContentType;
-    }
-
-    public Set<Project> getProjects() {
-        return projects;
-    }
-
-    public Investor projects(Set<Project> projects) {
-        this.projects = projects;
-        return this;
-    }
-
-    public Investor addProject(Project project) {
-        this.projects.add(project);
-        project.getInvestors().add(this);
-        return this;
-    }
-
-    public Investor removeProject(Project project) {
-        this.projects.remove(project);
-        project.getInvestors().remove(this);
-        return this;
-    }
-
-    public void setProjects(Set<Project> projects) {
-        this.projects = projects;
+    public void setInvestorAvatarUrl(String investorAvatarUrl) {
+        this.investorAvatarUrl = investorAvatarUrl;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -246,8 +201,7 @@ public class Investor implements Serializable {
             ", investorAddress='" + getInvestorAddress() + "'" +
             ", investorWebsite='" + getInvestorWebsite() + "'" +
             ", investorPhone='" + getInvestorPhone() + "'" +
-            ", investorPhoto='" + getInvestorPhoto() + "'" +
-            ", investorPhotoContentType='" + getInvestorPhotoContentType() + "'" +
+            ", investorAvatarUrl='" + getInvestorAvatarUrl() + "'" +
             "}";
     }
 }

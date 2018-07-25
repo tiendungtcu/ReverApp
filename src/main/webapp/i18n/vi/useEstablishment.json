@@ -7,7 +7,13 @@
             "SHOP": "SHOP",
             "RESTAURANT": "RESTAURANT",
             "HOTEL": "HOTEL",
-            "LEASE": "LEASE"
+            "LEASE": "LEASE",
+            "SHOPHOUSE": "SHOPHOUSE",
+            "CITIHOUSE": "CITIHOUSE",
+            "OFFICE": "OFFICE",
+            "LAND": "LAND",
+            "OFFICETEL": "OFFICETEL",
+            "OTHER": "OTHER"
         }
     }
 }
