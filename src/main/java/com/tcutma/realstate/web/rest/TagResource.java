@@ -36,7 +36,7 @@ public class TagResource {
     }
 
     /**
-     * POST  /tags : Create a new tag.
+     * POST  /tags : Create a new tag, if tagName is exist, throw BadRequestAlertException: tag name is exist.
      *
      * @param tagDTO the tagDTO to create
      * @return the ResponseEntity with status 201 (Created) and with body the new tagDTO, or with status 400 (Bad Request) if the tag has already an ID
@@ -44,15 +44,26 @@ public class TagResource {
      */
     @PostMapping("/tags")
     @Timed
-    public ResponseEntity<TagDTO> createTag(@Valid @RequestBody TagDTO tagDTO) throws URISyntaxException {
+    public ResponseEntity<TagDTO> createTag(/*@Valid*/ @RequestBody TagDTO tagDTO) throws URISyntaxException {
         log.debug("REST request to save Tag : {}", tagDTO);
-        if (tagDTO.getId() != null) {
-            throw new BadRequestAlertException("A new tag cannot already have an ID", ENTITY_NAME, "idexists");
+        // Truncate tagName to <=128 characters
+        String originTagName = tagDTO.getTagName();
+        tagDTO.setTagName(originTagName.substring(0,Math.min(originTagName.length(),127)));
+        int count = tagService.findTagsByName(tagDTO.getTagName());
+        log.info("number of tags have same name {}",count);
+        if (tagDTO.getId() != null ) {
+            throw new BadRequestAlertException("Tag is exists", ENTITY_NAME, "idexists");
+        }
+        if(count>0){
+            return ResponseEntity.badRequest()
+                .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, "tag has already exists"))
+                .body(tagDTO);
         }
         TagDTO result = tagService.save(tagDTO);
         return ResponseEntity.created(new URI("/api/tags/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
-            .body(result);
+                .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+                .body(result);
+
     }
 
     /**
@@ -66,10 +77,21 @@ public class TagResource {
      */
     @PutMapping("/tags")
     @Timed
-    public ResponseEntity<TagDTO> updateTag(@Valid @RequestBody TagDTO tagDTO) throws URISyntaxException {
+    public ResponseEntity<TagDTO> updateTag(/*@Valid*/ @RequestBody TagDTO tagDTO) throws URISyntaxException {
         log.debug("REST request to update Tag : {}", tagDTO);
         if (tagDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        }
+
+        // Truncate tagName to <=128 characters
+        String originTagName = tagDTO.getTagName();
+        tagDTO.setTagName(originTagName.substring(0,Math.min(originTagName.length(),127)));
+        int count = tagService.findTagsByName(tagDTO.getTagName());
+        log.info("number of tags have same name {}",count);
+        if(count>0){
+            return ResponseEntity.badRequest()
+                .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, "tag has already exists"))
+                .body(tagDTO);
         }
         TagDTO result = tagService.save(tagDTO);
         return ResponseEntity.ok()

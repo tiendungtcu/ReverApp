@@ -34,6 +34,15 @@ public interface TagService {
      */
     Optional<TagDTO> findOne(Long id);
 
+
+    /**
+     * Get the tag by its name.
+     *
+     * @param tagName Name of the tag
+     * @return the entity
+     */
+    int findTagsByName(String tagName);
+
     /**
      * Delete the "id" tag.
      *

@@ -1,10 +1,12 @@
 package com.tcutma.realstate.service.impl;
 
+import com.tcutma.realstate.exception.FileStorageException;
 import com.tcutma.realstate.service.TagService;
 import com.tcutma.realstate.domain.Tag;
 import com.tcutma.realstate.repository.TagRepository;
 import com.tcutma.realstate.service.dto.TagDTO;
 import com.tcutma.realstate.service.mapper.TagMapper;
+import com.tcutma.realstate.web.rest.errors.BadRequestAlertException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,6 +44,13 @@ public class TagServiceImpl implements TagService {
     @Override
     public TagDTO save(TagDTO tagDTO) {
         log.debug("Request to save Tag : {}", tagDTO);
+/*
+        int found = this.findTagsByName(tagDTO.getTagName());
+        if(found>0) {
+            throw new BadRequestAlertException("has already a same tag name", "Tag", "nameexist");
+        }
+        log.info("found {} same tag name",found);
+        */
         Tag tag = tagMapper.toEntity(tagDTO);
         tag = tagRepository.save(tag);
         return tagMapper.toDto(tag);
@@ -74,6 +83,12 @@ public class TagServiceImpl implements TagService {
         log.debug("Request to get Tag : {}", id);
         return tagRepository.findById(id)
             .map(tagMapper::toDto);
+    }
+
+    public int findTagsByName(String tagName){
+
+        return tagRepository.findTagsByName(tagName);
+
     }
 
     /**

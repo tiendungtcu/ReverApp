@@ -106,7 +106,7 @@ public class FileStorageResource {
      * @return ResponseEntity with status 200 (OK) and the list of uploaded files in body
      */
 
-    @GetMapping("/{filetype}/files")
+    //@GetMapping("/{filetype}/files")
     public List<String> listUploadedFiles(@PathVariable(value = "filetype") Integer filetype){
         UploadType type = filetype == 1?UploadType.PHOTO:filetype==2?UploadType.DOCUMENT:UploadType.FILE;
         return fileStorageService.loadAllFiles(type).map(path->MvcUriComponentsBuilder.fromMethodName(FileStorageResource.class,
